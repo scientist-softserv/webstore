@@ -25,6 +25,11 @@ const Home = () => {
 
 	const handleOnSubmit = ({ value }) => setQuery(value)
 
+	const wares = data?.ware_refs.filter((ware) => {
+		const queryExpression = new RegExp(query, 'i')
+		return queryExpression.test(ware.name)
+	})
+
 	return(
 		<>
 			<Header
@@ -42,6 +47,8 @@ const Home = () => {
         style={{ objectFit: 'cover' }}
       />
       <SearchBar onSubmit={handleOnSubmit} />
+			{/* TODO(alishaevn): remove the line below once we add the /browse route */}
+			{wares && wares.map(w => <p>{`${w.name}`}</p>)}
       <Footer
         companyName='ACME Tracking Company'
         sections={sections}
