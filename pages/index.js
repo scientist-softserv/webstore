@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import useSWR from 'swr'
 import {
-  Footer,
-  Header,
   Image,
   ItemGroup,
   SearchBar,
@@ -32,13 +30,6 @@ const Home = () => {
 
 	return(
 		<>
-			<Header
-				browseLink='/browse'
-				logInLink='/'
-				logo={{ img: logo.src, alt: 'A scientific symbol with a company name'}}
-				logOutLink='/'
-				requestsLink='/requests'
-			/>
       <Image
         alt='DNA chain'
         src={hero.src}
@@ -51,11 +42,6 @@ const Home = () => {
 			{wares && wares.map(w => <p>{`${w.name}`}</p>)}
       <TitledTextBox title={TITLE} text={TEXT} />
       <ItemGroup items={ITEMS} />
-			<Footer
-        companyName='ACME Tracking Company'
-        sections={sections}
-        socials={socials}
-      />
 		</>
 	)
 }
