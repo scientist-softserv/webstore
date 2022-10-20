@@ -1,7 +1,26 @@
+import { Footer, Header } from 'webstore-component-library'
+import { FOOTER_NAME, FOOTER_SECTIONS, FOOTER_SOCIALS, LOGO } from '../constants/wrapper'
 import '../styles/globals.css'
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+// putting the header and footer here mean that they automatically surround every page
+const Webstore = ({ Component, pageProps }) => {
+  return (
+    <>
+      <Header
+          browseLink='/browse'
+          logInLink='/'
+          logo={LOGO}
+          logOutLink='/'
+          requestsLink='/requests'
+        />
+      <Component {...pageProps} />
+      <Footer
+        companyName={FOOTER_NAME}
+        sections={FOOTER_SECTIONS}
+        socials={FOOTER_SOCIALS}
+      />
+    </>
+  )
 }
 
-export default MyApp
+export default Webstore
