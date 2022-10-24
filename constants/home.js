@@ -5,13 +5,11 @@ const img = {
 	alt: 'Several rows of test tubes with a liquid being put into one.',
 }
 
-export const TITLE = 'About ACME Tracking Company'
+export const TITLE = 'About Us'
 
-export const TEXT = `The ACME Tracking Company is a name for the fictional corporation appearing in various Warner Bros. cartoon shorts, where it was used as a running gag due to their wide array of products that are dangerous, unreliable or preposterous.
+export const TEXT = `Golden Pacific Sciences provides a range of products, Best Service Ever , and services within the life-science industry. We are able to support requests from the world’s top pharma companies and 100s of biotechs using Scientist.com.
 
-The company is never clearly defined in Road Runner cartoons but appears to be a conglomerate which produces every product type imaginable, no matter how elaborate or extravagant—most of which never work as desired or expected (some products do work very well, but backfire against the coyote). In the Road Runner cartoon Beep, Beep, it was referred to as "Acme Rocket-Powered Products, Inc." based in Fairfield, New Jersey. Many of its products appear to be produced specifically for Wile E. Coyote; for example, the Acme Giant Rubber Band, subtitled "(For Tripping Road Runners)".
-
-While their products leave much to be desired, Acme delivery service is second to none; Wile E. can merely drop an order into a mailbox (or enter an order on a website, as in the Looney Tunes: Back in Action movie), and have the product in his hands within seconds.`
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio aenean sed adipiscing diam donec adipiscing tristique. Eu lobortis elementum nibh tellus molestie. Mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus et. Nisl purus in mollis nunc sed id semper risus in. Diam volutpat commodo sed egestas egestas fringilla. Lectus proin nibh nisl condimentum. Odio euismod lacinia at quis risus sed vulputate odio ut. Ac feugiat sed lectus vestibulum mattis ullamcorper. Iaculis at erat pellentesque adipiscing commodo elit at. Eget nullam non nisi est sit amet facilisis magna etiam. Faucibus turpis in eu mi bibendum neque egestas. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.`
 
 export const ITEMS = [
 	{

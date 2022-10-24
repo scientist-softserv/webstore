@@ -5,7 +5,7 @@ export const LOGO = {
 	img: logo.src,
 }
 
-export const FOOTER_NAME = 'ACME Tracking Company'
+export const FOOTER_NAME = 'Golden Pacific Services'
 
 export const FOOTER_SECTIONS = [
 	{
