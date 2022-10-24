@@ -1,4 +1,4 @@
-import logo from '../assets/acme-logo.png'
+import logo from '../assets/svg/logo.svg'
 
 export const LOGO = {
 	alt: 'A scientific symbol with a company name',

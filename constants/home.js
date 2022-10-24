@@ -1,4 +1,4 @@
-import item from '../assets/item.jpg'
+import item from '../assets/img/item.jpg'
 
 const img = {
 	src: item.src,
