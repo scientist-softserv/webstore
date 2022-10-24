@@ -6,7 +6,7 @@ import {
   SearchBar,
   TitledTextBox,
 } from 'webstore-component-library'
-import hero from '../assets/hero.jpg'
+import hero from '../assets/img/hero.jpg'
 import { fetcher } from '../services/fetcher'
 import { ITEMS, TEXT, TITLE } from '../constants/home'
 
