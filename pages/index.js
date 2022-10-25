@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
+import Link from 'next/link'
 import useSWR from 'swr'
 import {
   Image,
+  // Item,
   ItemGroup,
   SearchBar,
+  Title,
   TitledTextBox,
 } from 'webstore-component-library'
 import hero from '../assets/img/hero.jpg'
@@ -32,15 +35,31 @@ const Home = () => {
 
 	const featured_services = data?.ware_refs.slice(0, 4).map(ware => {
 		return {
-			id: ware.reference_of_id,
 			description: ware.snippet,
+			id: ware.reference_of_id,
 			img: {
 				src: ware.promo_image,
 				alt: `The promotional image for ${ware.name}`
 			},
 			name: ware.name,
+			slug: ware.slug,
 		}
 	})
+
+	if (featured_services) {
+		return (
+			<Link href={`/${featured_services[0].slug}`} passHref legacyBehavior>
+				{featured_services && (
+					<Item
+						key={featured_services[0].id}
+						withTitleLink={true}
+						{...featured_services[0]}
+					/>
+					)}
+			</Link>
+		)
+	}
+
 
 	return(
 		<>
@@ -61,3 +80,41 @@ const Home = () => {
 }
 
 export default Home
+
+const Item = React.forwardRef(({ description, img, imgProps, style, name, id, withTitleLink, href, onClick, orientation='vertical' }, ref) => {
+	const { alt, src } = img
+
+	return (
+		<article
+			className={`item-container item-${orientation}`}
+			style={{ ...style }}
+		>
+			<Image
+				className={`item-image item-image-${orientation}`}
+				src={src}
+				alt={alt}
+				{...imgProps}
+			/>
+			<div className={`item-options-${orientation}`}>
+				<div className='item-details'>
+					{withTitleLink ? (
+						<a href={href} onClick={onClick} ref={ref} className='pointer-cursor item-link'>
+							<h3 className='item-name'>
+								{name}
+							</h3>
+						</a>
+					) : (
+						<h3 className='item-name'>
+							{name}
+						</h3>
+					)}
+					{description && (
+						<p className='item-description'>
+							{description}
+						</p>
+					)}
+				</div>
+			</div>
+		</article>
+	)
+})
