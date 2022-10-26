@@ -74,7 +74,19 @@ const Home = () => {
 			{/* TODO(alishaevn): remove the line below once we add the /browse route */}
 			{wares && wares.map(w => <p>{`${w.name}`}</p>)}
       <TitledTextBox title={TITLE} text={TEXT} />
-      {featured_services && <ItemGroup items={featured_services} />}
+
+      {/* {featured_services && <ItemGroup items={featured_services} />} */}
+
+			<Title size='large' title='Featured Services' />
+      {featured_services && featured_services.map((ware) => (
+				// would there be a way to pass next's dynamic linking to the component library?
+				// - don't think installing next/link in the component library is what we wanna do
+				// - could I create a component in this app that expects a component as an argument and returns that component wrapped in next/link?
+				// would it be easier to make the entire component clickable, opposed to just the title?
+				<Link href={`/${ware.slug}`} passHref legacyBehavior>
+					<Item key={ware.id} withTitleLink={true} {...ware} />
+				</Link>
+			))}
 		</>
 	)
 }
