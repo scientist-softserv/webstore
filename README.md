@@ -27,8 +27,8 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 ## Using the component library
 ### In its development mode
-- If you have not before, run `npm link` in the component library repo (this establishes the library locally)
-- If you have not before, run `npm link webstore-component-library` in this repository (this allows us to import components from the library)
+- If you have not before, run `yarn link` in the component library repo (this establishes the library locally)
+- If you have not before, run `yarn link "webstore-component-library"` in this repository (this allows us to import components from the library)
 - Run `npm run watch-lib` in the component library repo (this allows rollup to rebuild the library when changes are made. there may be a delay up to 30 seconds)
 - Import and use components from the library in the pages of the webstore
 
