@@ -3,8 +3,7 @@ import Link from 'next/link'
 import useSWR from 'swr'
 import {
   Image,
-  // Item,
-  ItemGroup,
+  Item,
   SearchBar,
   Title,
   TitledTextBox,
@@ -46,21 +45,6 @@ const Home = () => {
 		}
 	})
 
-	if (featured_services) {
-		return (
-			<Link href={`/${featured_services[0].slug}`} passHref legacyBehavior>
-				{featured_services && (
-					<Item
-						key={featured_services[0].id}
-						withTitleLink={true}
-						{...featured_services[0]}
-					/>
-					)}
-			</Link>
-		)
-	}
-
-
 	return(
 		<>
       <Image
@@ -74,17 +58,10 @@ const Home = () => {
 			{/* TODO(alishaevn): remove the line below once we add the /browse route */}
 			{wares && wares.map(w => <p>{`${w.name}`}</p>)}
       <TitledTextBox title={TITLE} text={TEXT} />
-
-      {/* {featured_services && <ItemGroup items={featured_services} />} */}
-
 			<Title size='large' title='Featured Services' />
       {featured_services && featured_services.map((ware) => (
-				// would there be a way to pass next's dynamic linking to the component library?
-				// - don't think installing next/link in the component library is what we wanna do
-				// - could I create a component in this app that expects a component as an argument and returns that component wrapped in next/link?
-				// would it be easier to make the entire component clickable, opposed to just the title?
 				<Link href={`/${ware.slug}`} passHref legacyBehavior>
-					<Item key={ware.id} withTitleLink={true} {...ware} />
+					<Item item={ware} withTitleLink={true} />
 				</Link>
 			))}
 		</>
@@ -92,41 +69,3 @@ const Home = () => {
 }
 
 export default Home
-
-const Item = React.forwardRef(({ description, img, imgProps, style, name, id, withTitleLink, href, onClick, orientation='vertical' }, ref) => {
-	const { alt, src } = img
-
-	return (
-		<article
-			className={`item-container item-${orientation}`}
-			style={{ ...style }}
-		>
-			<Image
-				className={`item-image item-image-${orientation}`}
-				src={src}
-				alt={alt}
-				{...imgProps}
-			/>
-			<div className={`item-options-${orientation}`}>
-				<div className='item-details'>
-					{withTitleLink ? (
-						<a href={href} onClick={onClick} ref={ref} className='pointer-cursor item-link'>
-							<h3 className='item-name'>
-								{name}
-							</h3>
-						</a>
-					) : (
-						<h3 className='item-name'>
-							{name}
-						</h3>
-					)}
-					{description && (
-						<p className='item-description'>
-							{description}
-						</p>
-					)}
-				</div>
-			</div>
-		</article>
-	)
-})
