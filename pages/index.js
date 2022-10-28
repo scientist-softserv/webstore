@@ -3,9 +3,8 @@ import Link from 'next/link'
 import useSWR from 'swr'
 import {
   Image,
-  Item,
+  ItemGroup,
   SearchBar,
-  Title,
   TitledTextBox,
 } from 'webstore-component-library'
 import hero from '../assets/img/hero.jpg'
@@ -58,12 +57,12 @@ const Home = () => {
 			{/* TODO(alishaevn): remove the line below once we add the /browse route */}
 			{wares && wares.map(w => <p>{`${w.name}`}</p>)}
       <TitledTextBox title={TITLE} text={TEXT} />
-			<Title size='large' title='Featured Services' />
-      {featured_services && featured_services.map((ware) => (
-				<Link href={`/${ware.slug}`} passHref legacyBehavior>
-					<Item item={ware} withTitleLink={true} />
-				</Link>
-			))}
+			{featured_services && (
+				<ItemGroup
+					items={featured_services}
+					withTitleLink={true}
+				/>
+			)}
 		</>
 	)
 }
