@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import useSWR from 'swr'
 import {
   Image,
@@ -54,7 +54,7 @@ const Home = () => {
       />
       <SearchBar onSubmit={handleOnSubmit} />
 			{/* TODO(alishaevn): remove the line below once we add the /browse route */}
-			{/* {wares && wares.map(w => <p>{`${w.name}`}</p>)} */}
+			{wares && wares.map(w => <p>{`${w.name}`}</p>)}
       <TitledTextBox title={TITLE} text={TEXT} />
 			{featured_services && (
 				<ItemGroup
