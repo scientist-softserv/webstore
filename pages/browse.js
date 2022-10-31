@@ -39,14 +39,10 @@ const Browse = () => {
 		<>
 			<SearchBar onSubmit={handleOnSubmit} />
 			{services && services.map(service => {
-				const { description, id, img, name } = service
 
 				return (
 					<Item
-						description={description}
-						key={id}
-						img={img}
-						name={name}
+						item={service}
 						withButtonLink={true}
 						orientation='horizontal'
 						buttonProps={{
