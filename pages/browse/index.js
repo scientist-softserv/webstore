@@ -37,7 +37,7 @@ const Browse = () => {
 				alt: `The promotional image for ${ware.name}`
 			},
 			name: ware.name,
-			slug: ware.slug,
+			slug: `/requests/new/${ware.slug}`,
 		}
 	})
 
@@ -48,6 +48,7 @@ const Browse = () => {
 					<Item
 						item={service}
 						withButtonLink={true}
+						buttonLink={service.slug}
 						orientation='horizontal'
 						buttonProps={{
 							backgroundColor: '#A9A9A9',
