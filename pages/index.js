@@ -32,7 +32,7 @@ const Home = () => {
 				alt: `The promotional image for ${ware.name}`
 			},
 			name: ware.name,
-			slug: ware.slug,
+			slug: `/services/${ware.slug}`,
 		}
 	})
 
