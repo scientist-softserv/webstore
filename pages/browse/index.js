@@ -10,9 +10,10 @@ import { fetcher } from '../../services/fetcher'
 const Browse = () => {
 	const router = useRouter()
 	const [ query, setQuery ] = useState('')
+	const existingQuery = router.query.q
 
 	useEffect(() => {
-		if(router.query.q) setQuery(value)
+		if(existingQuery) setQuery(existingQuery)
 	}, [])
 
 	// TODO(alishaevn): once the api is updated to accept a query with this path, we will want to use the second "url" declaration instead.
@@ -43,7 +44,7 @@ const Browse = () => {
 
 	return(
 		<>
-			<SearchBar onSubmit={handleOnSubmit} />
+			<SearchBar onSubmit={handleOnSubmit} initialValue={existingQuery} />
 			{services && services.map(service => (
 					<Item
 						item={service}
