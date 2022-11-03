@@ -4,9 +4,6 @@ import useSWR from 'swr'
 import { Item, SearchBar } from 'webstore-component-library'
 import { fetcher } from '../../services/fetcher'
 
-// TODO(alishaevn): the code before the return is copied from the index page. we may need global state instead
-// TODO(alishaevn): add styling
-// TODO(alishaevn): redirect from this page to the correct request page
 const Browse = () => {
 	const router = useRouter()
 	const [ query, setQuery ] = useState('')
@@ -17,9 +14,8 @@ const Browse = () => {
 	}, [])
 
 	// TODO(alishaevn): once the api is updated to accept a query with this path, we will want to use the second "url" declaration instead.
-	// the null value prevents auto search on page load
 	const url = () => `/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`
-	// const url = () => query.length ? `/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json&q=${query}` : null
+	// const url = () => `/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json&q=${query}`
 	const { data, error } = useSWR(url, fetcher)
 
 	const handleOnSubmit = ({ value }) => setQuery(value)
@@ -56,7 +52,7 @@ const Browse = () => {
 							label: 'Request this item',
 							primary: true,
 						}}
-						style={{ marginBottom: 15 }}
+						style={{ marginBottom: 30 }}
 					/>
 				))}
 		</>
