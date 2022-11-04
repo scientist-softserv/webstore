@@ -43,6 +43,7 @@ const Browse = () => {
 			<SearchBar onSubmit={handleOnSubmit} initialValue={existingQuery} />
 			{services && services.map(service => (
 					<Item
+						key={id}
 						item={service}
 						withButtonLink={true}
 						buttonLink={service.slug}

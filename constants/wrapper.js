@@ -2,7 +2,7 @@ import logo from '../assets/svg/logo.svg'
 
 export const LOGO = {
 	alt: 'A scientific symbol with a company name',
-	img: logo.src,
+	src: logo.src,
 }
 
 export const FOOTER_NAME = 'Golden Pacific Services'
