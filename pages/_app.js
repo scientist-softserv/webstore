@@ -8,7 +8,7 @@ const Webstore = ({ Component, pageProps }) => {
     <>
       <Header
           browseLink='/browse'
-          logInLink='/'
+          logInLink='/login'
           logo={LOGO}
           logOutLink='/'
           requestsLink='/requests'
