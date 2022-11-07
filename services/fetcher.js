@@ -10,3 +10,10 @@ export const fetcher = (...args) => {
 	return a.get(...args)
 		.then(res => res.data)
 }
+
+export const fetcherB = (str) => {
+
+	return a.get(str)
+		.then(res => res.data)
+
+}

@@ -10,7 +10,7 @@ import hero from '../assets/img/hero.jpg'
 import { fetcher } from '../services/fetcher'
 import { TEXT, TITLE } from '../constants/home'
 
-const Home = () => {
+const Home = ({ services }) => {
 	const router = useRouter()
 
 	// with url being a function, the value won't be cached. it will run whenever we return to this page.
