@@ -5,15 +5,9 @@ const defaultHeaders = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}
 
 const a = axios.create({ baseURL, headers: defaultHeaders })
 
-// read about data fetching here: https://swr.vercel.app/docs/data-fetching
-export const fetcher = (...args) => {
-	return a.get(...args)
-		.then(res => res.data)
-}
+export const fetcher = (str) => {
 
-export const fetcherB = (str) => {
-
-	return a.get(str)
-		.then(res => res.data)
+  return a.get(str)
+    .then(res => res.data)
 
 }
