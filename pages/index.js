@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import useSWR from 'swr'
 import {
   Image,
   ItemGroup,
@@ -7,37 +6,19 @@ import {
   TitledTextBox,
 } from 'webstore-component-library'
 import hero from '../assets/img/hero.jpg'
-import { fetcher } from '../services/fetcher'
 import { TEXT, TITLE } from '../constants/home'
+import { configure_services, useWares } from '../services/utils'
 
 const Home = () => {
-	const router = useRouter()
+  const router = useRouter()
+  const { wares, isLoading, isError } = useWares(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`)
+  const featured_services = configure_services({ data: wares?.ware_refs, path: '/services' })?.slice(0, 4)
+  const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
 
-	// with url being a function, the value won't be cached. it will run whenever we return to this page.
-	// TODO(alishaevn): unless we find a way to pass in the featured_services instead, we will need to call the api on page load
-	// or we could decide to only poll for updates at certain intervals
-	const url = () => `/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`
+  if (isError) return <h1>Error...</h1>
 
-	// TODO(alishaevn): add error handling
-	const { data, error } = useSWR(url, fetcher)
-
-	const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
-
-	const featured_services = data?.ware_refs.slice(0, 4).map(ware => {
-		return {
-			description: ware.snippet,
-			id: ware.reference_of_id,
-			img: {
-				src: ware.promo_image,
-				alt: `The promotional image for ${ware.name}`
-			},
-			name: ware.name,
-			slug: `/services/${ware.slug}`,
-		}
-	})
-
-	return(
-		<>
+  return (
+    <>
       <Image
         alt='DNA chain'
         src={hero.src}
@@ -47,14 +28,18 @@ const Home = () => {
       />
       <SearchBar onSubmit={handleOnSubmit} />
       <TitledTextBox title={TITLE} text={TEXT} />
-			{featured_services && (
-				<ItemGroup
-					items={featured_services}
-					withTitleLink={true}
-				/>
-			)}
-		</>
-	)
+      {isLoading
+        ? (
+          <h1>Loading...</h1>
+        ) : (
+          <ItemGroup
+            items={featured_services}
+            withTitleLink={true}
+          />
+        )
+      }
+    </>
+  )
 }
 
 export default Home
