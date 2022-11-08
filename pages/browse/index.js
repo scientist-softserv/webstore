@@ -10,7 +10,7 @@ const Browse = () => {
 
   useEffect(() => {
     if (existingQuery) setQuery(existingQuery)
-  }, [])
+  }, [existingQuery])
 
   // TODO(alishaevn): once the api is updated to accept a query with this path, we will want to replace the path in useWares on line 17, with the one on line 18
   // and also delete the filter method from the "services" variable definition
