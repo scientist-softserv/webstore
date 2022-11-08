@@ -4,7 +4,26 @@ import { fetcherB } from '../services/fetcher'
 import '../styles/globals.css'
 
 // putting the header and footer here mean that they automatically surround every page
-const Webstore = ({ Component, pageProps, services }) => {
+const Webstore = ({ Component, pageProps, data }) => {
+  const services = (path) => {
+    return data?.map(ware => {
+      const img = ware.promo_image
+        ? { src: ware.promo_image, alt: `The promotional image for ${ware.name}` }
+        : DEFAULT_WARE_IMAGE
+
+      return {
+        description: ware.snippet,
+        id: ware.reference_of_id,
+        img: {
+          src: ware.promo_image,
+          alt: `The promotional image for ${ware.name}`
+        },
+        name: ware.name,
+        href: `${path}/${ware.slug}`,
+      }
+    })
+  }
+
   return (
     <>
       <Header
@@ -26,9 +45,9 @@ const Webstore = ({ Component, pageProps, services }) => {
 
 Webstore.getInitialProps = async () => {
   const url = `/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`
-  const data = await fetcherB(url)
+  const data = await fetcher(url)
 
-  return { services: data?.ware_refs }
+  return { data: data.ware_refs }
 }
 
 export default Webstore
