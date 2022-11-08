@@ -5,9 +5,7 @@ const defaultHeaders = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}
 
 const a = axios.create({ baseURL, headers: defaultHeaders })
 
-export const fetcher = (str) => {
-
-  return a.get(str)
+export const fetcher = (...args) => {
+  return a.get(...args)
     .then(res => res.data)
-
 }

@@ -7,14 +7,18 @@ import {
 } from 'webstore-component-library'
 import hero from '../assets/img/hero.jpg'
 import { TEXT, TITLE } from '../constants/home'
+import { configure_services, useWares } from '../services/utils'
 
-const Home = ({ services }) => {
-	const router = useRouter()
-	const featured_services = services('/services').slice(0, 4)
-	const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
+const Home = () => {
+  const router = useRouter()
+  const { wares, isLoading, isError } = useWares(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`)
+  const featured_services = configure_services({ data: wares?.ware_refs, path: '/services' })?.slice(0, 4)
+  const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
 
-	return(
-		<>
+  if (isError) return <h1>Error...</h1>
+
+  return (
+    <>
       <Image
         alt='DNA chain'
         src={hero.src}
@@ -24,12 +28,18 @@ const Home = ({ services }) => {
       />
       <SearchBar onSubmit={handleOnSubmit} />
       <TitledTextBox title={TITLE} text={TEXT} />
-			<ItemGroup
-				items={featured_services}
-				withTitleLink={true}
-			/>
-		</>
-	)
+      {isLoading
+        ? (
+          <h1>Loading...</h1>
+        ) : (
+          <ItemGroup
+            items={featured_services}
+            withTitleLink={true}
+          />
+        )
+      }
+    </>
+  )
 }
 
 export default Home
