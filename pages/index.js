@@ -11,33 +11,33 @@ import { fetcher } from '../services/fetcher'
 import { TEXT, TITLE } from '../constants/home'
 
 const Home = () => {
-	const router = useRouter()
+  const router = useRouter()
 
-	// with url being a function, the value won't be cached. it will run whenever we return to this page.
-	// TODO(alishaevn): unless we find a way to pass in the featured_services instead, we will need to call the api on page load
-	// or we could decide to only poll for updates at certain intervals
-	const url = () => `/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`
+  // with url being a function, the value won't be cached. it will run whenever we return to this page.
+  // TODO(alishaevn): unless we find a way to pass in the featured_services instead, we will need to call the api on page load
+  // or we could decide to only poll for updates at certain intervals
+  const url = () => `/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`
 
-	// TODO(alishaevn): add error handling
-	const { data, error } = useSWR(url, fetcher)
+  // TODO(alishaevn): add error handling
+  const { data, error } = useSWR(url, fetcher)
 
-	const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
+  const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
 
-	const featured_services = data?.ware_refs.slice(0, 4).map(ware => {
-		return {
-			description: ware.snippet,
-			id: ware.reference_of_id,
-			img: {
-				src: ware.promo_image,
-				alt: `The promotional image for ${ware.name}`
-			},
-			name: ware.name,
-			slug: `/services/${ware.slug}`,
-		}
-	})
+  const featured_services = data?.ware_refs.slice(0, 4).map(ware => {
+    return {
+      description: ware.snippet,
+      id: ware.reference_of_id,
+      img: {
+        src: ware.promo_image,
+        alt: `The promotional image for ${ware.name}`
+      },
+      name: ware.name,
+      href: `/services/${ware.slug}`,
+    }
+  })
 
-	return(
-		<>
+  return(
+    <>
       <Image
         alt='DNA chain'
         src={hero.src}
@@ -47,14 +47,14 @@ const Home = () => {
       />
       <SearchBar onSubmit={handleOnSubmit} />
       <TitledTextBox title={TITLE} text={TEXT} />
-			{featured_services && (
-				<ItemGroup
-					items={featured_services}
-					withTitleLink={true}
-				/>
-			)}
-		</>
-	)
+      {featured_services && (
+        <ItemGroup
+          items={featured_services}
+          withTitleLink={true}
+        />
+      )}
+    </>
+  )
 }
 
 export default Home

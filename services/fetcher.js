@@ -7,6 +7,6 @@ const a = axios.create({ baseURL, headers: defaultHeaders })
 
 // read about data fetching here: https://swr.vercel.app/docs/data-fetching
 export const fetcher = (...args) => {
-	return a.get(...args)
-		.then(res => res.data)
+  return a.get(...args)
+    .then(res => res.data)
 }

@@ -7,12 +7,12 @@ const Webstore = ({ Component, pageProps }) => {
   return (
     <>
       <Header
-          browseLink='/browse'
-          logInLink='/login'
-          logo={LOGO}
-          logOutLink='/'
-          requestsLink='/requests'
-        />
+        browseLink='/browse'
+        logInLink='/login'
+        logo={LOGO}
+        logOutLink='/'
+        requestsLink='/requests'
+      />
       <Component {...pageProps} />
       <Footer
         companyName={FOOTER_NAME}
