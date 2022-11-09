@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Item, SearchBar } from 'webstore-component-library'
-import { configure_services, useWares } from '../../services/utils'
+import { configure_services, getAllWares } from '../../services/utils'
 
 const Browse = () => {
   const router = useRouter()
@@ -12,14 +12,14 @@ const Browse = () => {
     if (existingQuery) setQuery(existingQuery)
   }, [existingQuery])
 
-  // TODO(alishaevn): once the api is updated to accept a query with this path, we will want to replace the path in useWares on line 17, with the one on line 18
-  // and also delete the filter method from the "services" variable definition
-  const { wares, isLoading, isError } = useWares(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`)
-  // `/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json&q=${query}`
-  const services = configure_services({ data: wares?.ware_refs, path: '/requests/new' })?.filter((ware) => {
-      const queryExpression = new RegExp(query, 'i')
-      return queryExpression.test(ware.name)
-    })
+  // TODO(alishaevn): once the api is updated to accept a query with this path, we will want to delete line 17,
+  // uncomment line 18 and delete the filter method from the "services" variable definition
+  const { wares, isLoading, isError } = getAllWares()
+  // const { wares, isLoading, isError } = getFilteredWares(query)
+  const services = configure_services({ data: wares, path: '/requests/new' })?.filter((ware) => {
+    const queryExpression = new RegExp(query, 'i')
+    return queryExpression.test(ware.name)
+  })
 
   const handleOnSubmit = ({ value }) => setQuery(value)
 

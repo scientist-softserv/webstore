@@ -1,15 +1,6 @@
 import useSWR from 'swr'
 import { fetcher } from './fetcher'
-
-export const useWares = (url) => {
-  const { data, error } = useSWR(url, fetcher)
-
-  return {
-    wares: data,
-    isLoading: !error && !data,
-    isError: error,
-  }
-}
+import { DEFAULT_WARE_IMAGE } from '../constants'
 
 export const configure_services = ({ data, path }) => {
   return data?.map(ware => {
@@ -24,4 +15,34 @@ export const configure_services = ({ data, path }) => {
       href: `${path}/${ware.slug}`,
     }
   })
+}
+
+export const getAllWares = () => {
+  const { data, error } = useSWR(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`, fetcher)
+
+  return {
+    wares: data?.ware_refs,
+    isLoading: !error && !data,
+    isError: error,
+  }
+}
+
+export const getFilteredWares = (query) => {
+  const { data, error } = useSWR(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json&q=${query}`, fetcher)
+
+  return {
+    wares: data?.ware_refs,
+    isLoading: !error && !data,
+    isError: error,
+  }
+}
+
+export const getOneWare = (id) => {
+  const { data, error } = useSWR(`/wares/${id}.json`, fetcher)
+
+  return {
+    ware: data?.ware,
+    isLoading: !error && !data,
+    isError: error,
+  }
 }
