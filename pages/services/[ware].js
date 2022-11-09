@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
-import { Image, TextBox, Title } from 'webstore-component-library'
+import { ItemPage } from 'webstore-component-library'
 import { getOneWare } from '../../utils/api'
 import { DEFAULT_WARE_IMAGE } from '../../utils/constants'
 
-const Featured = () => {
+const Service = () => {
   const router = useRouter()
   const { id } = router.query
   const { ware, isLoading, isError } = getOneWare(id)
@@ -16,16 +16,17 @@ const Featured = () => {
         ? (
           <h1>Loading...</h1>
         ) : (
-          <>
-            {/* TODO(alishaevn): make the below a compound component in the library */}
-            <Title title={ware.name} />
-            <TextBox text={ware.description} />
-            <Image {...DEFAULT_WARE_IMAGE} />
-          </>
+          <ItemPage
+            title={ware.name}
+            description={ware.description}
+            // TODO(alishaevn): update the below to an actual image once
+            // https://github.com/assaydepot/scientist_api_v2/issues/184 is completed
+            img={DEFAULT_WARE_IMAGE}
+          />
         )
       }
     </>
   )
 }
 
-export default Featured
+export default Service
