@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { Image, TextBox, Title } from 'webstore-component-library'
-import { getOneWare } from '../../services/utils'
-import { DEFAULT_WARE_IMAGE } from '../../constants'
+import { getOneWare } from '../../utils/api'
+import { DEFAULT_WARE_IMAGE } from '../../utils/constants'
 
 const Featured = () => {
   const router = useRouter()
