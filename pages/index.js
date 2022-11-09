@@ -6,13 +6,14 @@ import {
   TitledTextBox,
 } from 'webstore-component-library'
 import hero from '../assets/img/hero.jpg'
-import { TEXT, TITLE } from '../constants/home'
-import { configure_services, useWares } from '../services/utils'
+import { configure_services } from '../utils'
+import { getAllWares } from '../utils/api'
+import { TEXT, TITLE } from '../utils/constants'
 
 const Home = () => {
   const router = useRouter()
-  const { wares, isLoading, isError } = useWares(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`)
-  const featured_services = configure_services({ data: wares?.ware_refs, path: '/services' })?.slice(0, 4)
+  const { wares, isLoading, isError } = getAllWares()
+  const featured_services = configure_services({ data: wares, path: '/services' })?.slice(0, 4)
   const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
 
   if (isError) return <h1>Error...</h1>
