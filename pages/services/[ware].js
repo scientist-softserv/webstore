@@ -1,10 +1,31 @@
 import { useRouter } from 'next/router'
+import { Image, TextBox, Title } from 'webstore-component-library'
+import { getOneWare } from '../../utils/api'
+import { DEFAULT_WARE_IMAGE } from '../../utils/constants'
 
-const Ware = () => {
+const Featured = () => {
   const router = useRouter()
-  const { ware } = router.query
+  const { id } = router.query
+  const { ware, isLoading, isError } = getOneWare(id)
 
-  return <p>Ware: {ware}</p>
+  if (isError) return <h1>Error...</h1>
+
+  return (
+    <>
+      {isLoading
+        ? (
+          <h1>Loading...</h1>
+        ) : (
+          <>
+            {/* TODO(alishaevn): make the below a compound component in the library */}
+            <Title title={ware.name} />
+            <TextBox text={ware.description} />
+            <Image {...DEFAULT_WARE_IMAGE} />
+          </>
+        )
+      }
+    </>
+  )
 }
 
-export default Ware
+export default Featured

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Item, SearchBar } from 'webstore-component-library'
-import { configure_services } from '../utils'
+import { configure_services } from '../../utils'
 import { getAllWares } from '../../utils/api'
 
 const Browse = () => {
