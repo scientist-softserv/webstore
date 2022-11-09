@@ -1,5 +1,5 @@
 import { Footer, Header } from 'webstore-component-library'
-import { FOOTER_NAME, FOOTER_SECTIONS, FOOTER_SOCIALS, LOGO } from '../constants/wrapper'
+import { FOOTER_NAME, FOOTER_SECTIONS, FOOTER_SOCIALS, LOGO } from '../constants'
 import '../styles/globals.css'
 
 // putting the header and footer here mean that they automatically surround every page
