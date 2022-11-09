@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { fetcher } from './fetcher'
-import { DEFAULT_WARE_IMAGE } from '../constants'
+import { DEFAULT_WARE_IMAGE } from './constants'
 
 export const configure_services = ({ data, path }) => {
   return data?.map(ware => {

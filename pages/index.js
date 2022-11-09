@@ -6,7 +6,7 @@ import {
   TitledTextBox,
 } from 'webstore-component-library'
 import hero from '../assets/img/hero.jpg'
-import { TEXT, TITLE } from '../constants'
+import { TEXT, TITLE } from '../utils/constants'
 import { configure_services, getAllWares } from '../utils/api'
 
 const Home = () => {
