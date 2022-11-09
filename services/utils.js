@@ -36,13 +36,3 @@ export const getFilteredWares = (query) => {
     isError: error,
   }
 }
-
-export const getOneWare = (id) => {
-  const { data, error } = useSWR(`/wares/${id}.json`, fetcher)
-
-  return {
-    ware: data?.ware,
-    isLoading: !error && !data,
-    isError: error,
-  }
-}
