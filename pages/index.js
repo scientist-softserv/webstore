@@ -6,8 +6,9 @@ import {
   TitledTextBox,
 } from 'webstore-component-library'
 import hero from '../assets/img/hero.jpg'
-import { TEXT, TITLE } from '../constants'
-import { configure_services, getAllWares } from '../services/utils'
+import { configure_services } from '../utils'
+import { getAllWares } from '../utils/api'
+import { TEXT, TITLE } from '../utils/constants'
 
 const Home = () => {
   const router = useRouter()

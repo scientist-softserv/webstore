@@ -1,6 +1,7 @@
+import logo from '../assets/svg/logo.svg'
 import item from '../assets/img/item.jpg'
 
-const img = {
+export const DEFAULT_WARE_IMAGE = {
   src: item.src,
   alt: 'Several rows of test tubes with a liquid being put into one.',
 }
@@ -11,29 +12,54 @@ export const TEXT = `Golden Pacific Sciences provides a range of products, Best 
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio aenean sed adipiscing diam donec adipiscing tristique. Eu lobortis elementum nibh tellus molestie. Mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus et. Nisl purus in mollis nunc sed id semper risus in. Diam volutpat commodo sed egestas egestas fringilla. Lectus proin nibh nisl condimentum. Odio euismod lacinia at quis risus sed vulputate odio ut. Ac feugiat sed lectus vestibulum mattis ullamcorper. Iaculis at erat pellentesque adipiscing commodo elit at. Eget nullam non nisi est sit amet facilisis magna etiam. Faucibus turpis in eu mi bibendum neque egestas. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.`
 
-export const ITEMS = [
+export const LOGO = {
+  alt: 'A scientific symbol with a company name',
+  src: logo.src,
+}
+
+export const FOOTER_NAME = 'Golden Pacific Services'
+
+export const FOOTER_SECTIONS = [
   {
-    id: 1,
-    description: 'This is the the first service.',
-    img,
-    name: 'Service One',
+    header: 'One',
+    links: [
+      {
+        name: 'The Team',
+        url: '/about-us',
+      },
+    ],
   },
   {
-    id: 2,
-    description: 'This is the the second service.',
-    img,
-    name: 'Service Two',
+    header: 'Two',
+    links: [
+      {
+        name: 'Contact',
+        url: '/contact',
+      },
+    ],
   },
   {
-    id: 3,
-    description: 'This is the the third service.',
-    img,
-    name: 'Service Three',
+    header: 'Three',
+    links: [
+      {
+        name: 'Services',
+        url: '/services',
+      },
+    ],
+  },
+]
+
+export const FOOTER_SOCIALS = [
+  {
+    icon: 'twitter',
+    url: 'www.twitter.com',
   },
   {
-    id: 4,
-    description: 'This is the the fourth service.',
-    img,
-    name: 'Service Four',
+    icon: 'instagram',
+    url: 'www.instagram.com',
+  },
+  {
+    icon: 'facebook',
+    url: 'www.facebook.com',
   },
 ]
