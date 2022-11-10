@@ -13,7 +13,7 @@ import { TEXT, TITLE } from '../utils/constants'
 const Home = () => {
   const router = useRouter()
   const { wares, isLoading, isError } = getAllWares()
-  const featured_services = configure_services({ data: wares, path: '/services' })?.slice(0, 4)
+  const featured_services = configure_services({ data: wares, path: '/services' })?.slice(0, 3)
   const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
 
   if (isError) return <h1>Error...</h1>
