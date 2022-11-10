@@ -8,7 +8,7 @@ const Service = () => {
   const { id } = router.query
   const { ware, isLoading, isError } = getOneWare(id)
 
-  if (isError) return <h1>Error...</h1>
+  if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
 
   return (
     <>
