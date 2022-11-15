@@ -29,16 +29,11 @@ const Home = () => {
       />
       <SearchBar onSubmit={handleOnSubmit} />
       <TitledTextBox title={TITLE} text={TEXT} />
-      {isLoading
-        ? (
-          <h1>Loading...</h1>
-        ) : (
-          <ItemGroup
-            items={featured_services}
-            withTitleLink={true}
-          />
-        )
-      }
+      <ItemGroup
+        items={featured_services}
+        isLoading={isLoading}
+        withTitleLink={true}
+      />
     </>
   )
 }
