@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ItemPage } from 'webstore-component-library'
+import { ItemPage, Loading } from 'webstore-component-library'
 import { getOneWare } from '../../utils/api'
 import { DEFAULT_WARE_IMAGE } from '../../utils/constants'
 
@@ -14,7 +14,7 @@ const Service = () => {
     <>
       {isLoading
         ? (
-          <h1>Loading...</h1>
+          <Loading wrapperStyle={{ marginTop: 40 }} />
         ) : (
           <ItemPage
             title={ware.name}
