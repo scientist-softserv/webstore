@@ -14,7 +14,7 @@ const Service = () => {
     <>
       {isLoading
         ? (
-          <Loading wrapperStyle={{ marginTop: 40 }} />
+          <Loading wrapperClass='item-page' />
         ) : (
           <ItemPage
             title={ware.name}
