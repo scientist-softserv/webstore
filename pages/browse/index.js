@@ -31,7 +31,7 @@ const Browse = () => {
       <SearchBar onSubmit={handleOnSubmit} initialValue={existingQuery} />
       {isLoading
         ? (
-          <h1>Loading...</h1>
+          <Item isLoading={isLoading} orientation='horizontal' />
         ) : (
           services.map(service => (
             <Item
@@ -45,7 +45,6 @@ const Browse = () => {
                 label: 'Request this item',
                 primary: true,
               }}
-              style={{ marginBottom: 30 }}
             />
           ))
         )
