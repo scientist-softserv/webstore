@@ -1,11 +1,11 @@
 import useSWR from 'swr'
-import { fetcher } from '.'
+import { fetcher } from './fetcher'
 
 export const getAllRequests = () => {
-  const { data, error } = useSWR(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/quote_groups/mine.json`, fetcher)
+  const { data, error } = useSWR(`/quote_groups/mine.json`, fetcher)
 
   return {
-    requests: data?.quote_group_refs,
+    all_requests: data?.quote_group_refs,
     isLoading: !error && !data,
     isError: error,
   }
