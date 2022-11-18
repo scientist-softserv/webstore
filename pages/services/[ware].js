@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { ItemPage, Loading } from 'webstore-component-library'
-import { getOneWare } from '../../utils/api'
+import { getOneWare } from '../../utils/api/services'
 import { DEFAULT_WARE_IMAGE } from '../../utils/constants'
 
 const Service = () => {

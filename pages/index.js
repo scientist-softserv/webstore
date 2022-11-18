@@ -7,7 +7,7 @@ import {
 } from 'webstore-component-library'
 import hero from '../assets/img/hero.jpg'
 import { configure_services } from '../utils'
-import { getAllWares } from '../utils/api'
+import { getAllWares } from '../utils/api/services'
 import { TEXT, TITLE } from '../utils/constants'
 
 const Home = () => {
