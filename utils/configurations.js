@@ -28,6 +28,7 @@ export const configure_requests = ({ data, path }) => {
       description,
       href: `${path}/${request.id}`,
       id: request.id,
+      // TODO(alishaevn): pass the actual image here when it's available
       img: DEFAULT_WARE_IMAGE,
       title: `${request.identifier}: ${request.name}`,
       status: {
