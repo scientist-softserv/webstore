@@ -20,9 +20,11 @@ export const configure_services = ({ data, path }) => {
 export const configure_requests = ({ data, path }) => {
   return data?.map(request => {
     const description = normalize_description(request.description)
+    const createdAt = normalize_date(request.created_at)
+    const updatedAt = normalize_date(request.updated_at)
 
     return {
-      createdAt: request.created_at,
+      createdAt,
       description,
       href: `${path}/${request.id}`,
       id: request.id,
@@ -34,7 +36,7 @@ export const configure_requests = ({ data, path }) => {
         text: request.status,
         textColor: statusColors[request.status]?.text || black,
       },
-      updatedAt: request.updated_at,
+      updatedAt,
     }
   })
 }
@@ -43,10 +45,14 @@ const normalize_description = (text) => {
   // removes html elements, html comments and sections with 3 spaces from the string
   const regex = /(<([^>]+)>)|\n|-+>|   /g
   const description = text.replace(regex, '')
-  console.log({ description })
   const length = 215
 
   return description.length > length
           ? `${description.substring(0, length - 3)}...`
           : description
+}
+
+const normalize_date = (str) => {
+  const date = new Date(str)
+  return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
 }
