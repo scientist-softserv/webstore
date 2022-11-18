@@ -21,7 +21,8 @@ export const configure_requests = ({ data, path }) => {
   return data?.map(request => ({
     createdAt: request.created_at,
     description: request.description,
-    href: `${path}/${request.identifier}`,
+    href: `${path}/${request.id}`,
+    id: request.id,
     img: DEFAULT_WARE_IMAGE,
     title: `${request.identifier}: ${request.name}`,
     status: {

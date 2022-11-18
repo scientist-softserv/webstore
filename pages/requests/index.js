@@ -4,7 +4,7 @@ import { getAllRequests, configure_requests } from '../../utils'
 
 const Requests = () => {
   const { all_requests, isLoading, isError } = getAllRequests()
-  const requests = configure_requests({ data: all_requests, path: '/request' })
+  const requests = configure_requests({ data: all_requests, path: '/requests' })
 
   if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
 
