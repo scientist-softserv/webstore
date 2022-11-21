@@ -1,6 +1,6 @@
 import React from 'react'
-import { RequestList } from 'webstore-component-library'
-import { getAllRequests, configure_requests } from '../../utils'
+import { Button, RequestList } from 'webstore-component-library'
+import { black, configure_requests, getAllRequests } from '../../utils'
 
 const Requests = () => {
   const { all_requests, isLoading, isError } = getAllRequests()
@@ -10,6 +10,14 @@ const Requests = () => {
 
   return (
     <>
+      <Button 
+        size='large'
+        backgroundColor={black}
+        primary='true'
+        label='Initiate a New Request'
+        onClick=''
+        addClass='ml-auto d-block my-2'
+      />
       <RequestList
         isLoading={isLoading}
         requests={requests}
