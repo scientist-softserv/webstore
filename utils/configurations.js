@@ -18,7 +18,9 @@ export const configure_services = ({ data, path }) => {
 }
 
 export const configure_requests = ({ data, path }) => {
-  return data?.map(request => {
+  const sorted_requests = data?.sort((a, b) => b.updated_at.localeCompare(a.updated_at))
+
+  return sorted_requests?.map(request => {
     const description = normalize_description(request.description)
     const createdAt = normalize_date(request.created_at)
     const updatedAt = normalize_date(request.updated_at)
