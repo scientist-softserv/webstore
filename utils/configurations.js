@@ -43,7 +43,7 @@ export const configure_requests = ({ data, path }) => {
 }
 
 const normalize_description = (text) => {
-  // removes html elements, html comments and sections with 3 spaces from the string
+  // removes html elements, new lines, html comments and sections with 3 spaces from the string
   const regex = /(<([^>]+)>)|\n|-+>|   /g
   const description = text.replace(regex, '')
   const length = 215
