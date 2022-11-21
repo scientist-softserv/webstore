@@ -46,7 +46,7 @@ const normalize_description = (text) => {
   // removes html elements, new lines, html comments and sections with 3 spaces from the string
   const regex = /(<([^>]+)>)|\n|-+>|   /g
   const description = text.replace(regex, '')
-  const length = 215
+  const length = 350
 
   return description.length > length
           ? `${description.substring(0, length - 3)}...`
