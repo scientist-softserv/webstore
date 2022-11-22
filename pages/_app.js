@@ -13,7 +13,7 @@ const Webstore = ({ Component, pageProps }) => {
         logOutLink='/'
         requestsLink='/requests'
       />
-      <div class='center-content'>
+      <div className='center-content'>
         <Component {...pageProps} />
       </div>
       <Footer
