@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, RequestList } from 'webstore-component-library'
+import { LinkedButton, RequestList } from 'webstore-component-library'
 import { black, configure_requests, getAllRequests } from '../../utils'
 
 const Requests = () => {
@@ -10,12 +10,13 @@ const Requests = () => {
 
   return (
     <>
-      <Button 
-        size='large'
-        backgroundColor={black}
-        primary='true'
-        label='Initiate a New Request'
-        onClick=''
+      <LinkedButton
+        buttonProps={{
+          backgroundColor: black,
+          label: 'Initiate a New Request',
+          size: 'large',
+        }}
+        path='/requests/new'
         addClass='ml-auto d-block my-2'
       />
       <RequestList
