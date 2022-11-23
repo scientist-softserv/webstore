@@ -17,7 +17,7 @@ const Requests = () => {
           size: 'large',
         }}
         path='/requests/new'
-        addClass='text-end d-block my-2'
+        addClass='text-end d-block mt-4 mb-2'
       />
       <RequestList
         isLoading={isLoading}
