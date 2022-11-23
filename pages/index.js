@@ -30,13 +30,15 @@ const Home = () => {
         width='100%'
         style={{ objectFit: 'cover' }}
       />
-      <SearchBar onSubmit={handleOnSubmit} />
-      <TitledTextBox title={TITLE} text={TEXT} />
-      <ItemGroup
-        items={featured_services}
-        isLoading={isLoading}
-        withTitleLink={true}
-      />
+      <div className='container'>
+        <SearchBar onSubmit={handleOnSubmit} />
+        <TitledTextBox title={TITLE} text={TEXT} />
+        <ItemGroup
+          items={featured_services}
+          isLoading={isLoading}
+          withTitleLink={true}
+        />
+      </div>
     </>
   )
 }
