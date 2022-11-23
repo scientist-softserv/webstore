@@ -3,7 +3,7 @@ import {
   LinkedButton,
   Loading,
   RequestList,
-  TextBox,
+  Title,
 } from 'webstore-component-library'
 import { black, configure_requests, getAllRequests } from '../../utils'
 
@@ -32,9 +32,10 @@ const Requests = ({ ...props }) => {
           <RequestList requests={requests} />
         </>
       ): (
-        <TextBox
-          size='large'
-          text='Please log in to make new requests or view existing ones.'
+        <Title
+          addClass='mt-2'
+          size='medium'
+          title='Please log in to make new requests or view existing ones.'
         />
       )}
     </>
