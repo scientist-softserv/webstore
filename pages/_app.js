@@ -1,5 +1,6 @@
 import { Footer, Header } from 'webstore-component-library'
 import { FOOTER_NAME, FOOTER_SECTIONS, FOOTER_SOCIALS, getCurrentUser, LOGO } from '../utils'
+import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/globals.css'
 
 // putting the header and footer here mean that they automatically surround every page
@@ -14,9 +15,7 @@ const Webstore = ({ Component, pageProps }) => {
         logOutLink='/'
         requestsLink='/requests'
       />
-      <div className='center-content'>
-        <Component {...pageProps} {...getCurrentUser()} />
-      </div>
+      <Component {...pageProps} {...getCurrentUser()} />
       <Footer
         companyName={FOOTER_NAME}
         sections={FOOTER_SECTIONS}

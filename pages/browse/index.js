@@ -26,7 +26,7 @@ const Browse = () => {
   if (isError) return <h1>Error...</h1>
 
   return (
-    <>
+    <div className='container'>
       <SearchBar onSubmit={handleOnSubmit} initialValue={existingQuery} />
       {isLoading
         ? (
@@ -48,7 +48,7 @@ const Browse = () => {
           ))
         )
       }
-    </>
+    </div>
   )
 }
 
