@@ -2,8 +2,6 @@ import React from 'react'
 import { LinkedButton, RequestList } from 'webstore-component-library'
 import { black, configure_requests, getAllRequests } from '../../utils'
 
-// TODO(alishaevn): figure out what bootstrap classes to pass to LinkedButton so its right aligned
-// and has more bottom margin
 const Requests = () => {
   const { all_requests, isLoading, isError } = getAllRequests()
   const requests = configure_requests({ data: all_requests, path: '/requests' })
