@@ -14,7 +14,9 @@ const Webstore = ({ Component, pageProps }) => {
         logOutLink='/'
         requestsLink='/requests'
       />
-      <Component {...pageProps} {...getCurrentUser()} />
+      <div className='center-content'>
+        <Component {...pageProps} {...getCurrentUser()} />
+      </div>
       <Footer
         companyName={FOOTER_NAME}
         sections={FOOTER_SECTIONS}
