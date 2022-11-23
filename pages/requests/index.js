@@ -9,7 +9,7 @@ const Requests = () => {
   if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
 
   return (
-    <>
+    <div className='container'>
       <LinkedButton
         buttonProps={{
           backgroundColor: black,
@@ -23,7 +23,7 @@ const Requests = () => {
         isLoading={isLoading}
         requests={requests}
       />
-    </>
+    </div>
   )
 }
 
