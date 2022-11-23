@@ -19,7 +19,7 @@ const Requests = () => {
           size: 'large',
         }}
         path='/requests/new'
-        addClass='ml-auto d-block my-2'
+        addClass='text-end d-block my-2'
       />
       <RequestList
         isLoading={isLoading}

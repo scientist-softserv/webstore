@@ -7,3 +7,8 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* TODO (summer-cook) remove this style after adding bootstrap to component library */
+.text-end {
+  text-align: right;
+}
