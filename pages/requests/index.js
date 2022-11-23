@@ -9,7 +9,6 @@ import { black, configure_requests, getAllRequests } from '../../utils'
 
 const Requests = ({ ...props }) => {
   const { all_requests, isLoading, isError } = getAllRequests()
-  // TODO(alishaevn): use the user to determine how this page should render
   const { user, userError, userLoading } = props
   const requests = configure_requests({ data: all_requests, path: '/requests' })
 
