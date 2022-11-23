@@ -1,6 +1,6 @@
 import React from 'react'
-import { RequestList } from 'webstore-component-library'
-import { getAllRequests, configure_requests } from '../../utils'
+import { LinkedButton, RequestList } from 'webstore-component-library'
+import { black, configure_requests, getAllRequests } from '../../utils'
 
 const Requests = () => {
   const { all_requests, isLoading, isError } = getAllRequests()
@@ -10,6 +10,15 @@ const Requests = () => {
 
   return (
     <>
+      <LinkedButton
+        buttonProps={{
+          backgroundColor: black,
+          label: 'Initiate a New Request',
+          size: 'large',
+        }}
+        path='/requests/new'
+        addClass='text-end d-block my-2'
+      />
       <RequestList
         isLoading={isLoading}
         requests={requests}
