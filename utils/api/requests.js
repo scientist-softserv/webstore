@@ -10,3 +10,13 @@ export const getAllRequests = () => {
     isError: error,
   }
 }
+
+export const getAllSOWs = (id) => {
+  const { data, error } = useSWR(`/quote_groups/${id}/proposals.json`, fetcher)
+  
+  return {
+    all_sows: data,
+    isLoadingSOWs: !error && !data,
+    isSOWError: error,
+  }
+}
