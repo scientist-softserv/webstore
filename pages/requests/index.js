@@ -19,7 +19,7 @@ const Requests = ({ ...props }) => {
   return (
     <>
       {user ? (
-        <>
+        <div className='container'>
           <LinkedButton
             buttonProps={{
               backgroundColor: black,
@@ -30,13 +30,15 @@ const Requests = ({ ...props }) => {
             addClass='text-end d-block mt-4 mb-2'
           />
           <RequestList requests={requests} />
-        </>
+        </div>
       ): (
-        <Title
-          addClass='mt-2'
-          size='medium'
-          title='Please log in to make new requests or view existing ones.'
-        />
+        <div className='container'>
+          <Title
+            addClass='mt-2'
+            size='medium'
+            title='Please log in to make new requests or view existing ones.'
+          />
+        </div>
       )}
     </>
   )
