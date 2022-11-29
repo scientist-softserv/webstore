@@ -11,7 +11,7 @@ $dark: #212529;
 $white: #ffffff;
 
 
-// these variables are also exported for direct use in components if needed, or in colors.js
+// these variables are also exported for use in variables.js
 :export {
   primary: $primary;
   secondary: $secondary;
