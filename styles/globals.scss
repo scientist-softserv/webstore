@@ -1,4 +1,6 @@
-@import './default_bootstrap_overrides.scss';
+@import './default_bootstrap_overrides.module.scss';
+// bootstrap must be imported after any variable overrides so that your custom variable settings will be pulled into BS's classes.
+@import "~bootstrap/scss/bootstrap";
 
 html,
 body {

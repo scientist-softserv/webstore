@@ -1,11 +1,15 @@
+// import "../../node_modules/bootstrap/scss/_functions.scss"
+// import "../../node_modules/bootstrap/scss/_variables.scss"
+import themeColors from '../../styles/default_bootstrap_overrides.module.scss'
+
 // *** Please update the colors below to fit your brand guidelines ***
 // For simplicity we've assigned the colors a number, but most brand guidelines will use names instead
-export const black = '#000000'
-export const darker_grey = '#333333'
-export const dark_grey = '#666666'
-export const light_grey = '#999999'
-export const lighter_grey = '#CCCCCC'
-export const white = '#FFFFFF'
+export const black = themeColors.dark;
+export const darker_grey = themeColors.primary
+export const dark_grey = themeColors.success
+export const light_grey = themeColors.info
+export const lighter_grey = themeColors.secondary
+export const white = themeColors.white
 
 // These are the colors used for the requests
 export const statusColors = {

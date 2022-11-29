@@ -14,7 +14,6 @@ const Webstore = ({ Component, pageProps }) => {
         logOutLink='/'
         requestsLink='/requests'
       />
-      <button className='btn btn-primary'></button>
       <Component {...pageProps} {...getCurrentUser()} />
       <Footer
         companyName={FOOTER_NAME}
