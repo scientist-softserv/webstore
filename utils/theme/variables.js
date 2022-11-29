@@ -1,5 +1,6 @@
-import themeColors from './variables.module.scss'
+import themeColors from './theme.module.scss'
 const { dark, primary, success, info, secondary, white } = themeColors
+export { dark, primary, success, info, secondary, white }
 
 // These are the colors used for the requests
 export const statusColors = {
@@ -16,3 +17,4 @@ export const statusColors = {
     text: white,
   },
 }
+
