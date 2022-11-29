@@ -1,6 +1,6 @@
 // import "../../node_modules/bootstrap/scss/_functions.scss"
 // import "../../node_modules/bootstrap/scss/_variables.scss"
-import themeColors from '../../styles/default_bootstrap_overrides.module.scss'
+import themeColors from '../../styles/theme.module.scss'
 
 // *** Please update the colors below to fit your brand guidelines ***
 // For simplicity we've assigned the colors a number, but most brand guidelines will use names instead
