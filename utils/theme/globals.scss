@@ -1,5 +1,5 @@
 // import custom theme variables to override any bootstrap defaults
-@import './theme.module.scss';
+@import './variables.module.scss';
 
 // bootstrap must be imported after any variable overrides so that your custom variable settings will be pulled into BS's classes.
 @import "~bootstrap/scss/bootstrap";

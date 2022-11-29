@@ -1,5 +1,5 @@
 import { DEFAULT_WARE_IMAGE } from './constants'
-import { black, light_grey, statusColors } from './theme'
+import { dark, info, statusColors } from './theme'
 
 export const configure_services = ({ data, path }) => {
   return data?.map(ware => {
@@ -35,9 +35,9 @@ export const configure_requests = ({ data, path }) => {
       title: `${request.identifier}: ${request.name}`,
       status: {
         // TODO(alishaevn): remove the fallback colors below once we're only receiving webstore applicable statuses
-        backgroundColor: statusColors[request.status]?.bg || light_grey,
+        backgroundColor: statusColors[request.status]?.bg || info,
         text: request.status,
-        textColor: statusColors[request.status]?.text || black,
+        textColor: statusColors[request.status]?.text || dark,
       },
       updatedAt,
     }

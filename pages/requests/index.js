@@ -5,7 +5,7 @@ import {
   RequestList,
   Title,
 } from 'webstore-component-library'
-import { black, configure_requests, getAllRequests } from '../../utils'
+import { dark, configure_requests, getAllRequests } from '../../utils'
 
 const Requests = ({ ...props }) => {
   const { all_requests, isLoading, isError } = getAllRequests()
@@ -22,7 +22,7 @@ const Requests = ({ ...props }) => {
         <div className='container'>
           <LinkedButton
             buttonProps={{
-              backgroundColor: black,
+              backgroundColor: dark,
               label: 'Initiate a New Request',
               size: 'large',
             }}
