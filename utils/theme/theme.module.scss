@@ -1,0 +1,25 @@
+// these colors can be customized for each webstore instance. they are the default bootstrap theme colors and are used in bootstrap's theme_colors sass map, so updating these will also make sure that text overlaying areas with these background colors remains accessible. See https://getbootstrap.com/docs/5.0/customize/sass/#maps-and-loops for more details on how to add additional theme colors to this map. 
+
+$primary: #333333; 
+$secondary: #CCCCCC; 
+$success: #666666; 
+$info: #999999; 
+$warning: #2a2a2a;
+$danger: #606060;
+$light: #f8f9fa;
+$dark: #212529;
+$white: #ffffff;
+
+
+// these variables are also exported for use in variables.js
+:export {
+  primary: $primary;
+  secondary: $secondary;
+  success: $success;
+  info: $info;
+  warning: $warning;
+  danger: $danger;
+  light: $light;
+  dark: $dark;
+  white: $white;
+}
