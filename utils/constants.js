@@ -19,21 +19,6 @@ export const LOGO = {
 
 export const FOOTER_NAME = 'Golden Pacific Services'
 
-export const FOOTER_LINKS = [
-  {
-    name: 'The Team',
-    url: '/about-us',
-  },
-  {
-    name: 'Services',
-    url: '/services',
-  },
-  {
-    name: 'Contact',
-    url: '/contact',
-  },
-]
-
 export const FOOTER_SECTIONS = [
   {
     header: 'One',
@@ -76,5 +61,21 @@ export const FOOTER_SOCIALS = [
   {
     icon: 'facebook',
     url: 'www.facebook.com',
+  },
+]
+
+// for use with the BootstrapFooter component
+export const FOOTER_LINKS = [
+  {
+    name: 'The Team',
+    url: '/about-us',
+  },
+  {
+    name: 'Services',
+    url: '/services',
+  },
+  {
+    name: 'Contact',
+    url: '/contact',
   },
 ]
