@@ -19,6 +19,21 @@ export const LOGO = {
 
 export const FOOTER_NAME = 'Golden Pacific Services'
 
+export const FOOTER_LINKS = [
+  {
+    name: 'The Team',
+    url: '/about-us',
+  },
+  {
+    name: 'Services',
+    url: '/services',
+  },
+  {
+    name: 'Contact',
+    url: '/contact',
+  },
+]
+
 export const FOOTER_SECTIONS = [
   {
     header: 'One',
