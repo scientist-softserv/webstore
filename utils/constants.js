@@ -63,19 +63,3 @@ export const FOOTER_SOCIALS = [
     url: 'www.facebook.com',
   },
 ]
-
-// for use with the BootstrapFooter component
-export const FOOTER_LINKS = [
-  {
-    name: 'The Team',
-    url: '/about-us',
-  },
-  {
-    name: 'Services',
-    url: '/services',
-  },
-  {
-    name: 'Contact',
-    url: '/contact',
-  },
-]
