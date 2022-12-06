@@ -1,5 +1,5 @@
-import { DEFAULT_WARE_IMAGE } from './constants'
-import { dark, info, statusColors } from './theme'
+import { DEFAULT_WARE_IMAGE } from '../constants'
+import { dark, info, statusColors } from '../theme'
 
 export const configure_services = ({ data, path }) => {
   return data?.map(ware => {
