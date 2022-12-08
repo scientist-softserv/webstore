@@ -59,3 +59,31 @@ const normalize_date = (str) => {
   const date = new Date(str)
   return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
 }
+
+export const configure_status = (status) => {
+  // account for some of the statuses at the link below that may accidentally be returned:
+  // https://github.com/assaydepot/rx/blob/6d2c3b10b25937d783cbf42ff0f965fde27a5f83/app/modules/pg/quote_group_statuses.rb#L16
+
+  switch (status) {
+    case 'Completed':
+    case 'Work Completed':
+    case 'Closed':
+    case 'Cancelled':
+      status = 'Work Completed'
+      break
+
+    case 'Work In Progress':
+      status = 'Work Started'
+      break
+
+    case 'SOW Submitted':
+    case 'Estimate Submitted':
+      status = 'SOW Selection'
+      break
+
+    default:
+      status = 'Supplier Review'
+  }
+
+  return status
+}
