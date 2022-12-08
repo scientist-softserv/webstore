@@ -63,3 +63,22 @@ export const FOOTER_SOCIALS = [
     url: 'www.facebook.com',
   },
 ]
+
+export const STATUS_ARRAY = [
+  {
+    statusLabel: 'Supplier Review',
+    statusIcon: 'fa-list-check',
+  },
+  {
+    statusLabel: 'SOW Selection',
+    statusIcon: 'fa-square-check',
+  },
+  {
+    statusLabel: 'Work Started',
+    statusIcon: 'fa-vial',
+  },
+  {
+    statusLabel: 'Work Completed',
+    statusIcon: 'fa-vial-circle-check',
+  },
+]
