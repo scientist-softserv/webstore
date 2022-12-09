@@ -1,12 +1,13 @@
 import useSWR from 'swr'
-import { configure_status } from './configurations'
+import { configure_requests, configure_status } from './configurations'
 import { fetcher } from './fetcher'
 
 export const getAllRequests = () => {
   const { data, error } = useSWR(`/quote_groups/mine.json`, fetcher)
+  const requests = data && configure_requests({ data: data.quote_group_refs, path: '/requests' })
 
   return {
-    all_requests: data?.quote_group_refs,
+    requests,
     isLoading: !error && !data,
     isError: error,
   }
