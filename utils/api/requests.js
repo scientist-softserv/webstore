@@ -6,8 +6,13 @@ export const getAllRequests = () => {
   const { data, error } = useSWR(`/quote_groups/mine.json`, fetcher)
   const requests = data && configure_requests({ data: data.quote_group_refs, path: '/requests' })
 
+  const all_requests = data?.quote_group_refs.map(quote_group => ({
+    ...quote_group,
+    status: configure_status(quote_group.status),
+  }))
+
   return {
-    requests,
+    all_requests,
     isLoading: !error && !data,
     isError: error,
   }
