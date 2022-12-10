@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { configure_requests, configure_status } from './configurations'
+import { configure_requests } from './configurations'
 import { fetcher } from './fetcher'
 
 export const getAllRequests = () => {
@@ -15,14 +15,12 @@ export const getAllRequests = () => {
 
 export const getOneRequest = (id) => {
   const { data, error } = useSWR(`/quote_groups/${id}.json`, fetcher)
-
-  const status = configure_status(data?.status)
-  const request = {
-    ...data,
-    status,
+  let request = data && configure_requests({ data, path: '/requests' })[0]
+  request = {
+    ...request,
+    createdAt: request.createdAt.slice(0, 12),
+    proposedDeadline: request.proposedDeadline.slice(0, 12),
   }
-
-  // TODO: configure the rest of the request to have the other properties we need
 
   return {
     request,
