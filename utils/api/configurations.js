@@ -18,28 +18,36 @@ export const configure_services = ({ data, path }) => {
 }
 
 export const configure_requests = ({ data, path }) => {
-  const sorted_requests = data?.sort((a, b) => b.updated_at.localeCompare(a.updated_at))
+  const sorted_requests = Array.isArray(data)
+    ? data.sort((a, b) => b.updated_at.localeCompare(a.updated_at))
+    : [data]
 
   return sorted_requests?.map(request => {
-    const description = normalize_description(request.description)
-    const createdAt = normalize_date(request.created_at)
-    const updatedAt = normalize_date(request.updated_at)
     const status = configure_status(request.status)
 
     return {
-      createdAt,
-      description,
+      billingAddress: {
+        address: request.billing_address?.text,
+        id: request.billing_address?.id,
+      },
+      createdAt: normalize_date(request.created_at),
+      description: normalize_description(request.description),
       href: `${path}/${request.id}`,
       id: request.id,
       // TODO(alishaevn): pass the actual image here when it's available
       img: DEFAULT_WARE_IMAGE,
-      title: `${request.identifier}: ${request.name}`,
+      proposedDeadline: normalize_date(request.proposed_deadline),
+      shippingAddress: {
+        address: request.shipping_address?.text,
+        id: request.shipping_address?.id,
+      },
       status: {
         backgroundColor: statusColors[status].bg,
         text: status,
         textColor: statusColors[status].text,
       },
-      updatedAt,
+      title: `${request.identifier}: ${request.name}`,
+      updatedAt: normalize_date(request.updated_at),
     }
   })
 }
