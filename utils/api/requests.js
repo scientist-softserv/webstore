@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { configure_status } from './configurations'
-import { fetcher } from './fetcher'
+import { fetcher } from './base'
 
 export const getAllRequests = () => {
   const { data, error } = useSWR(`/quote_groups/mine.json`, fetcher)

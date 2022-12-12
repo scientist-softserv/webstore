@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { fetcher } from './fetcher'
+import { fetcher } from './base'
 
 export const getAllWares = () => {
   const { data, error } = useSWR(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`, fetcher)
