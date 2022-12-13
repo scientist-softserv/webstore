@@ -59,3 +59,5 @@ const normalize_date = (str) => {
   const date = new Date(str)
   return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
 }
+
+export const normalize_date_test = normalize_date
