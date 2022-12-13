@@ -49,6 +49,7 @@ export const sendMessage = (id, data) => {
   const note = {
     body: data,
     quoted_ware_ids: [id],
+    // TODO(alishaevn): add ability to include attachments after the mvp
     // data_files: [base64file],
   }
 
