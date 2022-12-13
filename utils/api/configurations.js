@@ -23,7 +23,6 @@ export const configure_requests = ({ data, path }) => {
   return sorted_requests?.map(request => {
     const description = normalize_description(request.description)
     const createdAt = normalize_date(request.created_at)
-    //console.log(`${normalize_date(request.created_at)}`, `${request.created_at}`)
     const updatedAt = normalize_date(request.updated_at)
 
     return {
@@ -60,5 +59,3 @@ const normalize_date = (str) => {
   const date = new Date(str)
   return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
 }
-
-export const normalize_date_test = normalize_date
