@@ -49,8 +49,7 @@ export const sendMessage = ({ id, message, files }) => {
   const note = {
     body: message,
     quoted_ware_ids: [id],
-    // TODO(alishaevn): add ability to include attachments after the mvp
-    // data_files: [base64file],
+    data_files: files,
   }
 
   posting(`/quote_groups/${id}/notes.json`, note)

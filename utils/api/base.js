@@ -15,6 +15,6 @@ export const posting = async (url, data) => {
     await api.post(url, data)
   } catch (error) {
     // TODO(alishaevn): handle the error when sentry is set up
-    console.error(`The following error occurred when trying to post a new message to quote group ${id}:`, error)
+    console.error(`The following error occurred when trying to post new data:`, error)
   }
 }
