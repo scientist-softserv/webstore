@@ -45,9 +45,9 @@ export const getAllSOWs = (id) => {
   }
 }
 
-export const sendMessage = (id, data) => {
+export const sendMessage = ({ id, message, files }) => {
   const note = {
-    body: data,
+    body: message,
     quoted_ware_ids: [id],
     // TODO(alishaevn): add ability to include attachments after the mvp
     // data_files: [base64file],

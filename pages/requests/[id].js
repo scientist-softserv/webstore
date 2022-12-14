@@ -15,7 +15,7 @@ const Request = () => {
   if (isLoadingRequest) return <Loading wrapperClass='item-page' />
   if (isRequestError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
 
-  const handleSendingMessages = ({ value }) => sendMessage(id, value)
+  const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
 
   return(
     <>
