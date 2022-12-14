@@ -5,7 +5,7 @@ import { BlankRequestForm } from 'webstore-component-library'
 // https://assaydepot.slack.com/archives/C03FZDALABG/p1670605791891109
 
 const NewBlankRequest = () => {
-  // have a real function here that accepts our data and takes it to the post api call
+  // TODO(alishaevn): put a real function here that accepts our data and takes it to the post api call
   const postRequestForm = (requestForm) => {
     console.log({ requestForm })
   }
