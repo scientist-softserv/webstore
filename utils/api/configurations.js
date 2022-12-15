@@ -87,3 +87,5 @@ export const configure_status = (status) => {
 
   return status
 }
+
+export const normalize_date_test = normalize_date
