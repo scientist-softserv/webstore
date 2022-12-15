@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import {
   Loading,
+  RequestStats,
   StatusBar,
 } from 'webstore-component-library'
 import { getOneRequest, STATUS_ARRAY } from '../../utils'
@@ -13,10 +14,18 @@ const Request = () => {
 
   if (isLoadingRequest) return <Loading wrapperClass='item-page' />
   if (isRequestError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
-  console.log('status::', request.status)
+
 
   return(
-    <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status} />
+    <>
+      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status} />
+      <RequestStats
+        billingInfo={{ ...request.billingAddress }}
+        createdAt={request.createdAt}
+        deadline={request.proposedDeadline}
+        shippingInfo={{ ...request.shippingAddress }}
+      />
+    </>
   )
 }
 
