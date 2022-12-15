@@ -89,3 +89,13 @@ export const configure_status = (status) => {
 }
 
 export const normalize_date_test = normalize_date
+
+export const configureMessages = (data) => {
+  const filteredMessages = data.filter(d => d.user_ref)
+
+  return filteredMessages.map(note => ({
+    avatar: note.user_ref.image,
+    body: note.body,
+    name: `${note.user_ref.first_name} ${note.user_ref.first_name}`,
+  }))
+}

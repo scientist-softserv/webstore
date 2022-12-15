@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { configure_status } from './configurations'
+import { configureMessages, configure_status } from './configurations'
 import { fetcher } from './fetcher'
 
 export const getAllRequests = () => {
@@ -42,5 +42,17 @@ export const getAllSOWs = (id) => {
     all_sows: data,
     isLoadingSOWs: !error && !data,
     isSOWError: error,
+  }
+}
+
+export const getAllMessages = (id) => {
+  const { data, error } = useSWR(`/quote_groups/${id}/notes.json`, fetcher)
+  let messages
+  if (data) messages = configureMessages(data.notes)
+
+  return {
+    messages,
+    isLoadingMessages: !error && !data,
+    isMessageError: error,
   }
 }
