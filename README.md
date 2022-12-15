@@ -60,4 +60,10 @@ and press `a` to run all jest tests in the project
 ## Cypress
 Cypress is an desktop application that runs on your computer. Cypress is already installed on this project, but your machine will need to meet certain [system requirements](https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements) to run the Cypress application.
 
-If you meet the requirements in the Cypress docs, you can run the `yarn run cypress open` command to start cypress.
+If you meet the requirements in the Cypress docs, you can run the `yarn run cypress open` command to start Cypress. from the Cypress desktop app, you will be able to create and run tests.
+
+There are 2 types of Cypress tests, e2e & component. 
+  - e2e: tests entire flows of the application
+  - component: tests components in isolation
+
+If you are creating an e2e test, it will live in the `cypress/e2e` directory. Component tests will need to be created in a directory called `cypress/component `
