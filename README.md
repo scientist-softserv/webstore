@@ -45,3 +45,19 @@ yarn lint
 # use autocorrect
 yarn lint --fix
 ```
+
+# Testing
+
+This project uses both Cypress and Jest for testing.
+
+## Jest
+To run all jest tests for files you have changed, run
+```
+yarn run test
+```
+and press `a` to run all jest tests in the project
+
+## Cypress
+Cypress is an desktop application that runs on your computer. Cypress is already installed on this project, but your machine will need to meet certain [system requirements](https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements) to run the Cypress application.
+
+If you meet the requirements in the Cypress docs, you can run the `yarn run cypress open` command to start cypress.

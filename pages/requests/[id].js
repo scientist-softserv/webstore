@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import {
   ActionsGroup,
   Loading,
+  RequestStats,
   StatusBar,
 } from 'webstore-component-library'
 import { getOneRequest, sendMessage, STATUS_ARRAY } from '../../utils'
@@ -21,6 +22,12 @@ const Request = () => {
     <>
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status} />
       <ActionsGroup handleSendingMessages={handleSendingMessages} />
+      <RequestStats
+        billingInfo={{ ...request.billingAddress }}
+        createdAt={request.createdAt}
+        deadline={request.proposedDeadline}
+        shippingInfo={{ ...request.shippingAddress }}
+      />
     </>
   )
 }
