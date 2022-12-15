@@ -1,6 +1,6 @@
 import useSWR from 'swr'
-import { configure_requests } from './configurations'
-import { fetcher } from './fetcher'
+import { configure_requests, configure_status } from './configurations'
+import { fetcher, posting } from './base'
 
 export const getAllRequests = () => {
   const { data, error } = useSWR(`/quote_groups/mine.json`, fetcher)
@@ -37,4 +37,14 @@ export const getAllSOWs = (id) => {
     isLoadingSOWs: !error && !data,
     isSOWError: error,
   }
+}
+
+export const sendMessage = ({ id, message, files }) => {
+  const note = {
+    body: message,
+    quoted_ware_ids: [id],
+    data_files: files,
+  }
+
+  posting(`/quote_groups/${id}/notes.json`, note)
 }
