@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router'
+import { Accordion } from 'react-bootstrap'
 import {
   ActionsGroup,
+  CollapsibleSection,
   Loading,
-  RequestStats,
+  // RequestStats,
   StatusBar,
   Title,
-  TextBox,
 } from 'webstore-component-library'
 import { getOneRequest, sendMessage, STATUS_ARRAY } from '../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
@@ -19,19 +20,19 @@ const Request = () => {
   if (isRequestError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
-
+  console.log(request)
   return(
     <div className='container'>
-      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status} />
-      <ActionsGroup handleSendingMessages={handleSendingMessages} />
-      <RequestStats
-        billingInfo={{ ...request.billingAddress }}
-        createdAt={request.createdAt}
-        deadline={request.proposedDeadline}
-        shippingInfo={{ ...request.shippingAddress }}
-      />
-      <Title title={request.name} addClass='mt-5'/>
-      <div dangerouslySetInnerHTML={{__html: request.description}} className='mt-2'/>
+      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status} addClass='mt-4'/>
+      <div className='row'>
+        <div className='col-sm-3 mt-4'>
+          <ActionsGroup handleSendingMessages={handleSendingMessages}/>
+        </div>
+        <div className='col-sm-9 mt-4'>
+          <Title title={request.title}/>
+          <CollapsibleSection header='Additional Information' description={request.htmlDescription}/>
+        </div>
+      </div>
     </div>
   )
 }

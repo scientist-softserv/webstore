@@ -32,6 +32,7 @@ export const configure_requests = ({ data, path }) => {
       },
       createdAt: normalize_date(request.created_at),
       description: normalize_description(request.description),
+      htmlDescription: request.description,
       href: `${path}/${request.id}`,
       id: request.id,
       // TODO(alishaevn): pass the actual image here when it's available
