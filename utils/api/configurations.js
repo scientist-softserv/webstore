@@ -35,6 +35,7 @@ export const configure_requests = ({ data, path }) => {
       htmlDescription: request.description,
       href: `${path}/${request.id}`,
       id: request.id,
+      identifier: request.identifier,
       // TODO(alishaevn): pass the actual image here when it's available
       img: DEFAULT_WARE_IMAGE,
       proposedDeadline: normalize_date(request.proposed_deadline),
@@ -96,3 +97,38 @@ export const configure_status = (status) => {
 
   return status
 }
+
+export const configure_documents = (documents, requestIdentifier) => {
+  return documents?.map(document => ({
+    identifier: document.identifier,
+    date: normalize_date(document.created_at),
+    documentStatus: document.status,
+    documentStatusColor: statusColors[configure_status(document.status)].bg,
+    documentType: document.type,
+    documentTypeColor: 'bg-dark',
+    lineItems: configure_line_items(document.line_items),
+    requestIdentifier,
+    subtotalPrice: document.retail_subtotal_price_currency,
+    taxAmount: document.tax_cost_currency,
+    terms: document.payment_terms,
+    totalPrice: document.retail_total_price_currency,
+    shippingPrice: document.shipping_cost_currency,
+    shipTo: {
+      organizationName: document.ship_to.organization_name,
+      text: document.ship_to.text,
+    },
+    shipFrom: {
+      organizationName: document.ship_from.organization_name,
+      text: document.ship_from.text,
+    },
+  }))
+}
+
+const configure_line_items = (lineItems) => (lineItems.map(lineItem => ({
+  id: lineItem.id,
+  quantity: lineItem.quantity,
+  currency: lineItem.currency,
+  name: lineItem.name,
+  total: lineItem.retail_subtotal_price_currency,
+  unitPrice: lineItem.unit_price,
+})))
