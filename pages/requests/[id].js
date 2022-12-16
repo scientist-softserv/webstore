@@ -20,7 +20,6 @@ const Request = () => {
   if (isRequestError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
-  console.log(request)
   return(
     <div className='container'>
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status} addClass='mt-4'/>
