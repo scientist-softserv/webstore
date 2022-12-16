@@ -61,8 +61,8 @@ const normalize_description = (text) => {
   const length = 350
 
   return description.length > length
-          ? `${description.substring(0, length - 3)}...`
-          : description
+    ? `${description.substring(0, length - 3)}...`
+    : description
 }
 
 export const normalize_date = (str) => {
@@ -75,24 +75,24 @@ export const configure_status = (status) => {
   // https://github.com/assaydepot/rx/blob/6d2c3b10b25937d783cbf42ff0f965fde27a5f83/app/modules/pg/quote_group_statuses.rb#L16
 
   switch (status) {
-    case 'Completed':
-    case 'Work Completed':
-    case 'Closed':
-    case 'Cancelled':
-      status = 'Work Completed'
-      break
+  case 'Completed':
+  case 'Work Completed':
+  case 'Closed':
+  case 'Cancelled':
+    status = 'Work Completed'
+    break
 
-    case 'Work In Progress':
-      status = 'Work Started'
-      break
+  case 'Work In Progress':
+    status = 'Work Started'
+    break
 
-    case 'SOW Submitted':
-    case 'Estimate Submitted':
-      status = 'SOW Selection'
-      break
+  case 'SOW Submitted':
+  case 'Estimate Submitted':
+    status = 'SOW Selection'
+    break
 
-    default:
-      status = 'Supplier Review'
+  default:
+    status = 'Supplier Review'
   }
 
   return status

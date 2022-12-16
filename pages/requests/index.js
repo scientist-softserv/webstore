@@ -5,10 +5,10 @@ import {
   RequestList,
   Title,
 } from 'webstore-component-library'
-import { dark, getAllRequests } from '../../utils'
+import { dark, GetAllRequests } from '../../utils'
 
 const Requests = ({ ...props }) => {
-  const { requests, isLoading, isError } = getAllRequests()
+  const { requests, isLoading, isError } = GetAllRequests()
   const { user, userError, userLoading } = props
 
   if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>

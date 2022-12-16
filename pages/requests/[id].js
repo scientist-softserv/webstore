@@ -8,14 +8,14 @@ import {
   StatusBar,
   Title,
 } from 'webstore-component-library'
-import { getOneRequest, sendMessage, getAllSOWs, STATUS_ARRAY } from '../../utils'
+import { GetOneRequest, sendMessage, GetAllSOWs, STATUS_ARRAY } from '../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const Request = () => {
   const router = useRouter()
   const { id } = router.query
-  const { request, isLoadingRequest, isRequestError } = getOneRequest(id)
-  const {  allSOWs, isLoadingSOWs, isSOWError } = getAllSOWs(id, request.identifier)
+  const { request, isLoadingRequest, isRequestError } = GetOneRequest(id)
+  const {  allSOWs, isLoadingSOWs, isSOWError } = GetAllSOWs(id, request.identifier)
   console.log(allSOWs)
 
   if (isLoadingRequest) return <Loading wrapperClass='item-page' />
