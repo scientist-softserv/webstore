@@ -26,6 +26,12 @@ const Request = () => {
       <div className='row'>
         <div className='col-sm-3 mt-4'>
           <ActionsGroup handleSendingMessages={handleSendingMessages}/>
+          <RequestStats
+            billingInfo={{ ...request.billingAddress }}
+            createdAt={request.createdAt}
+            deadline={request.proposedDeadline}
+            shippingInfo={{ ...request.shippingAddress }}
+          />
         </div>
         <div className='col-sm-9 mt-4'>
           <Title title={request.title}/>
