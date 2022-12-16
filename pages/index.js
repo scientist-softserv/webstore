@@ -16,7 +16,7 @@ import {
 const Home = () => {
   const router = useRouter()
   const { wares, isLoading, isError } = useAllWares()
-  const featured_services = configureServices({ data: wares, path: '/services' })?.slice(0, 3)
+  const featuredServices = configureServices({ data: wares, path: '/services' })?.slice(0, 3)
   const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
 
   if (isError) return <h1>Error...</h1>
@@ -34,7 +34,7 @@ const Home = () => {
         <SearchBar onSubmit={handleOnSubmit} />
         <TitledTextBox title={TITLE} text={TEXT} />
         <ItemGroup
-          items={featured_services}
+          items={featuredServices}
           isLoading={isLoading}
           withTitleLink={true}
         />
