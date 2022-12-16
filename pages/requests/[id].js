@@ -4,7 +4,7 @@ import {
   ActionsGroup,
   CollapsibleSection,
   Loading,
-  // RequestStats,
+  RequestStats,
   StatusBar,
   Title,
 } from 'webstore-component-library'
