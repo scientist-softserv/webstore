@@ -35,6 +35,7 @@ export const configure_requests = ({ data, path }) => {
       htmlDescription: request.description,
       href: `${path}/${request.id}`,
       id: request.id,
+      identifier: request.identifier,
       // TODO(alishaevn): pass the actual image here when it's available
       img: DEFAULT_WARE_IMAGE,
       proposedDeadline: normalize_date(request.proposed_deadline),
@@ -60,11 +61,11 @@ const normalize_description = (text) => {
   const length = 350
 
   return description.length > length
-          ? `${description.substring(0, length - 3)}...`
-          : description
+    ? `${description.substring(0, length - 3)}...`
+    : description
 }
 
-const normalize_date = (str) => {
+export const normalize_date = (str) => {
   const date = new Date(str)
   return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
 }
@@ -74,27 +75,60 @@ export const configure_status = (status) => {
   // https://github.com/assaydepot/rx/blob/6d2c3b10b25937d783cbf42ff0f965fde27a5f83/app/modules/pg/quote_group_statuses.rb#L16
 
   switch (status) {
-    case 'Completed':
-    case 'Work Completed':
-    case 'Closed':
-    case 'Cancelled':
-      status = 'Work Completed'
-      break
+  case 'Completed':
+  case 'Work Completed':
+  case 'Closed':
+  case 'Cancelled':
+    status = 'Work Completed'
+    break
 
-    case 'Work In Progress':
-      status = 'Work Started'
-      break
+  case 'Work In Progress':
+    status = 'Work Started'
+    break
 
-    case 'SOW Submitted':
-    case 'Estimate Submitted':
-      status = 'SOW Selection'
-      break
+  case 'SOW Submitted':
+  case 'Estimate Submitted':
+    status = 'SOW Selection'
+    break
 
-    default:
-      status = 'Supplier Review'
+  default:
+    status = 'Supplier Review'
   }
 
   return status
 }
 
-export const normalize_date_test = normalize_date
+export const configure_documents = (documents, requestIdentifier) => {
+  return documents?.map(document => ({
+    identifier: document.identifier,
+    date: normalize_date(document.created_at),
+    documentStatus: document.status,
+    documentStatusColor: statusColors[configure_status(document.status)].bg,
+    documentType: document.type,
+    documentTypeColor: 'bg-dark',
+    lineItems: configure_line_items(document.line_items),
+    requestIdentifier,
+    subtotalPrice: document.retail_subtotal_price_currency,
+    taxAmount: document.tax_cost_currency,
+    terms: document.payment_terms,
+    totalPrice: document.retail_total_price_currency,
+    shippingPrice: document.shipping_cost_currency,
+    shipTo: {
+      organizationName: document.ship_to.organization_name,
+      text: document.ship_to.text,
+    },
+    shipFrom: {
+      organizationName: document.ship_from.organization_name,
+      text: document.ship_from.text,
+    },
+  }))
+}
+
+const configure_line_items = (lineItems) => (lineItems.map(lineItem => ({
+  id: lineItem.id,
+  quantity: lineItem.quantity,
+  currency: lineItem.currency,
+  name: lineItem.name,
+  total: lineItem.retail_subtotal_price_currency,
+  unitPrice: lineItem.unit_price,
+})))
