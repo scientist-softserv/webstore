@@ -1,7 +1,7 @@
 import { DEFAULT_WARE_IMAGE } from '../constants'
 import { statusColors } from '../theme'
 
-export const configure_services = ({ data, path }) => {
+export const configureServices = ({ data, path }) => {
   return data?.map(ware => {
     const img = ware.promo_image
       ? { src: ware.promo_image, alt: `The promotional image for ${ware.name}` }
@@ -17,28 +17,28 @@ export const configure_services = ({ data, path }) => {
   })
 }
 
-export const configure_requests = ({ data, path }) => {
+export const configureRequests = ({ data, path }) => {
   const sorted_requests = Array.isArray(data)
     ? data.sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     : [data]
 
   return sorted_requests?.map(request => {
-    const status = configure_status(request.status)
+    const status = configureStatus(request.status)
 
     return {
       billingAddress: {
         address: request.billing_address?.text,
         id: request.billing_address?.id,
       },
-      createdAt: normalize_date(request.created_at),
-      description: normalize_description(request.description),
+      createdAt: normalizeDate(request.created_at),
+      description: normalizeDescription(request.description),
       htmlDescription: request.description,
       href: `${path}/${request.id}`,
       id: request.id,
       identifier: request.identifier,
       // TODO(alishaevn): pass the actual image here when it's available
       img: DEFAULT_WARE_IMAGE,
-      proposedDeadline: normalize_date(request.proposed_deadline),
+      proposedDeadline: normalizeDate(request.proposed_deadline),
       shippingAddress: {
         address: request.shipping_address?.text,
         id: request.shipping_address?.id,
@@ -49,12 +49,12 @@ export const configure_requests = ({ data, path }) => {
         textColor: statusColors[status].text,
       },
       title: `${request.identifier}: ${request.name}`,
-      updatedAt: normalize_date(request.updated_at),
+      updatedAt: normalizeDate(request.updated_at),
     }
   })
 }
 
-const normalize_description = (text) => {
+const normalizeDescription = (text) => {
   // removes html elements, new lines, html comments and sections with 3 spaces from the string
   const regex = /(<([^>]+)>)|\n|-+>|   /g
   const description = text.replace(regex, '')
@@ -65,12 +65,12 @@ const normalize_description = (text) => {
     : description
 }
 
-export const normalize_date = (str) => {
+const normalizeDate = (str) => {
   const date = new Date(str)
   return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
 }
 
-export const configure_status = (status) => {
+export const configureStatus = (status) => {
   // account for some of the statuses at the link below that may accidentally be returned:
   // https://github.com/assaydepot/rx/blob/6d2c3b10b25937d783cbf42ff0f965fde27a5f83/app/modules/pg/quote_group_statuses.rb#L16
 
@@ -98,15 +98,15 @@ export const configure_status = (status) => {
   return status
 }
 
-export const configure_documents = (documents, requestIdentifier) => {
+export const configureDocuments = (documents, requestIdentifier) => {
   return documents?.map(document => ({
     identifier: document.identifier,
-    date: normalize_date(document.created_at),
+    date: normalizeDate(document.created_at),
     documentStatus: document.status,
     documentStatusColor: statusColors[configure_status(document.status)].bg,
     documentType: document.type,
     documentTypeColor: 'bg-dark',
-    lineItems: configure_line_items(document.line_items),
+    lineItems: configureLineItems(document.line_items),
     requestIdentifier,
     subtotalPrice: document.retail_subtotal_price_currency,
     taxAmount: document.tax_cost_currency,
@@ -124,7 +124,7 @@ export const configure_documents = (documents, requestIdentifier) => {
   }))
 }
 
-const configure_line_items = (lineItems) => (lineItems.map(lineItem => ({
+const configureLineItems = (lineItems) => (lineItems.map(lineItem => ({
   id: lineItem.id,
   quantity: lineItem.quantity,
   currency: lineItem.currency,

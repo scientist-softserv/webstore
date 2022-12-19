@@ -1,10 +1,10 @@
 import useSWR from 'swr'
-import { configure_documents, configure_requests } from './configurations'
+import { configureDocuments, configureRequests } from './configurations'
 import { fetcher, posting } from './base'
 
-export const getAllRequests = () => {
+export const useAllRequests = () => {
   const { data, error } = useSWR(`/quote_groups/mine.json`, fetcher)
-  const requests = data && configure_requests({ data: data.quote_group_refs, path: '/requests' })
+  const requests = data && configureRequests({ data: data.quote_group_refs, path: '/requests' })
 
   return {
     requests,
@@ -13,9 +13,9 @@ export const getAllRequests = () => {
   }
 }
 
-export const getOneRequest = (id) => {
+export const useOneRequest = (id) => {
   const { data, error } = useSWR(`/quote_groups/${id}.json`, fetcher)
-  let request = data && configure_requests({ data, path: '/requests' })[0]
+  let request = data && configureRequests({ data, path: '/requests' })[0]
   if (request) {
     request = {
       ...request,
@@ -31,11 +31,11 @@ export const getOneRequest = (id) => {
   }
 }
 
-export const getAllSOWs = (id, requestIdentifier) => {
+export const useAllSOWs = (id, requestIdentifier) => {
   const { data, error } = useSWR(`/quote_groups/${id}/proposals.json`, fetcher)
   let allSOWs
   if (data) {
-    allSOWs = configure_documents(data, requestIdentifier)
+    allSOWs = configureDocuments(data, requestIdentifier)
   }
 
   return {

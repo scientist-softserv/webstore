@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import { fetcher } from './base'
 
-export const getAllWares = () => {
+export const useAllWares = () => {
   const { data, error } = useSWR(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`, fetcher)
 
   return {
@@ -11,7 +11,7 @@ export const getAllWares = () => {
   }
 }
 
-export const getFilteredWares = (query) => {
+export const useFilteredWares = (query) => {
   const { data, error } = useSWR(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json&q=${query}`, fetcher)
 
   return {
@@ -21,7 +21,7 @@ export const getFilteredWares = (query) => {
   }
 }
 
-export const getOneWare = (id) => {
+export const useOneWare = (id) => {
   const { data, error } = useSWR(`/wares/${id}.json`, fetcher)
 
   return {

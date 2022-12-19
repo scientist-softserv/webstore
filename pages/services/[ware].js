@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 import { ItemPage, Loading } from 'webstore-component-library'
-import { DEFAULT_WARE_IMAGE, getOneWare } from '../../utils'
+import { DEFAULT_WARE_IMAGE, useOneWare } from '../../utils'
 
 const Service = () => {
   const router = useRouter()
   const { id } = router.query
-  const { ware, isLoading, isError } = getOneWare(id)
+  const { ware, isLoading, isError } = useOneWare(id)
 
   if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
 

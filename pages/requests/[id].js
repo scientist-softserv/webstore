@@ -8,14 +8,19 @@ import {
   StatusBar,
   Title,
 } from 'webstore-component-library'
-import { getOneRequest, sendMessage, getAllSOWs, STATUS_ARRAY } from '../../utils'
+import {
+  sendMessage,
+  STATUS_ARRAY,
+  useAllSOWs,
+  useOneRequest,
+} from '../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const Request = () => {
   const router = useRouter()
   const { id } = router.query
-  const { request, isLoadingRequest, isRequestError } = getOneRequest(id)
-  const {  allSOWs, isLoadingSOWs, isSOWError } = getAllSOWs(id, request?.identifier)
+  const { request, isLoadingRequest, isRequestError } = useOneRequest(id)
+  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier)
   console.log(allSOWs)
 
   if (isLoadingRequest || isLoadingSOWs) return <Loading wrapperClass='item-page' />
@@ -41,7 +46,7 @@ const Request = () => {
           <Title title={request.title}/>
           <CollapsibleSection header='Additional Information' description={request.htmlDescription}/>
           {allSOWs && allSOWs.map(document => (
-            <Document document={document} addClass='mt-3'/>
+            <Document key={request.id} document={document} addClass='mt-3'/>
           ))}
         </div>
       </div>
