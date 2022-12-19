@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { configureRequests } from './configurations'
+import { configureDocuments, configureRequests } from './configurations'
 import { fetcher, posting } from './base'
 
 export const useAllRequests = () => {
@@ -31,11 +31,15 @@ export const useOneRequest = (id) => {
   }
 }
 
-export const useAllSOWs = (id) => {
+export const useAllSOWs = (id, requestIdentifier) => {
   const { data, error } = useSWR(`/quote_groups/${id}/proposals.json`, fetcher)
+  let allSOWs
+  if (data) {
+    allSOWs = configureDocuments(data, requestIdentifier)
+  }
 
   return {
-    all_sows: data,
+    allSOWs,
     isLoadingSOWs: !error && !data,
     isSOWError: error,
   }
