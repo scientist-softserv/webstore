@@ -18,8 +18,8 @@ const Request = () => {
   const {  allSOWs, isLoadingSOWs, isSOWError } = getAllSOWs(id, request?.identifier)
   console.log(allSOWs)
 
-  if (isLoadingRequest) return <Loading wrapperClass='item-page' />
-  if (isRequestError) return <h1>{`${isRequestError.name}: ${isRequestError.message}`}</h1>
+  if (isLoadingRequest || isLoadingSOWs) return <Loading wrapperClass='item-page' />
+  if (isRequestError || isSOWError) return <h1>{`${isRequestError.name}: ${isRequestError.message}`}</h1>
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
   return(
