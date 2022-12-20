@@ -49,7 +49,7 @@ export const useAllSOWs = (id, requestIdentifier) => {
   }
 }
 
-export const getAllMessages = (id) => {
+export const useAllMessages = (id) => {
   const { data, error } = useSWR(`/quote_groups/${id}/notes.json`, fetcher)
   let messages
   if (data) messages = configureMessages(data.notes)

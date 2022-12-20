@@ -12,7 +12,7 @@ import {
 import {
   sendMessage,
   STATUS_ARRAY,
-  getAllMessages,
+  useAllMessages,
   useAllSOWs,
   useOneRequest,
 } from '../../utils'
@@ -23,7 +23,7 @@ const Request = () => {
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier)
-  const { messages, isLoadingMessages, isMessagesError } = getAllMessages(id)
+  const { messages, isLoadingMessages, isMessagesError } = useAllMessages(id)
 
   if (isLoadingRequest || isLoadingSOWs || isLoadingMessages) return <Loading wrapperClass='item-page' />
   if (isRequestError || isSOWError || isMessagesError) return <h1>{`${isRequestError.name}: ${isRequestError.message}`}</h1>
