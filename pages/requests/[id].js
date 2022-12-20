@@ -7,6 +7,7 @@ import {
   Messages,
   RequestStats,
   StatusBar,
+  TextBox,
   Title,
 } from 'webstore-component-library'
 import {
@@ -24,6 +25,7 @@ const Request = () => {
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier)
   const { messages, isLoadingMessages, isMessagesError } = useAllMessages(id)
+  const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
@@ -55,9 +57,16 @@ const Request = () => {
         <div className='col-sm-8 col-md-9 mt-4 order-0 order-sm-1'>
           <Title title={request.title} />
           <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
-          {allSOWs && allSOWs.map(document => (
-            <Document key={request.id} document={document} addClass='mt-3'/>
-          ))}
+          <Title addClass='mt-5' title='Documents' size='small' />
+          {documents.length ? documents.map(document => (
+            <Document key={request.id} document={document} addClass='mt-3' />
+          )) : (
+            <TextBox
+              alignment='left'
+              size='medium'
+              text='No documents have been submitted.'
+            />
+          )}
           <Messages addClass='mt-5' messages={messages} />
         </div>
       </div>
