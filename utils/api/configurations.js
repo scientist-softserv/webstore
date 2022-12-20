@@ -99,6 +99,8 @@ export const configureStatus = (status) => {
 }
 
 export const configureMessages = (data) => {
+  // NOTE(alishaevn): doing some basic filtering here until we come to a resolution on
+  // https://github.com/assaydepot/scientist_api_v2/issues/167
   const filteredMessages = data.filter(d => d.user_ref && d.body)
 
   return filteredMessages.map(note => ({
