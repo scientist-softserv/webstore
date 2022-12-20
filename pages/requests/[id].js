@@ -32,13 +32,14 @@ const Request = () => {
 
   if (isLoading) return <Loading wrapperClass='item-page' />
   if (isError) return [isRequestError, isSOWError, isMessagesError].map((err, index) => err && (
-    <>
+    <div key={index}>
       <h3>{index + 1}. {err.name}:</h3>
       <p>{err.message}</p>
-    </>
+    </div>
   ))
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
+
   return(
     <div className='container'>
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4'/>
