@@ -99,12 +99,12 @@ export const configureStatus = (status) => {
 }
 
 export const configureMessages = (data) => {
-  const filteredMessages = data.filter(d => d.user_ref)
+  const filteredMessages = data.filter(d => d.user_ref && d.body)
 
   return filteredMessages.map(note => ({
     avatar: note.user_ref.image,
     body: note.body,
-    name: `${note.user_ref.first_name} ${note.user_ref.first_name}`,
+    name: `${note.user_ref.first_name} ${note.user_ref.last_name}`,
   }))
 }
 

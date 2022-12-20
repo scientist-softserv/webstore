@@ -53,13 +53,13 @@ const Request = () => {
           </div>
         </div>
         <div className='col-sm-8 col-md-9 mt-4 order-0 order-sm-1'>
-          <Title title={request.title}/>
-          <CollapsibleSection header='Additional Information' description={request.htmlDescription}/>
+          <Title title={request.title} />
+          <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
           {allSOWs && allSOWs.map(document => (
             <Document key={request.id} document={document} addClass='mt-3'/>
           ))}
+          <Messages addClass='mt-5' messages={messages} />
         </div>
-        <Messages messages={messages} />
       </div>
     </div>
   )
