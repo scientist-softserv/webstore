@@ -106,6 +106,7 @@ export const configureMessages = (data) => {
   return filteredMessages.map(note => ({
     avatar: note.user_ref.image,
     body: note.body,
+    id: note.id,
     name: `${note.user_ref.first_name} ${note.user_ref.last_name}`,
   }))
 }
