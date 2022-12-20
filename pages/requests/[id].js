@@ -25,8 +25,16 @@ const Request = () => {
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier)
   const { messages, isLoadingMessages, isMessagesError } = useAllMessages(id)
 
-  if (isLoadingRequest || isLoadingSOWs || isLoadingMessages) return <Loading wrapperClass='item-page' />
-  if (isRequestError || isSOWError || isMessagesError) return <h1>{`${isRequestError.name}: ${isRequestError.message}`}</h1>
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
+  const isError = isRequestError || isSOWError || isMessagesError
+
+  if (isLoading) return <Loading wrapperClass='item-page' />
+  if (isError) return [isRequestError, isSOWError, isMessagesError].map((err, index) => err && (
+    <>
+      <h3>{index + 1}. {err.name}:</h3>
+      <p>{err.message}</p>
+    </>
+  ))
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
   return(
