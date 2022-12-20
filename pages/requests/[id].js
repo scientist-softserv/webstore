@@ -4,6 +4,7 @@ import {
   CollapsibleSection,
   Document,
   Loading,
+  Messages,
   RequestStats,
   StatusBar,
   Title,
@@ -11,6 +12,7 @@ import {
 import {
   sendMessage,
   STATUS_ARRAY,
+  useAllMessages,
   useAllSOWs,
   useOneRequest,
 } from '../../utils'
@@ -21,10 +23,18 @@ const Request = () => {
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier)
-  console.log(allSOWs)
+  const { messages, isLoadingMessages, isMessagesError } = useAllMessages(id)
 
-  if (isLoadingRequest || isLoadingSOWs) return <Loading wrapperClass='item-page' />
-  if (isRequestError || isSOWError) return <h1>{`${isRequestError.name}: ${isRequestError.message}`}</h1>
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
+  const isError = isRequestError || isSOWError || isMessagesError
+
+  if (isLoading) return <Loading wrapperClass='item-page' />
+  if (isError) return [isRequestError, isSOWError, isMessagesError].map((err, index) => err && (
+    <>
+      <h3>{index + 1}. {err.name}:</h3>
+      <p>{err.message}</p>
+    </>
+  ))
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
   return(
@@ -43,11 +53,12 @@ const Request = () => {
           </div>
         </div>
         <div className='col-sm-8 col-md-9 mt-4 order-0 order-sm-1'>
-          <Title title={request.title}/>
-          <CollapsibleSection header='Additional Information' description={request.htmlDescription}/>
+          <Title title={request.title} />
+          <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
           {allSOWs && allSOWs.map(document => (
             <Document key={request.id} document={document} addClass='mt-3'/>
           ))}
+          <Messages addClass='mt-5' messages={messages} />
         </div>
       </div>
     </div>
