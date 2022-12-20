@@ -103,7 +103,7 @@ export const configureDocuments = (documents, requestIdentifier) => {
     identifier: document.identifier,
     date: normalizeDate(document.created_at),
     documentStatus: document.status,
-    documentStatusColor: statusColors[configure_status(document.status)].bg,
+    documentStatusColor: statusColors[configureStatus(document.status)].bg,
     documentType: document.type,
     documentTypeColor: 'bg-dark',
     lineItems: configureLineItems(document.line_items),
