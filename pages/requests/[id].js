@@ -29,7 +29,7 @@ const Request = () => {
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
   return(
     <div className='container'>
-      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status} addClass='mt-4'/>
+      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4'/>
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
           <ActionsGroup handleSendingMessages={handleSendingMessages}/>
