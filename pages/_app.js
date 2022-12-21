@@ -1,5 +1,5 @@
 import { Footer, Header } from 'webstore-component-library'
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from 'next-auth/react'
 import { FOOTER_NAME, FOOTER_SECTIONS, FOOTER_SOCIALS, useCurrentUser, LOGO } from '../utils'
 import '../utils/theme/globals.scss'
 
