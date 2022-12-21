@@ -12,7 +12,7 @@ const NewBlankRequest = () => {
   }
 
   return (
-    <div className='container'>
+    <div className='container my-5'>
       <BlankRequestForm onSubmit={requestForm => postRequestForm(requestForm)} />
     </div>
   )

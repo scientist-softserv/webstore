@@ -79,9 +79,16 @@ export const createRequest = (requestForm) => {
   posting('/wares.json', form)
 }
 
-// this is the post for a ware that already has an ID/already exists- but if its a blank request, the ware does not yet have an id
+
+// post "/wares/#{peptide.primary_ware.id}/quote_groups.json", {pg_quote_group: json_payload}, { 'Authorization' => "Bearer #{access_token.token}"
+
+// peptide = the name of the organization
+// primary_ware = a ware that is generated - how is this done where there is not yet a ware? this is the post for a ware that already has an ID/already exists- but if its a blank request, the ware does not yet have an id
 
 // primary_ware is a pg_ware defined by factorybot: https://github.com/assaydepot/rx/blob/4de536d040dcef37d1a2884b581b182497c528ec/spec/factories/wares.rb
+
+// quote_group_params function- these are all the params that the request is expecting
+//https://github.com/assaydepot/scientist_api_v2/pull/186/files#:~:text=def-,create_quote_group_params,-params.require
 
 // factory :pg_ware, class: Pg::Ware do
 // name          { Faker::Scientist::Service.title }
@@ -89,13 +96,6 @@ export const createRequest = (requestForm) => {
 // ware_type     "CustomService"
 // organizations { Pg::Organization.canonical }
 // description   { Faker::Lorem.paragraphs(number: 3) }
-
-// factory :pg_ware_default  do
-//   name 'make-a-request'
-//   slug 'make-a-request'
-// end
-
-// post "/wares/#{peptide.primary_ware.id}/quote_groups.json", {pg_quote_group: json_payload}, { 'Authorization' => "Bearer #{access_token.token}"
 
 // let(:json_payload) {
 //   {
