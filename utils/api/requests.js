@@ -70,3 +70,41 @@ export const sendMessage = ({ id, message, files }) => {
 
   posting(`/quote_groups/${id}/notes.json`, note)
 }
+
+export const createRequest = (requestForm) => {
+  console.log(requestForm, 'requests file')
+  const form = {
+    //configure form here
+  }
+  posting('/wares.json', form)
+}
+
+// this is the post for a ware that already has an ID/already exists- but if its a blank request, the ware does not yet have an id
+
+// primary_ware is a pg_ware defined by factorybot: https://github.com/assaydepot/rx/blob/4de536d040dcef37d1a2884b581b182497c528ec/spec/factories/wares.rb
+
+// factory :pg_ware, class: Pg::Ware do
+// name          { Faker::Scientist::Service.title }
+// snippet       { Faker::Lorem.paragraphs(number: 2) }
+// ware_type     "CustomService"
+// organizations { Pg::Organization.canonical }
+// description   { Faker::Lorem.paragraphs(number: 3) }
+
+// factory :pg_ware_default  do
+//   name 'make-a-request'
+//   slug 'make-a-request'
+// end
+
+// post "/wares/#{peptide.primary_ware.id}/quote_groups.json", {pg_quote_group: json_payload}, { 'Authorization' => "Bearer #{access_token.token}"
+
+// let(:json_payload) {
+//   {
+//     name: "#{quote_group.name}_clone",
+//     description: "some quoted ware",
+//     provider_ids: quote_group.providers.pluck(:id),
+//     provider_names: quote_group.providers.pluck(:name),
+//     proposed_deadline_str: DateTime.now.to_s,
+//     site: site.attributes.slice("name", "billing_same_as_shipping"),
+//     shipping_address_attributes: site.shipping_address.attributes
+//   }
+// }
