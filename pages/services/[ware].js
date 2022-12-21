@@ -8,7 +8,6 @@ const Service = () => {
   const { ware, isLoading, isError } = useOneWare(id)
 
   if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
-
   return (
     <>
       {isLoading
@@ -18,9 +17,10 @@ const Service = () => {
           <ItemPage
             title={ware.name}
             description={ware.description || ware.snippet}
-            // TODO(alishaevn): update the below to an actual image once
-            // https://github.com/assaydepot/scientist_api_v2/issues/184 is completed
-            img={DEFAULT_WARE_IMAGE}
+            img={{
+              src: ware.url.promo_image,
+              alt: `The promotional image for ${ware.name}`,
+            }}
           />
         )
       }
