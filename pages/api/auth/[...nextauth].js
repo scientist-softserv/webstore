@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth'
+let rootPath = process.env.NEXTAUTH_URL
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -22,16 +23,24 @@ const authOptions = {
       // profileUrl: '',
       profile(profile) {
         console.log(profile)
-        return profile
         return {
-          id: profile.id,
-          name: profile.scientist_account?.profile.nickname,
-          email: profile.scientist_account?.email,
-          image: profile.scientist_account?.profile.profile_image_url,
+          id: 80322,
+          email: 'summer@scientist.com',
+          // id: profile.id,
+          // name: profile.scientist_account?.profile.nickname,
+          // email: profile.scientist_account?.email,
+          // image: profile.scientist_account?.profile.profile_image_url,
         }
       },
     }
   ],
+  // pages: {
+    // signIn: `${rootPath}/login`,
+    // signOut: '/auth/signout',
+    // error: '/auth/error', // Error code passed in query string as ?error=
+    // verifyRequest: '/auth/verify-request', // (used for check email message)
+    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+  // },
   // jwt: {
   //   // The maximum age of the NextAuth.js issued JWT in seconds.
   //   // Defaults to `session.maxAge`.
@@ -43,7 +52,7 @@ const authOptions = {
   session: {
     strategy: 'jwt',
   },
-  useSecureCookies: true,
+  // useSecureCookies: true,
   callbacks: {
     async redirect({ url, baseUrl }) {
       console.log({url, baseUrl})
