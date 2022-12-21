@@ -3,13 +3,16 @@ import NextAuth from 'next-auth'
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 const authOptions = {
-// const authOptions = (req, res) => ({
+  // const authOptions = (req, res) => ({
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     {
       id: 'acme',
       name: 'Acme',
       type: 'oauth',
+      checks: ['pkce', 'state'],
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
       authorization: 'https://acme.scientist.com/oauth/authorize',
       token: 'https://acme.scientist.com/oauth/token',
       userinfo: {
@@ -27,11 +30,8 @@ const authOptions = {
           image: profile.scientist_account?.profile.profile_image_url,
         }
       },
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
     }
   ],
-  // checks: ['pkce', 'state'],
   // jwt: {
   //   // The maximum age of the NextAuth.js issued JWT in seconds.
   //   // Defaults to `session.maxAge`.
@@ -40,6 +40,10 @@ const authOptions = {
   //   async encode() {},
   //   async decode() {},
   // },
+  session: {
+    strategy: 'jwt',
+  },
+  useSecureCookies: true,
   callbacks: {
     async redirect({ url, baseUrl }) {
       console.log({url, baseUrl})
