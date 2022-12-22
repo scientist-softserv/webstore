@@ -106,13 +106,16 @@ export const configureStatus = (status) => {
 export const configureMessages = (data) => {
   // NOTE(alishaevn): doing some basic filtering here until we come to a resolution on
   // https://github.com/assaydepot/scientist_api_v2/issues/167
-  const filteredMessages = data.filter(d => d.user_ref && d.body)
+  console.log(data)
+  const filteredMessages = data.filter(d => d.user_ref && d.body && d.created_at && d.attachments)
 
   return filteredMessages.map(note => ({
     avatar: note.user_ref.image,
     body: note.body,
     id: note.id,
     name: `${note.user_ref.first_name} ${note.user_ref.last_name}`,
+    dateAndTime: normalizeDate(note.created_at),
+    attachments: note.attachments,
   }))
 }
 
