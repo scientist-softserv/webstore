@@ -71,7 +71,7 @@ export const sendMessage = ({ id, message, files }) => {
   posting(`/quote_groups/${id}/notes.json`, note)
 }
 
-export const createRequest = (requestForm) => {
+export const createRequest = (requestForm, id) => {
   console.log(requestForm, 'requests file')
   const form = {
     // quote_group_params function- these are all the params that the request is expecting
@@ -121,5 +121,5 @@ export const createRequest = (requestForm) => {
   }
   // Ron's comment says this should use the following endpoint. But, how would be know the ware-id here? Is the request not for a new ware? Or is it generated?
   // /wares/:ware-id/quote_groups.json
-  posting('/wares.json', form)
+  posting(`/wares/${id}/quote_groups.json`, form)
 }

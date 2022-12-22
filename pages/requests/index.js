@@ -19,7 +19,8 @@ const Requests = ({ ...props }) => {
     <>
       {user ? (
         <div className='container'>
-          <LinkedButton
+          {/* TODO: this button should either be removed, or should link to the list of services (wares) */}
+          {/* <LinkedButton
             buttonProps={{
               backgroundColor: dark,
               label: 'Initiate a New Request',
@@ -27,7 +28,7 @@ const Requests = ({ ...props }) => {
             }}
             path='/requests/new'
             addClass='text-end d-block mt-4 mb-2'
-          />
+          /> */}
           <RequestList requests={requests} />
         </div>
       ): (
