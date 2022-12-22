@@ -18,7 +18,7 @@ const Requests = ({ ...props }) => {
   return (
     <>
       {user ? (
-        <div className='container'>
+        <div className='container mt-5'>
           {/* TODO: this button should either be removed, or should link to the list of services (wares) */}
           {/* <LinkedButton
             buttonProps={{
@@ -32,9 +32,8 @@ const Requests = ({ ...props }) => {
           <RequestList requests={requests} />
         </div>
       ): (
-        <div className='container'>
+        <div className='container mt-2'>
           <Title
-            addClass='mt-2'
             size='medium'
             title='Please log in to make new requests or view existing ones.'
           />
