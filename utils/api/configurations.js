@@ -32,7 +32,7 @@ export const configureRequests = ({ data, path }) => {
       },
       createdAt: normalizeDate(request.created_at),
       description: normalizeDescription(request.description),
-      htmlDescription: request.description,
+      htmlDescription: normalizeHtmlDescription(request.description),
       href: `${path}/${request.id}`,
       id: request.id,
       identifier: request.identifier,
@@ -52,6 +52,11 @@ export const configureRequests = ({ data, path }) => {
       updatedAt: normalizeDate(request.updated_at),
     }
   })
+}
+
+const normalizeHtmlDescription = (text) => {
+  const regex = / style="white-space: pre-line;"/g
+  return text.replace(regex, '')
 }
 
 const normalizeDescription = (text) => {
