@@ -114,7 +114,7 @@ export const configureMessages = (data) => {
     id: note.id,
     name: `${note.user_ref.first_name} ${note.user_ref.last_name}`,
     dateAndTime: note.created_at,
-    attachments: note.attachments,
+    attachments: note.attachments || [],
   }))
 }
 
