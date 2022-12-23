@@ -113,7 +113,7 @@ export const configureMessages = (data) => {
     body: note.body,
     id: note.id,
     name: `${note.user_ref.first_name} ${note.user_ref.last_name}`,
-    dateAndTime: normalizeDate(note.created_at),
+    dateAndTime: note.created_at,
     attachments: note.attachments,
   }))
 }
