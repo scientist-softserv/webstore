@@ -1,8 +1,12 @@
 import React from 'react'
 import { BlankRequestForm } from 'webstore-component-library'
+// TODO(alishaevn): comment this back in when it's working
+// import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
+
 // TODO(alishaevn): come back to this page once the initialize api function has been created. re: the thread below
 // https://assaydepot.slack.com/archives/C03FZDALABG/p1670605791891109
+// we may wind up not needing this page at all if we have a default ware
 
 const NewBlankRequest = () => {
   const initialState = {
@@ -30,6 +34,7 @@ const NewBlankRequest = () => {
     data: {
       timeline: '',
       description: '',
+      // TODO(alishaevn): does the api post function account for the supplier or does that need to be part of state?
       suppliersIdentified: 'Yes',
     },
     // TODO(alishaevn): how do we handle attachments?
