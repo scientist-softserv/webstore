@@ -171,7 +171,7 @@ export const configureMessages = (data) => {
     timeSince: timeSince(Date.parse(note.created_at)),
     attachments: note.attachments.map((attachment) => ({
       ...attachment,
-      content_length: formatBytes(attachment.content_length),
+      contentLength: formatBytes(attachment.content_length),
       href: `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME}.scientist.com/secure_attachments/${attachment.uuid}`
     })) || [],
   }))
