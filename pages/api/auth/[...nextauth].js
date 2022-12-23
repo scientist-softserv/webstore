@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth'
-let rootPath = process.env.NEXTAUTH_URL
+import { baseURL } from '../../../utils'
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -16,16 +16,16 @@ const authOptions = {
       clientSecret: process.env.CLIENT_SECRET,
       authorization: 'https://acme.scientist.com/oauth/authorize',
       token: 'https://acme.scientist.com/oauth/token',
-      userinfo: {
-        request: () => {}
-      },
+      // userinfo: {
+      //   request: () => {}
+      // },
+      userinfo: `${baseURL}/users/profile`,
       // the profile url is the api endpoint. is that correct? do we even need it?
-      // profileUrl: '',
+      // profileUrl: `${baseURL}/users/profile.json`,
       profile(profile) {
         console.log(profile)
+        return profile
         return {
-          id: 80322,
-          email: 'summer@scientist.com',
           // id: profile.id,
           // name: profile.scientist_account?.profile.nickname,
           // email: profile.scientist_account?.email,
