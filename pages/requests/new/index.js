@@ -1,21 +1,14 @@
-import React, { useState } from 'react'
-import { useRouter } from 'next/router'
-import {
-  AdditionalInfo,
-  Button,
-  ShippingDetails,
-  Title,
-} from 'webstore-component-library'
+import React from 'react'
+import { BlankRequestForm } from 'webstore-component-library'
 // TODO(alishaevn): comment this back in when it's working
 // import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
+
 // TODO(alishaevn): come back to this page once the initialize api function has been created. re: the thread below
 // https://assaydepot.slack.com/archives/C03FZDALABG/p1670605791891109
+// we may wind up not needing this page at all if we have a default ware
 
-const NewServiceRequest = () => {
-  const router = useRouter()
-  const { ware } = router.query
-
+const NewBlankRequest = () => {
   const initialState = {
     name: 'New Request',
     billingSameAsShipping: false,
@@ -81,9 +74,9 @@ const NewServiceRequest = () => {
 
   return(
     <div className='container'>
-      <Title title={ware} addClass='my-4' />
+      <Title title='New Request' addClass='mt-4' />
       <form onSubmit={handleSubmit} id='new-request-form'>
-        {/* TODO(alishaevn): add the dynamic form that's returned from the "initialize" endpoint */}
+        <BlankRequestForm updateRequestForm={updateRequestForm} />
         <div className='row'>
           <div className='col'>
             <ShippingDetails
@@ -108,4 +101,4 @@ const NewServiceRequest = () => {
   )
 }
 
-export default NewRequest
+export default NewBlankRequest

@@ -32,13 +32,14 @@ const Request = () => {
 
   if (isLoading) return <Loading wrapperClass='item-page' />
   if (isError) return [isRequestError, isSOWError, isMessagesError].map((err, index) => err && (
-    <>
+    <div key={index}>
       <h3>{index + 1}. {err.name}:</h3>
       <p>{err.message}</p>
-    </>
+    </div>
   ))
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
+
   return(
     <div className='container'>
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4'/>
@@ -57,7 +58,7 @@ const Request = () => {
         <div className='col-sm-8 col-md-9 mt-4 order-0 order-sm-1'>
           <Title title={request.title} />
           <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
-          <Title addClass='mt-5' title='Documents' size='small' />
+          <Title addClass='mt-4' title='Documents' size='small' />
           {documents.length ? documents.map(document => (
             <Document key={request.id} document={document} addClass='mt-3' />
           )) : (
@@ -67,7 +68,7 @@ const Request = () => {
               text='No documents have been submitted.'
             />
           )}
-          <Messages addClass='mt-5' messages={messages} />
+          <Messages addClass='mt-4' messages={messages} />
         </div>
       </div>
     </div>

@@ -19,7 +19,7 @@ const Home = () => {
   const featuredServices = configureServices({ data: wares, path: '/services' })?.slice(0, 3)
   const handleOnSubmit = ({ value }) => router.push({ pathname: '/browse', query: { q: value } }, '/browse')
 
-  if (isError) return <h1>Error...</h1>
+  if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
 
   return (
     <>
