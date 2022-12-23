@@ -173,7 +173,7 @@ export const configureMessages = (data) => {
       ...attachment,
       content_length: formatBytes(attachment.content_length),
       href: `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME}.scientist.com/secure_attachments/${attachment.uuid}`
-    })),
+    })) || [],
   }))
 }
 
