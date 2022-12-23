@@ -97,14 +97,14 @@ export const timeSince = function(date) {
       } else {
         interval = Math.floor(seconds / 3600);
         if (interval >= 1) {
-          intervalType = "hour";
+          intervalType = 'hour';
         } else {
           interval = Math.floor(seconds / 60);
           if (interval >= 1) {
-            intervalType = "minute";
+            intervalType = 'minute';
           } else {
             interval = seconds;
-            intervalType = "second";
+            intervalType = 'second';
           }
         }
       }
