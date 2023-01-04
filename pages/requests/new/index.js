@@ -75,7 +75,7 @@ const NewBlankRequest = () => {
     // If i fill out the form incorrectly (missing fields etc),
     //  the values are not submitted, but the validations DO show up.
     // After fixing an incorrect form, if I try to submit again, the values are NOT submitted.
-    // since this method uses regular bootstrap JS vs react bootstrap
+    // since this method uses regular bootstrap JS vs react bootstrap, i think that there is an issue with the state of the form. react bootstrap includes a 'validated' prop and i think using that would work better here. 
     var forms = document.querySelectorAll('.needs-validation')
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
