@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Form from 'react-bootstrap/Form';
 import { useRouter } from 'next/router'
 import { primary } from '../../../utils/theme/variables'
 import {
@@ -81,24 +82,18 @@ const NewServiceRequest = () => {
 
     // TODO(alishaevn): comment this back in when it's working
     // createRequest(requestForm)
+    // TODO(summercook): double check that a new request is not being created if all fields are not validated. 
     console.log(requestForm)
   }
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault()
-  //   if (requestForm.billingSameAsShipping === true) {
-  //     Object.assign(requestForm.billing, requestForm.shipping)
-  //   }
-
-  //   console.log(requestForm)
-  //   // TODO(alishaevn): comment this back in when it's working
-  //   // createRequest(requestForm)
-  // }
 
   return(
     <div className='container'>
       <Title title={ware} addClass='my-4' />
-      <form onSubmit={handleSubmit} id='new-request-form'>
+      <Form
+        onSubmit={handleSubmit}
+        id='new-request-form'
+        noValidate
+        validated={validated}>
         {/* TODO(alishaevn): add the dynamic form that's returned from the "initialize" endpoint */}
         <div className='row'>
           <div className='col'>
@@ -118,7 +113,7 @@ const NewServiceRequest = () => {
           type='submit'
           size='large'
         />
-      </form>
+      </Form>
     </div>
   )
 }

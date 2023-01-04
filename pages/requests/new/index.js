@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import Form from 'react-bootstrap/Form';
 import {
   AdditionalInfo,
   BlankRequestForm,
@@ -44,7 +45,7 @@ const NewBlankRequest = () => {
     },
     // TODO(alishaevn): how do we handle attachments?
   }
-
+  const [validated, setValidated] = useState(false);
   const [requestForm, setRequestForm] = useState(initialState)
 
   /**
@@ -68,30 +69,12 @@ const NewBlankRequest = () => {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    // Bootstrap validation starts here
-    // Currently this is the behavior:
-    // If i fill out the form correctly, the values are submitted
-    // If i fill out the form incorrectly (missing fields etc),
-    //  the values are not submitted, but the validations DO show up.
-    // After fixing an incorrect form, if I try to submit again, the values are NOT submitted.
-    // since this method uses regular bootstrap JS vs react bootstrap, i think that there is an issue with the state of the form. react bootstrap includes a 'validated' prop and i think using that would work better here. 
-    var forms = document.querySelectorAll('.needs-validation')
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-      .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-          if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-          }
-
-          form.classList.add('was-validated')
-          form.classList.remove('needs-validation')
-          console.log(form.classList)
-        }, false)
-      })
-    // end Bootstrap validation
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    setValidated(true);
     if (requestForm.billingSameAsShipping === true) {
       Object.assign(requestForm.billing, requestForm.shipping)
     }
@@ -104,12 +87,11 @@ const NewBlankRequest = () => {
   return(
     <div className='container'>
       <Title title='New Request' addClass='mt-4'/>
-      <form 
+      <Form 
         onSubmit={handleSubmit}
         id='new-request-form'
-        //action="/requests" method="POST"
         noValidate
-        className='needs-validation'>
+        validated={validated} >
         <BlankRequestForm updateRequestForm={updateRequestForm} />
         <div className='row'>
           <div className='col'>
@@ -129,7 +111,7 @@ const NewBlankRequest = () => {
           type='submit'
           size='large'
         />
-      </form>
+      </Form>
     </div>
   )
 }
