@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+import { primary } from '../../../utils/theme/variables'
 import {
   AdditionalInfo,
   Button,
@@ -44,7 +45,7 @@ const NewServiceRequest = () => {
     },
     // TODO(alishaevn): how do we handle attachments?
   }
-
+  const [validated, setValidated] = useState(false);
   const [requestForm, setRequestForm] = useState(initialState)
 
   /**
@@ -68,14 +69,31 @@ const NewServiceRequest = () => {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation();
+    }
+    setValidated(true);
     if (requestForm.billingSameAsShipping === true) {
       Object.assign(requestForm.billing, requestForm.shipping)
     }
 
     // TODO(alishaevn): comment this back in when it's working
     // createRequest(requestForm)
+    console.log(requestForm)
   }
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault()
+  //   if (requestForm.billingSameAsShipping === true) {
+  //     Object.assign(requestForm.billing, requestForm.shipping)
+  //   }
+
+  //   console.log(requestForm)
+  //   // TODO(alishaevn): comment this back in when it's working
+  //   // createRequest(requestForm)
+  // }
 
   return(
     <div className='container'>
@@ -95,8 +113,7 @@ const NewServiceRequest = () => {
           </div>
         </div>
         <Button
-          backgroundColor='primary'
-          addClass='my-4 ms-auto d-block'
+          addClass='my-4 ms-auto d-block btn btn-primary'
           label='Initiate Request'
           type='submit'
           size='large'

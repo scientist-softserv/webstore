@@ -1,5 +1,10 @@
-import React from 'react'
-import { BlankRequestForm } from 'webstore-component-library'
+import React, { useState, useEffect } from 'react'
+import {
+  AdditionalInfo,
+  BlankRequestForm,
+  Button,
+  ShippingDetails,
+  Title } from 'webstore-component-library'
 // TODO(alishaevn): comment this back in when it's working
 // import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
@@ -64,18 +69,47 @@ const NewBlankRequest = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    // Bootstrap validation starts here
+    // Currently this is the behavior:
+    // If i fill out the form correctly, the values are submitted
+    // If i fill out the form incorrectly (missing fields etc),
+    //  the values are not submitted, but the validations DO show up.
+    // After fixing an incorrect form, if I try to submit again, the values are NOT submitted.
+    // since this method uses regular bootstrap JS vs react bootstrap
+    var forms = document.querySelectorAll('.needs-validation')
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+          form.classList.remove('needs-validation')
+          console.log(form.classList)
+        }, false)
+      })
+    // end Bootstrap validation
     if (requestForm.billingSameAsShipping === true) {
       Object.assign(requestForm.billing, requestForm.shipping)
     }
 
     // TODO(alishaevn): comment this back in when it's working
     // createRequest(requestForm)
+    console.log(requestForm)
   }
 
   return(
     <div className='container'>
-      <Title title='New Request' addClass='mt-4' />
-      <form onSubmit={handleSubmit} id='new-request-form'>
+      <Title title='New Request' addClass='mt-4'/>
+      <form 
+        onSubmit={handleSubmit}
+        id='new-request-form'
+        //action="/requests" method="POST"
+        noValidate
+        className='needs-validation'>
         <BlankRequestForm updateRequestForm={updateRequestForm} />
         <div className='row'>
           <div className='col'>
@@ -90,8 +124,7 @@ const NewBlankRequest = () => {
           </div>
         </div>
         <Button
-          backgroundColor='primary'
-          addClass='my-4 ms-auto d-block'
+          addClass='btn btn-primary my-4 ms-auto d-block'
           label='Initiate Request'
           type='submit'
           size='large'
