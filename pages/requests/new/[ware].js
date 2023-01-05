@@ -73,6 +73,7 @@ const NewServiceRequest = () => {
     event.preventDefault()
     event.stopPropagation()
     setValidated(true)
+
     if (event.currentTarget.checkValidity()) {
       if (requestForm.billingSameAsShipping === true) {
         Object.assign(requestForm.billing, requestForm.shipping)
