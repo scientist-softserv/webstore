@@ -84,7 +84,6 @@ const NewServiceRequest = () => {
       console.log(requestForm)
     }
   }
-  
   return(
     <div className='container'>
       <Title title={ware} addClass='my-4' />
