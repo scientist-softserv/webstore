@@ -5,7 +5,8 @@ import {
   BlankRequestForm,
   Button,
   ShippingDetails,
-  Title } from 'webstore-component-library'
+  Title,
+ } from 'webstore-component-library'
 // TODO(alishaevn): comment this back in when it's working
 // import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
