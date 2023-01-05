@@ -16,10 +16,10 @@ const authOptions = {
       clientSecret: process.env.CLIENT_SECRET,
       authorization: 'https://acme.scientist.com/oauth/authorize',
       token: 'https://acme.scientist.com/oauth/token',
-      // userinfo: {
-      //   request: () => {}
-      // },
-      userinfo: `${baseURL}/users/profile`,
+      userinfo: {
+        request: () => {}
+      },
+      // userinfo: `${baseURL}/users/profile.json`,
       // the profile url is the api endpoint. is that correct? do we even need it?
       // profileUrl: `${baseURL}/users/profile.json`,
       profile(profile) {
