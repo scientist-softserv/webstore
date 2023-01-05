@@ -95,7 +95,8 @@ const NewBlankRequest = () => {
         onSubmit={handleSubmit}
         id='new-request-form'
         noValidate
-        validated={validated} >
+        validated={validated}
+      >
         <BlankRequestForm updateRequestForm={updateRequestForm} />
         <div className='row'>
           <div className='col'>
