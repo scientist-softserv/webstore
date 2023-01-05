@@ -5,7 +5,8 @@ import {
   BlankRequestForm,
   Button,
   ShippingDetails,
-  Title } from 'webstore-component-library'
+  Title,
+ } from 'webstore-component-library'
 // TODO(alishaevn): comment this back in when it's working
 // import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
@@ -86,12 +87,13 @@ const NewBlankRequest = () => {
 
   return(
     <div className='container'>
-      <Title title='New Request' addClass='mt-4'/>
+      <Title title='New Request' addClass='mt-4' />
       <Form 
         onSubmit={handleSubmit}
         id='new-request-form'
         noValidate
-        validated={validated} >
+        validated={validated}
+      >
         <BlankRequestForm updateRequestForm={updateRequestForm} />
         <div className='row'>
           <div className='col'>
