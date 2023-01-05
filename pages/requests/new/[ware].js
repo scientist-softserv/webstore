@@ -92,7 +92,8 @@ const NewServiceRequest = () => {
         onSubmit={handleSubmit}
         id='new-request-form'
         noValidate
-        validated={validated}>
+        validated={validated}
+      >
         {/* TODO(alishaevn): add the dynamic form that's returned from the "initialize" endpoint */}
         <div className='row'>
           <div className='col'>
