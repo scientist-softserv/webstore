@@ -1,5 +1,12 @@
-import React from 'react'
-import { BlankRequestForm } from 'webstore-component-library'
+import React, { useState } from 'react'
+import Form from 'react-bootstrap/Form';
+import {
+  AdditionalInfo,
+  BlankRequestForm,
+  Button,
+  ShippingDetails,
+  Title,
+ } from 'webstore-component-library'
 // TODO(alishaevn): comment this back in when it's working
 // import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
@@ -39,7 +46,7 @@ const NewBlankRequest = () => {
     },
     // TODO(alishaevn): how do we handle attachments?
   }
-
+  const [validated, setValidated] = useState(false);
   const [requestForm, setRequestForm] = useState(initialState)
 
   /**
@@ -64,18 +71,30 @@ const NewBlankRequest = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (requestForm.billingSameAsShipping === true) {
-      Object.assign(requestForm.billing, requestForm.shipping)
-    }
+    event.stopPropagation()
+    setValidated(true)
 
-    // TODO(alishaevn): comment this back in when it's working
-    // createRequest(requestForm)
+    if (event.currentTarget.checkValidity()) {
+      if (requestForm.billingSameAsShipping === true) {
+        Object.assign(requestForm.billing, requestForm.shipping)
+      }
+      // TODO(alishaevn): comment this back in when it's working
+      // createRequest(requestForm)
+      // TODO(summercook) remove this when createRequest works.
+      // only console log valid requests.
+      console.log(requestForm)
+    }
   }
 
   return(
     <div className='container'>
       <Title title='New Request' addClass='mt-4' />
-      <form onSubmit={handleSubmit} id='new-request-form'>
+      <Form 
+        onSubmit={handleSubmit}
+        id='new-request-form'
+        noValidate
+        validated={validated}
+      >
         <BlankRequestForm updateRequestForm={updateRequestForm} />
         <div className='row'>
           <div className='col'>
@@ -90,13 +109,12 @@ const NewBlankRequest = () => {
           </div>
         </div>
         <Button
-          backgroundColor='primary'
-          addClass='my-4 ms-auto d-block'
+          addClass='btn btn-primary my-4 ms-auto d-block'
           label='Initiate Request'
           type='submit'
           size='large'
         />
-      </form>
+      </Form>
     </div>
   )
 }

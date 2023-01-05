@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import Form from 'react-bootstrap/Form';
 import { useRouter } from 'next/router'
+import { primary } from '../../../utils/theme/variables'
 import {
   AdditionalInfo,
   Button,
@@ -44,7 +46,7 @@ const NewServiceRequest = () => {
     },
     // TODO(alishaevn): how do we handle attachments?
   }
-
+  const [validated, setValidated] = useState(false);
   const [requestForm, setRequestForm] = useState(initialState)
 
   /**
@@ -69,18 +71,29 @@ const NewServiceRequest = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (requestForm.billingSameAsShipping === true) {
-      Object.assign(requestForm.billing, requestForm.shipping)
+    event.stopPropagation()
+    setValidated(true)
+
+    if (event.currentTarget.checkValidity()) {
+      if (requestForm.billingSameAsShipping === true) {
+        Object.assign(requestForm.billing, requestForm.shipping)
+      }
+      // TODO(alishaevn): comment this back in when it's working
+      // createRequest(requestForm)
+      // TODO(summercook) remove this when createRequest works.
+      // only console log valid requests.
+      console.log(requestForm)
     }
-
-    // TODO(alishaevn): comment this back in when it's working
-    // createRequest(requestForm)
   }
-
   return(
     <div className='container'>
       <Title title={ware} addClass='my-4' />
-      <form onSubmit={handleSubmit} id='new-request-form'>
+      <Form
+        onSubmit={handleSubmit}
+        id='new-request-form'
+        noValidate
+        validated={validated}
+      >
         {/* TODO(alishaevn): add the dynamic form that's returned from the "initialize" endpoint */}
         <div className='row'>
           <div className='col'>
@@ -95,13 +108,12 @@ const NewServiceRequest = () => {
           </div>
         </div>
         <Button
-          backgroundColor='primary'
-          addClass='my-4 ms-auto d-block'
+          addClass='my-4 ms-auto d-block btn btn-primary'
           label='Initiate Request'
           type='submit'
           size='large'
         />
-      </form>
+      </Form>
     </div>
   )
 }
