@@ -70,16 +70,13 @@ const NewServiceRequest = () => {
   }
 
   const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation();
-    }
-    setValidated(true);
-    if (requestForm.billingSameAsShipping === true) {
-      Object.assign(requestForm.billing, requestForm.shipping)
-    }
-    if (form.checkValidity() === true) {
+    event.preventDefault()
+    event.stopPropagation()
+    setValidated(true)
+    if (event.currentTarget.checkValidity()) {
+      if (requestForm.billingSameAsShipping === true) {
+        Object.assign(requestForm.billing, requestForm.shipping)
+      }
       // TODO(alishaevn): comment this back in when it's working
       // createRequest(requestForm)
       // TODO(summercook) remove this when createRequest works.
@@ -87,7 +84,7 @@ const NewServiceRequest = () => {
       console.log(requestForm)
     }
   }
-
+  
   return(
     <div className='container'>
       <Title title={ware} addClass='my-4' />
