@@ -71,40 +71,55 @@ export const sendMessage = ({ id, message, files }) => {
   posting(`/quote_groups/${id}/notes.json`, note)
 }
 
-export const createRequest = (requestForm) => {
+export const createRequest = (requestForm, id) => {
   console.log(requestForm, 'requests file')
   const form = {
-    //configure form here
+    // quote_group_params function- these are all the params that the request is expecting
+    // https://github.com/assaydepot/scientist_api_v2/issues/160#issuecomment-1297058995
+    // :name,
+    // :ware_id,
+    // :data_str,
+    // :user_id,
+    // :description,
+    // :private_note_body,
+    // :proposed_deadline_str,
+    // :no_proposed_deadline,
+    // :site,
+    // :promo_code_str,
+    // :project_code,
+    // dynamic_forms_to_embed: %i[id order_priority],
+    // temp_attachment_ids: [],
+    // shipping_address_attributes: %i[
+    //   run_validation
+    //   site_type
+    //   organization_name
+    //   site_name
+    //   person_name
+    //   attention
+    //   street
+    //   street2
+    //   city
+    //   state
+    //   zipcode
+    //   country
+    // ],
+    // billing_address_attributes: %i[
+    //   run_validation
+    //   site_type
+    //   organization_name
+    //   site_name
+    //   person_name
+    //   attention
+    //   street
+    //   street2
+    //   city
+    //   state
+    //   zipcode
+    //   country
+    //   legal_entity_id
+    // ]
   }
-  posting('/wares.json', form)
+  // Ron's comment says this should use the following endpoint. But, how would be know the ware-id here? Is the request not for a new ware? Or is it generated?
+  // /wares/:ware-id/quote_groups.json
+  posting(`/wares/${id}/quote_groups.json`, form)
 }
-
-// this is the post for a ware that already has an ID/already exists- but if its a blank request, the ware does not yet have an id
-
-// primary_ware is a pg_ware defined by factorybot: https://github.com/assaydepot/rx/blob/4de536d040dcef37d1a2884b581b182497c528ec/spec/factories/wares.rb
-
-// factory :pg_ware, class: Pg::Ware do
-// name          { Faker::Scientist::Service.title }
-// snippet       { Faker::Lorem.paragraphs(number: 2) }
-// ware_type     "CustomService"
-// organizations { Pg::Organization.canonical }
-// description   { Faker::Lorem.paragraphs(number: 3) }
-
-// factory :pg_ware_default  do
-//   name 'make-a-request'
-//   slug 'make-a-request'
-// end
-
-// post "/wares/#{peptide.primary_ware.id}/quote_groups.json", {pg_quote_group: json_payload}, { 'Authorization' => "Bearer #{access_token.token}"
-
-// let(:json_payload) {
-//   {
-//     name: "#{quote_group.name}_clone",
-//     description: "some quoted ware",
-//     provider_ids: quote_group.providers.pluck(:id),
-//     provider_names: quote_group.providers.pluck(:name),
-//     proposed_deadline_str: DateTime.now.to_s,
-//     site: site.attributes.slice("name", "billing_same_as_shipping"),
-//     shipping_address_attributes: site.shipping_address.attributes
-//   }
-// }

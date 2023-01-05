@@ -11,6 +11,8 @@ import {
 // TODO(alishaevn): comment this back in when it's working
 // import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
+// TODO(alishaevn): come back to this page once the initialize api function has been created. re: the thread below
+// https://assaydepot.slack.com/archives/C03FZDALABG/p1670605791891109
 
 const NewServiceRequest = () => {
   const router = useRouter()
@@ -118,4 +120,4 @@ const NewServiceRequest = () => {
   )
 }
 
-export default NewServiceRequest
+export default NewRequest
