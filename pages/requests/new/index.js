@@ -71,17 +71,20 @@ const NewBlankRequest = () => {
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
+      event.preventDefault()
       event.stopPropagation();
     }
     setValidated(true);
     if (requestForm.billingSameAsShipping === true) {
       Object.assign(requestForm.billing, requestForm.shipping)
     }
-
-    // TODO(alishaevn): comment this back in when it's working
-    // createRequest(requestForm)
-    console.log(requestForm)
+    if (form.checkValidity() === true) {
+      // TODO(alishaevn): comment this back in when it's working
+      // createRequest(requestForm)
+      // TODO(summercook) remove this when createRequest works.
+      // only console log valid requests.
+      console.log(requestForm)
+    }
   }
 
   return(

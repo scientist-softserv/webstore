@@ -79,11 +79,13 @@ const NewServiceRequest = () => {
     if (requestForm.billingSameAsShipping === true) {
       Object.assign(requestForm.billing, requestForm.shipping)
     }
-
-    // TODO(alishaevn): comment this back in when it's working
-    // createRequest(requestForm)
-    // TODO(summercook): double check that a new request is not being created if all fields are not validated. 
-    console.log(requestForm)
+    if (form.checkValidity() === true) {
+      // TODO(alishaevn): comment this back in when it's working
+      // createRequest(requestForm)
+      // TODO(summercook) remove this when createRequest works.
+      // only console log valid requests.
+      console.log(requestForm)
+    }
   }
 
   return(
