@@ -90,7 +90,7 @@ const NewBlankRequest = () => {
 
   return(
     <div className='container'>
-      <Title title='New Request' addClass='mt-4'/>
+      <Title title='New Request' addClass='mt-4' />
       <Form 
         onSubmit={handleSubmit}
         id='new-request-form'
