@@ -17,7 +17,7 @@ const NewServiceRequest = () => {
   const { name } = router.query
 
   const initialState = {
-    name: 'New Request',
+    name,
     billingSameAsShipping: false,
     proposedDeadline: null,
     billing: {
@@ -85,6 +85,7 @@ const NewServiceRequest = () => {
       console.log(requestForm)
     }
   }
+
   return(
     <div className='container'>
       <Title title={name} addClass='my-4' />
