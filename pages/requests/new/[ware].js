@@ -8,8 +8,7 @@ import {
   ShippingDetails,
   Title,
 } from 'webstore-component-library'
-// TODO(alishaevn): comment this back in when it's working
-// import { createRequest } from '../../../utils'
+import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const NewServiceRequest = () => {
@@ -78,11 +77,8 @@ const NewServiceRequest = () => {
       if (requestForm.billingSameAsShipping === true) {
         Object.assign(requestForm.billing, requestForm.shipping)
       }
-      // TODO(alishaevn): comment this back in when it's working
-      // createRequest(requestForm)
-      // TODO(summercook) remove this when createRequest works.
-      // only console log valid requests.
-      console.log(requestForm)
+
+      createRequest(requestForm)
     }
   }
 

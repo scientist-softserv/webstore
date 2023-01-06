@@ -70,3 +70,40 @@ export const sendMessage = ({ id, message, files }) => {
 
   posting(`/quote_groups/${id}/notes.json`, note)
 }
+
+
+export const createRequest = (requestForm, id) => {
+  console.log({ requestForm })
+  // requestForm = {
+  //   billing: {
+  //     city: "asdf",
+  //     country: "Saint Barthélemy",
+  //     state: "asdf",
+  //     street: "asdf",
+  //     street2: "asdf",
+  //     text: "",
+  //     zipCode: "asdf",
+  //   },
+  //   billingSameAsShipping: true,
+  //   data: {
+  //     description: "asdafs",
+  //     suppliersIdentified: "Yes",
+  //     timeline: "asdf",
+  //   },
+  //   name: "New Request",
+  //   proposedDeadline: "2023-01-11",
+  //   shipping: {
+  //     city: "asdf",
+  //     country: "Saint Barthélemy",
+  //     state: "asdf",
+  //     street: "asdf",
+  //     street2: "asdf",
+  //     text: "",
+  //     zipCode: "asdf",
+  //   }
+  // }
+
+  const form = {}
+
+  // posting(`/wares/${id}/quote_groups.json`, form)
+}
