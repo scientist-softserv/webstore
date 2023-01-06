@@ -120,4 +120,4 @@ const NewServiceRequest = () => {
   )
 }
 
-export default NewRequest
+export default NewServiceRequest
