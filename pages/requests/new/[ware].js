@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form';
+import validator from '@rjsf/validator-ajv8'
+import Form from '@rjsf/core'
 import { useRouter } from 'next/router'
 import {
   AdditionalInfo,
@@ -17,7 +18,7 @@ const NewServiceRequest = () => {
   initializeRequest(id)
 
   const initialState = {
-    name: 'New Request',
+    name,
     billingSameAsShipping: false,
     proposedDeadline: null,
     billing: {
@@ -74,27 +75,35 @@ const NewServiceRequest = () => {
     event.stopPropagation()
     setValidated(true)
 
-    if (event.currentTarget.checkValidity()) {
-      if (requestForm.billingSameAsShipping === true) {
-        Object.assign(requestForm.billing, requestForm.shipping)
+  const JSONSchema = {
+    'title': 'A request form',
+    'description': 'A dynamic form example.',
+    'type': 'object',
+    'required': [
+      'description'
+    ],
+    'properties': {
+      'description': {
+        'type': 'string',
+        'title': 'Description'
+      },
+      'proposed_deadline': {
+        'type': 'string',
+        'title': 'Proposed Deadline'
       }
-      // TODO(alishaevn): comment this back in when it's working
-      // createRequest(requestForm)
-      // TODO(summercook) remove this when createRequest works.
-      // only console log valid requests.
-      console.log(requestForm)
     }
   }
+
   return(
     <div className='container'>
-      <Title title={ware} addClass='my-4' />
+      <Title title={name} addClass='my-4' />
       <Form
-        onSubmit={handleSubmit}
-        id='new-request-form'
-        noValidate
-        validated={validated}
+        schema={JSONSchema}
+        validator={validator}
+        // do something with the event.formData value
+        // onChange={event => updateRequestForm()}
+        // onSubmit={handleSubmit}
       >
-        {/* TODO(alishaevn): add the dynamic form that's returned from the "initialize" endpoint */}
         <div className='row'>
           <div className='col'>
             <ShippingDetails
