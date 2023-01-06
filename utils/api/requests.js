@@ -70,3 +70,8 @@ export const sendMessage = ({ id, message, files }) => {
 
   posting(`/quote_groups/${id}/notes.json`, note)
 }
+
+export const initializeRequest = (id) => {
+  const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
+  console.log({ data, error })
+}

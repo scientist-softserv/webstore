@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Form from 'react-bootstrap/Form';
 import { useRouter } from 'next/router'
-import { primary } from '../../../utils/theme/variables'
 import {
   AdditionalInfo,
   Button,
@@ -9,12 +8,13 @@ import {
   Title,
 } from 'webstore-component-library'
 // TODO(alishaevn): comment this back in when it's working
-// import { createRequest } from '../../../utils'
+import { initializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const NewServiceRequest = () => {
   const router = useRouter()
-  const { ware } = router.query
+  const { id, name } = router.query
+  initializeRequest(id)
 
   const initialState = {
     name: 'New Request',
