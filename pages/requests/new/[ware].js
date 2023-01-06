@@ -14,7 +14,7 @@ import {
 
 const NewServiceRequest = () => {
   const router = useRouter()
-  const { ware } = router.query
+  const { name } = router.query
 
   const initialState = {
     name: 'New Request',
@@ -87,7 +87,7 @@ const NewServiceRequest = () => {
   }
   return(
     <div className='container'>
-      <Title title={ware} addClass='my-4' />
+      <Title title={name} addClass='my-4' />
       <Form
         onSubmit={handleSubmit}
         id='new-request-form'
