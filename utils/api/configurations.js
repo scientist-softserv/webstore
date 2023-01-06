@@ -9,7 +9,7 @@ export const configureServices = ({ data, path }) => {
 
     return {
       description: ware.snippet,
-      id: ware.reference_of_id,
+      id: ware.id,
       img,
       name: ware.name,
       href: `${path}/${ware.slug}`,
