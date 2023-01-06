@@ -72,7 +72,36 @@ export const sendMessage = ({ id, message, files }) => {
 }
 
 export const createRequest = (requestForm, id) => {
-  console.log(requestForm, 'requests file')
+  console.log({ requestForm })
+  // requestForm = {
+  //   billing: {
+  //     city: "asdf",
+  //     country: "Saint Barthélemy",
+  //     state: "asdf",
+  //     street: "asdf",
+  //     street2: "asdf",
+  //     text: "",
+  //     zipCode: "asdf",
+  //   },
+  //   billingSameAsShipping: true,
+  //   data: {
+  //     description: "asdafs",
+  //     suppliersIdentified: "Yes",
+  //     timeline: "asdf",
+  //   },
+  //   name: "New Request",
+  //   proposedDeadline: "2023-01-11",
+  //   shipping: {
+  //     city: "asdf",
+  //     country: "Saint Barthélemy",
+  //     state: "asdf",
+  //     street: "asdf",
+  //     street2: "asdf",
+  //     text: "",
+  //     zipCode: "asdf",
+  //   }
+  // }
+
   const form = {
     // quote_group_params function- these are all the params that the request is expecting
     // https://github.com/assaydepot/scientist_api_v2/issues/160#issuecomment-1297058995
@@ -121,5 +150,6 @@ export const createRequest = (requestForm, id) => {
   }
   // Ron's comment says this should use the following endpoint. But, how would be know the ware-id here? Is the request not for a new ware? Or is it generated?
   // /wares/:ware-id/quote_groups.json
-  posting(`/wares/${id}/quote_groups.json`, form)
+
+  // posting(`/wares/${id}/quote_groups.json`, form)
 }
