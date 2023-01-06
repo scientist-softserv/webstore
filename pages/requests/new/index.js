@@ -44,7 +44,7 @@ const NewBlankRequest = () => {
       // TODO(alishaevn): does the api post function account for the supplier or does that need to be part of state?
       suppliersIdentified: 'Yes',
     },
-    // TODO(alishaevn): how do we handle attachments?
+    attachments: [],
   }
   const [validated, setValidated] = useState(false);
   const [requestForm, setRequestForm] = useState(initialState)
