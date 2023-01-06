@@ -22,6 +22,7 @@
     "camelcase": ["warn", {
       "ignoreDestructuring": true
       }
-    ]
+    ],
+    "no-var": "error"
   }
 }
