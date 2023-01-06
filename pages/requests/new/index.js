@@ -6,7 +6,7 @@ import {
   Button,
   ShippingDetails,
   Title,
- } from 'webstore-component-library'
+} from 'webstore-component-library'
 // TODO(alishaevn): comment this back in when it's working
 // import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
@@ -44,7 +44,7 @@ const NewBlankRequest = () => {
       // TODO(alishaevn): does the api post function account for the supplier or does that need to be part of state?
       suppliersIdentified: 'Yes',
     },
-    // TODO(alishaevn): how do we handle attachments?
+    attachments: [],
   }
   const [validated, setValidated] = useState(false);
   const [requestForm, setRequestForm] = useState(initialState)
