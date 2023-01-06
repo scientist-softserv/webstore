@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form';
+import Form from 'react-bootstrap/Form'
 import {
   AdditionalInfo,
   BlankRequestForm,
@@ -46,7 +46,7 @@ const NewBlankRequest = () => {
     },
     attachments: [],
   }
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
 
   /**

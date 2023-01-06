@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form';
+import Form from 'react-bootstrap/Form'
 import { useRouter } from 'next/router'
 import { primary } from '../../../utils/theme/variables'
 import {
@@ -46,7 +46,7 @@ const NewServiceRequest = () => {
     },
     attachments: [],
   }
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
 
   /**
