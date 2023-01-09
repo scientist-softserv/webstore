@@ -8,14 +8,13 @@ import {
   ShippingDetails,
   Title,
 } from 'webstore-component-library'
-// TODO(alishaevn): comment this back in when it's working
 import { initializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const NewServiceRequest = () => {
   const router = useRouter()
   const { id, name } = router.query
-  initializeRequest(id)
+  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = initializeRequest(id)
 
   const initialState = {
     name,
@@ -100,9 +99,7 @@ const NewServiceRequest = () => {
       <Form
         schema={JSONSchema}
         validator={validator}
-        // do something with the event.formData value
-        // onChange={event => updateRequestForm()}
-        // onSubmit={handleSubmit}
+        onSubmit={event => console.log('submitting::', event.formData)}
       >
         <div className='row'>
           <div className='col'>
