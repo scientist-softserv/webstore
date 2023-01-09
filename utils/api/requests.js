@@ -62,11 +62,13 @@ export const useAllMessages = (id) => {
 }
 
 export const sendMessage = ({ id, message, files }) => {
+  /* eslint-disable camelcase */
   const note = {
     body: message,
     quoted_ware_ids: [id],
     data_files: files,
   }
+  /* eslint-enable camelcase */
 
   posting(`/quote_groups/${id}/notes.json`, note)
 }
