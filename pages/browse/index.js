@@ -14,7 +14,10 @@ const Browse = () => {
 
   const { wares, isLoading, isError } = useFilteredWares(query)
   const services = configureServices({ data: wares, path: '/requests/new' })
-  const handleOnSubmit = ({ value }) => setQuery(value)
+  const handleOnSubmit = ({ value }) => {
+    setQuery(value)
+    return router.push({ pathname: '/browse', query: { q: value } }, (value.length > 0 ? `/browse?q=${value}` : '/browse'))
+  }
 
   if (isError) return <h1>Error...</h1>
 
