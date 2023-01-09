@@ -75,15 +75,23 @@ export const sendMessage = ({ id, message, files }) => {
 
 export const initializeRequest = (id) => {
   const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
-  const properties_array = Object.entries(data?.dynamic_form.schema.properties)
   const acceptable_properties = ['quote_information', 'description', 'timeline']
-  const filtered_properties = properties_array.filter(prop => acceptable_properties.includes(prop[0]))
+
+  let properties_array = []
+  let filtered_properties = []
+  let required_fields = []
+  if (data) {
+    properties_array = Object.entries(data?.dynamic_form.schema.properties)
+    filtered_properties = properties_array.filter(prop => acceptable_properties.includes(prop[0]))
+    required_fields = filtered_properties.map(prop => { if (prop[1].required) return prop[0] })
+  }
 
   // TODO:(alishaevn): this may need to be altered for a blank request
   return {
     dynamicForm: {
       description: '', // TODO:(alishaevn): the description at this endpoint is just a list of questions. the empty string momentarily displays error text on the page
       properties: Object.fromEntries(filtered_properties),
+      required_fields,
       title: data?.name,
       type: data?.dynamic_form.schema.type,
     },

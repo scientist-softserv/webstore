@@ -77,20 +77,8 @@ const NewServiceRequest = () => {
   const JSONSchema = {
     'description': dynamicForm.description,
     'type': dynamicForm.type,
-    // 'required': [
-    //   'description'
-    // ],
+    'required': dynamicForm.required_fields,
     'properties': dynamicForm.properties,
-    // 'properties': {
-    //   'description': {
-    //     'type': 'string',
-    //     'title': 'Description'
-    //   },
-    //   'proposed_deadline': {
-    //     'type': 'string',
-    //     'title': 'Proposed Deadline'
-    //   }
-    // }
   }
 
   return(
