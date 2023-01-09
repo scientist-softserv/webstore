@@ -76,22 +76,23 @@ const NewServiceRequest = () => {
     setValidated(true)
 
   const JSONSchema = {
-    'title': 'A request form',
-    'description': 'A dynamic form example.',
-    'type': 'object',
-    'required': [
-      'description'
-    ],
-    'properties': {
-      'description': {
-        'type': 'string',
-        'title': 'Description'
-      },
-      'proposed_deadline': {
-        'type': 'string',
-        'title': 'Proposed Deadline'
-      }
-    }
+    'title': dynamicForm.title,
+    'description': dynamicForm.description,
+    'type': dynamicForm.type,
+    // 'required': [
+    //   'description'
+    // ],
+    'properties': dynamicForm.properties,
+    // 'properties': {
+    //   'description': {
+    //     'type': 'string',
+    //     'title': 'Description'
+    //   },
+    //   'proposed_deadline': {
+    //     'type': 'string',
+    //     'title': 'Proposed Deadline'
+    //   }
+    // }
   }
 
   return(
