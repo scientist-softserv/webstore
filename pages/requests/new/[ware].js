@@ -76,7 +76,6 @@ const NewServiceRequest = () => {
     setValidated(true)
 
   const JSONSchema = {
-    'title': dynamicForm.title,
     'description': dynamicForm.description,
     'type': dynamicForm.type,
     // 'required': [
@@ -97,7 +96,7 @@ const NewServiceRequest = () => {
 
   return(
     <div className='container'>
-      <Title title={name} addClass='my-4' />
+      <Title title={dynamicForm.title} addClass='my-4' />
       <Form
         schema={JSONSchema}
         validator={validator}
