@@ -22,7 +22,8 @@ const Service = () => {
               ware.urls.promo_image ? {
                 src: ware.urls.promo_image,
                 alt: `The promotional image for ${ware.name}`,
-              } : DEFAULT_WARE_IMAGE}
+              } : DEFAULT_WARE_IMAGE
+            }
           />
         )
       }
