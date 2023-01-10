@@ -18,7 +18,7 @@ const Service = () => {
             title={ware.name}
             description={ware.description || ware.snippet}
             img={{
-              src: ware.urls.promo_image,
+              src: ware.urls.promo_image || DEFAULT_WARE_IMAGE,
               alt: `The promotional image for ${ware.name}`,
             }}
           />
