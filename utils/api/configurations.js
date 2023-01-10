@@ -24,7 +24,6 @@ export const configureRequests = ({ data, path }) => {
 
   return sortedRequests?.map(request => {
     const status = configureStatus(request.status)
-    
     return {
       billingAddress: {
         address: request.billing_address?.text,
