@@ -73,29 +73,32 @@ export const sendMessage = ({ id, message, files }) => {
   posting(`/quote_groups/${id}/notes.json`, note)
 }
 
-export const initializeRequest = (id) => {
+export const useInitializeRequest = (id) => {
   const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
-  const acceptable_properties = ['quote_information', 'description', 'timeline']
+  const acceptableProperties = ['quote_information', 'description', 'timeline']
 
-  let properties_array = []
-  let filtered_properties = []
-  let required_fields = []
+  let propertiesArray = []
+  let filteredProperties = []
+  let requiredFields = []
   if (data) {
-    properties_array = Object.entries(data?.dynamic_form.schema.properties)
-    filtered_properties = properties_array.filter(prop => acceptable_properties.includes(prop[0]))
-    required_fields = filtered_properties.map(prop => { if (prop[1].required) return prop[0] })
+    propertiesArray = Object.entries(data?.dynamic_form.schema.properties)
+    filteredProperties = propertiesArray.filter(prop => acceptableProperties.includes(prop[0]))
+    requiredFields = filteredProperties.map(prop => { if (prop[1].required) return prop[0] })
   }
 
   // TODO:(alishaevn): this may need to be altered for a blank request
+  /* eslint-disable camelcase */
   return {
     dynamicForm: {
-      description: '', // TODO:(alishaevn): the description at this endpoint is just a list of questions. the empty string momentarily displays error text on the page
-      properties: Object.fromEntries(filtered_properties),
-      required_fields,
+      // TODO:(alishaevn): the description is just a list of questions. the empty string momentarily displays error text on the page
+      description: '',
+      properties: Object.fromEntries(filteredProperties),
+      requiredFields,
       title: data?.name,
       type: data?.dynamic_form.schema.type,
     },
     isLoadingInitialRequest: !error && !data,
     isInitialRequestError: error,
   }
+  /* eslint-enable camelcase */
 }

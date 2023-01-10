@@ -8,13 +8,14 @@ import {
   ShippingDetails,
   Title,
 } from 'webstore-component-library'
-import { initializeRequest } from '../../../utils'
+import { useInitializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const NewServiceRequest = () => {
   const router = useRouter()
   const { id, name } = router.query
-  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = initializeRequest(id)
+  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
+
 
   const initialState = {
     name,
@@ -77,7 +78,7 @@ const NewServiceRequest = () => {
   const JSONSchema = {
     'description': dynamicForm.description,
     'type': dynamicForm.type,
-    'required': dynamicForm.required_fields,
+    'required': dynamicForm.requiredFields,
     'properties': dynamicForm.properties,
   }
 
