@@ -12,10 +12,10 @@ import {
 } from 'webstore-component-library'
 import {
   sendMessage,
-  STATUS_ARRAY,
   useAllMessages,
   useAllSOWs,
   useOneRequest,
+  STATUS_ARRAY,
 } from '../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
