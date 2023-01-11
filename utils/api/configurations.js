@@ -3,8 +3,8 @@ import { statusColors } from '../theme'
 
 export const configureServices = ({ data, path }) => {
   return data?.map(ware => {
-    const img = ware.promo_image
-      ? { src: ware.promo_image, alt: `The promotional image for ${ware.name}` }
+    const img = ware.urls.promo_image
+      ? { src: ware.urls.promo_image, alt: `The promotional image for ${ware.name}` }
       : DEFAULT_WARE_IMAGE
 
     return {
@@ -24,7 +24,6 @@ export const configureRequests = ({ data, path }) => {
 
   return sortedRequests?.map(request => {
     const status = configureStatus(request.status)
-
     return {
       billingAddress: {
         address: request.billing_address?.text,
