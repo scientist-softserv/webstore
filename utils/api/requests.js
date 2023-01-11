@@ -80,11 +80,12 @@ export const useInitializeRequest = (id) => {
   if (data) {
     const defaultSchema = data.dynamic_form.schema
     const defaultOptions = data.dynamic_form.options
+    const schema = dynamicFormSchema(defaultSchema)
 
     dynamicForm = {
-      schema: dynamicFormSchema(defaultSchema),
+      schema,
       title: data.name,
-      uiSchema: dynamicFormUiSchema(defaultSchema, defaultOptions),
+      uiSchema: dynamicFormUiSchema(schema, defaultOptions),
     }
   }
 
@@ -133,39 +134,33 @@ export const dynamicFormSchema = (defaultSchema) => {
   }
 }
 
-export const dynamicFormUiSchema = (dynamicForm) => {
-    let schema = {}
-    const fields = dynamicForm?.options?.fields
+export const dynamicFormUiSchema = (schema, defaultOptions) => {
+  let UiSchema = {}
+  const { fields } = defaultOptions
 
-    if (fields) {
-      for (let key in dynamicForm?.properties) {
-        if (fields.hasOwnProperty(key)) {
-          let field_options = {}
+  if (fields) {
+    for (let key in schema.properties) {
+      if (fields.hasOwnProperty(key)) {
+        let fieldOptions = { 'ui:classNames': 'mb-4' }
 
-          if(fields[key].type === 'textarea') {
-            field_options['ui:options'] = fields[key]
-          } else if (fields[key].type === 'text') {
-            field_options['ui:options'] = fields[key]
-          } else if (fields[key].type === 'radio') {
-            field_options['ui:options'] = fields[key]
-          }
+        if(fields[key].type === 'textarea') {
+          fieldOptions['ui:options'] = fields[key]
+        } else if (fields[key].type === 'text') {
+          fieldOptions['ui:options'] = fields[key]
+        } else if (fields[key].type === 'radio') {
+          fieldOptions['ui:options'] = fields[key]
+        }
 
           // if (fields[key].helper) {
           //   field_options['ui:help'] = <HelpBlock content={fields[key].helper} />
           // }
 
-          if (field_options) {
-            schema[key] = field_options
-          }
+        if (fieldOptions) {
+          UiSchema[key] = fieldOptions
         }
       }
     }
-    // console.log('uiSchema', schema)
+  }
 
-    // {suppliers_identified: {
-    //   // 'ui:classNames': 'd-none',
-    //   // 'ui:disabled': true,
-    //   // 'ui:emptyValue': ['Yes']
-    // },
-    // 'ui:disabled': ['suppliers_identified']}
+  return UiSchema
 }
