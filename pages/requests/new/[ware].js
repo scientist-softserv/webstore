@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import {
   AdditionalInfo,
   Button,
+  Loading,
   ShippingDetails,
   Title,
 } from 'webstore-component-library'
@@ -92,6 +93,11 @@ const NewServiceRequest = () => {
 
     console.log('submitting::', { event, formData, requestForm })
   }
+
+  // TODO(alishaevn): use react bs placeholder component
+  if (isLoadingInitialRequest) return <Loading wrapperClass='item-page' />
+
+  if (isInitialRequestError) return <h1>{`${isInitialRequestError.name}: ${isInitialRequestError.message}`}</h1>
 
   return(
     <div className='container'>

@@ -95,15 +95,7 @@ export const useInitializeRequest = (id) => {
 
   // TODO:(alishaevn): this may need to be altered for a blank request
   return {
-    dynamicForm: {
-      // TODO:(alishaevn): the description is just a list of questions. the empty string momentarily displays error text on the page
-      options: data?.dynamic_form?.options,
-      properties: Object.fromEntries(filteredProperties),
-      requiredFields,
-      title: data?.name,
-      type: data?.dynamic_form?.schema.type,
-    },
-    isLoadingInitialRequest: !error && !data,
+    isLoadingInitialRequest: !error && !dynamicForm,
     isInitialRequestError: error,
   }
   /* eslint-enable camelcase */
