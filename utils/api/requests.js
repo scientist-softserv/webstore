@@ -74,76 +74,63 @@ export const sendMessage = ({ id, message, files }) => {
 }
 
 export const useInitializeRequest = (id) => {
-  /* eslint-disable camelcase */
   const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
-  const acceptableProperties = ['quote_information', 'description', 'timeline']
+  let dynamicForm
 
-  let propertiesArray = []
-  let filteredProperties = []
-  let requiredFields = []
   if (data) {
-    propertiesArray = Object.entries(data?.dynamic_form.schema.properties)
-    // TODO(alishaevn):
-      // use "dynamic_forms"
-      // sort each form according to order_priority
-      // pull out the schema of each form
-      // return the desired schema properties
-      // propertiesArray = data?.dynamic_forms.sort((a,b) => a.order_priority - b.order_priority )
-    filteredProperties = propertiesArray.filter(prop => acceptableProperties.includes(prop[0]))
-    requiredFields = filteredProperties.map(prop => { if (prop[1].required) return prop[0] })
+    const defaultSchema = data.dynamic_form.schema
+    const defaultOptions = data.dynamic_form.options
+
+    dynamicForm = {
+      schema: dynamicFormSchema(defaultSchema),
+      title: data.name,
+      uiSchema: dynamicFormUiSchema(defaultSchema, defaultOptions),
+    }
   }
 
   // TODO:(alishaevn): this may need to be altered for a blank request
   return {
+    dynamicForm,
     isLoadingInitialRequest: !error && !dynamicForm,
     isInitialRequestError: error,
   }
-  /* eslint-enable camelcase */
 }
 
-export const dynamicFormSchema = (dynamicForm) => {
-  const schema = {
-    'type': dynamicForm.type,
-    'required': dynamicForm.requiredFields,
-    // 'properties': dynamicForm.properties,
-    'properties': {
-      'suppliers_identified': {
-        'type': 'string',
-        'title': 'Have you already identified supplier(s) for this service?',
-        'enum': [
-            'Yes',
-            'No'
-        ],
-        // 'required': [true]
-      },
-      'quote_information': {
-        'type': 'string',
-        'title': 'Do you want a price quote or just information?',
-        // 'required': [true],
-        'enum': [
-            'I need a quote(s)',
-            'I am looking for information only'
-        ]
-      },
-      'description': {
-        'type': 'string',
-        'title': 'Description',
-        // 'required': [true],
-        // 'dependencies': 'suppliers_identified'
-      },
-      'timeline': {
-        'type': 'string',
-        // 'required': [true],
-        'title': 'What is the timeline for this project?'
-      }
-    },
-    'dependencies': {
-      "description": ["suppliers_identified"],
-      "quote_information": ["suppliers_identified"],
-    }
-  }
+export const dynamicFormSchema = (defaultSchema) => {
+  const acceptableProperties = [
+    'quote_information',
+    'description',
+    'suppliers_identified',
+    'timeline'
+  ]
+  let properties = {}
+  let requiredFields = []
+  let dependencies = {}
 
-  return schema
+  Object.entries(defaultSchema.properties).forEach(prop => {
+    const [key, value] = prop
+
+    if (acceptableProperties.includes(key)) {
+      if (value.required) {
+        requiredFields.push(key)
+        delete value['required']
+      }
+
+      if (value.dependencies) {
+        dependencies[key] = value[key]
+        delete value['dependencies']
+      }
+
+      properties[key] = value
+    }
+  })
+
+  return {
+    'type': defaultSchema.type,
+    'required': requiredFields,
+    'properties': properties,
+    'dependencies': dependencies,
+  }
 }
 
 export const dynamicFormUiSchema = (dynamicForm) => {

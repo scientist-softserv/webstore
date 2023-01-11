@@ -9,17 +9,13 @@ import {
   ShippingDetails,
   Title,
 } from 'webstore-component-library'
-import { dynamicFormSchema, dynamicFormUiSchema, useInitializeRequest } from '../../../utils'
+import { useInitializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const NewServiceRequest = () => {
   const router = useRouter()
   const { id, name } = router.query
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
-  const schema = dynamicFormSchema(dynamicForm)
-  const uiSchema = dynamicFormUiSchema(dynamicForm)
-
-  // TODO: handle the loading and error states
 
   const initialState = {
     name,
@@ -104,11 +100,11 @@ const NewServiceRequest = () => {
       <Title title={dynamicForm.title} addClass='my-4' />
       <Form
         formData={formData}
-        schema={schema}
-        uiSchema={uiSchema}
-        validator={validator}
         onChange={e => setFormData(e.formData)}
         onSubmit={handleSubmit}
+        schema={dynamicForm.schema}
+        uiSchema={dynamicForm.uiSchema}
+        validator={validator}
       >
         <div className='row'>
           <div className='col'>
