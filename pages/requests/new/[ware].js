@@ -8,14 +8,17 @@ import {
   ShippingDetails,
   Title,
 } from 'webstore-component-library'
-import { useInitializeRequest } from '../../../utils'
+import { dynamicFormSchema, dynamicFormUiSchema, useInitializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const NewServiceRequest = () => {
   const router = useRouter()
   const { id, name } = router.query
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
+  const schema = dynamicFormSchema(dynamicForm)
+  const uiSchema = dynamicFormUiSchema(dynamicForm)
 
+  // TODO: handle the loading and error states
 
   const initialState = {
     name,
@@ -49,6 +52,7 @@ const NewServiceRequest = () => {
   }
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
+  const [formData, setFormData] = useState({})
 
   /**
    * @param {object} event onChange event
@@ -71,24 +75,34 @@ const NewServiceRequest = () => {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-    setValidated(true)
+    // event.preventDefault()
+    // event.stopPropagation()
+    // setValidated(true)
 
-  const JSONSchema = {
-    'description': dynamicForm.description,
-    'type': dynamicForm.type,
-    'required': dynamicForm.requiredFields,
-    'properties': dynamicForm.properties,
+    // if (event.currentTarget.checkValidity()) {
+    //   if (requestForm.billingSameAsShipping === true) {
+    //     Object.assign(requestForm.billing, requestForm.shipping)
+    //   }
+    //   // TODO(alishaevn): comment this back in when it's working
+    //   // createRequest(requestForm)
+    //   // TODO(summercook) remove this when createRequest works.
+    //   // only console log valid requests.
+    //   console.log(requestForm)
+    // }
+
+    console.log('submitting::', { event, formData, requestForm })
   }
 
   return(
     <div className='container'>
       <Title title={dynamicForm.title} addClass='my-4' />
       <Form
-        schema={JSONSchema}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
         validator={validator}
-        onSubmit={event => console.log('submitting::', event.formData)}
+        onChange={e => setFormData(e.formData)}
+        onSubmit={handleSubmit}
       >
         <div className='row'>
           <div className='col'>
