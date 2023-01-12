@@ -100,12 +100,7 @@ export const useInitializeRequest = (id) => {
 // TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
 // update the method at the code above to return the configured schema below
 export const dynamicFormSchema = (defaultSchema) => {
-  const acceptableProperties = [
-    'quote_information',
-    'description',
-    'suppliers_identified',
-    'timeline'
-  ]
+  const acceptableProperties = ['quote_information', 'description', 'timeline']
   let properties = {}
   let requiredFields = []
   let dependencies = {}
@@ -139,6 +134,7 @@ export const dynamicFormSchema = (defaultSchema) => {
 // TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
 // update the method at the code above to return the configured options below
 // when updating, change the "helper" sentence to say "supplier" instead of "suppliers"
+// also don't make fields dependent on "suppliers_identified" since that will always be true for a webstore
 export const dynamicFormUiSchema = (schema, defaultOptions) => {
   let UiSchema = {}
   const { fields } = defaultOptions

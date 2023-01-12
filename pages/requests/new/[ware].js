@@ -16,6 +16,7 @@ const NewServiceRequest = () => {
   const router = useRouter()
   const { id, name } = router.query
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
+  const initialFormData = { 'suppliers_identified': 'Yes' }
 
   const initialState = {
     name,
@@ -39,17 +40,11 @@ const NewServiceRequest = () => {
       country: '',
       text: '',
     },
-    data: {
-      timeline: '',
-      description: '',
-      // TODO(alishaevn): does the api post function account for the supplier or does that need to be part of state?
-      suppliersIdentified: 'Yes',
-    },
     attachments: [],
   }
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState(initialFormData)
 
   /**
    * @param {object} event onChange event
