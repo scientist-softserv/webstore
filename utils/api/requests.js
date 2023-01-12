@@ -97,6 +97,8 @@ export const useInitializeRequest = (id) => {
   }
 }
 
+// TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
+// update the method at the code above to return the configured schema below
 export const dynamicFormSchema = (defaultSchema) => {
   const acceptableProperties = [
     'quote_information',
@@ -134,6 +136,9 @@ export const dynamicFormSchema = (defaultSchema) => {
   }
 }
 
+// TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
+// update the method at the code above to return the configured options below
+// when updating, change the "helper" sentence to say "supplier" instead of "suppliers"
 export const dynamicFormUiSchema = (schema, defaultOptions) => {
   let UiSchema = {}
   const { fields } = defaultOptions
@@ -143,21 +148,17 @@ export const dynamicFormUiSchema = (schema, defaultOptions) => {
       if (fields.hasOwnProperty(key)) {
         let fieldOptions = { 'ui:classNames': 'mb-4' }
 
-        if(fields[key].type === 'textarea') {
-          fieldOptions['ui:options'] = fields[key]
-        } else if (fields[key].type === 'text') {
-          fieldOptions['ui:options'] = fields[key]
-        } else if (fields[key].type === 'radio') {
-          fieldOptions['ui:options'] = fields[key]
+        if(fields[key].helper) fieldOptions['ui:help'] = fields[key].helper
+        if(fields[key].placeholder) fieldOptions['ui:placeholder'] = fields[key].placeholder
+        if(fields[key].type) fieldOptions['ui:inputType'] = fields[key].type
+        if(fields[key].rows) {
+          fieldOptions['ui:options']= {
+            widget: 'textarea',
+            rows: fields[key].rows,
+          }
         }
 
-          // if (fields[key].helper) {
-          //   field_options['ui:help'] = <HelpBlock content={fields[key].helper} />
-          // }
-
-        if (fieldOptions) {
-          UiSchema[key] = fieldOptions
-        }
+        UiSchema[key] = fieldOptions
       }
     }
   }
