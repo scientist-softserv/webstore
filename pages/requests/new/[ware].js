@@ -8,16 +8,15 @@ import {
   ShippingDetails,
   Title,
 } from 'webstore-component-library'
-// TODO(alishaevn): comment this back in when it's working
-// import { createRequest } from '../../../utils'
+import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const NewServiceRequest = () => {
   const router = useRouter()
-  const { ware } = router.query
+  const { name } = router.query
 
   const initialState = {
-    name: 'New Request',
+    name,
     billingSameAsShipping: false,
     proposedDeadline: null,
     billing: {
@@ -78,16 +77,14 @@ const NewServiceRequest = () => {
       if (requestForm.billingSameAsShipping === true) {
         Object.assign(requestForm.billing, requestForm.shipping)
       }
-      // TODO(alishaevn): comment this back in when it's working
-      // createRequest(requestForm)
-      // TODO(summercook) remove this when createRequest works.
-      // only console log valid requests.
-      console.log(requestForm)
+
+      createRequest(requestForm)
     }
   }
+
   return(
     <div className='container'>
-      <Title title={ware} addClass='my-4' />
+      <Title title={name} addClass='my-4' />
       <Form
         onSubmit={handleSubmit}
         id='new-request-form'
