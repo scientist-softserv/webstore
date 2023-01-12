@@ -9,17 +9,18 @@ import {
   ShippingDetails,
   Title,
 } from 'webstore-component-library'
-import { useInitializeRequest } from '../../../utils'
+import { addDays, useInitializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const NewRequest = () => {
   const router = useRouter()
   const { id } = router.query
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
+  const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
   const initialFormData = { 'suppliers_identified': 'Yes' }
   const initialState = {
     billingSameAsShipping: false,
-    proposedDeadline: null,
+    proposedDeadline: oneWeekFromNow,
     billing: {
       street: '',
       street2: '',
@@ -66,19 +67,13 @@ const NewRequest = () => {
   }
 
   const handleSubmit = (event) => {
+    // NOTE(alishaevn): leaving this commented out code because it may come back into play with the blank form
     // event.preventDefault()
     // event.stopPropagation()
     // setValidated(true)
 
     // if (event.currentTarget.checkValidity()) {
-    //   if (requestForm.billingSameAsShipping === true) {
-    //     Object.assign(requestForm.billing, requestForm.shipping)
-    //   }
-    //   // TODO(alishaevn): comment this back in when it's working
-    //   // createRequest(requestForm)
-    //   // TODO(summercook) remove this when createRequest works.
-    //   // only console log valid requests.
-    //   console.log(requestForm)
+      if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
     // }
 
     console.log('submitting::', { formData, requestForm })
@@ -86,12 +81,11 @@ const NewRequest = () => {
 
   // TODO(alishaevn): use react bs placeholder component
   if (isLoadingInitialRequest || !id) return <Loading wrapperClass='item-page' />
-
   if (isInitialRequestError) return <h1>{`${isInitialRequestError.name}: ${isInitialRequestError.message}`}</h1>
 
   return(
     <div className='container'>
-      <Title title={dynamicForm.name} addClass='my-4' />
+      <Title title={dynamicForm.name || ''} addClass='my-4' />
       {dynamicForm.schema &&
         <Form
           formData={formData}
@@ -110,7 +104,7 @@ const NewRequest = () => {
               />
             </div>
             <div className='col'>
-              <AdditionalInfo updateRequestForm={updateRequestForm} />
+              <AdditionalInfo updateRequestForm={updateRequestForm} defaultRequiredDate={oneWeekFromNow} />
             </div>
           </div>
           <Button
