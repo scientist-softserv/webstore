@@ -100,7 +100,7 @@ export const useInitializeRequest = (id) => {
 // TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
 // update the method at the code above to return the configured schema below
 export const dynamicFormSchema = (defaultSchema) => {
-  const acceptableProperties = ['quote_information', 'description', 'timeline']
+  const removedProperties = ['concierge_support', 'suppliers_identified', 'price_comparison', 'number_suppliers', 'supplier_criteria', 'supplier_confirmation']
   let propertyFields = {}
   let requiredFields = []
   let dependencyFields = {}
@@ -109,7 +109,7 @@ export const dynamicFormSchema = (defaultSchema) => {
     const [key, value] = prop
     let adjustedProperty
 
-    if (acceptableProperties.includes(key)) {
+    if (!removedProperties.includes(key)) {
       if (value.required) {
         requiredFields.push(key)
         let { required, ...remainingProperties } = value
