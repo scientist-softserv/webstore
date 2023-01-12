@@ -84,7 +84,7 @@ export const useInitializeRequest = (id) => {
 
     dynamicForm = {
       schema,
-      title: data.name,
+      name: data.name,
       uiSchema: dynamicFormUiSchema(schema, defaultOptions),
     }
   }

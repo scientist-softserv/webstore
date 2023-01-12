@@ -14,12 +14,11 @@ import { useInitializeRequest } from '../../../utils'
 
 const NewServiceRequest = () => {
   const router = useRouter()
-  const { id, name } = router.query
+  const { id } = router.query
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
   const initialFormData = { 'suppliers_identified': 'Yes' }
 
   const initialState = {
-    name,
     billingSameAsShipping: false,
     proposedDeadline: null,
     billing: {
@@ -92,7 +91,7 @@ const NewServiceRequest = () => {
 
   return(
     <div className='container'>
-      <Title title={dynamicForm.title} addClass='my-4' />
+      <Title title={dynamicForm.name} addClass='my-4' />
       <Form
         formData={formData}
         onChange={e => setFormData(e.formData)}
