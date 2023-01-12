@@ -101,33 +101,37 @@ export const useInitializeRequest = (id) => {
 // update the method at the code above to return the configured schema below
 export const dynamicFormSchema = (defaultSchema) => {
   const acceptableProperties = ['quote_information', 'description', 'timeline']
-  let properties = {}
+  let propertyFields = {}
   let requiredFields = []
-  let dependencies = {}
+  let dependencyFields = {}
 
   Object.entries(defaultSchema.properties).forEach(prop => {
     const [key, value] = prop
+    let adjustedProperty
 
     if (acceptableProperties.includes(key)) {
       if (value.required) {
         requiredFields.push(key)
-        delete value['required']
+        let { required, ...remainingProperties } = value
+        adjustedProperty = { ...remainingProperties }
       }
 
       if (value.dependencies) {
-        dependencies[key] = value[key]
-        delete value['dependencies']
+        dependencyFields[key] = [value['dependencies']]
+        // fallback to the initial value in case "required" wasn't on this property
+        let { dependencies, ...remainingProperties } = adjustedProperty || value
+        adjustedProperty = { ...remainingProperties }
       }
 
-      properties[key] = value
+      propertyFields[key] = value
     }
   })
 
   return {
     'type': defaultSchema.type,
     'required': requiredFields,
-    'properties': properties,
-    'dependencies': dependencies,
+    'properties': propertyFields,
+    'dependencies': dependencyFields,
   }
 }
 
