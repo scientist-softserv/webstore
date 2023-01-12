@@ -123,7 +123,7 @@ export const dynamicFormSchema = (defaultSchema) => {
         adjustedProperty = { ...remainingProperties }
       }
 
-      propertyFields[key] = value
+      propertyFields[key] = adjustedProperty
     }
   })
 
