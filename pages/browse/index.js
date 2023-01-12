@@ -26,6 +26,7 @@ const Browse = () => {
       <SearchBar onSubmit={handleOnSubmit} initialValue={existingQuery} />
       {isLoading
         ? (
+          // TODO(alishaevn): refactor for prop error: missing "item.id"
           <Item isLoading={isLoading} orientation='horizontal' />
         ) : (
           services.map(service => (
@@ -38,7 +39,6 @@ const Browse = () => {
               buttonProps={{
                 backgroundColor: '#A9A9A9',
                 label: 'Request this item',
-                primary: true,
               }}
             />
           ))

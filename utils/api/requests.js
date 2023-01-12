@@ -101,7 +101,10 @@ export const useInitializeRequest = (id) => {
 export const dynamicFormSchema = (defaultSchema) => {
   // TODO(alishaevn): may need to account for multiple forms
 
-  const removedProperties = ['concierge_support', 'suppliers_identified', 'price_comparison', 'number_suppliers', 'supplier_criteria', 'supplier_confirmation']
+  const removedProperties = [
+    'concierge_support', 'suppliers_identified', 'price_comparison', 'number_suppliers',
+    'supplier_criteria', 'supplier_confirmation'
+  ]
   let propertyFields = {}
   let requiredFields = []
   let dependencyFields = {}
