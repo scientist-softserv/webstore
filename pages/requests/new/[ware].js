@@ -98,23 +98,10 @@ const NewRequest = () => {
           uiSchema={dynamicForm.uiSchema}
           validator={validator}
         >
-          <div className='row'>
-            <div className='col'>
-              <ShippingDetails
-                billingCountry={requestForm.billing.country}
-                shippingCountry={requestForm.shipping.country}
-                updateRequestForm={updateRequestForm}
-              />
-            </div>
-            <div className='col'>
-              <AdditionalInfo updateRequestForm={updateRequestForm} defaultRequiredDate={oneWeekFromNow} />
-            </div>
-          </div>
-          <Button
-            addClass='btn btn-primary my-4 ms-auto d-block'
-            label='Initiate Request'
-            type='submit'
-            size='large'
+          <StandardRequestOptions
+            defaultRequiredDate={oneWeekFromNow}
+            requestForm={requestForm}
+            updateRequestForm={updateRequestForm}
           />
         </Form>
       ) : (
@@ -125,28 +112,38 @@ const NewRequest = () => {
           validated={validated}
         >
           <BlankRequestForm updateRequestForm={updateRequestForm} />
-          <div className='row'>
-            <div className='col'>
-              <ShippingDetails
-                billingCountry={requestForm.billing.country}
-                shippingCountry={requestForm.shipping.country}
-                updateRequestForm={updateRequestForm}
-              />
-            </div>
-            <div className='col'>
-              <AdditionalInfo updateRequestForm={updateRequestForm} defaultRequiredDate={oneWeekFromNow} />
-            </div>
-          </div>
-          <Button
-            addClass='btn btn-primary my-4 ms-auto d-block'
-            label='Initiate Request'
-            type='submit'
-            size='large'
+          <StandardRequestOptions
+            defaultRequiredDate={oneWeekFromNow}
+            requestForm={requestForm}
+            updateRequestForm={updateRequestForm}
           />
         </BsForm>
       )}
     </div>
   )
 }
+
+const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateRequestForm, }) => (
+  <>
+    <div className='row'>
+      <div className='col'>
+        <ShippingDetails
+          billingCountry={requestForm.billing.country}
+          shippingCountry={requestForm.shipping.country}
+          updateRequestForm={updateRequestForm}
+        />
+      </div>
+      <div className='col'>
+        <AdditionalInfo updateRequestForm={updateRequestForm} defaultRequiredDate={defaultRequiredDate} />
+      </div>
+    </div>
+    <Button
+      addClass='btn btn-primary my-4 ms-auto d-block'
+      label='Initiate Request'
+      type='submit'
+      size='large'
+    />
+  </>
+)
 
 export default NewRequest
