@@ -5,6 +5,24 @@
     "quotes": ["error", "single", {
       "avoidEscape": true,
       "allowTemplateLiterals": true
-    }]
+    }],
+    "max-len": ["error", { "code": 140 }],
+    "object-curly-newline": ["error", {
+      "ImportDeclaration": { "multiline": true, "minProperties": 4 },
+      "ExportDeclaration": { "multiline": true, "minProperties": 4 }
+    }],
+    "react/function-component-definition": [
+      "error",
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "semi": ["error", "never"],
+    "camelcase": ["warn", {
+      "ignoreDestructuring": true
+      }
+    ],
+    "no-var": "error"
   }
 }

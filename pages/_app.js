@@ -1,5 +1,11 @@
 import { Footer, Header } from '@scientist-softserv/webstore-component-library'
-import { FOOTER_NAME, FOOTER_SECTIONS, FOOTER_SOCIALS, getCurrentUser, LOGO } from '../utils'
+import {
+  FOOTER_NAME,
+  FOOTER_SECTIONS,
+  FOOTER_SOCIALS,
+  LOGO,
+  useCurrentUser,
+} from '../utils'
 import '../utils/theme/globals.scss'
 
 // putting the header and footer here mean that they automatically surround every page
@@ -14,7 +20,7 @@ const Webstore = ({ Component, pageProps }) => {
         logOutLink='/'
         requestsLink='/requests'
       />
-      <Component {...pageProps} {...getCurrentUser()} />
+      <Component {...pageProps} {...useCurrentUser()} />
       <Footer
         companyName={FOOTER_NAME}
         sections={FOOTER_SECTIONS}
