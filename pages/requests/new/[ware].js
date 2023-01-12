@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import validator from '@rjsf/validator-ajv8'
 import Form from '@rjsf/core'
+import validator from '@rjsf/validator-ajv8'
 import { useRouter } from 'next/router'
 import {
   AdditionalInfo,
@@ -12,12 +12,11 @@ import {
 import { useInitializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
-const NewServiceRequest = () => {
+const NewRequest = () => {
   const router = useRouter()
   const { id } = router.query
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
   const initialFormData = { 'suppliers_identified': 'Yes' }
-
   const initialState = {
     billingSameAsShipping: false,
     proposedDeadline: null,
@@ -41,6 +40,7 @@ const NewServiceRequest = () => {
     },
     attachments: [],
   }
+
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
   const [formData, setFormData] = useState(initialFormData)
@@ -81,46 +81,48 @@ const NewServiceRequest = () => {
     //   console.log(requestForm)
     // }
 
-    console.log('submitting::', { event, formData, requestForm })
+    console.log('submitting::', { formData, requestForm })
   }
 
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest) return <Loading wrapperClass='item-page' />
+  if (isLoadingInitialRequest || !id) return <Loading wrapperClass='item-page' />
 
   if (isInitialRequestError) return <h1>{`${isInitialRequestError.name}: ${isInitialRequestError.message}`}</h1>
 
   return(
     <div className='container'>
       <Title title={dynamicForm.name} addClass='my-4' />
-      <Form
-        formData={formData}
-        onChange={e => setFormData(e.formData)}
-        onSubmit={handleSubmit}
-        schema={dynamicForm.schema}
-        uiSchema={dynamicForm.uiSchema}
-        validator={validator}
-      >
-        <div className='row'>
-          <div className='col'>
-            <ShippingDetails
-              billingCountry={requestForm.billing.country}
-              shippingCountry={requestForm.shipping.country}
-              updateRequestForm={updateRequestForm}
-            />
+      {dynamicForm.schema &&
+        <Form
+          formData={formData}
+          onChange={e => setFormData(e.formData)}
+          onSubmit={handleSubmit}
+          schema={dynamicForm.schema}
+          uiSchema={dynamicForm.uiSchema}
+          validator={validator}
+        >
+          <div className='row'>
+            <div className='col'>
+              <ShippingDetails
+                billingCountry={requestForm.billing.country}
+                shippingCountry={requestForm.shipping.country}
+                updateRequestForm={updateRequestForm}
+              />
+            </div>
+            <div className='col'>
+              <AdditionalInfo updateRequestForm={updateRequestForm} />
+            </div>
           </div>
-          <div className='col'>
-            <AdditionalInfo updateRequestForm={updateRequestForm} />
-          </div>
-        </div>
-        <Button
-          addClass='my-4 ms-auto d-block btn btn-primary'
-          label='Initiate Request'
-          type='submit'
-          size='large'
-        />
-      </Form>
+          <Button
+            addClass='my-4 ms-auto d-block btn btn-primary'
+            label='Initiate Request'
+            type='submit'
+            size='large'
+          />
+        </Form>
+      }
     </div>
   )
 }
 
-export default NewServiceRequest
+export default NewRequest

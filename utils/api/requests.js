@@ -75,21 +75,20 @@ export const sendMessage = ({ id, message, files }) => {
 
 export const useInitializeRequest = (id) => {
   const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
-  let dynamicForm
+  let dynamicForm = { name: data?.name }
 
-  if (data) {
+  if (data?.dynamic_form) {
     const defaultSchema = data.dynamic_form.schema
     const defaultOptions = data.dynamic_form.options
     const schema = dynamicFormSchema(defaultSchema)
 
     dynamicForm = {
+      ...dynamicForm,
       schema,
-      name: data.name,
       uiSchema: dynamicFormUiSchema(schema, defaultOptions),
     }
   }
 
-  // TODO:(alishaevn): this may need to be altered for a blank request
   return {
     dynamicForm,
     isLoadingInitialRequest: !error && !dynamicForm,
@@ -100,6 +99,8 @@ export const useInitializeRequest = (id) => {
 // TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
 // update the method at the code above to return the configured schema below
 export const dynamicFormSchema = (defaultSchema) => {
+  // TODO(alishaevn): may need to account for multiple forms
+
   const removedProperties = ['concierge_support', 'suppliers_identified', 'price_comparison', 'number_suppliers', 'supplier_criteria', 'supplier_confirmation']
   let propertyFields = {}
   let requiredFields = []
