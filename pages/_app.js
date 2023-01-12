@@ -1,4 +1,4 @@
-import { Footer, Header } from 'webstore-component-library'
+import { Footer, Header } from '@scientist-softserv/webstore-component-library'
 import { FOOTER_NAME, FOOTER_SECTIONS, FOOTER_SOCIALS, getCurrentUser, LOGO } from '../utils'
 import '../utils/theme/globals.scss'
 
