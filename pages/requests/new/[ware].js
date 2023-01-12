@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { default as BsForm } from 'react-bootstrap/Form'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { useRouter } from 'next/router'
 import {
   AdditionalInfo,
+  BlankRequestForm,
   Button,
   Loading,
   ShippingDetails,
@@ -67,14 +69,15 @@ const NewRequest = () => {
   }
 
   const handleSubmit = (event) => {
-    // NOTE(alishaevn): leaving this commented out code because it may come back into play with the blank form
-    // event.preventDefault()
-    // event.stopPropagation()
-    // setValidated(true)
+    if (!event.formData) {
+      // these steps are needed for requests without a dynamic form
+      // but error on the event resulting from the react json form
+      event.preventDefault()
+      event.stopPropagation()
+      setValidated(true)
+    }
 
-    // if (event.currentTarget.checkValidity()) {
-      if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
-    // }
+    if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
 
     console.log('submitting::', { formData, requestForm })
   }
@@ -86,7 +89,7 @@ const NewRequest = () => {
   return(
     <div className='container'>
       <Title title={dynamicForm.name || ''} addClass='my-4' />
-      {dynamicForm.schema &&
+      {dynamicForm.schema ? (
         <Form
           formData={formData}
           onChange={e => setFormData(e.formData)}
@@ -108,13 +111,40 @@ const NewRequest = () => {
             </div>
           </div>
           <Button
-            addClass='my-4 ms-auto d-block btn btn-primary'
+            addClass='btn btn-primary my-4 ms-auto d-block'
             label='Initiate Request'
             type='submit'
             size='large'
           />
         </Form>
-      }
+      ) : (
+        <BsForm
+          onSubmit={handleSubmit}
+          id={`new-${id}-request-form`}
+          noValidate
+          validated={validated}
+        >
+          <BlankRequestForm updateRequestForm={updateRequestForm} />
+          <div className='row'>
+            <div className='col'>
+              <ShippingDetails
+                billingCountry={requestForm.billing.country}
+                shippingCountry={requestForm.shipping.country}
+                updateRequestForm={updateRequestForm}
+              />
+            </div>
+            <div className='col'>
+              <AdditionalInfo updateRequestForm={updateRequestForm} defaultRequiredDate={oneWeekFromNow} />
+            </div>
+          </div>
+          <Button
+            addClass='btn btn-primary my-4 ms-auto d-block'
+            label='Initiate Request'
+            type='submit'
+            size='large'
+          />
+        </BsForm>
+      )}
     </div>
   )
 }
