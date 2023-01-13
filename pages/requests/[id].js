@@ -9,7 +9,7 @@ import {
   StatusBar,
   TextBox,
   Title,
-} from 'webstore-component-library'
+} from '@scientist-softserv/webstore-component-library'
 import {
   sendMessage,
   useAllMessages,
