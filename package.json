@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir pages --dir utils",
-    "test": "jest --watch"
+    "test": "jest",
+    "test-watch": "jest --watch"
   },
   "dependencies": {
     "@scientist-softserv/webstore-component-library": "^0.1.7",
