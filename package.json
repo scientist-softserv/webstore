@@ -2,14 +2,19 @@
   "name": "webstore",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^19.2.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir pages --dir utils",
-    "test": "jest --watch"
+    "test": "jest",
+    "test-watch": "jest --watch"
   },
   "dependencies": {
+    "@scientist-softserv/webstore-component-library": "^0.1.7",
     "axios": "^1.1.3",
     "bootstrap": "^5.2.3",
     "next": "12.3.1",

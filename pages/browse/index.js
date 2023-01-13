@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Item, SearchBar } from 'webstore-component-library'
+import { Item, SearchBar } from '@scientist-softserv/webstore-component-library'
 import { configureServices, useFilteredWares } from '../../utils'
 
 const Browse = () => {
