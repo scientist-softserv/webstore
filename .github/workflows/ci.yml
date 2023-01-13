@@ -17,6 +17,8 @@ jobs:
           # Defaults to the user or organization that owns the workflow file
           scope: '@scientist-softserv'
           node-version-file: package.json
+      - name: Authenticate with private GPR package
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
