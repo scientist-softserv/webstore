@@ -15,6 +15,7 @@ jobs:
         with:
           registry-url: 'https://npm.pkg.github.com'
           node-version-file: package.json
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
