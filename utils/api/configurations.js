@@ -69,7 +69,7 @@ const normalizeDescription = (text) => {
     : description
 }
 
-const normalizeDate = (str) => {
+export const normalizeDate = (str) => {
   const date = new Date(str)
   return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
 }
