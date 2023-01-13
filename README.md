@@ -31,16 +31,27 @@ the github npm repository, which in turn requires an auth token to pull
   1. Create classic token on your github account https://github.com/settings/tokens
   2. `echo "//npm.pkg.github.com/:_authToken=$THE_ABOVE_TOKEN_GOES_HERE" >> ~/.npmrc`
 
-### Component Library
+### Component Library Dev Mode
 
 The webstore requires a [React component library](https://reactjs.org/docs/react-component.html), you must manually clone the component library to your computer, build, and link it:
 
-  1. `git clone https://github.com/scientist-softserv/webstore-component-library.git`
-  2. `cd webstore-component-library`
-  3. `npm i`
-  4. Either one-time build `npm run build-lib`, or live rebuild: `npm run watch-lib`
-  5. `yarn link` to configure yarn where to find `webstore-component-library`
-  6. This satisfies the `webstore-component-library` dependency, now you can switch back to `webstore`
+Preparing your local copy of the component library:
+
+    git clone https://github.com/scientist-softserv/webstore-component-library.git
+    cd webstore-component-library
+    npm install
+    yarn link # now there is a magic symlink in `~/.config/yarn/link` usable by the webstore app
+
+And you have to decide how often you want to rebuild the component library:
+
+    npm run build-lib # for a onetime build
+    npm run watch-lib # for a continuous build
+
+Back in your webstore checkout:
+
+    yarn link "@scientist-softserv/webstore-component-library"
+
+and your `webstore` will start using the local component build.
 
 # Linting
 ``` bash
