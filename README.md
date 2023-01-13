@@ -11,7 +11,7 @@
 
 ## Getting Started
 
-  1. Manage manual dependencies using instructions below
+  1. Configure token to pull from the github npm repository
   2. `yarn` to install automatic dependencies
   3. `yarn dev` to boot this app as a server
   - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
@@ -23,7 +23,13 @@
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages. -->
 
-## Manual Dependency Installation
+### Configure token to pull from the github npm repository
+
+The webstore depends on a library of view components. That dependency is packaged and released independently and we fetch it from
+the github npm repository, which in turn requires an auth token to pull
+
+  1. Create classic token on your github account https://github.com/settings/tokens
+  2. `echo "//npm.pkg.github.com/:_authToken=$THE_ABOVE_TOKEN_GOES_HERE" >> ~/.npmrc`
 
 ### Component Library
 
@@ -35,10 +41,6 @@ The webstore requires a [React component library](https://reactjs.org/docs/react
   4. Either one-time build `npm run build-lib`, or live rebuild: `npm run watch-lib`
   5. `yarn link` to configure yarn where to find `webstore-component-library`
   6. This satisfies the `webstore-component-library` dependency, now you can switch back to `webstore`
-
-### In its production mode
-<!-- TODO -->
-
 
 # Linting
 ``` bash
@@ -54,11 +56,19 @@ yarn lint --fix
 This project uses both Cypress and Jest for testing.
 
 ## Jest
+
 To run all jest tests for files you have changed, run
 ```
-yarn run test
+yarn test
 ```
-and press `a` to run all jest tests in the project
+
+or if you want to run tests on changes, in a constant loop
+
+```
+yarn test-watch
+```
+
+and press `a`
 
 ## Cypress
 Cypress is an desktop application that runs on your computer. Cypress is already installed on this project, but your machine will need to meet certain [system requirements](https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements) to run the Cypress application.
