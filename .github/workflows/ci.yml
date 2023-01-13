@@ -14,8 +14,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@scientist-softserv'
           node-version-file: package.json
-          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
