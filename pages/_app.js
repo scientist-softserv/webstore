@@ -1,4 +1,4 @@
-import { Footer, Header } from 'webstore-component-library'
+import { Footer, Header } from '@scientist-softserv/webstore-component-library'
 import {
   FOOTER_NAME,
   FOOTER_SECTIONS,

@@ -4,7 +4,7 @@ import {
   ItemGroup,
   SearchBar,
   TitledTextBox,
-} from 'webstore-component-library'
+} from '@scientist-softserv/webstore-component-library'
 import hero from '../assets/img/hero.jpg'
 import {
   configureServices,
