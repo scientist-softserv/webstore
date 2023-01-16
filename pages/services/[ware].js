@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ItemPage, Loading } from 'webstore-component-library'
+import { ItemPage, Loading } from '@scientist-softserv/webstore-component-library'
 import { DEFAULT_WARE_IMAGE, useOneWare } from '../../utils'
 
 const Service = () => {
