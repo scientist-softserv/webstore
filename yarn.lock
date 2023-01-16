@@ -838,10 +838,10 @@
     nanoid "^3.3.4"
     prop-types "^15.7.2"
 
-"@rjsf/utils@^5.0.0-beta.15":
-  version "5.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@rjsf/utils/-/utils-5.0.0-beta.15.tgz#a999e12a3423dcc69080bfcdc3168125fe5bbd4b"
-  integrity sha512-9hGPa5eWk2iWDmaXrGeFibyvDSnz3ozIAgt4+j0t8p0zSDHHjWn+w0I/KwkXgDQeM0yUm4NabSucUxXB8uzg9w==
+"@rjsf/utils@^5.0.0-beta.16":
+  version "5.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@rjsf/utils/-/utils-5.0.0-beta.16.tgz#c31c3750445491791a79f2cc1a0fe914896fadd1"
+  integrity sha512-dNQ620Q6a9cB28sjjRgJkxIuD9TFd03sNMlcZVdZOuZC6wjfGc4rKG0Lc7+xgLFvSPFKwXJprzfKSM3yuy9jXg==
   dependencies:
     json-schema-merge-allof "^0.8.1"
     jsonpointer "^5.0.1"
@@ -858,6 +858,7 @@
     ajv8 "npm:ajv@^8.11.0"
     lodash "^4.17.15"
     lodash-es "^4.17.15"
+
 "@rollup/plugin-commonjs@^23.0.0":
   version "23.0.7"
   resolved "https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-23.0.7.tgz"
@@ -1407,6 +1408,7 @@ ajv-formats@^2.1.1:
     ajv "^8.0.0"
 
 "ajv8@npm:ajv@^8.11.0", ajv@^8.0.0:
+  name ajv8
   version "8.12.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
   integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
@@ -1991,6 +1993,11 @@ common-tags@^1.8.0:
   resolved "https://registry.npmjs.org/common-tags/-/common-tags-1.8.2.tgz"
   integrity sha512-gk/Z852D2Wtb//0I+kRFNKKE9dIIVirjoqPoA1wJU+XePVXZfGeBpk45+A1rKO4Q43prqWBNY/MiIeRLbPWUaA==
 
+commondir@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/commondir/-/commondir-1.0.1.tgz"
+  integrity sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==
+
 compute-gcd@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/compute-gcd/-/compute-gcd-1.2.1.tgz#34d639f3825625e1357ce81f0e456a6249d8c77f"
@@ -2009,10 +2016,6 @@ compute-lcm@^1.1.2:
     validate.io-array "^1.0.3"
     validate.io-function "^1.0.2"
     validate.io-integer-array "^1.0.0"
-commondir@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/commondir/-/commondir-1.0.1.tgz"
-  integrity sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==
 
 concat-map@0.0.1:
   version "0.0.1"
@@ -4202,9 +4205,9 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
-lodash-es@^4.17.21:
+lodash-es@^4.17.15, lodash-es@^4.17.21:
   version "4.17.21"
-  resolved "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.21.tgz"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
   integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
 
 lodash.merge@^4.6.2:
@@ -4217,7 +4220,7 @@ lodash.once@^4.1.1:
   resolved "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz"
   integrity sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==
 
-lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4:
+lodash@^4.17.11, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4:
   version "4.17.21"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
