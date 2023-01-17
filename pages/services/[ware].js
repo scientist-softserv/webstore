@@ -8,7 +8,6 @@ const Service = () => {
   const { ware, isLoading, isError } = useOneWare(id)
 
   if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
-  console.log(ware)
   return (
     <>
       {isLoading
