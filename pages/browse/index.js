@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Item, SearchBar } from 'webstore-component-library'
-import { configureServices, useAllWares } from '../../utils'
+import { Item, SearchBar } from '@scientist-softserv/webstore-component-library'
+import { configureServices, useFilteredWares } from '../../utils'
 
 const Browse = () => {
   const router = useRouter()
@@ -12,16 +12,12 @@ const Browse = () => {
     if (existingQuery) setQuery(existingQuery)
   }, [existingQuery])
 
-  // TODO(alishaevn): once the api is updated to accept a query with this path, we will want to delete line 17,
-  // uncomment line 18 and delete the filter method from the "services" variable definition
-  const { wares, isLoading, isError } = useAllWares()
-  // const { wares, isLoading, isError } = useFilteredWares(query)
-  const services = configureServices({ data: wares, path: '/requests/new' })?.filter((ware) => {
-    const queryExpression = new RegExp(query, 'i')
-    return queryExpression.test(ware.name)
-  })
-
-  const handleOnSubmit = ({ value }) => setQuery(value)
+  const { wares, isLoading, isError } = useFilteredWares(query)
+  const services = configureServices({ data: wares, path: '/requests/new' })
+  const handleOnSubmit = ({ value }) => {
+    setQuery(value)
+    return router.push({ pathname: '/browse', query: { q: value } }, (value.length > 0 ? `/browse?q=${value}` : '/browse'))
+  }
 
   if (isError) return <h1>Error...</h1>
 
@@ -30,6 +26,7 @@ const Browse = () => {
       <SearchBar onSubmit={handleOnSubmit} initialValue={existingQuery} />
       {isLoading
         ? (
+          // TODO(alishaevn): refactor for prop error: missing "item.id"
           <Item isLoading={isLoading} orientation='horizontal' />
         ) : (
           services.map(service => (
@@ -42,7 +39,6 @@ const Browse = () => {
               buttonProps={{
                 backgroundColor: '#A9A9A9',
                 label: 'Request this item',
-                primary: true,
               }}
             />
           ))

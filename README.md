@@ -10,32 +10,48 @@
 ---
 
 ## Getting Started
-_Next JS uses `yarn` to install all packages so for the time being, I'm also deciding to use yarn._
 
-- Run `yarn` to install any packages
-- Run the development server:
-  ```bash
-  yarn dev
-  ```
-- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
-- Create pages by adding them to the `pages` directory
-  - Reference [this documentation](https://nextjs.org/docs/basic-features/pages) for more info about pages
-  - The page auto-updates as you edit the file, although there may be a few seconds delay
+  1. Configure token to pull from the github npm repository
+  2. `yarn` to install automatic dependencies
+  3. `yarn dev` to boot this app as a server
+  - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
+  - Create pages by adding them to the `pages` directory
+    - Reference [this documentation](https://nextjs.org/docs/basic-features/pages) for more info about pages
+    - The page auto-updates as you edit the file, although there may be a few seconds delay
 
 <!-- [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages. -->
 
-## Using the component library
-### In its development mode
-- If you have not before, run `yarn link` in the component library repo (this establishes the library locally)
-- If you have not before, run `yarn link "webstore-component-library"` in this repository (this allows us to import components from the library)
-- Run `npm run watch-lib` in the component library repo (this allows rollup to rebuild the library when changes are made. there may be a delay up to 30 seconds)
-- Import and use components from the library in the pages of the webstore
+### Configure token to pull from the github npm repository
 
-### In its production mode
-<!-- TODO -->
+The webstore depends on a library of view components. That dependency is packaged and released independently and we fetch it from
+the github npm repository, which in turn requires an auth token to pull
 
+  1. Create classic token on your github account https://github.com/settings/tokens
+  2. `echo "//npm.pkg.github.com/:_authToken=$THE_ABOVE_TOKEN_GOES_HERE" >> ~/.npmrc`
+
+### Component Library Dev Mode
+
+The webstore requires a [React component library](https://reactjs.org/docs/react-component.html), you must manually clone the component library to your computer, build, and link it:
+
+Preparing your local copy of the component library:
+
+    git clone https://github.com/scientist-softserv/webstore-component-library.git
+    cd webstore-component-library
+    npm install
+    yarn link # now there is a magic symlink in `~/.config/yarn/link` usable by the webstore app
+
+And you have to decide how often you want to rebuild the component library:
+
+    npm run build-lib # for a onetime build
+    npm run watch-lib # for a continuous build
+
+Back in your webstore checkout:
+
+    yarn link "@scientist-softserv/webstore-component-library"
+
+and your `webstore` will start using the local component build.
 
 # Linting
 ``` bash
@@ -51,11 +67,19 @@ yarn lint --fix
 This project uses both Cypress and Jest for testing.
 
 ## Jest
+
 To run all jest tests for files you have changed, run
 ```
-yarn run test
+yarn test
 ```
-and press `a` to run all jest tests in the project
+
+or if you want to run tests on changes, in a constant loop
+
+```
+yarn test-watch
+```
+
+and press `a`
 
 ## Cypress
 Cypress is an desktop application that runs on your computer. Cypress is already installed on this project, but your machine will need to meet certain [system requirements](https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements) to run the Cypress application.

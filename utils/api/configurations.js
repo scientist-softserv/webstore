@@ -3,13 +3,13 @@ import { statusColors } from '../theme'
 
 export const configureServices = ({ data, path }) => {
   return data?.map(ware => {
-    const img = ware.promo_image
-      ? { src: ware.promo_image, alt: `The promotional image for ${ware.name}` }
+    const img = ware.urls.promo_image
+      ? { src: ware.urls.promo_image, alt: `The promotional image for ${ware.name}` }
       : DEFAULT_WARE_IMAGE
 
     return {
       description: ware.snippet,
-      id: ware.reference_of_id,
+      id: ware.id,
       img,
       name: ware.name,
       href: `${path}/${ware.slug}`,
@@ -18,13 +18,12 @@ export const configureServices = ({ data, path }) => {
 }
 
 export const configureRequests = ({ data, path }) => {
-  const sorted_requests = Array.isArray(data)
+  const sortedRequests = Array.isArray(data)
     ? data.sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     : [data]
 
-  return sorted_requests?.map(request => {
+  return sortedRequests?.map(request => {
     const status = configureStatus(request.status)
-
     return {
       billingAddress: {
         address: request.billing_address?.text,
@@ -70,41 +69,41 @@ const normalizeDescription = (text) => {
     : description
 }
 
-const normalizeDate = (str) => {
+export const normalizeDate = (str) => {
   const date = new Date(str)
   return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
 }
 
 export const timeSince = function(date) {
   if (typeof date !== 'object') {
-    date = new Date(date);
+    date = new Date(date)
   }
 
-  var seconds = Math.floor((new Date() - date) / 1000);
-  var intervalType;
+  let seconds = Math.floor((new Date() - date) / 1000)
+  let intervalType
 
-  var interval = Math.floor(seconds / 31536000);
+  let interval = Math.floor(seconds / 31536000)
   if (interval >= 1) {
-    intervalType = 'year';
+    intervalType = 'year'
   } else {
-    interval = Math.floor(seconds / 2592000);
+    interval = Math.floor(seconds / 2592000)
     if (interval >= 1) {
-      intervalType = 'month';
+      intervalType = 'month'
     } else {
-      interval = Math.floor(seconds / 86400);
+      interval = Math.floor(seconds / 86400)
       if (interval >= 1) {
-        intervalType = 'day';
+        intervalType = 'day'
       } else {
-        interval = Math.floor(seconds / 3600);
+        interval = Math.floor(seconds / 3600)
         if (interval >= 1) {
-          intervalType = 'hour';
+          intervalType = 'hour'
         } else {
-          interval = Math.floor(seconds / 60);
+          interval = Math.floor(seconds / 60)
           if (interval >= 1) {
-            intervalType = 'minute';
+            intervalType = 'minute'
           } else {
-            interval = seconds;
-            intervalType = 'second';
+            interval = seconds
+            intervalType = 'second'
           }
         }
       }
@@ -112,11 +111,11 @@ export const timeSince = function(date) {
   }
 
   if (interval > 1 || interval === 0) {
-    intervalType += 's';
+    intervalType += 's'
   }
 
-  return interval + ' ' + intervalType;
-};
+  return interval + ' ' + intervalType
+}
 
 export const formatBytes = (bytes, decimals = 2) => {
   if (!+bytes) return '0 Bytes'

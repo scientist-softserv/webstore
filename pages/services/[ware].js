@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { ItemPage, Loading } from 'webstore-component-library'
+import { ItemPage, Loading } from '@scientist-softserv/webstore-component-library'
 import { DEFAULT_WARE_IMAGE, useOneWare } from '../../utils'
 
 const Service = () => {
@@ -18,9 +18,12 @@ const Service = () => {
           <ItemPage
             title={ware.name}
             description={ware.description || ware.snippet}
-            // TODO(alishaevn): update the below to an actual image once
-            // https://github.com/assaydepot/scientist_api_v2/issues/184 is completed
-            img={DEFAULT_WARE_IMAGE}
+            img={
+              ware.urls.promo_image ? {
+                src: ware.urls.promo_image,
+                alt: `The promotional image for ${ware.name}`,
+              } : DEFAULT_WARE_IMAGE
+            }
           />
         )
       }
