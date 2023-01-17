@@ -25,7 +25,6 @@ jobs:
           node-version-file: package.json
       - name: Authenticate with private GPR package
         run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > $NPM_CONFIG_USERCONFIG
-      - run: cp $NPM_CONFIG_USERCONFIG .npmrc
       - run: yarn install
       - run: yarn test
 
@@ -41,6 +40,8 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - run: cp $NPM_CONFIG_USERCONFIG .npmrc
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
