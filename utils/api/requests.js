@@ -107,6 +107,8 @@ export const createRequest = (requestForm, id) => {
   const form = {}
 
   // posting(`/wares/${id}/quote_groups.json`, form)
+}
+
 export const useInitializeRequest = (id) => {
   const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
   let dynamicForm = { name: data?.name }
