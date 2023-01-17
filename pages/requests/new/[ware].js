@@ -1,25 +1,30 @@
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form'
+import { default as BsForm } from 'react-bootstrap/Form'
+import Form from '@rjsf/core'
+import validator from '@rjsf/validator-ajv8'
 import { useRouter } from 'next/router'
-import { primary } from '../../../utils/theme/variables'
 import {
   AdditionalInfo,
+  BlankRequestForm,
   Button,
+  Loading,
   ShippingDetails,
   Title,
 } from '@scientist-softserv/webstore-component-library'
+import { addDays, useInitializeRequest } from '../../../utils'
 // TODO(alishaevn): comment this back in when it's working
 // import { createRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
-const NewServiceRequest = () => {
+const NewRequest = () => {
   const router = useRouter()
-  const { ware } = router.query
-
+  const { id } = router.query
+  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
+  const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
+  const initialFormData = { 'suppliers_identified': 'Yes' }
   const initialState = {
-    name: 'New Request',
     billingSameAsShipping: false,
-    proposedDeadline: null,
+    proposedDeadline: oneWeekFromNow,
     billing: {
       street: '',
       street2: '',
@@ -38,16 +43,12 @@ const NewServiceRequest = () => {
       country: '',
       text: '',
     },
-    data: {
-      timeline: '',
-      description: '',
-      // TODO(alishaevn): does the api post function account for the supplier or does that need to be part of state?
-      suppliersIdentified: 'Yes',
-    },
     attachments: [],
   }
+
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
+  const [formData, setFormData] = useState(initialFormData)
 
   /**
    * @param {object} event onChange event
@@ -70,52 +71,81 @@ const NewServiceRequest = () => {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-    setValidated(true)
-
-    if (event.currentTarget.checkValidity()) {
-      if (requestForm.billingSameAsShipping === true) {
-        Object.assign(requestForm.billing, requestForm.shipping)
-      }
-      // TODO(alishaevn): comment this back in when it's working
-      // createRequest(requestForm)
-      // TODO(summercook) remove this when createRequest works.
-      // only console log valid requests.
-      console.log(requestForm)
+    if (!event.formData) {
+      // these steps are needed for requests without a dynamic form
+      // but error on the event resulting from the react json form
+      event.preventDefault()
+      event.stopPropagation()
+      setValidated(true)
     }
+
+    if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
+
+    console.log('submitting::', { formData, requestForm })
   }
+
+  // TODO(alishaevn): use react bs placeholder component
+  if (isLoadingInitialRequest || !id) return <Loading wrapperClass='item-page' />
+  if (isInitialRequestError) return <h1>{`${isInitialRequestError.name}: ${isInitialRequestError.message}`}</h1>
+
   return(
     <div className='container'>
-      <Title title={ware} addClass='my-4' />
-      <Form
-        onSubmit={handleSubmit}
-        id='new-request-form'
-        noValidate
-        validated={validated}
-      >
-        {/* TODO(alishaevn): add the dynamic form that's returned from the "initialize" endpoint */}
-        <div className='row'>
-          <div className='col'>
-            <ShippingDetails
-              billingCountry={requestForm.billing.country}
-              shippingCountry={requestForm.shipping.country}
-              updateRequestForm={updateRequestForm}
-            />
-          </div>
-          <div className='col'>
-            <AdditionalInfo updateRequestForm={updateRequestForm} />
-          </div>
-        </div>
-        <Button
-          addClass='my-4 ms-auto d-block btn btn-primary'
-          label='Initiate Request'
-          type='submit'
-          size='large'
-        />
-      </Form>
+      <Title title={dynamicForm.name || ''} addClass='my-4' />
+      {dynamicForm.schema ? (
+        <Form
+          formData={formData}
+          onChange={e => setFormData(e.formData)}
+          onSubmit={handleSubmit}
+          schema={dynamicForm.schema}
+          uiSchema={dynamicForm.uiSchema}
+          validator={validator}
+        >
+          <StandardRequestOptions
+            defaultRequiredDate={oneWeekFromNow}
+            requestForm={requestForm}
+            updateRequestForm={updateRequestForm}
+          />
+        </Form>
+      ) : (
+        <BsForm
+          onSubmit={handleSubmit}
+          id={`new-${id}-request-form`}
+          noValidate
+          validated={validated}
+        >
+          <BlankRequestForm updateRequestForm={updateRequestForm} />
+          <StandardRequestOptions
+            defaultRequiredDate={oneWeekFromNow}
+            requestForm={requestForm}
+            updateRequestForm={updateRequestForm}
+          />
+        </BsForm>
+      )}
     </div>
   )
 }
 
-export default NewServiceRequest
+const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateRequestForm, }) => (
+  <>
+    <div className='row'>
+      <div className='col'>
+        <ShippingDetails
+          billingCountry={requestForm.billing.country}
+          shippingCountry={requestForm.shipping.country}
+          updateRequestForm={updateRequestForm}
+        />
+      </div>
+      <div className='col'>
+        <AdditionalInfo updateRequestForm={updateRequestForm} defaultRequiredDate={defaultRequiredDate} />
+      </div>
+    </div>
+    <Button
+      addClass='btn btn-primary my-4 ms-auto d-block'
+      label='Initiate Request'
+      type='submit'
+      size='large'
+    />
+  </>
+)
+
+export default NewRequest
