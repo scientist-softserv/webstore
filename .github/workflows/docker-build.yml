@@ -41,7 +41,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - run: cp $NPM_CONFIG_USERCONFIG .npmrc
+      - run: cp $NPM_CONFIG_USERCONFIG .npmrc; cat .npmrc
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
