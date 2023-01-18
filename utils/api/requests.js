@@ -73,7 +73,7 @@ export const sendMessage = ({ id, message, files }) => {
   posting(`/quote_groups/${id}/notes.json`, note)
 }
 
-export const useCreateRequest = ({ data, id }) => {
+export const useCreateRequest = async ({ data, wareID }) => {
   // the api currently doesn't account for attachments
   let requestDescription = data.description
   let formData = data.formData
@@ -115,7 +115,8 @@ export const useCreateRequest = ({ data, id }) => {
     },
   }
 
-  posting(`/wares/${id}/quote_groups.json`, { pg_quote_group })
+  const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group })
+  return response
 }
 
 export const useInitializeRequest = (id) => {
