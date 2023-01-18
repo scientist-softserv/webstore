@@ -13,6 +13,7 @@ export const fetcher = (...args) => {
 export const posting = async (url, data) => {
   try {
     const response = await api.post(url, data)
+    // statusText: "Created"
     console.log({ response })
   } catch (error) {
     // TODO(alishaevn): handle the error when sentry is set up

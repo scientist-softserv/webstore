@@ -44,6 +44,10 @@ const NewRequest = () => {
     },
   }
 
+  // either use a useeffect to cause a redirect
+  // OR use the swr package to figure out how they want to handle changing data, not just reading it
+  // need to proxy the query through the routes where the access token exist
+
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
   const [formData, setFormData] = useState(initialFormData)
