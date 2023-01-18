@@ -73,40 +73,48 @@ export const sendMessage = ({ id, message, files }) => {
   posting(`/quote_groups/${id}/notes.json`, note)
 }
 
-export const createRequest = (requestForm, id) => {
-  console.log({ requestForm })
-  // requestForm = {
-  //   billing: {
-  //     city: "asdf",
-  //     country: "Saint Barthélemy",
-  //     state: "asdf",
-  //     street: "asdf",
-  //     street2: "asdf",
-  //     text: "",
-  //     zipCode: "asdf",
-  //   },
-  //   billingSameAsShipping: true,
-  //   data: {
-  //     description: "asdafs",
-  //     suppliersIdentified: "Yes",
-  //     timeline: "asdf",
-  //   },
-  //   name: "New Request",
-  //   proposedDeadline: "2023-01-11",
-  //   shipping: {
-  //     city: "asdf",
-  //     country: "Saint Barthélemy",
-  //     state: "asdf",
-  //     street: "asdf",
-  //     street2: "asdf",
-  //     text: "",
-  //     zipCode: "asdf",
-  //   }
-  // }
+export const useCreateRequest = ({ data, id }) => {
+  // the api currently doesn't account for attachments
+  let requestDescription = data.description
+  let formData = data.formData
 
-  const form = {}
+  // if the ware had a dynamic form, the description would come as part of the formData. otherwise, it comes from the local state
+  if (data.formData.description) {
+    const { description, ...remainingFormData } = data.formData
+    formData = remainingFormData
+    requestDescription = description
+  }
 
-  // posting(`/wares/${id}/quote_groups.json`, form)
+  const pg_quote_group = {
+    ...formData,
+    name: data.name,
+    suppliers_identified: 'Yes',
+    description: requestDescription,
+    site: {
+      billing_same_as_shipping: data.billingSameAsShipping,
+    },
+    proposed_deadline_str: data.proposedDeadline,
+    shipping_address_attributes: {
+      city: data.shipping.city,
+      country: data.shipping.country,
+      state: data.shipping.state,
+      street: data.shipping.street,
+      street2: data.shipping.street2,
+      zipcode: data.shipping.zipcode,
+      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
+    },
+    billing_address_attributes: {
+      city: data.shipping.city,
+      country: data.shipping.country,
+      state: data.shipping.state,
+      street: data.shipping.street,
+      street2: data.shipping.street2,
+      zipcode: data.shipping.zipcode,
+      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
+    },
+  }
+
+  // posting(`/wares/${id}/quote_groups.json`, JSON.stringify({ pg_quote_group }))
 }
 
 export const useInitializeRequest = (id) => {

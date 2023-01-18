@@ -11,9 +11,7 @@ import {
   ShippingDetails,
   Title,
 } from '@scientist-softserv/webstore-component-library'
-import { addDays, useInitializeRequest } from '../../../utils'
-// TODO(alishaevn): comment this back in when it's working
-// import { createRequest } from '../../../utils'
+import { addDays, useCreateRequest, useInitializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const NewRequest = () => {
@@ -24,26 +22,26 @@ const NewRequest = () => {
   const initialFormData = { 'suppliers_identified': 'Yes' }
   const initialState = {
     billingSameAsShipping: false,
+    description: '',
+    timeline: '',
     proposedDeadline: oneWeekFromNow,
+    attachments: [],
     billing: {
       street: '',
       street2: '',
       city: '',
       state: '',
-      zipCode: '',
+      zipcode: '',
       country: '',
-      text: '',
     },
     shipping: {
       street: '',
       street2: '',
       city: '',
       state: '',
-      zipCode: '',
+      zipcode: '',
       country: '',
-      text: '',
     },
-    attachments: [],
   }
 
   const [validated, setValidated] = useState(false)
@@ -81,7 +79,10 @@ const NewRequest = () => {
 
     if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
 
-    console.log('submitting::', { formData, requestForm })
+    useCreateRequest({
+      data: { name: dynamicForm.name, formData, ...requestForm },
+      id,
+    })
   }
 
   // TODO(alishaevn): use react bs placeholder component
