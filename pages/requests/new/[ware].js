@@ -16,8 +16,8 @@ import { addDays, useCreateRequest, useInitializeRequest } from '../../../utils'
 
 const NewRequest = () => {
   const router = useRouter()
-  const { id } = router.query
-  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
+  const wareID = router.query.id
+  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID)
   const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
   const initialFormData = { 'suppliers_identified': 'Yes' }
   const initialState = {
@@ -85,12 +85,12 @@ const NewRequest = () => {
 
     useCreateRequest({
       data: { name: dynamicForm.name, formData, ...requestForm },
-      id,
+      wareID,
     })
   }
 
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !id) return <Loading wrapperClass='item-page' />
+  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page' />
   if (isInitialRequestError) return <h1>{`${isInitialRequestError.name}: ${isInitialRequestError.message}`}</h1>
 
   return(
@@ -114,7 +114,7 @@ const NewRequest = () => {
       ) : (
         <BsForm
           onSubmit={handleSubmit}
-          id={`new-${id}-request-form`}
+          wareID={`new-${wareID}-request-form`}
           noValidate
           validated={validated}
         >
