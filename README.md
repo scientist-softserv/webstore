@@ -12,7 +12,7 @@
 ## Getting Started
 
   1. Configure token to pull from the github npm repository
-  2. `yarn` to install automatic dependencies
+  2. `yarn --ignore-engines` to install automatic dependencies
   3. `yarn dev` to boot this app as a server
   - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
   - Create pages by adding them to the `pages` directory
@@ -86,7 +86,7 @@ Cypress is an desktop application that runs on your computer. Cypress is already
 
 If you meet the requirements in the Cypress docs, you can run the `yarn run cypress open` command to start Cypress. from the Cypress desktop app, you will be able to create and run tests.
 
-There are 2 types of Cypress tests, e2e & component. 
+There are 2 types of Cypress tests, e2e & component.
   - e2e: tests entire flows of the application
   - component: tests components in isolation
 
