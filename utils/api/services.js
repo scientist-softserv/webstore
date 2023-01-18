@@ -12,7 +12,7 @@ export const useAllWares = () => {
 }
 
 export const useFilteredWares = (query) => {
-  const { data, error } = useSWR(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json&q=${query}`, fetcher)
+  const { data, error } = useSWR(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, fetcher)
 
   return {
     wares: data?.ware_refs,

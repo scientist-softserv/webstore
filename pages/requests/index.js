@@ -4,7 +4,7 @@ import {
   Loading,
   RequestList,
   Title,
-} from 'webstore-component-library'
+} from '@scientist-softserv/webstore-component-library'
 import { dark, useAllRequests } from '../../utils'
 
 const Requests = ({ ...props }) => {

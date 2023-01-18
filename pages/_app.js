@@ -1,6 +1,12 @@
-import { Footer, Header } from 'webstore-component-library'
+import { Footer, Header } from '@scientist-softserv/webstore-component-library'
 import { SessionProvider } from 'next-auth/react'
-import { FOOTER_NAME, FOOTER_SECTIONS, FOOTER_SOCIALS, useCurrentUser, LOGO } from '../utils'
+import {
+  FOOTER_NAME,
+  FOOTER_SECTIONS,
+  FOOTER_SOCIALS,
+  LOGO,
+  useCurrentUser,
+} from '../utils'
 import '../utils/theme/globals.scss'
 
 // putting the header and footer here mean that they automatically surround every page
