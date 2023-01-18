@@ -92,6 +92,7 @@ export const useCreateRequest = ({ data, id }) => {
     description: requestDescription,
     site: {
       billing_same_as_shipping: data.billingSameAsShipping,
+      name: data.name,
     },
     proposed_deadline_str: data.proposedDeadline,
     shipping_address_attributes: {
@@ -114,7 +115,7 @@ export const useCreateRequest = ({ data, id }) => {
     },
   }
 
-  // posting(`/wares/${id}/quote_groups.json`, JSON.stringify({ pg_quote_group }))
+  posting(`/wares/${id}/quote_groups.json`, { pg_quote_group })
 }
 
 export const useInitializeRequest = (id) => {
