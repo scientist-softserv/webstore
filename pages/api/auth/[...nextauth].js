@@ -15,17 +15,15 @@ const authOptions = {
       authorization: 'https://acme.scientist.com/oauth/authorize',
       token: 'https://acme.scientist.com/oauth/token',
       userinfo: {
-        // url: "https://example.com/oauth/userinfo",
-        // The result of this method will be the input to the `profile` callback.
+        // The result of this function will be the input to the `profile` callback.
         async request(context) {
           // context contains useful properties to help you make the request.
-          // return await makeUserinfoRequest(context)
           console.log('userinfo request', context)
           return context
         }
       },
       profile({ provider, tokens }) {
-        console.log(tokens);
+        console.log({ provider, tokens })
         return tokens.user
       }
     }

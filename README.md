@@ -12,7 +12,7 @@
 ## Getting Started
 
   1. Configure token to pull from the github npm repository
-  2. `yarn --ignore-engines` to install automatic dependencies
+  2. `yarn` to install automatic dependencies
   3. `yarn dev` to boot this app as a server
   - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
   - Create pages by adding them to the `pages` directory
