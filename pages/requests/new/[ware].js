@@ -95,9 +95,9 @@ const NewRequest = () => {
 
   useEffect(() => {
     if (requestSucceeded) {
-      router.push(
-        { pathname: `/requests/${requestID}` }
-      )
+      router.push({
+        pathname: `/requests/${requestID}`
+      })
     }
     if (requestErred) {
       //TODO: set error alerts here
