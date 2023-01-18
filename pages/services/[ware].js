@@ -15,16 +15,13 @@ const Service = () => {
           <Loading wrapperClass='item-page' />
         ) : (
           <ItemPage
-            title={ware.name}
-            description={ware.description || ware.snippet}
-            id={ware.id}
             img={
               ware.urls.promo_image ? {
                 src: ware.urls.promo_image,
                 alt: `The promotional image for ${ware.name}`,
               } : DEFAULT_WARE_IMAGE
             }
-            slug={ware.slug}
+            ware={ware}
           />
         )
       }
