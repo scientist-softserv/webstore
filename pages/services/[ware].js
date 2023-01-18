@@ -8,7 +8,6 @@ const Service = () => {
   const { ware, isLoading, isError } = useOneWare(id)
 
   if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
-
   return (
     <>
       {isLoading
@@ -16,14 +15,13 @@ const Service = () => {
           <Loading wrapperClass='item-page' />
         ) : (
           <ItemPage
-            title={ware.name}
-            description={ware.description || ware.snippet}
             img={
               ware.urls.promo_image ? {
                 src: ware.urls.promo_image,
                 alt: `The promotional image for ${ware.name}`,
               } : DEFAULT_WARE_IMAGE
             }
+            ware={ware}
           />
         )
       }
