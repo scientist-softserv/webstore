@@ -13,7 +13,6 @@
 
   1. Configure token to pull from the github npm repository
   2. `yarn` to install automatic dependencies
-    - If new dependencies are added to the project, you may need to temporarily delete the line `"@scientist-softserv/webstore-component-library": "VERSION_HERE",` from the `package.json` file in order to run `yarn` and install the new dependencies.
   3. `yarn dev` to boot this app as a server
   - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
   - Create pages by adding them to the `pages` directory
@@ -54,7 +53,7 @@ Back in your webstore checkout:
 
 and your `webstore` will start using the local component build.
 
-If new dependencies are added to the project, you will need to temporarily delete the line `"@scientist-softserv/webstore-component-library": "VERSION_HERE",` from the `package.json` file in order to run yarn and build the project with new dependencies.
+If you are using a local version of the component library, you will need to temporarily delete the line `"@scientist-softserv/webstore-component-library": "VERSION_HERE",` from the `package.json` file in order to see your local changes as opposed to pulling from the github package.
 
 # Linting
 ``` bash
