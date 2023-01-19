@@ -24,7 +24,9 @@ export const useOneRequest = (id) => {
     request = {
       ...request,
       createdAt: request.createdAt.slice(0, 12),
-      proposedDeadline: request.proposedDeadline.slice(0, 12),
+      proposedDeadline: request.proposedDeadline === 'No deadline set'
+        ? request.proposedDeadline
+        : request.proposedDeadline.slice(0, 12), // remove the time stamp
     }
   }
 
@@ -74,6 +76,7 @@ export const sendMessage = ({ id, message, files }) => {
 }
 
 export const useCreateRequest = async ({ data, wareID }) => {
+  /* eslint-disable camelcase */
   // the api currently doesn't account for attachments
   let requestDescription = data.description
   let requestTimeline = data.timeline
@@ -121,6 +124,7 @@ export const useCreateRequest = async ({ data, wareID }) => {
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group })
   return response
+  /* eslint-enable camelcase */
 }
 
 export const useInitializeRequest = (id) => {

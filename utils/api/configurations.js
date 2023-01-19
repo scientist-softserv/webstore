@@ -70,8 +70,12 @@ const normalizeDescription = (text) => {
 }
 
 export const normalizeDate = (str) => {
-  const date = new Date(str)
-  return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
+  if (str) {
+    const date = new Date(str)
+    return `${date.toDateString().substring(3)} at ${date.toLocaleTimeString()}`
+  }
+
+  return 'No deadline set'
 }
 
 export const timeSince = function(date) {
