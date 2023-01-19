@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import {
+  Error,
   Image,
   ItemGroup,
   SearchBar,
@@ -7,6 +8,7 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import hero from '../assets/img/hero.jpg'
 import {
+  configureErrors,
   configureServices,
   useAllWares,
   TEXT,
@@ -22,7 +24,12 @@ const Home = () => {
     (value.length > 0 ? `/browse?q=${value}` : '/browse')
   )
 
-  if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
+  if (isError) {
+    const { errorTitle, errorText, variant } = configureErrors(isError)
+    return (
+      <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
+    )
+  }
 
   return (
     <>

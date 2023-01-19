@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Item, SearchBar } from '@scientist-softserv/webstore-component-library'
-import { configureServices, useFilteredWares } from '../../utils'
+import { Item, Error, SearchBar } from '@scientist-softserv/webstore-component-library'
+import { configureServices, configureErrors, useFilteredWares } from '../../utils'
 
 const Browse = () => {
   const router = useRouter()
@@ -19,7 +19,12 @@ const Browse = () => {
     return router.push({ pathname: '/browse', query: { q: value } }, (value.length > 0 ? `/browse?q=${value}` : '/browse'))
   }
 
-  if (isError) return <h1>Error...</h1>
+  if (isError) {
+    const { errorTitle, errorText, variant } = configureErrors(isError)
+    return (
+      <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
+    )
+  }
 
   return (
     <div className='container'>
