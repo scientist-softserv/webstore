@@ -93,6 +93,7 @@ export const useCreateRequest = async ({ data, wareID }) => {
     suppliers_identified: 'Yes',
     description: requestDescription,
     proposed_deadline_str: data.proposedDeadline,
+    no_proposed_deadline: data.proposedDeadline ? false : true,
     timeline: requestTimeline,
     site: {
       billing_same_as_shipping: data.billingSameAsShipping,
@@ -140,7 +141,7 @@ export const useInitializeRequest = (id) => {
 
   return {
     dynamicForm,
-    isLoadingInitialRequest: !error && !dynamicForm,
+    isLoadingInitialRequest: !error && !data,
     isInitialRequestError: error,
   }
 }
