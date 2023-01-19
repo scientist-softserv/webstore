@@ -24,7 +24,9 @@ export const useOneRequest = (id) => {
     request = {
       ...request,
       createdAt: request.createdAt.slice(0, 12),
-      proposedDeadline: request.proposedDeadline.slice(0, 12),
+      proposedDeadline: request.proposedDeadline === 'No deadline set'
+        ? request.proposedDeadline
+        : request.proposedDeadline.slice(0, 12), // remove the time stamp
     }
   }
 
@@ -74,15 +76,18 @@ export const sendMessage = ({ id, message, files }) => {
 }
 
 export const useCreateRequest = async ({ data, wareID }) => {
+  /* eslint-disable camelcase */
   // the api currently doesn't account for attachments
   let requestDescription = data.description
+  let requestTimeline = data.timeline
   let formData = data.formData
 
   // if the ware had a dynamic form, the description would come as part of the formData. otherwise, it comes from the local state
   if (data.formData.description) {
-    const { description, ...remainingFormData } = data.formData
+    const { description, timeline, ...remainingFormData } = data.formData
     formData = remainingFormData
     requestDescription = description
+    requestTimeline = timeline
   }
 
   const pg_quote_group = {
@@ -90,11 +95,13 @@ export const useCreateRequest = async ({ data, wareID }) => {
     name: data.name,
     suppliers_identified: 'Yes',
     description: requestDescription,
+    proposed_deadline_str: data.proposedDeadline,
+    no_proposed_deadline: data.proposedDeadline ? false : true,
+    timeline: requestTimeline,
     site: {
       billing_same_as_shipping: data.billingSameAsShipping,
       name: data.name,
     },
-    proposed_deadline_str: data.proposedDeadline,
     shipping_address_attributes: {
       city: data.shipping.city,
       country: data.shipping.country,
@@ -117,6 +124,7 @@ export const useCreateRequest = async ({ data, wareID }) => {
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group })
   return response
+  /* eslint-enable camelcase */
 }
 
 export const useInitializeRequest = (id) => {
@@ -137,7 +145,7 @@ export const useInitializeRequest = (id) => {
 
   return {
     dynamicForm,
-    isLoadingInitialRequest: !error && !dynamicForm,
+    isLoadingInitialRequest: !error && !data,
     isInitialRequestError: error,
   }
 }
