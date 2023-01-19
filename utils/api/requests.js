@@ -138,7 +138,7 @@ export const useInitializeRequest = (id) => {
 
   return {
     dynamicForm,
-    isLoadingInitialRequest: !error && !dynamicForm,
+    isLoadingInitialRequest: !error && !data,
     isInitialRequestError: error,
   }
 }
