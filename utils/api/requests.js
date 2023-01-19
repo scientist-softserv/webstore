@@ -92,6 +92,8 @@ export const useCreateRequest = async ({ data, wareID }) => {
     name: data.name,
     suppliers_identified: 'Yes',
     description: requestDescription,
+    proposed_deadline_str: data.proposedDeadline,
+    timeline: requestTimeline,
     site: {
       billing_same_as_shipping: data.billingSameAsShipping,
       name: data.name,
