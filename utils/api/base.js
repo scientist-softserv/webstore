@@ -12,9 +12,17 @@ export const fetcher = (...args) => {
 
 export const posting = async (url, data) => {
   try {
-    await api.post(url, data)
+    const response = await api.post(url, data)
+    if (response.data.id) {
+      return {
+        success: true,
+        error: false,
+        requestID: response.data.id,
+      }
+    }
   } catch (error) {
     // TODO(alishaevn): handle the error when sentry is set up
     console.error(`The following error occurred when trying to post new data:`, error)
+    return { success: false, error, requestID: undefined }
   }
 }

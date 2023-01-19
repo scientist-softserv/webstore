@@ -11,7 +11,8 @@
 
 ## Getting Started
 
-  1. Configure token to pull from the github npm repository
+  1. [Configure token to pull from the github npm repository](configure-token-to-pull-from-the-github-npm-repository)
+  2. Confirm that your local node version is compliant with the node engine in the package.json
   2. `yarn` to install automatic dependencies
   3. `yarn dev` to boot this app as a server
   - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
@@ -52,6 +53,8 @@ Back in your webstore checkout:
     yarn link "@scientist-softserv/webstore-component-library"
 
 and your `webstore` will start using the local component build.
+
+If you are using a local version of the component library, you will need to temporarily delete the line `"@scientist-softserv/webstore-component-library": "VERSION_HERE",` from the `package.json` file in order to see your local changes as opposed to pulling from the github package.
 
 # Linting
 ``` bash

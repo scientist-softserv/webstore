@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { default as BsForm } from 'react-bootstrap/Form'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
@@ -11,44 +11,46 @@ import {
   ShippingDetails,
   Title,
 } from '@scientist-softserv/webstore-component-library'
-import { addDays, useInitializeRequest } from '../../../utils'
-// TODO(alishaevn): comment this back in when it's working
-// import { createRequest } from '../../../utils'
+import { addDays, useCreateRequest, useInitializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
+// need to proxy the query through the routes where the access token exist
 
 const NewRequest = () => {
   const router = useRouter()
-  const { id } = router.query
-  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
+  const wareID = router.query.id
+  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID)
   const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
   const initialFormData = { 'suppliers_identified': 'Yes' }
   const initialState = {
     billingSameAsShipping: false,
+    description: '',
+    timeline: '',
     proposedDeadline: oneWeekFromNow,
+    attachments: [],
     billing: {
       street: '',
       street2: '',
       city: '',
       state: '',
-      zipCode: '',
+      zipcode: '',
       country: '',
-      text: '',
     },
     shipping: {
       street: '',
       street2: '',
       city: '',
       state: '',
-      zipCode: '',
+      zipcode: '',
       country: '',
-      text: '',
     },
-    attachments: [],
   }
 
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
   const [formData, setFormData] = useState(initialFormData)
+  const [requestSucceeded, setRequestSucceeded] = useState(false)
+  const [requestErred, setRequestErred] = useState(false)
+  const [requestID, setNewRequestID] = useState(undefined)
 
   /**
    * @param {object} event onChange event
@@ -70,7 +72,7 @@ const NewRequest = () => {
     })
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     if (!event.formData) {
       // these steps are needed for requests without a dynamic form
       // but error on the event resulting from the react json form
@@ -81,11 +83,28 @@ const NewRequest = () => {
 
     if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
 
-    console.log('submitting::', { formData, requestForm })
+    const { success, error, requestID } = await useCreateRequest({
+      data: { name: dynamicForm.name, formData, ...requestForm },
+      wareID,
+    })
+    setRequestSucceeded(success)
+    setRequestErred(error)
+    setNewRequestID(requestID)
   }
 
+  useEffect(() => {
+    if (requestSucceeded) {
+      router.push({
+        pathname: `/requests/${requestID}`
+      })
+    }
+    if (requestErred) {
+      //TODO: set error alerts here
+    }
+  }, [requestSucceeded, requestErred])
+
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !id) return <Loading wrapperClass='item-page' />
+  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page' />
   if (isInitialRequestError) return <h1>{`${isInitialRequestError.name}: ${isInitialRequestError.message}`}</h1>
 
   return(
@@ -109,7 +128,7 @@ const NewRequest = () => {
       ) : (
         <BsForm
           onSubmit={handleSubmit}
-          id={`new-${id}-request-form`}
+          id={`new-${wareID}-request-form`}
           noValidate
           validated={validated}
         >
