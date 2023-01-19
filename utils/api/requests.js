@@ -95,6 +95,7 @@ export const useCreateRequest = async ({ data, wareID }) => {
       name: data.name,
     },
     proposed_deadline_str: data.proposedDeadline,
+    no_proposed_deadline: data.proposedDeadline ? false : true,
     shipping_address_attributes: {
       city: data.shipping.city,
       country: data.shipping.country,
