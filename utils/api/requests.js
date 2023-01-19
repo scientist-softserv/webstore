@@ -76,13 +76,15 @@ export const sendMessage = ({ id, message, files }) => {
 export const useCreateRequest = async ({ data, wareID }) => {
   // the api currently doesn't account for attachments
   let requestDescription = data.description
+  let requestTimeline = data.timeline
   let formData = data.formData
 
   // if the ware had a dynamic form, the description would come as part of the formData. otherwise, it comes from the local state
   if (data.formData.description) {
-    const { description, ...remainingFormData } = data.formData
+    const { description, timeline, ...remainingFormData } = data.formData
     formData = remainingFormData
     requestDescription = description
+    requestTimeline = timeline
   }
 
   const pg_quote_group = {
