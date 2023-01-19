@@ -76,13 +76,15 @@ export const sendMessage = ({ id, message, files }) => {
 export const useCreateRequest = async ({ data, wareID }) => {
   // the api currently doesn't account for attachments
   let requestDescription = data.description
+  let requestTimeline = data.timeline
   let formData = data.formData
 
   // if the ware had a dynamic form, the description would come as part of the formData. otherwise, it comes from the local state
   if (data.formData.description) {
-    const { description, ...remainingFormData } = data.formData
+    const { description, timeline, ...remainingFormData } = data.formData
     formData = remainingFormData
     requestDescription = description
+    requestTimeline = timeline
   }
 
   const pg_quote_group = {
@@ -90,12 +92,13 @@ export const useCreateRequest = async ({ data, wareID }) => {
     name: data.name,
     suppliers_identified: 'Yes',
     description: requestDescription,
+    proposed_deadline_str: data.proposedDeadline,
+    no_proposed_deadline: data.proposedDeadline ? false : true,
+    timeline: requestTimeline,
     site: {
       billing_same_as_shipping: data.billingSameAsShipping,
       name: data.name,
     },
-    proposed_deadline_str: data.proposedDeadline,
-    no_proposed_deadline: data.proposedDeadline ? false : true,
     shipping_address_attributes: {
       city: data.shipping.city,
       country: data.shipping.country,

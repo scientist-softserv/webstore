@@ -45,7 +45,6 @@ const NewRequest = () => {
     },
   }
 
-
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
   const [formData, setFormData] = useState(initialFormData)
@@ -129,7 +128,7 @@ const NewRequest = () => {
       ) : (
         <BsForm
           onSubmit={handleSubmit}
-          wareID={`new-${wareID}-request-form`}
+          id={`new-${wareID}-request-form`}
           noValidate
           validated={validated}
         >
