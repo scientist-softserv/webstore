@@ -20,9 +20,8 @@ const Browse = () => {
   }
 
   if (isError) {
-    const { errorTitle, errorText, variant } = configureErrors([isError])
     return (
-      <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
+      <Error errors={configureErrors([isError])} router={router} />
     )
   }
 

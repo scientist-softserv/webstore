@@ -31,14 +31,11 @@ const Request = () => {
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
-  
-  // pass all errors into the configureErrors function as an array
-  const { errorTitle, errorText, variant } = configureErrors([isRequestError, isSOWError, isMessagesError])
 
   if (isLoading) return <Loading wrapperClass='item-page' />
 
   if (isError) return (
-    <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
+    <Error errors={configureErrors([isError])} router={router} />
   )
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })

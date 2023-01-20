@@ -23,14 +23,6 @@ const Home = () => {
     { pathname: '/browse', query: { q: value } },
     (value.length > 0 ? `/browse?q=${value}` : '/browse')
   )
-
-  if (isError) {
-    const { errorTitle, errorText, variant } = configureErrors([isError])
-    return (
-      <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
-    )
-  }
-
   return (
     <>
       <Image
@@ -43,11 +35,17 @@ const Home = () => {
       <div className='container'>
         <SearchBar onSubmit={handleOnSubmit} />
         <TitledTextBox title={TITLE} text={TEXT} />
-        <ItemGroup
-          items={featuredServices}
-          isLoading={isLoading}
-          withTitleLink={true}
-        />
+        {isError ? (
+          <Error errors={configureErrors([isError])} router={router} showBackButton={false} canDismissAlert={true}/>
+          ) : (
+          <>
+            <ItemGroup
+              items={featuredServices}
+              isLoading={isLoading}
+              withTitleLink={true}
+            />
+          </>
+        )}
       </div>
     </>
   )
