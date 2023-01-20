@@ -1,11 +1,12 @@
-import { ErrorSchemaBuilder } from '@rjsf/utils'
 import { DEFAULT_WARE_IMAGE } from '../constants'
 import { statusColors } from '../theme'
-import { normalizeDescription, 
-        normalizeHtmlDescription, 
-        normalizeDate,
-        timeSince,
-        formatBytes } from './helpers'
+import {
+  normalizeDescription, 
+  normalizeHtmlDescription, 
+  normalizeDate,
+  timeSince,
+  formatBytes 
+} from './helpers'
 
 export const configureServices = ({ data, path }) => {
   return data?.map(ware => {
@@ -62,36 +63,36 @@ export const configureRequests = ({ data, path }) => {
 // takes an array of errors for each page or component
 export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
-  // mapp over the error array 
-  // if there are multiple, return a default title like "there were multiple errors"
-  // create a local variable "errorText" that's an empty array
   let errorText = []
+  let errorTitle = ''
   if (env == 'development') {
     errors.map(error => {
       errorText.push(JSON.stringify(error))
+      errorTitle = errors.length > 1 ? 'There were multiple errors.' : error.name
       return {
-        error: errors > 1 ? 'There were multiple errors.' : error,
-        errorText: errorText,
-        errorTitle: error.name,
-        variant: 'warning'
+        errorText, errorTitle
       }
     })
+    return {
+      errorText: errorText, // returns an array that will be mapped over in the component
+      errorTitle: errorTitle,
+      variant: 'warning'
+    }
   }
-  if (env == "production"){
+  if (env == 'production'){
     // other status codes / custom errors to be shown in production may be added here.
     // could add different variants for each status code
     let text
     switch (errors[0].response.status) {
     case 404:
-      text = 'This page was not found.'
+      text = 'This page or section was not found.'
       break
     
     default:
       text = "We're working on getting this back up and running as soon as possible."
     }
     return {
-      error: error,
-      errorText: text,
+      errorText: [text],
       errorTitle: "We're sorry - something went wrong.",
       variant: 'danger'
     }

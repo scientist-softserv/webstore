@@ -22,7 +22,7 @@ export const useFilteredWares = (query) => {
 }
 
 export const useOneWare = (id) => {
-  const { data, error } = useSWR(`/wares/${id}.json`, fetcher)
+  const { data, error } = useSWR(`/wares/${id}1.json`, fetcher)
 
   return {
     ware: data?.ware,

@@ -37,7 +37,7 @@ const Home = () => {
         <TitledTextBox title={TITLE} text={TEXT} />
         {isError ? (
           <Error errors={configureErrors([isError])} router={router} showBackButton={false} canDismissAlert={true}/>
-          ) : (
+        ) : (
           <>
             <ItemGroup
               items={featuredServices}
