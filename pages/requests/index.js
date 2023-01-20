@@ -14,15 +14,9 @@ const Requests = ({ ...props }) => {
   const { requests, isLoading, isError } = useAllRequests()
   const { user, userError, userLoading } = props
 
-  if (isError) {
-    let { errorTitle, errorText, variant } = configureErrors(isError)
-    return (
-      <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
-    )
-  }
-  
-  if (userError) {
-    let { errorTitle, errorText, variant } = configureErrors(userError)
+  const { errorTitle, errorText, variant } = configureErrors([isError, userError])
+
+  if (isError || userError ) {
     return (
       <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
     )

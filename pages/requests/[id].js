@@ -12,6 +12,7 @@ import {
   Title,
 } from '@scientist-softserv/webstore-component-library'
 import {
+  configureErrors,
   sendMessage,
   useAllMessages,
   useAllSOWs,
@@ -30,12 +31,15 @@ const Request = () => {
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
-  const { errorTitle, errorText, variant } = configureErrors(isError)
+  
+  // pass all errors into the configureErrors function as an array
+  const { errorTitle, errorText, variant } = configureErrors([isRequestError, isSOWError, isMessagesError])
 
   if (isLoading) return <Loading wrapperClass='item-page' />
-  if (isError) return [isRequestError, isSOWError, isMessagesError].map((err) => err && (
+
+  if (isError) return (
     <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
-  ))
+  )
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
 

@@ -25,7 +25,7 @@ const Home = () => {
   )
 
   if (isError) {
-    const { errorTitle, errorText, variant } = configureErrors(isError)
+    const { errorTitle, errorText, variant } = configureErrors([isError])
     return (
       <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
     )

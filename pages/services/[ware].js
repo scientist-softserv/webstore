@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { Error, ItemPage, Loading } from '@scientist-softserv/webstore-component-library'
-import { DEFAULT_WARE_IMAGE, useOneWare } from '../../utils'
+import { configureErrors, DEFAULT_WARE_IMAGE, useOneWare } from '../../utils'
 
 const Service = () => {
   const router = useRouter()
@@ -8,7 +8,7 @@ const Service = () => {
   const { ware, isLoading, isError } = useOneWare(id)
 
   if (isError) {
-    const { errorTitle, errorText, variant } = configureErrors(isError)
+    const { errorTitle, errorText, variant } = configureErrors([isError])
     return (
       <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
     )

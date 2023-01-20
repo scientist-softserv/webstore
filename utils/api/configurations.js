@@ -59,27 +59,35 @@ export const configureRequests = ({ data, path }) => {
   })
 }
 
-export const configureErrors = (error) => {
+// takes an array of errors for each page or component
+export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
-  if (env == "development"){
-    return {
-      error: error,
-      errorText: JSON.stringify(error),
-      errorTitle: error.name,
-      variant: 'warning'
-    }
+  // mapp over the error array 
+  // if there are multiple, return a default title like "there were multiple errors"
+  // create a local variable "errorText" that's an empty array
+  let errorText = []
+  if (env == 'development') {
+    errors.map(error => {
+      errorText.push(JSON.stringify(error))
+      return {
+        error: errors > 1 ? 'There were multiple errors.' : error,
+        errorText: errorText,
+        errorTitle: error.name,
+        variant: 'warning'
+      }
+    })
   }
   if (env == "production"){
-    // use a switch case here depending on status codes?
+    // other status codes / custom errors to be shown in production may be added here.
     // could add different variants for each status code
     let text
-    switch (error.response.status) {
-      case 404:
-        text = 'This page was not found.'
-        break
-
-      default:
-        text = "We're working on getting this back up and running as soon as possible."
+    switch (errors[0].response.status) {
+    case 404:
+      text = 'This page was not found.'
+      break
+    
+    default:
+      text = "We're working on getting this back up and running as soon as possible."
     }
     return {
       error: error,
