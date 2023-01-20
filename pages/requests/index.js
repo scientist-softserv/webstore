@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSession } from 'next-auth/react'
 import {
   LinkedButton,
   Loading,
@@ -8,8 +9,11 @@ import {
 import { dark, useAllRequests } from '../../utils'
 
 const Requests = ({ ...props }) => {
+  const { data: session } = useSession()
   const { requests, isLoading, isError } = useAllRequests()
   const { user, userError, userLoading } = props
+
+  // if there isn't a session, inform the user they need to sign in to access that page
 
   if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
   if (userError) return <h1>{`${userError.name}: ${userError.message}`}</h1>
