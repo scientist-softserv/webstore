@@ -3,6 +3,7 @@ import {
   ActionsGroup,
   CollapsibleSection,
   Document,
+  Error,
   Loading,
   Messages,
   RequestStats,
@@ -29,13 +30,11 @@ const Request = () => {
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
+  const { errorTitle, errorText, variant } = configureErrors(isError)
 
   if (isLoading) return <Loading wrapperClass='item-page' />
-  if (isError) return [isRequestError, isSOWError, isMessagesError].map((err, index) => err && (
-    <div key={index}>
-      <h3>{index + 1}. {err.name}:</h3>
-      <p>{err.message}</p>
-    </div>
+  if (isError) return [isRequestError, isSOWError, isMessagesError].map((err) => err && (
+    <Error variant={variant} errorTitle={errorTitle} errorText={errorText} router={router}/>
   ))
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
