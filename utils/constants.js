@@ -1,3 +1,4 @@
+import { signIn, signOut } from 'next-auth/react'
 import logo from '../assets/svg/logo.svg'
 import item from '../assets/img/item.jpg'
 
@@ -82,5 +83,28 @@ export const STATUS_ARRAY = [
   {
     statusLabel: 'Work Completed',
     statusIcon: 'fa-vial-circle-check',
+  },
+]
+
+export const NAVLINKS = [
+  {
+    label: 'Browse',
+    onClick: null,
+    path: '/browse',
+  },
+  {
+    label: 'Requests',
+    onClick: null,
+    path: '/requests',
+  },
+  {
+    label: 'Sign In',
+    onClick: () => signIn(),
+    path: '',
+  },
+  {
+    label: 'Sign Out',
+    onClick: () => signOut(),
+    path: '',
   },
 ]
