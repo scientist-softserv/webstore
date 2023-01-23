@@ -67,9 +67,10 @@ export const configureErrors = (errors) => {
   let errorTitle = ''
  
   if (env === 'development') {
-    errors.map(error => {
+    const remainingErrors = errors.filter(error => Object.keys(error).length !== 0)
+    remainingErrors.map(error => {
       errorText.push(JSON.stringify(error))
-      errorTitle = errors.length > 1 ? 'There were multiple errors.' : error.name
+      errorTitle = remainingErrors.length > 1 ? 'There were multiple errors.' : error.name
       return { errorText, errorTitle }
     })
 
