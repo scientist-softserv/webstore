@@ -7,11 +7,12 @@ import {
   AdditionalInfo,
   BlankRequestForm,
   Button,
+  Error,
   Loading,
   ShippingDetails,
   Title,
 } from '@scientist-softserv/webstore-component-library'
-import { addDays, useCreateRequest, useInitializeRequest } from '../../../utils'
+import { addDays, createRequest, useInitializeRequest } from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 // need to proxy the query through the routes where the access token exist
 
@@ -83,7 +84,7 @@ const NewRequest = () => {
 
     if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
 
-    const { success, error, requestID } = await useCreateRequest({
+    const { success, error, requestID } = await createRequest({
       data: { name: dynamicForm.name, formData, ...requestForm },
       wareID,
     })
@@ -105,7 +106,7 @@ const NewRequest = () => {
 
   // TODO(alishaevn): use react bs placeholder component
   if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page' />
-  
+
   if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
 
   return(
