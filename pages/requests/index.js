@@ -7,16 +7,18 @@ import {
   RequestList,
   Title,
 } from '@scientist-softserv/webstore-component-library'
-import { configureErrors, dark, useAllRequests } from '../../utils'
+import { configureErrors, dark, getDefaultWare, useAllRequests } from '../../utils'
 
 const Requests = ({ ...props }) => {
   const router = useRouter()
-  const { requests, isLoading, isError } = useAllRequests()
+  const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests()
   const { user, userError, userLoading } = props
+  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = getDefaultWare('make-a-request')
+  const isError =  isAllRequestsError || isDefaultWareError 
 
-  if (isError) return <Error errors={configureErrors([isError, userError])} router={router} />
+  if (isError) return <Error errors={configureErrors([isAllRequestsError, userError, isDefaultWareError])} router={router} />
   
-  if (isLoading || userLoading) return <Loading />
+  if (isLoadingAllRequests || userLoading || isLoadingDefaultWare) return <Loading />
 
   return (
     <>
@@ -28,7 +30,7 @@ const Requests = ({ ...props }) => {
               label: 'Initiate a New Request',
               size: 'large',
             }}
-            path='/requests/new'
+            path={`/requests/new/make-a-request?id=${defaultWareID}`}
             addClass='text-end d-block mt-4 mb-2'
           />
           <RequestList requests={requests} />
