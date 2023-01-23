@@ -34,7 +34,7 @@ const Request = () => {
 
   if (isLoading) return <Loading wrapperClass='item-page' />
 
-  if (isError) return <Error errors={configureErrors([isError])} router={router} />
+  if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
 

@@ -105,7 +105,8 @@ const NewRequest = () => {
 
   // TODO(alishaevn): use react bs placeholder component
   if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page' />
-  if (isInitialRequestError) return <h1>{`${isInitialRequestError.name}: ${isInitialRequestError.message}`}</h1>
+  
+  if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
 
   return(
     <div className='container'>
