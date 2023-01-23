@@ -3,6 +3,7 @@ import {
   ActionsGroup,
   CollapsibleSection,
   Document,
+  Error,
   Loading,
   Messages,
   RequestStats,
@@ -11,6 +12,7 @@ import {
   Title,
 } from '@scientist-softserv/webstore-component-library'
 import {
+  configureErrors,
   sendMessage,
   useAllMessages,
   useAllSOWs,
@@ -31,12 +33,8 @@ const Request = () => {
   const isError = isRequestError || isSOWError || isMessagesError
 
   if (isLoading) return <Loading wrapperClass='item-page' />
-  if (isError) return [isRequestError, isSOWError, isMessagesError].map((err, index) => err && (
-    <div key={index}>
-      <h3>{index + 1}. {err.name}:</h3>
-      <p>{err.message}</p>
-    </div>
-  ))
+
+  if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
 
   const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
 
