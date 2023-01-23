@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import { Error, ItemPage, Loading } from '@scientist-softserv/webstore-component-library'
-import { configureErrors, DEFAULT_WARE_IMAGE, SHOW_SERVICE_PAGE, useOneWare } from '../../utils'
+import {
+  configureErrors, DEFAULT_WARE_IMAGE, SHOW_SERVICE_PAGE, useOneWare 
+} from '../../utils'
 
 const Service = () => {
   const router = useRouter()
@@ -8,9 +10,12 @@ const Service = () => {
   const { ware, isLoading, isError } = useOneWare(id)
 
   if (isError) return <Error errors={configureErrors([isError])} router={router} />
+  
+  if (SHOW_SERVICE_PAGE === false) {
+    return <Error errors={{errorText: ["We're sorry - something went wrong."], errorTitle: 'This page or section was not found.', variant: 'danger'}} router={router} />
+  }
 
   return (
-    SHOW_SERVICE_PAGE && (
     <>
       {isLoading
         ? (
@@ -28,7 +33,7 @@ const Service = () => {
         )
       }
     </>
-    ))
+  )
 }
 
 export default Service
