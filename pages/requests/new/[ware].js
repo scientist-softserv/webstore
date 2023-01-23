@@ -102,7 +102,8 @@ const NewRequest = () => {
     if (requestErred) {
       //TODO: set error alerts here
     }
-  }, [requestSucceeded, requestErred])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestSucceeded, requestErred, requestID])
 
   // TODO(alishaevn): use react bs placeholder component
   if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page' />
