@@ -65,9 +65,9 @@ export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
   let errorText = []
   let errorTitle = ''
- 
+  const remainingErrors = errors.filter(error => error)
+  
   if (env === 'development') {
-    const remainingErrors = errors.filter(error => Object.keys(error).length !== 0)
     remainingErrors.map(error => {
       errorText.push(JSON.stringify(error))
       errorTitle = remainingErrors.length > 1 ? 'There were multiple errors.' : error.name
@@ -81,11 +81,11 @@ export const configureErrors = (errors) => {
     }
   }
 
-    if (env === 'production') {
+  if (env === 'production') {
     // other status codes / custom errors to be shown in production may be added here.
     // could add different variants for each status code
     let text
-    switch (errors[0].response.status) {
+    switch (remainingErrors[0].response.status) {
     case 404:
       text = 'This page or section was not found.'
       break
