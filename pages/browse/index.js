@@ -19,11 +19,7 @@ const Browse = () => {
     return router.push({ pathname: '/browse', query: { q: value } }, (value.length > 0 ? `/browse?q=${value}` : '/browse'))
   }
 
-  if (isError) {
-    return (
-      <Error errors={configureErrors([isError])} router={router} />
-    )
-  }
+  if (isError) return <Error errors={configureErrors([isError])} router={router} />
 
   return (
     <div className='container'>
