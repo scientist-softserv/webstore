@@ -91,6 +91,7 @@ export const configureErrors = (errors) => {
     default:
       text = "We're working on getting this back up and running as soon as possible."
     }
+
     return {
       errorText: [text],
       errorTitle: "We're sorry - something went wrong.",
