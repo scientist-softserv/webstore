@@ -79,7 +79,8 @@ export const configureErrors = (errors) => {
       variant: 'warning'
     }
   }
-  if (env == 'production'){
+
+    if (env === 'production') {
     // other status codes / custom errors to be shown in production may be added here.
     // could add different variants for each status code
     let text
