@@ -65,7 +65,8 @@ export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
   let errorText = []
   let errorTitle = ''
-  if (env == 'development') {
+ 
+  if (env === 'development') {
     errors.map(error => {
       errorText.push(JSON.stringify(error))
       errorTitle = errors.length > 1 ? 'There were multiple errors.' : error.name
