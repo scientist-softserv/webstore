@@ -69,10 +69,9 @@ export const configureErrors = (errors) => {
     errors.map(error => {
       errorText.push(JSON.stringify(error))
       errorTitle = errors.length > 1 ? 'There were multiple errors.' : error.name
-      return {
-        errorText, errorTitle
-      }
+      return { errorText, errorTitle }
     })
+
     return {
       errorText: errorText, // returns an array that will be mapped over in the component
       errorTitle: errorTitle,
