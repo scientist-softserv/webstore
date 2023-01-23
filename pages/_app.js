@@ -1,28 +1,25 @@
 import { Footer, Header } from '@scientist-softserv/webstore-component-library'
-import { SessionProvider } from 'next-auth/react'
+import { SessionProvider, signIn, signOut } from 'next-auth/react'
 import {
   FOOTER_NAME,
   FOOTER_SECTIONS,
   FOOTER_SOCIALS,
   LOGO,
-  NAVLINKS,
+  NAVIGATION_LINKS,
   useCurrentUser,
 } from '../utils'
 import '../utils/theme/globals.scss'
 
-// the default sign in page comes from the below
-// https://next-auth.js.org/v3/configuration/pages#oauth-sign-in
-
 // putting the header and footer here mean that they automatically surround every page
-const Webstore = ({ Component, pageProps: { session, ...pageProps } }) => {
-  // TODO(alishaevn): also make the user accessible to the header
-  // so we know whether we're logged in or not
-  // we cannot use the session outside of session provider though :(
+const Webstore = ({ Component, pageProps: { session } }) => {
   return (
     <SessionProvider session={session}>
       <Header
+        auth={{ signIn, signOut }}
         logo={LOGO}
-        navLinks={NAVLINKS}
+        navLinks={NAVIGATION_LINKS}
+        // TODO(alishaevn): find the appropriate way to determine the session, user token, etc.
+        // currently, session is always returning "undefined" in this component
         userSession={session}
       />
       <Component {...useCurrentUser()} />

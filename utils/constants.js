@@ -86,7 +86,7 @@ export const STATUS_ARRAY = [
   },
 ]
 
-export const NAVLINKS = [
+export const NAVIGATION_LINKS = [
   {
     label: 'Browse',
     onClick: null,
@@ -96,15 +96,5 @@ export const NAVLINKS = [
     label: 'Requests',
     onClick: null,
     path: '/requests',
-  },
-  {
-    label: 'Sign In',
-    onClick: () => signIn(),
-    path: '',
-  },
-  {
-    label: 'Sign Out',
-    onClick: () => signOut(),
-    path: '',
   },
 ]
