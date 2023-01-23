@@ -23,6 +23,7 @@ const Webstore = ({ Component, pageProps: { session, ...pageProps } }) => {
       <Header
         logo={LOGO}
         navLinks={NAVLINKS}
+        userSession={session}
       />
       <Component {...useCurrentUser()} />
       <Footer
