@@ -75,7 +75,7 @@ export const sendMessage = ({ id, message, files }) => {
   posting(`/quote_groups/${id}/notes.json`, note)
 }
 
-export const useCreateRequest = async ({ data, wareID }) => {
+export const createRequest = async ({ data, wareID }) => {
   /* eslint-disable camelcase */
   // the api currently doesn't account for attachments
   let requestDescription = data.description
@@ -142,7 +142,7 @@ export const useInitializeRequest = (id) => {
       uiSchema: dynamicFormUiSchema(schema, defaultOptions),
     }
   }
-
+  
   return {
     dynamicForm,
     isLoadingInitialRequest: !error && !data,
