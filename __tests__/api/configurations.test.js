@@ -1,4 +1,4 @@
-import { normalizeDate } from '../../utils/api/helpers'
+import { normalizeDate } from '../../utils/helpers'
 import '@testing-library/jest-dom'
 
 test('normalizes the date', () => {

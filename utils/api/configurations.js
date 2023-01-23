@@ -6,7 +6,7 @@ import {
   normalizeDate,
   timeSince,
   formatBytes 
-} from './helpers'
+} from '../helpers'
 
 export const configureServices = ({ data, path }) => {
   return data?.map(ware => {
