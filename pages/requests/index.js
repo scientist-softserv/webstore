@@ -1,22 +1,23 @@
 import React from 'react'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import {
+  Error,
   LinkedButton,
   Loading,
   RequestList,
   Title,
 } from '@scientist-softserv/webstore-component-library'
-import { dark, useAllRequests } from '../../utils'
+import { configureErrors, dark, useAllRequests } from '../../utils'
 
+// TODO(alishaevn): authenticate the user
 const Requests = ({ ...props }) => {
+  const router = useRouter()
   const { data: session } = useSession()
   const { requests, isLoading, isError } = useAllRequests()
   const { user, userError, userLoading } = props
 
-  // if there isn't a session, inform the user they need to sign in to access that page
-
-  if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
-  if (userError) return <h1>{`${userError.name}: ${userError.message}`}</h1>
+  if (isError) return <Error errors={configureErrors([isError, userError])} router={router} />
   if (isLoading || userLoading) return <Loading />
 
   return (

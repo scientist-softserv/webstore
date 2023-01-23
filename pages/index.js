@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import {
+  Error,
   Image,
   ItemGroup,
   SearchBar,
@@ -7,6 +8,7 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import hero from '../assets/img/hero.jpg'
 import {
+  configureErrors,
   configureServices,
   useAllWares,
   TEXT,
@@ -21,9 +23,6 @@ const Home = () => {
     { pathname: '/browse', query: { q: value } },
     (value.length > 0 ? `/browse?q=${value}` : '/browse')
   )
-
-  if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
-
   return (
     <>
       <Image
@@ -36,11 +35,17 @@ const Home = () => {
       <div className='container'>
         <SearchBar onSubmit={handleOnSubmit} />
         <TitledTextBox title={TITLE} text={TEXT} />
-        <ItemGroup
-          items={featuredServices}
-          isLoading={isLoading}
-          withTitleLink={true}
-        />
+        {isError ? (
+          <Error errors={configureErrors([isError])} router={router} showBackButton={false} canDismissAlert={true}/>
+        ) : (
+          <>
+            <ItemGroup
+              items={featuredServices}
+              isLoading={isLoading}
+              withTitleLink={true}
+            />
+          </>
+        )}
       </div>
     </>
   )
