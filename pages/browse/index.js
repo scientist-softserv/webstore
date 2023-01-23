@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Item, SearchBar } from '@scientist-softserv/webstore-component-library'
-import { configureServices, useFilteredWares } from '../../utils'
+import { configureServices, SHOW_SERVICE_PAGE, useFilteredWares } from '../../utils'
 
 const Browse = () => {
   const router = useRouter()
@@ -36,6 +36,7 @@ const Browse = () => {
               withButtonLink={true}
               buttonLink={service.href}
               orientation='horizontal'
+              showServicePage={SHOW_SERVICE_PAGE}
               buttonProps={{
                 backgroundColor: '#A9A9A9',
                 label: 'Request this item',

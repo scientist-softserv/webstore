@@ -84,3 +84,5 @@ export const STATUS_ARRAY = [
     statusIcon: 'fa-vial-circle-check',
   },
 ]
+
+export const SHOW_SERVICE_PAGE = false

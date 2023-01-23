@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { ItemPage, Loading } from '@scientist-softserv/webstore-component-library'
-import { DEFAULT_WARE_IMAGE, useOneWare } from '../../utils'
+import { DEFAULT_WARE_IMAGE, SHOW_SERVICE_PAGE, useOneWare } from '../../utils'
 
 const Service = () => {
   const router = useRouter()
@@ -10,6 +10,7 @@ const Service = () => {
   if (isError) return <h1>{`${isError.name}: ${isError.message}`}</h1>
 
   return (
+    SHOW_SERVICE_PAGE && (
     <>
       {isLoading
         ? (
@@ -27,7 +28,7 @@ const Service = () => {
         )
       }
     </>
-  )
+    ))
 }
 
 export default Service

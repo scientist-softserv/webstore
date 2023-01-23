@@ -13,6 +13,7 @@ export const configureServices = ({ data, path }) => {
       img,
       name: ware.name,
       href: `${path}/${ware.slug}`,
+      slug: ware.slug,
     }
   })
 }

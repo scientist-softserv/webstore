@@ -9,6 +9,7 @@ import hero from '../assets/img/hero.jpg'
 import {
   configureServices,
   useAllWares,
+  SHOW_SERVICE_PAGE,
   TEXT,
   TITLE,
 } from '../utils'
@@ -40,6 +41,7 @@ const Home = () => {
           items={featuredServices}
           isLoading={isLoading}
           withTitleLink={true}
+          showServicePage={SHOW_SERVICE_PAGE}
         />
       </div>
     </>
