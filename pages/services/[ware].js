@@ -7,11 +7,7 @@ const Service = () => {
   const { id } = router.query
   const { ware, isLoading, isError } = useOneWare(id)
 
-  if (isError) {
-    return (
-      <Error errors={configureErrors([isError])} router={router} />
-    )
-  }
+  if (isError) return <Error errors={configureErrors([isError])} router={router} />
 
   return (
     <>

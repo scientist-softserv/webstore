@@ -7,19 +7,15 @@ import {
   RequestList,
   Title,
 } from '@scientist-softserv/webstore-component-library'
-import { dark, useAllRequests, configureErrors } from '../../utils'
+import { configureErrors, dark, useAllRequests } from '../../utils'
 
 const Requests = ({ ...props }) => {
   const router = useRouter()
   const { requests, isLoading, isError } = useAllRequests()
   const { user, userError, userLoading } = props
 
-  if (isError || userError ) {
-    return (
-      <Error errors={configureErrors([isError, userError])} router={router} />
-    )
-  }
-
+  if (isError) return <Error errors={configureErrors([isError, userError])} router={router} />
+  
   if (isLoading || userLoading) return <Loading />
 
   return (

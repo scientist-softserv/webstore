@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Item, Error, SearchBar } from '@scientist-softserv/webstore-component-library'
-import { configureServices, configureErrors, useFilteredWares } from '../../utils'
+import {  Error, Item, SearchBar } from '@scientist-softserv/webstore-component-library'
+import { configureErrors, configureServices, useFilteredWares } from '../../utils'
 
 const Browse = () => {
   const router = useRouter()
