@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import {
   Error,
@@ -14,8 +15,10 @@ import {
   useAllRequests 
 } from '../../utils'
 
+// TODO(alishaevn): authenticate the user
 const Requests = ({ ...props }) => {
   const router = useRouter()
+  const { data: session } = useSession()
   const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests()
   const { user, userError, userLoading } = props
   const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare('make-a-request')
