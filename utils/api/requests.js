@@ -121,7 +121,7 @@ export const createRequest = async ({ data, wareID }) => {
       organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
     },
   }
-  
+
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group })
   return response
   /* eslint-enable camelcase */
@@ -197,7 +197,7 @@ export const getDefaultWare = (slug) => {
   const { data, error } = useSWR(`/wares.json?q=${slug}`, fetcher)
 
   return {
-    defaultWareID: data?.ware_refs?.[0].id.toString(),
+    defaultWareID: data?.ware_refs?.[0]?.id.toString(),
     isLoadingDefaultWare: !error && !data,
     isDefaultWareError: error,
   }
