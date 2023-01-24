@@ -21,7 +21,7 @@ const Requests = ({ ...props }) => {
   const { data: session } = useSession()
   const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests()
   const { user, userError, userLoading } = props
-  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare('make-a-request')
+  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare()
   const isError =  isAllRequestsError || isDefaultWareError || userError
   const isLoading = isLoadingAllRequests || userLoading || isLoadingDefaultWare
 

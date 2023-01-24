@@ -193,8 +193,8 @@ export const dynamicFormSchema = (defaultSchema) => {
   }
 }
 
-export const useDefaultWare = (slug) => {
-  const { data, error } = useSWR(`/wares.json?q=${slug}`, fetcher)
+export const useDefaultWare = () => {
+  const { data, error } = useSWR(`/wares.json?q=make-a-request`, fetcher)
 
   return {
     defaultWareID: data?.ware_refs?.[0]?.id.toString(),
