@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import {
   Error,
@@ -9,13 +10,14 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import { configureErrors, dark, useAllRequests } from '../../utils'
 
+// TODO(alishaevn): authenticate the user
 const Requests = ({ ...props }) => {
   const router = useRouter()
+  const { data: session } = useSession()
   const { requests, isLoading, isError } = useAllRequests()
   const { user, userError, userLoading } = props
 
   if (isError) return <Error errors={configureErrors([isError, userError])} router={router} />
-  
   if (isLoading || userLoading) return <Loading />
 
   return (

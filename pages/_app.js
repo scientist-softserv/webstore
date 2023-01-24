@@ -1,27 +1,28 @@
 import { Footer, Header } from '@scientist-softserv/webstore-component-library'
-import { SessionProvider } from 'next-auth/react'
+import { SessionProvider, signIn, signOut } from 'next-auth/react'
 import {
   FOOTER_NAME,
   FOOTER_SECTIONS,
   FOOTER_SOCIALS,
   LOGO,
+  NAVIGATION_LINKS,
   useCurrentUser,
 } from '../utils'
 import '../utils/theme/globals.scss'
 
 // putting the header and footer here mean that they automatically surround every page
-const Webstore = ({ Component, pageProps, session }) => {
-  // TODO(alishaevn): also make the user accessible to the header
+const Webstore = ({ Component, pageProps: { session } }) => {
   return (
     <SessionProvider session={session}>
       <Header
-        browseLink='/browse'
-        logInLink='/login'
+        auth={{ signIn, signOut }}
         logo={LOGO}
-        logOutLink='/'
-        requestsLink='/requests'
+        navLinks={NAVIGATION_LINKS}
+        // TODO(alishaevn): find the appropriate way to determine the session, user token, etc.
+        // currently, session is always returning "undefined" in this component
+        userSession={session}
       />
-      <Component {...pageProps} {...useCurrentUser()} />
+      <Component {...useCurrentUser()} />
       <Footer
         companyName={FOOTER_NAME}
         sections={FOOTER_SECTIONS}
