@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth'
 
 // For more information on each option (and a full list of options) go to: https://next-auth.js.org/configuration/options
-// The default sign in page comes from: https://next-auth.js.org/v3/configuration/pages#oauth-sign-in
 const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [

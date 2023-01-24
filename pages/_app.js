@@ -15,7 +15,10 @@ const Webstore = ({ Component, pageProps: { session } }) => {
   return (
     <SessionProvider session={session}>
       <Header
-        auth={{ signIn, signOut }}
+        auth={{
+          signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
+          signOut: () => signOut,
+        }}
         logo={LOGO}
         navLinks={NAVIGATION_LINKS}
         // TODO(alishaevn): find the appropriate way to determine the session, user token, etc.
