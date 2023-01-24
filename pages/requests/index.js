@@ -22,11 +22,12 @@ const Requests = ({ ...props }) => {
   const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests()
   const { user, userError, userLoading } = props
   const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare('make-a-request')
-  const isError =  isAllRequestsError || isDefaultWareError 
+  const isError =  isAllRequestsError || isDefaultWareError || userError
+  const isLoading = isLoadingAllRequests || userLoading || isLoadingDefaultWare
 
   if (isError) return <Error errors={configureErrors([isAllRequestsError, userError, isDefaultWareError])} router={router} />
   
-  if (isLoadingAllRequests || userLoading || isLoadingDefaultWare) return <Loading />
+  if (isLoading) return <Loading />
 
   return (
     <>
