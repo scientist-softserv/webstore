@@ -7,13 +7,18 @@ import {
   RequestList,
   Title,
 } from '@scientist-softserv/webstore-component-library'
-import { configureErrors, dark, getDefaultWare, useAllRequests } from '../../utils'
+import {
+  configureErrors,
+  dark,
+  useDefaultWare,
+  useAllRequests 
+} from '../../utils'
 
 const Requests = ({ ...props }) => {
   const router = useRouter()
   const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests()
   const { user, userError, userLoading } = props
-  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = getDefaultWare('make-a-request')
+  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare('make-a-request')
   const isError =  isAllRequestsError || isDefaultWareError 
 
   if (isError) return <Error errors={configureErrors([isAllRequestsError, userError, isDefaultWareError])} router={router} />
