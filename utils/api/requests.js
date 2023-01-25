@@ -64,6 +64,7 @@ export const useAllMessages = (id) => {
 }
 
 export const sendMessage = ({ id, message, files }) => {
+  // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
   /* eslint-disable camelcase */
   const note = {
     body: message,
@@ -72,7 +73,7 @@ export const sendMessage = ({ id, message, files }) => {
   }
   /* eslint-enable camelcase */
 
-  posting(`/quote_groups/${id}/notes.json`, note)
+  // posting(`/quote_groups/${id}/notes.json`, note)
 }
 
 export const createRequest = async ({ data, wareID }) => {
@@ -142,7 +143,7 @@ export const useInitializeRequest = (id) => {
       uiSchema: dynamicFormUiSchema(schema, defaultOptions),
     }
   }
-  
+
   return {
     dynamicForm,
     isLoadingInitialRequest: !error && !data,
