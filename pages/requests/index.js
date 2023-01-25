@@ -27,7 +27,7 @@ const Requests = ({ ...props }) => {
 
   if (isError) return <Error errors={configureErrors([isAllRequestsError, userError, isDefaultWareError])} router={router} />
   
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading wrapperClass='mt-5' />
 
   return (
     <>
