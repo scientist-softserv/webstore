@@ -11,18 +11,17 @@ import {
 import { configureErrors, dark, useAllRequests } from '../../utils'
 
 // TODO(alishaevn): authenticate the user
-const Requests = ({ ...props }) => {
+const Requests = () => {
   const router = useRouter()
   const { data: session } = useSession()
-  const { requests, isLoading, isError } = useAllRequests()
-  const { user, userError, userLoading } = props
+  const { requests, isLoading, isError } = useAllRequests(session?.accessToken)
 
-  if (isError) return <Error errors={configureErrors([isError, userError])} router={router} />
-  if (isLoading || userLoading) return <Loading />
+  if (isError) return <Error errors={configureErrors([isError])} router={router} />
+  if (isLoading) return <Loading />
 
   return (
     <>
-      {user ? (
+      {session ? (
         <div className='container'>
           <LinkedButton
             buttonProps={{

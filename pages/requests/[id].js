@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 import {
   ActionsGroup,
   CollapsibleSection,
@@ -23,10 +24,11 @@ import {
 
 const Request = () => {
   const router = useRouter()
+  const { data: session } = useSession()
   const { id } = router.query
-  const { request, isLoadingRequest, isRequestError } = useOneRequest(id)
-  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier)
-  const { messages, isLoadingMessages, isMessagesError } = useAllMessages(id)
+  const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
+  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError } = useAllMessages(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages

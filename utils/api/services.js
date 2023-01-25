@@ -1,5 +1,4 @@
 import useSWR from 'swr'
-import { fetcher } from './base'
 
 export const useAllWares = (accessToken) => {
   const { data, error } = useSWR([`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`, accessToken])
@@ -11,8 +10,8 @@ export const useAllWares = (accessToken) => {
   }
 }
 
-export const useFilteredWares = (query) => {
-  const { data, error } = useSWR(`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, fetcher)
+export const useFilteredWares = (query, accessToken) => {
+  const { data, error } = useSWR([`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, accessToken])
 
   return {
     wares: data?.ware_refs,
@@ -21,8 +20,8 @@ export const useFilteredWares = (query) => {
   }
 }
 
-export const useOneWare = (id) => {
-  const { data, error } = useSWR(`/wares/${id}.json`, fetcher)
+export const useOneWare = (id, accessToken) => {
+  const { data, error } = useSWR([`/wares/${id}.json`, accessToken])
 
   return {
     ware: data?.ware,
