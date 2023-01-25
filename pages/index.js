@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 import {
   Error,
   Image,
@@ -17,12 +18,14 @@ import {
 
 const Home = () => {
   const router = useRouter()
-  const { wares, isLoading, isError } = useAllWares()
+  const { data: session } = useSession()
+  const { wares, isLoading, isError } = useAllWares(session?.accessToken)
   const featuredServices = configureServices({ data: wares, path: '/services' })?.slice(0, 3)
   const handleOnSubmit = ({ value }) => router.push(
     { pathname: '/browse', query: { q: value } },
     (value.length > 0 ? `/browse?q=${value}` : '/browse')
   )
+
   return (
     <>
       <Image

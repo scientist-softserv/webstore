@@ -1,12 +1,16 @@
 import axios from 'axios'
 
 const baseURL = `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME}.scientist.com/api/${process.env.NEXT_PUBLIC_SCIENTIST_API_VERSION}`
-const defaultHeaders = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}` }
+// TODO(alishaevn): delete or reinstate the defaultHeaders variable and use case after we determine how to handle an authenticated user.
+// const defaultHeaders = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}` }
 
-const api = axios.create({ baseURL, headers: defaultHeaders })
+// const api = axios.create({ baseURL, headers: defaultHeaders })
+const api = axios.create({ baseURL })
 
-export const fetcher = (...args) => {
-  return api.get(...args)
+export const fetcher = (url, token) => {
+  const headers = { Authorization: `Bearer ${token}` }
+
+  return api.get(url, { headers })
     .then(res => res.data)
 }
 
