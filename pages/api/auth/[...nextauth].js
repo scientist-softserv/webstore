@@ -27,6 +27,19 @@ const authOptions = {
   ],
   theme: {
     logo: '/Logo.svg', // requires a file in the public folder
+  },
+  callbacks: {
+    async jwt({ token, account, user, profile }) {
+      // Triggered on the initial sign
+      if (account && user) {
+        token.accessToken = account.access_token
+      }
+      return token
+    },
+    async session({ session, token, user }) {
+      session.accessToken = token.accessToken
+      return session
+    },
   }
 }
 
