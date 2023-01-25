@@ -13,7 +13,7 @@ const Service = () => {
     <>
       {isLoading
         ? (
-          <Loading wrapperClass='item-page' />
+          <Loading wrapperClass='item-page mt-5' />
         ) : (
           <ItemPage
             img={

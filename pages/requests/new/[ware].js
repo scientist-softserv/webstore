@@ -106,7 +106,7 @@ const NewRequest = () => {
   }, [requestSucceeded, requestErred, requestID])
 
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page' />
+  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
 
   if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
 

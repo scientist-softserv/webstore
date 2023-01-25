@@ -18,7 +18,7 @@ const Requests = ({ ...props }) => {
   const { user, userError, userLoading } = props
 
   if (isError) return <Error errors={configureErrors([isError, userError])} router={router} />
-  if (isLoading || userLoading) return <Loading />
+  if (isLoading || userLoading) return <Loading wrapperClass='mt-5' />
 
   return (
     <>
