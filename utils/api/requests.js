@@ -63,10 +63,10 @@ export const useAllMessages = (id) => {
   }
 }
 
-export const sendMessage = ({ id, message, files }) => {
+export const postMessageOrAttachment = ({ id, message, files }) => {
   /* eslint-disable camelcase */
   const note = {
-    body: message,
+    body: message || null,
     quoted_ware_ids: [id],
     data_files: files,
   }
@@ -123,6 +123,7 @@ export const createRequest = async ({ data, wareID }) => {
   }
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group })
+  postMessageOrAttachment({id: response.requestID, files: data.attachments})
   return response
   /* eslint-enable camelcase */
 }
