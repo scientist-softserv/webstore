@@ -1,3 +1,4 @@
+import React from 'react'
 import { useRouter } from 'next/router'
 import {
   ActionsGroup,
@@ -26,7 +27,7 @@ const Request = () => {
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier)
-  const { messages, isLoadingMessages, isMessagesError } = useAllMessages(id)
+  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useAllMessages(id)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
@@ -36,7 +37,10 @@ const Request = () => {
 
   if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
 
-  const handleSendingMessages = ({ message, files }) => postMessageOrAttachment({ id, message, files })
+  const handleSendingMessages = ({ message, files }) => {
+    postMessageOrAttachment({ id, message, files })
+    mutate({ ...data, ...messages })
+  }
 
   return(
     <div className='container'>

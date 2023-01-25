@@ -52,12 +52,14 @@ export const useAllSOWs = (id, requestIdentifier) => {
 }
 
 export const useAllMessages = (id) => {
-  const { data, error } = useSWR(`/quote_groups/${id}/notes.json`, fetcher)
+  const { data, error, mutate } = useSWR(`/quote_groups/${id}/notes.json`, fetcher)
   let messages
   if (data) messages = configureMessages(data.notes)
 
   return {
+    data,
     messages,
+    mutate,
     isLoadingMessages: !error && !data,
     isMessageError: error,
   }
