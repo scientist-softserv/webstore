@@ -33,7 +33,7 @@ const Request = () => {
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
 
-  if (isLoading) return <Loading wrapperClass='item-page' />
+  if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
   if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
 

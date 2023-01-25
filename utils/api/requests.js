@@ -12,8 +12,8 @@ export const useAllRequests = () => {
 
   return {
     requests,
-    isLoading: !error && !data,
-    isError: error,
+    isLoadingAllRequests: !error && !data,
+    isAllRequestsError: error,
   }
 }
 
@@ -192,6 +192,16 @@ export const dynamicFormSchema = (defaultSchema) => {
     'required': requiredFields,
     'properties': propertyFields,
     'dependencies': dependencyFields,
+  }
+}
+
+export const useDefaultWare = () => {
+  const { data, error } = useSWR(`/wares.json?q=make-a-request`, fetcher)
+
+  return {
+    defaultWareID: data?.ware_refs?.[0]?.id.toString(),
+    isLoadingDefaultWare: !error && !data,
+    isDefaultWareError: error,
   }
 }
 
