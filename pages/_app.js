@@ -1,6 +1,7 @@
 import { Footer, Header } from '@scientist-softserv/webstore-component-library'
+import { SWRConfig } from 'swr'
 import {
-  SessionProvider, signIn, signOut, useSession 
+  SessionProvider, signIn, signOut, useSession
 } from 'next-auth/react'
 
 import {
@@ -9,6 +10,7 @@ import {
   FOOTER_SOCIALS,
   LOGO,
   NAVIGATION_LINKS,
+  fetcher,
 } from '../utils'
 import '../utils/theme/globals.scss'
 
@@ -37,10 +39,16 @@ const WebStore = ({ Component }) => {
 }
 
 const App = ({ Component, pageProps: { session } }) => {
+  // We are providing the fetcher function globally so that it doesn't need passing into every `get` request.
+  // This can be overridden in individual functions, re: https://swr.vercel.app/docs/global-configuration
+
+  // We are wrapping the app in a SessionProvider so that we have the ability to gain access to the user session on each page
   return (
-    <SessionProvider session={session}>
-      <WebStore Component={Component} />
-    </SessionProvider>
+    <SWRConfig value={{ fetcher }}>
+      <SessionProvider session={session}>
+        <WebStore Component={Component} />
+      </SessionProvider>
+    </SWRConfig>
   )
 }
 
