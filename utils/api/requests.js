@@ -65,10 +65,17 @@ export const useAllMessages = (id) => {
   }
 }
 
-export const sendMessage = ({ id, message, files }) => {
+export const postMessageOrAttachment = ({ id, message, files }) => {
   /* eslint-disable camelcase */
+
+  // in the scientist marketplace, both user messages sent on a request's page and
+  // attachments to a request of any kind are considered "notes"
+  // only user messages will have a body, attachments to requests will not.
+  // only attachments that are added when creating a new request should have a title & status.
   const note = {
-    body: message,
+    title: message ? null : "New Attachment",
+    status: message ? null : "Other File",
+    body: message || null,
     quoted_ware_ids: [id],
     data_files: files,
   }
@@ -125,6 +132,7 @@ export const createRequest = async ({ data, wareID }) => {
   }
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group })
+  postMessageOrAttachment({id: response.requestID, files: data.attachments})
   return response
   /* eslint-enable camelcase */
 }

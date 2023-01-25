@@ -14,7 +14,7 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import {
   configureErrors,
-  sendMessage,
+  postMessageOrAttachment,
   useAllMessages,
   useAllSOWs,
   useOneRequest,
@@ -38,7 +38,7 @@ const Request = () => {
   if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
 
   const handleSendingMessages = ({ message, files }) => {
-    sendMessage({ id, message, files })
+    postMessageOrAttachment({ id, message, files })
     mutate({ ...data, ...messages })
   }
 
