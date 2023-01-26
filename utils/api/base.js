@@ -8,10 +8,15 @@ const baseURL = `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME}.scientist.com/ap
 const api = axios.create({ baseURL })
 
 export const fetcher = (url, token) => {
-  const headers = { Authorization: `Bearer ${token}` }
+  try {
+    const headers = { Authorization: `Bearer ${token}` }
 
-  return api.get(url, { headers })
-    .then(res => res.data)
+    return api.get(url, { headers })
+      .then(res => res.data)
+  } catch (error) {
+    // TODO(alishaevn): handle the error when sentry is set up
+    console.error(`The following error occurred when trying to retrieve data:`, error)
+  }
 }
 
 export const posting = async (url, data, token) => {
