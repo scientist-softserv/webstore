@@ -4,10 +4,10 @@ import {
   configureMessages,
   configureRequests,
 } from './configurations'
-import { fetcher, posting } from './base'
+import { posting } from './base'
 
-export const useAllRequests = () => {
-  const { data, error } = useSWR(`/quote_groups/mine.json`, fetcher)
+export const useAllRequests = (accessToken) => {
+  const { data, error } = useSWR([`/quote_groups/mine.json`, accessToken])
   const requests = data && configureRequests({ data: data.quote_group_refs, path: '/requests' })
 
   return {
@@ -17,8 +17,8 @@ export const useAllRequests = () => {
   }
 }
 
-export const useOneRequest = (id) => {
-  const { data, error } = useSWR(`/quote_groups/${id}.json`, fetcher)
+export const useOneRequest = (id, accessToken) => {
+  const { data, error } = useSWR([`/quote_groups/${id}.json`, accessToken])
   let request = data && configureRequests({ data, path: '/requests' })[0]
   if (request) {
     request = {
@@ -37,8 +37,8 @@ export const useOneRequest = (id) => {
   }
 }
 
-export const useAllSOWs = (id, requestIdentifier) => {
-  const { data, error } = useSWR(`/quote_groups/${id}/proposals.json`, fetcher)
+export const useAllSOWs = (id, requestIdentifier, accessToken) => {
+  const { data, error } = useSWR([`/quote_groups/${id}/proposals.json`, accessToken])
   let allSOWs
   if (data) {
     allSOWs = configureDocuments(data, requestIdentifier)
@@ -51,8 +51,8 @@ export const useAllSOWs = (id, requestIdentifier) => {
   }
 }
 
-export const useAllMessages = (id) => {
-  const { data, error, mutate } = useSWR(`/quote_groups/${id}/notes.json`, fetcher)
+export const useAllMessages = (id, accessToken) => {
+  const { data, error, mutate } = useSWR([`/quote_groups/${id}/notes.json`, accessToken])
   let messages
   if (data) messages = configureMessages(data.notes)
 
@@ -66,7 +66,7 @@ export const useAllMessages = (id) => {
 }
 
   // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
-export const postMessageOrAttachment = ({ id, message, files }) => {
+export const postMessageOrAttachment = ({ id, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
   // in the scientist marketplace, both user messages sent on a request's page and
@@ -82,10 +82,10 @@ export const postMessageOrAttachment = ({ id, message, files }) => {
   }
   /* eslint-enable camelcase */
 
-  // posting(`/quote_groups/${id}/notes.json`, note)
+  // posting(`/quote_groups/${id}/notes.json`, note, accessToken)
 }
 
-export const createRequest = async ({ data, wareID }) => {
+export const createRequest = async ({ data, wareID, accessToken }) => {
   /* eslint-disable camelcase */
   // the api currently doesn't account for attachments
   let requestDescription = data.description
@@ -132,14 +132,15 @@ export const createRequest = async ({ data, wareID }) => {
     },
   }
 
-  const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group })
-  postMessageOrAttachment({id: response.requestID, files: data.attachments})
+  const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
+  postMessageOrAttachment({ id: response.requestID, files: data.attachments })
+
   return response
   /* eslint-enable camelcase */
 }
 
-export const useInitializeRequest = (id) => {
-  const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
+export const useInitializeRequest = (id, accessToken) => {
+  const { data, error } = useSWR([`/wares/${id}/quote_groups.json`, accessToken])
   let dynamicForm = { name: data?.name }
 
   if (data?.dynamic_form) {
@@ -204,8 +205,8 @@ export const dynamicFormSchema = (defaultSchema) => {
   }
 }
 
-export const useDefaultWare = () => {
-  const { data, error } = useSWR(`/wares.json?q=make-a-request`, fetcher)
+export const useDefaultWare = (accessToken) => {
+  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken])
 
   return {
     defaultWareID: data?.ware_refs?.[0]?.id.toString(),

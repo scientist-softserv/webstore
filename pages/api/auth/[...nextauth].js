@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth'
 
 // For more information on each option (and a full list of options) go to: https://next-auth.js.org/configuration/options
-// The default sign in page comes from: https://next-auth.js.org/v3/configuration/pages#oauth-sign-in
 const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -21,13 +20,28 @@ const authOptions = {
           return context
         }
       },
-      profile({ provider, tokens }) {
+      profile({ tokens }) {
         return tokens.user
       }
     }
   ],
   theme: {
     logo: '/Logo.svg', // requires a file in the public folder
+  },
+  callbacks: {
+    async jwt({ token, account, user }) {
+      // Triggered on the initial sign in
+      // TODO(alishaevn): account for the refresh token
+      if (account && user) {
+        token.accessToken = account.access_token
+      }
+      return token
+    },
+    async session({ session, token }) {
+      // Send additional properties to the client
+      session.accessToken = token.accessToken
+      return session
+    },
   }
 }
 

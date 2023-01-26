@@ -3,6 +3,7 @@ import { default as BsForm } from 'react-bootstrap/Form'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 import {
   AdditionalInfo,
   BlankRequestForm,
@@ -16,15 +17,14 @@ import {
   addDays,
   configureErrors,
   createRequest,
-  useInitializeRequest 
+  useInitializeRequest,
 } from '../../../utils'
-// TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
-// need to proxy the query through the routes where the access token exist
 
 const NewRequest = () => {
   const router = useRouter()
+  const { data: session } = useSession()
   const wareID = router.query.id
-  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID)
+  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID, session?.accessToken)
   const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
   const initialFormData = { 'suppliers_identified': 'Yes' }
   const initialState = {
@@ -92,6 +92,7 @@ const NewRequest = () => {
     const { success, error, requestID } = await createRequest({
       data: { name: dynamicForm.name, formData, ...requestForm },
       wareID,
+      accessToken: session?.accessToken,
     })
     setRequestSucceeded(success)
     setRequestErred(error)
@@ -110,10 +111,24 @@ const NewRequest = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestSucceeded, requestErred, requestID])
 
-  // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
+  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
+  // if (!session) {
+  //   return (
+  //     <Error
+  //       errors={{
+  //         errorText: ['Please log in to make new requests.'],
+  //         errorTitle: 'Unauthorized',
+  //         variant: 'info'
+  //       }}
+  //       router={router}
+  //       showBackButton={false}
+  //     />)
+  // }
 
-  if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
+    // TODO(alishaevn): use react bs placeholder component
+    if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
+
+    if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
 
   return(
     <div className='container'>

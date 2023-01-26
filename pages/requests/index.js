@@ -6,54 +6,53 @@ import {
   LinkedButton,
   Loading,
   RequestList,
-  Title,
 } from '@scientist-softserv/webstore-component-library'
 import {
   configureErrors,
   dark,
   useDefaultWare,
-  useAllRequests 
+  useAllRequests
 } from '../../utils'
 
-// TODO(alishaevn): authenticate the user
-const Requests = ({ ...props }) => {
+const Requests = () => {
   const router = useRouter()
   const { data: session } = useSession()
-  const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests()
-  const { user, userError, userLoading } = props
-  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare()
-  const isError =  isAllRequestsError || isDefaultWareError || userError
-  const isLoading = isLoadingAllRequests || userLoading || isLoadingDefaultWare
+  const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests(session?.accessToken)
+  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare(session?.accessToken)
+  const isError = isAllRequestsError || isDefaultWareError
+  const isLoading = isLoadingAllRequests || isLoadingDefaultWare
 
-  if (isError) return <Error errors={configureErrors([isAllRequestsError, userError, isDefaultWareError])} router={router} />
-  
+  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
+  // if (!session) {
+  //   return (
+  //     <Error
+  //       errors={{
+  //         errorText: ['Please log in to make new requests or view existing ones.'],
+  //         errorTitle: 'Unauthorized',
+  //         variant: 'info'
+  //       }}
+  //       router={router}
+  //       showBackButton={false}
+  //     />)
+  // }
+
   if (isLoading) return <Loading wrapperClass='mt-5' />
 
+  if (isError) return <Error errors={configureErrors([isAllRequestsError, isDefaultWareError])} router={router} />
+
   return (
-    <>
-      {user ? (
-        <div className='container'>
-          <LinkedButton
-            buttonProps={{
-              backgroundColor: dark,
-              label: 'Initiate a New Request',
-              size: 'large',
-            }}
-            path={`/requests/new/make-a-request?id=${defaultWareID}`}
-            addClass='text-end d-block mt-4 mb-2'
-          />
-          <RequestList requests={requests} />
-        </div>
-      ): (
-        <div className='container'>
-          <Title
-            addClass='mt-2'
-            size='medium'
-            title='Please log in to make new requests or view existing ones.'
-          />
-        </div>
-      )}
-    </>
+    <div className='container'>
+      <LinkedButton
+        buttonProps={{
+          backgroundColor: dark,
+          label: 'Initiate a New Request',
+          size: 'large',
+        }}
+        path={`/requests/new/make-a-request?id=${defaultWareID}`}
+        addClass='text-end d-block mt-4 mb-2'
+      />
+      <RequestList requests={requests} />
+    </div>
   )
 }
 
