@@ -39,17 +39,19 @@ const Request = () => {
 
   if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
 
-  const handleSendingMessages = ({ message, files }) => {
-    postMessageOrAttachment({ id, message, files })
-    mutate({ ...data, ...messages })
-  }
+  // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
+  // const handleSendingMessages = ({ message, files }) => {
+  //   postMessageOrAttachment({ id, message, files })
+  //   mutate({ ...data, ...messages })
+  // }
 
   return(
     <div className='container'>
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4'/>
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          <ActionsGroup handleSendingMessages={handleSendingMessages}/>
+          {/* // TODO(alishaevn): return the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided */}
+          {/* <ActionsGroup handleSendingMessages={handleSendingMessages}/> */}
           <div className='mt-3'>
             <RequestStats
               billingInfo={{ ...request.billingAddress }}
