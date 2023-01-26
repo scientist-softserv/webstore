@@ -34,18 +34,19 @@ const Request = () => {
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
 
-  if (!session) {
-    return (
-      <Error
-        errors={{
-          errorText: ['Please log in to view this request.'],
-          errorTitle: 'Unauthorized',
-          variant: 'info'
-        }}
-        router={router}
-        showBackButton={false}
-      />)
-  }
+  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
+  // if (!session) {
+  //   return (
+  //     <Error
+  //       errors={{
+  //         errorText: ['Please log in to view this request.'],
+  //         errorTitle: 'Unauthorized',
+  //         variant: 'info'
+  //       }}
+  //       router={router}
+  //       showBackButton={false}
+  //     />)
+  // }
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 

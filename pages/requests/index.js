@@ -22,18 +22,19 @@ const Requests = () => {
   const isError = isAllRequestsError || isDefaultWareError
   const isLoading = isLoadingAllRequests || isLoadingDefaultWare
 
-  if (!session) {
-    return (
-      <Error
-        errors={{
-          errorText: ['Please log in to make new requests or view existing ones.'],
-          errorTitle: 'Unauthorized',
-          variant: 'info'
-        }}
-        router={router}
-        showBackButton={false}
-      />)
-  }
+  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
+  // if (!session) {
+  //   return (
+  //     <Error
+  //       errors={{
+  //         errorText: ['Please log in to make new requests or view existing ones.'],
+  //         errorTitle: 'Unauthorized',
+  //         variant: 'info'
+  //       }}
+  //       router={router}
+  //       showBackButton={false}
+  //     />)
+  // }
 
   if (isLoading) return <Loading wrapperClass='mt-5' />
 

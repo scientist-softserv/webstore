@@ -111,18 +111,19 @@ const NewRequest = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestSucceeded, requestErred, requestID])
 
-  if (!session) {
-    return (
-      <Error
-        errors={{
-          errorText: ['Please log in to make new requests.'],
-          errorTitle: 'Unauthorized',
-          variant: 'info'
-        }}
-        router={router}
-        showBackButton={false}
-      />)
-  }
+  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
+  // if (!session) {
+  //   return (
+  //     <Error
+  //       errors={{
+  //         errorText: ['Please log in to make new requests.'],
+  //         errorTitle: 'Unauthorized',
+  //         variant: 'info'
+  //       }}
+  //       router={router}
+  //       showBackButton={false}
+  //     />)
+  // }
 
     // TODO(alishaevn): use react bs placeholder component
     if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
