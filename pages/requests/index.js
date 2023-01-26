@@ -6,7 +6,6 @@ import {
   LinkedButton,
   Loading,
   RequestList,
-  Title,
 } from '@scientist-softserv/webstore-component-library'
 import {
   configureErrors,
@@ -15,44 +14,44 @@ import {
   useAllRequests
 } from '../../utils'
 
-// TODO(alishaevn): authenticate the user
 const Requests = () => {
   const router = useRouter()
   const { data: session } = useSession()
   const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests(session?.accessToken)
   const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare(session?.accessToken)
-  const isError =  isAllRequestsError || isDefaultWareError
+  const isError = isAllRequestsError || isDefaultWareError
   const isLoading = isLoadingAllRequests || isLoadingDefaultWare
 
-  if (isError) return <Error errors={configureErrors([isAllRequestsError, userError, isDefaultWareError])} router={router} />
+  if (isError) return <Error errors={configureErrors([isAllRequestsError, isDefaultWareError])} router={router} />
 
   if (isLoading) return <Loading wrapperClass='mt-5' />
 
+  if (!session) {
+    return (
+      <Error
+        errors={{
+          errorText: ['Please log in to make new requests or view existing ones.'],
+          errorTitle: 'Unauthorized',
+          variant: 'info'
+        }}
+        router={router}
+        showBackButton={false}
+      />)
+  }
+
   return (
-    <>
-      {session ? (
-        <div className='container'>
-          <LinkedButton
-            buttonProps={{
-              backgroundColor: dark,
-              label: 'Initiate a New Request',
-              size: 'large',
-            }}
-            path={`/requests/new/make-a-request?id=${defaultWareID}`}
-            addClass='text-end d-block mt-4 mb-2'
-          />
-          <RequestList requests={requests} />
-        </div>
-      ): (
-        <div className='container'>
-          <Title
-            addClass='mt-2'
-            size='medium'
-            title='Please log in to make new requests or view existing ones.'
-          />
-        </div>
-      )}
-    </>
+    <div className='container'>
+      <LinkedButton
+        buttonProps={{
+          backgroundColor: dark,
+          label: 'Initiate a New Request',
+          size: 'large',
+        }}
+        path={`/requests/new/make-a-request?id=${defaultWareID}`}
+        addClass='text-end d-block mt-4 mb-2'
+      />
+      <RequestList requests={requests} />
+    </div>
   )
 }
 

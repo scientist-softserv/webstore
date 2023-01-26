@@ -17,10 +17,8 @@ import {
   addDays,
   configureErrors,
   createRequest,
-  useInitializeRequest 
+  useInitializeRequest,
 } from '../../../utils'
-// TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
-// need to proxy the query through the routes where the access token exist
 
 const NewRequest = () => {
   const router = useRouter()
@@ -117,6 +115,19 @@ const NewRequest = () => {
   if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
 
   if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
+
+  if (!session) {
+    return (
+      <Error
+        errors={{
+          errorText: ['Please log in to make new requests.'],
+          errorTitle: 'Unauthorized',
+          variant: 'info'
+        }}
+        router={router}
+        showBackButton={false}
+      />)
+  }
 
   return(
     <div className='container'>

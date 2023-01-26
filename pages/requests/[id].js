@@ -21,7 +21,6 @@ import {
   useOneRequest,
   STATUS_ARRAY,
 } from '../../utils'
-// TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const Request = () => {
   const router = useRouter()
@@ -38,6 +37,19 @@ const Request = () => {
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
   if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
+
+  if (!session) {
+    return (
+      <Error
+        errors={{
+          errorText: ['Please log in to view this request.'],
+          errorTitle: 'Unauthorized',
+          variant: 'info'
+        }}
+        router={router}
+        showBackButton={false}
+      />)
+  }
 
   // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
   // const handleSendingMessages = ({ message, files }) => {

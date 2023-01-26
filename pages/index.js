@@ -40,7 +40,7 @@ const Home = () => {
         <SearchBar onSubmit={handleOnSubmit} />
         <TitledTextBox title={TITLE} text={TEXT} />
         {isError ? (
-          <Error errors={configureErrors([isError])} router={router} showBackButton={false} canDismissAlert={true}/>
+          <Error errors={configureErrors([isError])} router={router} showBackButton={false} canDismissAlert={true} />
         ) : (
           <>
             <ItemGroup
