@@ -31,6 +31,7 @@ const authOptions = {
   callbacks: {
     async jwt({ token, account, user }) {
       // Triggered on the initial sign
+      // TODO(alishaevn): account for the refresh token
       if (account && user) {
         token.accessToken = account.access_token
       }
