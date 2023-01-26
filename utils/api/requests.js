@@ -52,7 +52,7 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
 }
 
 export const useAllMessages = (id, accessToken) => {
-  const { data, error } = useSWR([`/quote_groups/${id}/notes.json`, accessToken])
+  const { data, error, mutate } = useSWR([`/quote_groups/${id}/notes.json`, accessToken])
   let messages
   if (data) messages = configureMessages(data.notes)
 
