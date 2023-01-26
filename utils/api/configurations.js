@@ -1,11 +1,11 @@
 import { DEFAULT_WARE_IMAGE } from '../constants'
 import { statusColors } from '../theme'
 import {
-  normalizeDescription, 
-  normalizeHtmlDescription, 
+  normalizeDescription,
+  normalizeHtmlDescription,
   normalizeDate,
   timeSince,
-  formatBytes 
+  formatBytes
 } from '../helpers'
 
 export const configureServices = ({ data, path }) => {
@@ -63,20 +63,19 @@ export const configureRequests = ({ data, path }) => {
 // takes an array of errors for each page or component
 export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
-  let errorText = []
-  let errorTitle = ''
   const remainingErrors = errors.filter(error => error)
-  
+  let body = []
+  let title = ''
+
   if (env === 'development') {
     remainingErrors.map(error => {
-      errorText.push(JSON.stringify(error))
-      errorTitle = remainingErrors.length > 1 ? 'There were multiple errors.' : error.name
-      return { errorText, errorTitle }
+      body.push(JSON.stringify(error, null, 2))
+      title = remainingErrors.length > 1 ? 'There were multiple errors.' : error.name
     })
 
     return {
-      errorText: errorText, // returns an array that will be mapped over in the component
-      errorTitle: errorTitle,
+      body, // returns an array that will be mapped over in the component
+      title,
       variant: 'warning'
     }
   }
@@ -89,14 +88,14 @@ export const configureErrors = (errors) => {
     case 404:
       text = 'This page or section was not found.'
       break
-    
+
     default:
       text = "We're working on getting this back up and running as soon as possible."
     }
 
     return {
-      errorText: [text],
-      errorTitle: "We're sorry - something went wrong.",
+      body: [text],
+      title: "We're sorry - something went wrong.",
       variant: 'danger'
     }
   }
