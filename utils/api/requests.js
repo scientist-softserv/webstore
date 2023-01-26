@@ -140,7 +140,7 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
 }
 
 export const useInitializeRequest = (id, accessToken) => {
-  const { data, error } = useSWR([`/wares/${id}/quote_groups.json`, accessToken])
+  const { data, error } = useSWR(id && accessToken ? [`/wares/${id}/quote_groups.json`, accessToken] : null)
   let dynamicForm = { name: data?.name }
 
   if (data?.dynamic_form) {
