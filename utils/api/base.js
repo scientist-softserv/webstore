@@ -1,18 +1,30 @@
 import axios from 'axios'
 
 const baseURL = `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME}.scientist.com/api/${process.env.NEXT_PUBLIC_SCIENTIST_API_VERSION}`
-const defaultHeaders = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}` }
+// TODO(alishaevn): delete or reinstate the defaultHeaders variable and use case after we determine how to handle an authenticated user.
+// const defaultHeaders = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}` }
 
-const api = axios.create({ baseURL, headers: defaultHeaders })
+// const api = axios.create({ baseURL, headers: defaultHeaders })
+const api = axios.create({ baseURL })
 
-export const fetcher = (...args) => {
-  return api.get(...args)
-    .then(res => res.data)
+export const fetcher = (url, token) => {
+  try {
+    const headers = { Authorization: `Bearer ${token}` }
+
+    return api.get(url, { headers })
+      .then(res => res.data)
+  } catch (error) {
+    // TODO(alishaevn): handle the error when sentry is set up
+    console.error(`The following error occurred when trying to retrieve data:`, error)
+  }
 }
 
-export const posting = async (url, data) => {
+export const posting = async (url, data, token) => {
+  const headers = { Authorization: `Bearer ${token}` }
+
   try {
-    const response = await api.post(url, data)
+    const response = await api.post(url, data, { headers })
+
     if (response.data.id) {
       return {
         success: true,

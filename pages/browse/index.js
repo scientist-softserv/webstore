@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import {  Error, Item, SearchBar } from '@scientist-softserv/webstore-component-library'
+import { useSession } from 'next-auth/react'
+import { Error, Item, SearchBar } from '@scientist-softserv/webstore-component-library'
 import { configureErrors, configureServices, useFilteredWares } from '../../utils'
 
 const Browse = () => {
   const router = useRouter()
+  const { data: session } = useSession()
   const [query, setQuery] = useState('')
   const existingQuery = router.query.q
 
@@ -12,7 +14,7 @@ const Browse = () => {
     if (existingQuery) setQuery(existingQuery)
   }, [existingQuery])
 
-  const { wares, isLoading, isError } = useFilteredWares(query)
+  const { wares, isLoading, isError } = useFilteredWares(query, session?.accessToken)
   const services = configureServices({ data: wares, path: '/requests/new' })
   const handleOnSubmit = ({ value }) => {
     setQuery(value)

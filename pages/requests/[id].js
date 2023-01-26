@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 import {
   ActionsGroup,
   CollapsibleSection,
@@ -20,18 +21,32 @@ import {
   useOneRequest,
   STATUS_ARRAY,
 } from '../../utils'
-// TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const Request = () => {
   const router = useRouter()
+  const { data: session } = useSession()
   const { id } = router.query
-  const { request, isLoadingRequest, isRequestError } = useOneRequest(id)
-  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier)
-  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useAllMessages(id)
+  const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
+  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useAllMessages(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
+
+  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
+  // if (!session) {
+  //   return (
+  //     <Error
+  //       errors={{
+  //         errorText: ['Please log in to view this request.'],
+  //         errorTitle: 'Unauthorized',
+  //         variant: 'info'
+  //       }}
+  //       router={router}
+  //       showBackButton={false}
+  //     />)
+  // }
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
@@ -39,7 +54,12 @@ const Request = () => {
 
   // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
   // const handleSendingMessages = ({ message, files }) => {
-  //   postMessageOrAttachment({ id, message, files })
+    // postMessageOrAttachment({
+    //   id,
+    //   message,
+    //   files,
+    //   accessToken: session?.accessToken,
+    // })
   //   mutate({ ...data, ...messages })
   // }
 

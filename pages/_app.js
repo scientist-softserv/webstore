@@ -1,35 +1,55 @@
 import { Footer, Header } from '@scientist-softserv/webstore-component-library'
-import { SessionProvider, signIn, signOut } from 'next-auth/react'
+import { SWRConfig } from 'swr'
+import {
+  SessionProvider, signIn, signOut, useSession
+} from 'next-auth/react'
+
 import {
   FOOTER_NAME,
   FOOTER_SECTIONS,
   FOOTER_SOCIALS,
   LOGO,
   NAVIGATION_LINKS,
-  useCurrentUser,
+  fetcher,
 } from '../utils'
 import '../utils/theme/globals.scss'
 
-// putting the header and footer here mean that they automatically surround every page
-const Webstore = ({ Component, pageProps: { session } }) => {
+const WebStore = ({ Component }) => {
+  const { data: session } = useSession()
+
   return (
-    <SessionProvider session={session}>
+    <>
       <Header
-        auth={{ signIn, signOut }}
+        auth={{
+          signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
+          signOut: signOut,
+        }}
         logo={LOGO}
         navLinks={NAVIGATION_LINKS}
-        // TODO(alishaevn): find the appropriate way to determine the session, user token, etc.
-        // currently, session is always returning "undefined" in this component
         userSession={session}
       />
-      <Component {...useCurrentUser()} />
+      <Component />
       <Footer
         companyName={FOOTER_NAME}
         sections={FOOTER_SECTIONS}
         socials={FOOTER_SOCIALS}
       />
-    </SessionProvider>
+    </>
   )
 }
 
-export default Webstore
+const App = ({ Component, pageProps: { session } }) => {
+  // We are providing the fetcher function globally so that it doesn't need passing into every `get` request.
+  // This can be overridden in individual functions, re: https://swr.vercel.app/docs/global-configuration
+
+  // We are wrapping the app in a SessionProvider so that we have the ability to gain access to the user session on each page
+  return (
+    <SWRConfig value={{ fetcher }}>
+      <SessionProvider session={session}>
+        <WebStore Component={Component} />
+      </SessionProvider>
+    </SWRConfig>
+  )
+}
+
+export default App
