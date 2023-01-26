@@ -139,7 +139,7 @@ export const createRequest = async ({ data, wareID }) => {
 }
 
 export const useInitializeRequest = (id) => {
-  const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
+  const { data, error } = useSWR(id ? `/wares/${id}/quote_groups.json`: null, fetcher)
   let dynamicForm = { name: data?.name }
 
   if (data?.dynamic_form) {
