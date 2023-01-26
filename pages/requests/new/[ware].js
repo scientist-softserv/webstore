@@ -111,11 +111,6 @@ const NewRequest = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestSucceeded, requestErred, requestID])
 
-  // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
-
-  if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
-
   if (!session) {
     return (
       <Error
@@ -128,6 +123,11 @@ const NewRequest = () => {
         showBackButton={false}
       />)
   }
+
+    // TODO(alishaevn): use react bs placeholder component
+    if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
+
+    if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
 
   return(
     <div className='container'>

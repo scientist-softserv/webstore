@@ -22,10 +22,6 @@ const Requests = () => {
   const isError = isAllRequestsError || isDefaultWareError
   const isLoading = isLoadingAllRequests || isLoadingDefaultWare
 
-  if (isError) return <Error errors={configureErrors([isAllRequestsError, isDefaultWareError])} router={router} />
-
-  if (isLoading) return <Loading wrapperClass='mt-5' />
-
   if (!session) {
     return (
       <Error
@@ -38,6 +34,10 @@ const Requests = () => {
         showBackButton={false}
       />)
   }
+
+  if (isLoading) return <Loading wrapperClass='mt-5' />
+
+  if (isError) return <Error errors={configureErrors([isAllRequestsError, isDefaultWareError])} router={router} />
 
   return (
     <div className='container'>

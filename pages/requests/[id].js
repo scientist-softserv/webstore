@@ -34,10 +34,6 @@ const Request = () => {
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
 
-  if (isLoading) return <Loading wrapperClass='item-page mt-5' />
-
-  if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
-
   if (!session) {
     return (
       <Error
@@ -50,6 +46,10 @@ const Request = () => {
         showBackButton={false}
       />)
   }
+
+  if (isLoading) return <Loading wrapperClass='item-page mt-5' />
+
+  if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
 
   // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
   // const handleSendingMessages = ({ message, files }) => {
