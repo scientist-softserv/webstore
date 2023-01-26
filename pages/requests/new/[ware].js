@@ -13,7 +13,12 @@ import {
   ShippingDetails,
   Title,
 } from '@scientist-softserv/webstore-component-library'
-import { addDays, createRequest, useInitializeRequest } from '../../../utils'
+import {
+  addDays,
+  configureErrors,
+  createRequest,
+  useInitializeRequest 
+} from '../../../utils'
 // TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 // need to proxy the query through the routes where the access token exist
 
@@ -108,7 +113,7 @@ const NewRequest = () => {
   }, [requestSucceeded, requestErred, requestID])
 
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page' />
+  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
 
   if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
 

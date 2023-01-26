@@ -1,3 +1,4 @@
+import React from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import {
@@ -14,7 +15,7 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import {
   configureErrors,
-  sendMessage,
+  postMessageOrAttachment,
   useAllMessages,
   useAllSOWs,
   useOneRequest,
@@ -34,11 +35,14 @@ const Request = () => {
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
 
-  if (isLoading) return <Loading wrapperClass='item-page' />
+  if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
   if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
 
-  const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
+  const handleSendingMessages = ({ message, files }) => {
+    postMessageOrAttachment({ id, message, files })
+    mutate({ ...data, ...messages })
+  }
 
   return(
     <div className='container'>

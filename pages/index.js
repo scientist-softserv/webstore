@@ -12,6 +12,7 @@ import {
   configureErrors,
   configureServices,
   useAllWares,
+  FEATURED_SERVICE_PATH,
   TEXT,
   TITLE,
 } from '../utils'
@@ -20,7 +21,7 @@ const Home = () => {
   const router = useRouter()
   const { data: session } = useSession()
   const { wares, isLoading, isError } = useAllWares(session?.accessToken)
-  const featuredServices = configureServices({ data: wares, path: '/services' })?.slice(0, 3)
+  const featuredServices = configureServices({ data: wares, path: FEATURED_SERVICE_PATH })?.slice(0, 3)
   const handleOnSubmit = ({ value }) => router.push(
     { pathname: '/browse', query: { q: value } },
     (value.length > 0 ? `/browse?q=${value}` : '/browse')
