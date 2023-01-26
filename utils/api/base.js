@@ -14,9 +14,12 @@ export const fetcher = (url, token) => {
     .then(res => res.data)
 }
 
-export const posting = async (url, data) => {
+export const posting = async (url, data, token) => {
+  const headers = { Authorization: `Bearer ${token}` }
+
   try {
-    const response = await api.post(url, data)
+    const response = await api.post(url, data, { headers })
+
     if (response.data.id) {
       return {
         success: true,

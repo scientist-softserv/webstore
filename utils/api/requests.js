@@ -66,7 +66,7 @@ export const useAllMessages = (id, accessToken) => {
 }
 
   // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
-export const postMessageOrAttachment = ({ id, message, files }) => {
+export const postMessageOrAttachment = ({ id, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
   // in the scientist marketplace, both user messages sent on a request's page and
@@ -82,10 +82,10 @@ export const postMessageOrAttachment = ({ id, message, files }) => {
   }
   /* eslint-enable camelcase */
 
-  // posting(`/quote_groups/${id}/notes.json`, note)
+  // posting(`/quote_groups/${id}/notes.json`, note, accessToken)
 }
 
-export const createRequest = async ({ data, wareID }) => {
+export const createRequest = async ({ data, wareID, accessToken }) => {
   /* eslint-disable camelcase */
   // the api currently doesn't account for attachments
   let requestDescription = data.description
@@ -132,8 +132,9 @@ export const createRequest = async ({ data, wareID }) => {
     },
   }
 
-  const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group })
-  postMessageOrAttachment({id: response.requestID, files: data.attachments})
+  const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
+  postMessageOrAttachment({ id: response.requestID, files: data.attachments })
+
   return response
   /* eslint-enable camelcase */
 }
@@ -204,8 +205,8 @@ export const dynamicFormSchema = (defaultSchema) => {
   }
 }
 
-export const useDefaultWare = () => {
-  const { data, error } = useSWR(`/wares.json?q=make-a-request`, fetcher)
+export const useDefaultWare = (accessToken) => {
+  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken], fetcher)
 
   return {
     defaultWareID: data?.ware_refs?.[0]?.id.toString(),

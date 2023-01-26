@@ -20,7 +20,7 @@ const Requests = () => {
   const router = useRouter()
   const { data: session } = useSession()
   const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests(session?.accessToken)
-  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare()
+  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare(session?.accessToken)
   const isError =  isAllRequestsError || isDefaultWareError || userError
   const isLoading = isLoadingAllRequests || userLoading || isLoadingDefaultWare
 
