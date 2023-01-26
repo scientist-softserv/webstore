@@ -21,8 +21,8 @@ const Requests = () => {
   const { data: session } = useSession()
   const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests(session?.accessToken)
   const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare(session?.accessToken)
-  const isError =  isAllRequestsError || isDefaultWareError || userError
-  const isLoading = isLoadingAllRequests || userLoading || isLoadingDefaultWare
+  const isError =  isAllRequestsError || isDefaultWareError
+  const isLoading = isLoadingAllRequests || isLoadingDefaultWare
 
   if (isError) return <Error errors={configureErrors([isAllRequestsError, userError, isDefaultWareError])} router={router} />
 

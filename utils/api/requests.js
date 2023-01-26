@@ -206,7 +206,7 @@ export const dynamicFormSchema = (defaultSchema) => {
 }
 
 export const useDefaultWare = (accessToken) => {
-  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken], fetcher)
+  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken])
 
   return {
     defaultWareID: data?.ware_refs?.[0]?.id.toString(),
