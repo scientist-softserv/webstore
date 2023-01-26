@@ -20,7 +20,7 @@ const authOptions = {
           return context
         }
       },
-      profile({ provider, tokens }) {
+      profile({ tokens }) {
         return tokens.user
       }
     }
@@ -29,14 +29,15 @@ const authOptions = {
     logo: '/Logo.svg', // requires a file in the public folder
   },
   callbacks: {
-    async jwt({ token, account, user, profile }) {
+    async jwt({ token, account, user }) {
       // Triggered on the initial sign
       if (account && user) {
         token.accessToken = account.access_token
       }
       return token
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
+      // Send additional properties to the client
       session.accessToken = token.accessToken
       return session
     },
