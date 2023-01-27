@@ -7,7 +7,7 @@ import {
 import { posting } from './base'
 
 export const useAllRequests = (accessToken) => {
-  const { data, error } = useSWR([`/quote_groups/mine.json`, accessToken])
+  const { data, error } = useSWR(accessToken ? [`/quote_groups/mine.json`, accessToken] : null)
   const requests = data && configureRequests({ data: data.quote_group_refs, path: '/requests' })
 
   return {
@@ -18,7 +18,7 @@ export const useAllRequests = (accessToken) => {
 }
 
 export const useOneRequest = (id, accessToken) => {
-  const { data, error } = useSWR([`/quote_groups/${id}.json`, accessToken])
+  const { data, error } = useSWR(id && accessToken ? [`/quote_groups/${id}.json`, accessToken] : null)
   let request = data && configureRequests({ data, path: '/requests' })[0]
   if (request) {
     request = {
@@ -38,7 +38,7 @@ export const useOneRequest = (id, accessToken) => {
 }
 
 export const useAllSOWs = (id, requestIdentifier, accessToken) => {
-  const { data, error } = useSWR([`/quote_groups/${id}/proposals.json`, accessToken])
+  const { data, error } = useSWR(id && accessToken ? [`/quote_groups/${id}/proposals.json`, accessToken] : null)
   let allSOWs
   if (data) {
     allSOWs = configureDocuments(data, requestIdentifier)
@@ -52,7 +52,7 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
 }
 
 export const useAllMessages = (id, accessToken) => {
-  const { data, error, mutate } = useSWR([`/quote_groups/${id}/notes.json`, accessToken])
+  const { data, error, mutate } = useSWR(id && accessToken ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
   let messages
   if (data) messages = configureMessages(data.notes)
 
@@ -140,12 +140,13 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
 }
 
 export const useInitializeRequest = (id, accessToken) => {
-  const { data, error } = useSWR([`/wares/${id}/quote_groups.json`, accessToken])
+  const { data, error } = useSWR(id && accessToken ? [`/wares/${id}/quote_groups.json`, accessToken] : null)
   let dynamicForm = { name: data?.name }
+  let dynamicFormInfo = data?.dynamic_forms[0]
 
-  if (data?.dynamic_form) {
-    const defaultSchema = data.dynamic_form.schema
-    const defaultOptions = data.dynamic_form.options
+  if (dynamicFormInfo) {
+    const defaultSchema = dynamicFormInfo.schema
+    const defaultOptions = dynamicFormInfo.options
     const schema = dynamicFormSchema(defaultSchema)
 
     dynamicForm = {
@@ -206,7 +207,7 @@ export const dynamicFormSchema = (defaultSchema) => {
 }
 
 export const useDefaultWare = (accessToken) => {
-  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken], fetcher)
+  const { data, error } = useSWR(accessToken ? [`/wares.json?q=make-a-request`, accessToken] : null)
 
   return {
     defaultWareID: data?.ware_refs?.[0]?.id.toString(),
