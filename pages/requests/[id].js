@@ -65,12 +65,12 @@ const Request = () => {
 
   // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
   // const handleSendingMessages = ({ message, files }) => {
-    // postMessageOrAttachment({
-    //   id,
-    //   message,
-    //   files,
-    //   accessToken: session?.accessToken,
-    // })
+  //   postMessageOrAttachment({
+  //     id,
+  //     message,
+  //     files,
+  //     accessToken: session?.accessToken,
+  //   })
   //   mutate({ ...data, ...messages })
   // }
 
