@@ -8,8 +8,8 @@ import {
   AdditionalInfo,
   BlankRequestForm,
   Button,
-  Error,
   Loading,
+  Notice,
   ShippingDetails,
   Title,
 } from '@scientist-softserv/webstore-component-library'
@@ -112,23 +112,35 @@ const NewRequest = () => {
   }, [requestSucceeded, requestErred, requestID])
 
   // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
-  // if (!session) {
-  //   return (
-  //     <Error
-  //       errors={{
-  //         errorText: ['Please log in to make new requests.'],
-  //         errorTitle: 'Unauthorized',
-  //         variant: 'info'
-  //       }}
-  //       router={router}
-  //       showBackButton={false}
-  //     />)
-  // }
+  if (!session) {
+    return (
+      <Notice
+        alert={{
+          body: ['Please log in to make new requests.'],
+          title: 'Unauthorized',
+          variant: 'info'
+        }}
+        dismissible={false}
+      />
+    )
+  }
 
-    // TODO(alishaevn): use react bs placeholder component
-    if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
+  // TODO(alishaevn): use react bs placeholder component
+  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
 
-    if (isInitialRequestError) return <Error errors={configureErrors([isInitialRequestError])} router={router} />
+  if (isInitialRequestError) {
+    return (
+      <Notice
+        alert={configureErrors([isInitialRequestError])}
+        dismissible={false}
+        withBackButton={true}
+        buttonProps={{
+          onClick: () => router.back(),
+          text: 'Click to return to the previous page.',
+        }}
+      />
+    )
+  }
 
   return(
     <div className='container'>

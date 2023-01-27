@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
-import { Error, Item, SearchBar } from '@scientist-softserv/webstore-component-library'
+import { Item, Notice, SearchBar } from '@scientist-softserv/webstore-component-library'
 import { configureErrors, configureServices, useFilteredWares } from '../../utils'
 
 const Browse = () => {
@@ -21,7 +21,19 @@ const Browse = () => {
     return router.push({ pathname: '/browse', query: { q: value } }, (value.length > 0 ? `/browse?q=${value}` : '/browse'))
   }
 
-  if (isError) return <Error errors={configureErrors([isError])} router={router} />
+  if (isError) {
+    return (
+      <Notice
+        alert={configureErrors([isError])}
+        dismissible={false}
+        withBackButton={true}
+        buttonProps={{
+          onClick: () => router.back(),
+          text: 'Click to return to the previous page.',
+        }}
+      />
+    )
+  }
 
   return (
     <div className='container'>

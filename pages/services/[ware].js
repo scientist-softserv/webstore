@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
-import { Error, ItemPage, Loading } from '@scientist-softserv/webstore-component-library'
+import { ItemPage, Notice, Loading } from '@scientist-softserv/webstore-component-library'
 import { configureErrors, DEFAULT_WARE_IMAGE, useOneWare } from '../../utils'
 
 const Service = () => {
@@ -9,26 +9,32 @@ const Service = () => {
   const { id } = router.query
   const { ware, isLoading, isError } = useOneWare(id, session?.accessToken)
 
-  if (isError) return <Error errors={configureErrors([isError])} router={router} />
+  if (isLoading) return <Loading wrapperClass='item-page mt-5' />
+
+  if (isError) {
+    return (
+      <Notice
+        alert={configureErrors([isError])}
+        dismissible={false}
+        withBackButton={true}
+        buttonProps={{
+          onClick: () => router.back(),
+          text: 'Click to return to the previous page.',
+        }}
+      />
+    )
+  }
 
   return (
-    <>
-      {isLoading
-        ? (
-          <Loading wrapperClass='item-page mt-5' />
-        ) : (
-          <ItemPage
-            img={
-              ware.urls.promo_image ? {
-                src: ware.urls.promo_image,
-                alt: `The promotional image for ${ware.name}`,
-              } : DEFAULT_WARE_IMAGE
-            }
-            ware={ware}
-          />
-        )
+    <ItemPage
+      img={
+        ware.urls.promo_image ? {
+          src: ware.urls.promo_image,
+          alt: `The promotional image for ${ware.name}`,
+        } : DEFAULT_WARE_IMAGE
       }
-    </>
+      ware={ware}
+    />
   )
 }
 

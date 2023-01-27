@@ -32,7 +32,6 @@ const Requests = () => {
           variant: 'info'
         }}
         dismissible={false}
-        withBackButton={false}
       />
     )
   }

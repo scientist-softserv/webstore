@@ -5,9 +5,9 @@ import {
   ActionsGroup,
   CollapsibleSection,
   Document,
-  Error,
   Loading,
   Messages,
+  Notice,
   RequestStats,
   StatusBar,
   TextBox,
@@ -34,23 +34,34 @@ const Request = () => {
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
 
-  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
-  // if (!session) {
-  //   return (
-  //     <Error
-  //       errors={{
-  //         errorText: ['Please log in to view this request.'],
-  //         errorTitle: 'Unauthorized',
-  //         variant: 'info'
-  //       }}
-  //       router={router}
-  //       showBackButton={false}
-  //     />)
-  // }
+  if (!session) {
+    return (
+      <Notice
+        alert={{
+          body: ['Please log in to view this request.'],
+          title: 'Unauthorized',
+          variant: 'info'
+        }}
+        dismissible={false}
+      />
+    )
+  }
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
-  if (isError) return <Error errors={configureErrors([isRequestError, isSOWError, isMessagesError])} router={router} />
+  if (isError) {
+    return (
+      <Notice
+        alert={configureErrors([isRequestError, isSOWError, isMessagesError])}
+        dismissible={false}
+        withBackButton={true}
+        buttonProps={{
+          onClick: () => router.back(),
+          text: 'Click to return to the previous page.',
+        }}
+      />
+    )
+  }
 
   // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
   // const handleSendingMessages = ({ message, files }) => {
@@ -63,12 +74,13 @@ const Request = () => {
   //   mutate({ ...data, ...messages })
   // }
 
-  return(
+  return (
     <div className='container'>
-      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4'/>
+      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4' />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          {/* // TODO(alishaevn): return the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided */}
+          {/* // TODO(alishaevn): return the below once the direction of
+          https://github.com/scientist-softserv/webstore/issues/156 has been decided */}
           {/* <ActionsGroup handleSendingMessages={handleSendingMessages}/> */}
           <div className='mt-3'>
             <RequestStats
