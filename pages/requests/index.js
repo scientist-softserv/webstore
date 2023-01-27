@@ -2,9 +2,9 @@ import React from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import {
-  Error,
   LinkedButton,
   Loading,
+  Notice,
   RequestList,
 } from '@scientist-softserv/webstore-component-library'
 import {
@@ -22,23 +22,35 @@ const Requests = () => {
   const isError = isAllRequestsError || isDefaultWareError
   const isLoading = isLoadingAllRequests || isLoadingDefaultWare
 
-  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
-  // if (!session) {
-  //   return (
-  //     <Error
-  //       errors={{
-  //         errorText: ['Please log in to make new requests or view existing ones.'],
-  //         errorTitle: 'Unauthorized',
-  //         variant: 'info'
-  //       }}
-  //       router={router}
-  //       showBackButton={false}
-  //     />)
-  // }
+  // Check whether the user is authenticated first. If it does, we can return the API errors if applicable.
+  if (!session) {
+    return (
+      <Notice
+        alert={{
+          body: ['Please log in to make new requests or view existing ones.'],
+          title: 'Unauthorized',
+          variant: 'info'
+        }}
+        dismissible={false}
+      />
+    )
+  }
 
   if (isLoading) return <Loading wrapperClass='mt-5' />
 
-  if (isError) return <Error errors={configureErrors([isAllRequestsError, isDefaultWareError])} router={router} />
+  if (isError) {
+    return (
+      <Notice
+        alert={configureErrors([isAllRequestsError, isDefaultWareError])}
+        dismissible={false}
+        withBackButton={true}
+        buttonProps={{
+          onClick: () => router.back(),
+          text: 'Click to return to the previous page.',
+        }}
+      />
+    )
+  }
 
   return (
     <div className='container'>

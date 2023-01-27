@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import {
-  Error,
   Image,
   ItemGroup,
+  Notice,
   SearchBar,
   TitledTextBox,
 } from '@scientist-softserv/webstore-component-library'
@@ -40,7 +40,10 @@ const Home = () => {
         <SearchBar onSubmit={handleOnSubmit} />
         <TitledTextBox title={TITLE} text={TEXT} />
         {isError ? (
-          <Error errors={configureErrors([isError])} router={router} showBackButton={false} canDismissAlert={true} />
+          <Notice
+            alert={configureErrors([isError])}
+            withBackButton={false}
+          />
         ) : (
           <>
             <ItemGroup

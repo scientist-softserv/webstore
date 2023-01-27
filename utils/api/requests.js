@@ -65,7 +65,7 @@ export const useAllMessages = (id, accessToken) => {
   }
 }
 
-  // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
+// TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
 export const postMessageOrAttachment = ({ id, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
@@ -74,8 +74,8 @@ export const postMessageOrAttachment = ({ id, message, files, accessToken }) => 
   // only user messages will have a body, attachments to requests will not.
   // only attachments that are added when creating a new request should have a title & status.
   const note = {
-    title: message ? null : "New Attachment",
-    status: message ? null : "Other File",
+    title: message ? null : 'New Attachment',
+    status: message ? null : 'Other File',
     body: message || null,
     quoted_ware_ids: [id],
     data_files: files,

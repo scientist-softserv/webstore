@@ -11,7 +11,9 @@ export const useAllWares = (accessToken) => {
 }
 
 export const useFilteredWares = (query, accessToken) => {
-  const { data, error } = useSWR(accessToken ? [`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, accessToken] : null)
+  // This function has "url" separated to avoid a linting line length error
+  const url = accessToken ? [`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, accessToken] : null
+  const { data, error } = useSWR(url)
 
   return {
     wares: data?.ware_refs,
