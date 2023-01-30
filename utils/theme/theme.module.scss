@@ -10,6 +10,18 @@ $light: #f8f9fa;
 $dark: #212529;
 $white: #ffffff;
 
+// these imports must be AFTER the theme color overrides above in order to properly override bootstrap's colors, but before the theme maps.
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+// create our own custom colors map, and merge it with bootstrap's theme-colors map to generate utility functions that can be used throughout the map
+$custom-colors: (
+  "light-2": darken($light, 3%),
+  "light-3": darken($light, 10%)
+);
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
 
 // these variables are also exported for use in variables.js
 :export {
