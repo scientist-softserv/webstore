@@ -46,7 +46,7 @@ const Browse = () => {
           services.map(service => (
             <Item
               key={service.id}
-              item={service}
+              item={service || {}}
               withButtonLink={true}
               buttonLink={service.href}
               orientation='horizontal'
