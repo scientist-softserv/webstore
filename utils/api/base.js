@@ -1,17 +1,13 @@
 import axios from 'axios'
 
 const baseURL = `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME}.scientist.com/api/${process.env.NEXT_PUBLIC_SCIENTIST_API_VERSION}`
-// TODO(alishaevn): delete or reinstate the defaultHeaders variable and use case after we determine how to handle an authenticated user.
-// const defaultHeaders = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}` }
-
-// const api = axios.create({ baseURL, headers: defaultHeaders })
+// Use the user's own access token if they are signed in. If not, fall back to the access token provided through the provider credentials
+const defaultHeaders = (token) => ({ Authorization: `Bearer ${token || process.env.NEXT_PUBLIC_TOKEN}` })
 const api = axios.create({ baseURL })
 
 export const fetcher = (url, token) => {
   try {
-    const headers = { Authorization: `Bearer ${token}` }
-
-    return api.get(url, { headers })
+    return api.get(url, { headers: defaultHeaders(token) })
       .then(res => res.data)
   } catch (error) {
     // TODO(alishaevn): handle the error when sentry is set up
@@ -20,10 +16,8 @@ export const fetcher = (url, token) => {
 }
 
 export const posting = async (url, data, token) => {
-  const headers = { Authorization: `Bearer ${token}` }
-
   try {
-    const response = await api.post(url, data, { headers })
+    const response = await api.post(url, data, { headers: defaultHeaders(token) })
 
     if (response.data.id) {
       return {
