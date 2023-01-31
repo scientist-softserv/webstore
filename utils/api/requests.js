@@ -18,7 +18,7 @@ export const useAllRequests = (accessToken) => {
 }
 
 export const useOneRequest = (id, accessToken) => {
-  const { data, error } = useSWR([`/quote_groups/${id}.json`, accessToken])
+  const { data, error } = useSWR(id ? [`/quote_groups/${id}.json`, accessToken] : null)
   let request = data && configureRequests({ data, path: '/requests' })[0]
   if (request) {
     request = {
@@ -38,7 +38,7 @@ export const useOneRequest = (id, accessToken) => {
 }
 
 export const useAllSOWs = (id, requestIdentifier, accessToken) => {
-  const { data, error } = useSWR([`/quote_groups/${id}/proposals.json`, accessToken])
+  const { data, error } = useSWR(id ? [`/quote_groups/${id}/proposals.json`, accessToken] : null)
   let allSOWs
   if (data) {
     allSOWs = configureDocuments(data, requestIdentifier)
@@ -52,7 +52,7 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
 }
 
 export const useAllMessages = (id, accessToken) => {
-  const { data, error, mutate } = useSWR([`/quote_groups/${id}/notes.json`, accessToken])
+  const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
   let messages
   if (data) messages = configureMessages(data.notes)
 
@@ -140,7 +140,7 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
 }
 
 export const useInitializeRequest = (id, accessToken) => {
-  const { data, error } = useSWR([`/wares/${id}/quote_groups.json`, accessToken])
+  const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups.json`, accessToken] : null)
   let dynamicForm = { name: data?.name }
   let dynamicFormInfo = data?.dynamic_forms[0]
 

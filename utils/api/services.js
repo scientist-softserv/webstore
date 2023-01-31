@@ -11,7 +11,7 @@ export const useAllWares = (accessToken) => {
 }
 
 export const useFilteredWares = (query, accessToken) => {
-  const { data, error } = useSWR([`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, accessToken])
+  const { data, error } = useSWR(query ? [`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, accessToken] : null)
 
   return {
     wares: data?.ware_refs,
@@ -21,8 +21,7 @@ export const useFilteredWares = (query, accessToken) => {
 }
 
 export const useOneWare = (id, accessToken) => {
-  console.log({ accessToken, id })
-  const { data, error } = useSWR([`/wares/${id}.json`, accessToken])
+  const { data, error } = useSWR(id ? [`/wares/${id}.json`, accessToken] : null)
 
   return {
     ware: data?.ware,
