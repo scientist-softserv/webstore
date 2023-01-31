@@ -73,6 +73,51 @@ export const sendMessage = ({ id, message, files }) => {
   posting(`/quote_groups/${id}/notes.json`, note)
 }
 
+export const useCreateRequest = ({ data, id }) => {
+  // the api currently doesn't account for attachments
+  let requestDescription = data.description
+  let formData = data.formData
+
+  // if the ware had a dynamic form, the description would come as part of the formData. otherwise, it comes from the local state
+  if (data.formData.description) {
+    const { description, ...remainingFormData } = data.formData
+    formData = remainingFormData
+    requestDescription = description
+  }
+
+  const pg_quote_group = {
+    ...formData,
+    name: data.name,
+    suppliers_identified: 'Yes',
+    description: requestDescription,
+    site: {
+      billing_same_as_shipping: data.billingSameAsShipping,
+      name: data.name,
+    },
+    proposed_deadline_str: data.proposedDeadline,
+    shipping_address_attributes: {
+      city: data.shipping.city,
+      country: data.shipping.country,
+      state: data.shipping.state,
+      street: data.shipping.street,
+      street2: data.shipping.street2,
+      zipcode: data.shipping.zipcode,
+      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
+    },
+    billing_address_attributes: {
+      city: data.shipping.city,
+      country: data.shipping.country,
+      state: data.shipping.state,
+      street: data.shipping.street,
+      street2: data.shipping.street2,
+      zipcode: data.shipping.zipcode,
+      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
+    },
+  }
+
+  posting(`/wares/${id}/quote_groups.json`, { pg_quote_group })
+}
+
 export const useInitializeRequest = (id) => {
   const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
   let dynamicForm = { name: data?.name }

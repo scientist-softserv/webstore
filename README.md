@@ -53,6 +53,8 @@ Back in your webstore checkout:
 
 and your `webstore` will start using the local component build.
 
+If you are using a local version of the component library, you will need to temporarily delete the line `"@scientist-softserv/webstore-component-library": "VERSION_HERE",` from the `package.json` file in order to see your local changes as opposed to pulling from the github package.
+
 # Linting
 ``` bash
 # lint all files
