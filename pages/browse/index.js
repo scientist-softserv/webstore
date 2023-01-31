@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Item, SearchBar } from '@scientist-softserv/webstore-component-library'
-import { configureServices, useFilteredWares } from '../../utils'
+import { useSession } from 'next-auth/react'
+import { Item, ItemLoading, Notice, SearchBar } from '@scientist-softserv/webstore-component-library'
+import { configureErrors, configureServices, useFilteredWares } from '../../utils'
 
 const Browse = () => {
   const router = useRouter()
+  const { data: session } = useSession()
   const [query, setQuery] = useState('')
   const existingQuery = router.query.q
 
@@ -12,22 +14,38 @@ const Browse = () => {
     if (existingQuery) setQuery(existingQuery)
   }, [existingQuery])
 
-  const { wares, isLoading, isError } = useFilteredWares(query)
+  const { wares, isLoading, isError } = useFilteredWares(query, session?.accessToken)
   const services = configureServices({ data: wares, path: '/requests/new' })
+
   const handleOnSubmit = ({ value }) => {
     setQuery(value)
     return router.push({ pathname: '/browse', query: { q: value } }, (value.length > 0 ? `/browse?q=${value}` : '/browse'))
   }
 
-  if (isError) return <h1>Error...</h1>
+  if (isError) {
+    return (
+      <Notice
+        alert={configureErrors([isError])}
+        dismissible={false}
+        withBackButton={true}
+        buttonProps={{
+          onClick: () => router.back(),
+          text: 'Click to return to the previous page.',
+        }}
+      />
+    )
+  }
 
   return (
     <div className='container'>
       <SearchBar onSubmit={handleOnSubmit} initialValue={existingQuery} />
       {isLoading
         ? (
-          // TODO(alishaevn): refactor for prop error: missing "item.id"
-          <Item isLoading={isLoading} orientation='horizontal' />
+          <>
+            <ItemLoading orientation='horizontal' withButtonLink={true} />
+            <ItemLoading orientation='horizontal' withButtonLink={true} />
+            <ItemLoading orientation='horizontal' withButtonLink={true} />
+          </>
         ) : (
           services.map(service => (
             <Item

@@ -1,3 +1,4 @@
+import { signIn, signOut } from 'next-auth/react'
 import logo from '../assets/svg/logo.svg'
 import item from '../assets/img/item.jpg'
 
@@ -84,3 +85,22 @@ export const STATUS_ARRAY = [
     statusIcon: 'fa-vial-circle-check',
   },
 ]
+
+export const NAVIGATION_LINKS = [
+  {
+    label: 'Browse',
+    onClick: null,
+    path: '/browse',
+  },
+  {
+    label: 'Requests',
+    onClick: null,
+    path: '/requests',
+  },
+]
+
+// updates the title link on the featured service cards on the homepage.
+// 'requests/new' will link to a new request for that service
+// change this to '/services' to have this link to a page for an individual service.
+// if you choose to go this route, you can update the content for the service's page at pages/services/[ware].js
+export const FEATURED_SERVICE_PATH = '/requests/new'

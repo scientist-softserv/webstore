@@ -1,23 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { default as BsForm } from 'react-bootstrap/Form'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 import {
   AdditionalInfo,
   BlankRequestForm,
   Button,
   Loading,
+  Notice,
   ShippingDetails,
   Title,
 } from '@scientist-softserv/webstore-component-library'
-import { addDays, useCreateRequest, useInitializeRequest } from '../../../utils'
-// TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
+import {
+  addDays,
+  configureErrors,
+  createRequest,
+  useInitializeRequest,
+} from '../../../utils'
 
 const NewRequest = () => {
   const router = useRouter()
-  const { id } = router.query
-  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(id)
+  const { data: session } = useSession()
+  const wareID = router.query.id
+  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID, session?.accessToken)
   const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
   const initialFormData = { 'suppliers_identified': 'Yes' }
   const initialState = {
@@ -44,13 +51,12 @@ const NewRequest = () => {
     },
   }
 
-  // either use a useeffect to cause a redirect
-  // OR use the swr package to figure out how they want to handle changing data, not just reading it
-  // need to proxy the query through the routes where the access token exist
-
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
   const [formData, setFormData] = useState(initialFormData)
+  const [requestSucceeded, setRequestSucceeded] = useState(false)
+  const [requestErred, setRequestErred] = useState(false)
+  const [requestID, setNewRequestID] = useState(undefined)
 
   /**
    * @param {object} event onChange event
@@ -72,7 +78,7 @@ const NewRequest = () => {
     })
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     if (!event.formData) {
       // these steps are needed for requests without a dynamic form
       // but error on the event resulting from the react json form
@@ -83,15 +89,58 @@ const NewRequest = () => {
 
     if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
 
-    useCreateRequest({
+    const { success, error, requestID } = await createRequest({
       data: { name: dynamicForm.name, formData, ...requestForm },
-      id,
+      wareID,
+      accessToken: session?.accessToken,
     })
+    setRequestSucceeded(success)
+    setRequestErred(error)
+    setNewRequestID(requestID)
+  }
+
+  useEffect(() => {
+    if (requestSucceeded) {
+      router.push({
+        pathname: `/requests/${requestID}`
+      })
+    }
+    if (requestErred) {
+      //TODO: set error alerts here
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestSucceeded, requestErred, requestID])
+
+  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
+  if (!session) {
+    return (
+      <Notice
+        alert={{
+          body: ['Please log in to make new requests.'],
+          title: 'Unauthorized',
+          variant: 'info'
+        }}
+        dismissible={false}
+      />
+    )
   }
 
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !id) return <Loading wrapperClass='item-page' />
-  if (isInitialRequestError) return <h1>{`${isInitialRequestError.name}: ${isInitialRequestError.message}`}</h1>
+  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
+
+  if (isInitialRequestError) {
+    return (
+      <Notice
+        alert={configureErrors([isInitialRequestError])}
+        dismissible={false}
+        withBackButton={true}
+        buttonProps={{
+          onClick: () => router.back(),
+          text: 'Click to return to the previous page.',
+        }}
+      />
+    )
+  }
 
   return(
     <div className='container'>
@@ -114,7 +163,7 @@ const NewRequest = () => {
       ) : (
         <BsForm
           onSubmit={handleSubmit}
-          id={`new-${id}-request-form`}
+          id={`new-${wareID}-request-form`}
           noValidate
           validated={validated}
         >

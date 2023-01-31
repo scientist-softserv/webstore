@@ -1,51 +1,87 @@
+import React from 'react'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 import {
   ActionsGroup,
   CollapsibleSection,
   Document,
   Loading,
   Messages,
+  Notice,
   RequestStats,
   StatusBar,
   TextBox,
   Title,
 } from '@scientist-softserv/webstore-component-library'
 import {
-  sendMessage,
+  configureErrors,
+  postMessageOrAttachment,
   useAllMessages,
   useAllSOWs,
   useOneRequest,
   STATUS_ARRAY,
 } from '../../utils'
-// TODO(alishaevn): trying to access this page without being signed in should redirect to the login page
 
 const Request = () => {
   const router = useRouter()
+  const { data: session } = useSession()
   const { id } = router.query
-  const { request, isLoadingRequest, isRequestError } = useOneRequest(id)
-  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier)
-  const { messages, isLoadingMessages, isMessagesError } = useAllMessages(id)
+  const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
+  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useAllMessages(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
 
-  if (isLoading) return <Loading wrapperClass='item-page' />
-  if (isError) return [isRequestError, isSOWError, isMessagesError].map((err, index) => err && (
-    <div key={index}>
-      <h3>{index + 1}. {err.name}:</h3>
-      <p>{err.message}</p>
-    </div>
-  ))
+  if (!session) {
+    return (
+      <Notice
+        alert={{
+          body: ['Please log in to view this request.'],
+          title: 'Unauthorized',
+          variant: 'info'
+        }}
+        dismissible={false}
+      />
+    )
+  }
 
-  const handleSendingMessages = ({ message, files }) => sendMessage({ id, message, files })
+  if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
-  return(
+  if (isError) {
+    return (
+      <Notice
+        alert={configureErrors([isRequestError, isSOWError, isMessagesError])}
+        dismissible={false}
+        withBackButton={true}
+        buttonProps={{
+          onClick: () => router.back(),
+          text: 'Click to return to the previous page.',
+        }}
+      />
+    )
+  }
+
+  // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
+  // const handleSendingMessages = ({ message, files }) => {
+  //   postMessageOrAttachment({
+  //     id,
+  //     message,
+  //     files,
+  //     accessToken: session?.accessToken,
+  //   })
+  //   mutate({ ...data, ...messages })
+  // }
+
+  return (
     <div className='container'>
-      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4'/>
+      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4' />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          <ActionsGroup handleSendingMessages={handleSendingMessages}/>
+          {/* // TODO(alishaevn): return the below once the direction of
+          https://github.com/scientist-softserv/webstore/issues/156 has been decided */}
+          {/* <ActionsGroup handleSendingMessages={handleSendingMessages}/> */}
           <div className='mt-3'>
             <RequestStats
               billingInfo={{ ...request.billingAddress }}

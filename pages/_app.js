@@ -1,26 +1,34 @@
 import { Footer, Header } from '@scientist-softserv/webstore-component-library'
+import { SWRConfig } from 'swr'
+import {
+  SessionProvider, signIn, signOut, useSession
+} from 'next-auth/react'
+
 import {
   FOOTER_NAME,
   FOOTER_SECTIONS,
   FOOTER_SOCIALS,
   LOGO,
-  useCurrentUser,
+  NAVIGATION_LINKS,
+  fetcher,
 } from '../utils'
 import '../utils/theme/globals.scss'
 
-// putting the header and footer here mean that they automatically surround every page
-const Webstore = ({ Component, pageProps }) => {
-  // TODO(alishaevn): also make the user accessible to the header
+const WebStore = ({ Component }) => {
+  const { data: session } = useSession()
+
   return (
     <>
       <Header
-        browseLink='/browse'
-        logInLink='/login'
+        auth={{
+          signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
+          signOut: signOut,
+        }}
         logo={LOGO}
-        logOutLink='/'
-        requestsLink='/requests'
+        navLinks={NAVIGATION_LINKS}
+        userSession={session}
       />
-      <Component {...pageProps} {...useCurrentUser()} />
+      <Component />
       <Footer
         companyName={FOOTER_NAME}
         sections={FOOTER_SECTIONS}
@@ -30,4 +38,18 @@ const Webstore = ({ Component, pageProps }) => {
   )
 }
 
-export default Webstore
+const App = ({ Component, pageProps: { session } }) => {
+  // We are providing the fetcher function globally so that it doesn't need passing into every `get` request.
+  // This can be overridden in individual functions, re: https://swr.vercel.app/docs/global-configuration
+
+  // We are wrapping the app in a SessionProvider so that we have the ability to gain access to the user session on each page
+  return (
+    <SWRConfig value={{ fetcher }}>
+      <SessionProvider session={session}>
+        <WebStore Component={Component} />
+      </SessionProvider>
+    </SWRConfig>
+  )
+}
+
+export default App

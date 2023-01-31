@@ -4,27 +4,29 @@ import {
   configureMessages,
   configureRequests,
 } from './configurations'
-import { fetcher, posting } from './base'
+import { posting } from './base'
 
-export const useAllRequests = () => {
-  const { data, error } = useSWR(`/quote_groups/mine.json`, fetcher)
+export const useAllRequests = (accessToken) => {
+  const { data, error } = useSWR(accessToken ? [`/quote_groups/mine.json`, accessToken] : null)
   const requests = data && configureRequests({ data: data.quote_group_refs, path: '/requests' })
 
   return {
     requests,
-    isLoading: !error && !data,
-    isError: error,
+    isLoadingAllRequests: !error && !data,
+    isAllRequestsError: error,
   }
 }
 
-export const useOneRequest = (id) => {
-  const { data, error } = useSWR(`/quote_groups/${id}.json`, fetcher)
+export const useOneRequest = (id, accessToken) => {
+  const { data, error } = useSWR(id && accessToken ? [`/quote_groups/${id}.json`, accessToken] : null)
   let request = data && configureRequests({ data, path: '/requests' })[0]
   if (request) {
     request = {
       ...request,
       createdAt: request.createdAt.slice(0, 12),
-      proposedDeadline: request.proposedDeadline.slice(0, 12),
+      proposedDeadline: request.proposedDeadline === 'No deadline set'
+        ? request.proposedDeadline
+        : request.proposedDeadline.slice(0, 12), // remove the time stamp
     }
   }
 
@@ -35,8 +37,8 @@ export const useOneRequest = (id) => {
   }
 }
 
-export const useAllSOWs = (id, requestIdentifier) => {
-  const { data, error } = useSWR(`/quote_groups/${id}/proposals.json`, fetcher)
+export const useAllSOWs = (id, requestIdentifier, accessToken) => {
+  const { data, error } = useSWR(id && accessToken ? [`/quote_groups/${id}/proposals.json`, accessToken] : null)
   let allSOWs
   if (data) {
     allSOWs = configureDocuments(data, requestIdentifier)
@@ -49,40 +51,53 @@ export const useAllSOWs = (id, requestIdentifier) => {
   }
 }
 
-export const useAllMessages = (id) => {
-  const { data, error } = useSWR(`/quote_groups/${id}/notes.json`, fetcher)
+export const useAllMessages = (id, accessToken) => {
+  const { data, error, mutate } = useSWR(id && accessToken ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
   let messages
   if (data) messages = configureMessages(data.notes)
 
   return {
+    data,
     messages,
+    mutate,
     isLoadingMessages: !error && !data,
     isMessageError: error,
   }
 }
 
-export const sendMessage = ({ id, message, files }) => {
+// TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
+export const postMessageOrAttachment = ({ id, message, files, accessToken }) => {
   /* eslint-disable camelcase */
+
+  // in the scientist marketplace, both user messages sent on a request's page and
+  // attachments to a request of any kind are considered "notes"
+  // only user messages will have a body, attachments to requests will not.
+  // only attachments that are added when creating a new request should have a title & status.
   const note = {
-    body: message,
+    title: message ? null : 'New Attachment',
+    status: message ? null : 'Other File',
+    body: message || null,
     quoted_ware_ids: [id],
     data_files: files,
   }
   /* eslint-enable camelcase */
 
-  posting(`/quote_groups/${id}/notes.json`, note)
+  // posting(`/quote_groups/${id}/notes.json`, note, accessToken)
 }
 
-export const useCreateRequest = ({ data, id }) => {
+export const createRequest = async ({ data, wareID, accessToken }) => {
+  /* eslint-disable camelcase */
   // the api currently doesn't account for attachments
   let requestDescription = data.description
+  let requestTimeline = data.timeline
   let formData = data.formData
 
   // if the ware had a dynamic form, the description would come as part of the formData. otherwise, it comes from the local state
   if (data.formData.description) {
-    const { description, ...remainingFormData } = data.formData
+    const { description, timeline, ...remainingFormData } = data.formData
     formData = remainingFormData
     requestDescription = description
+    requestTimeline = timeline
   }
 
   const pg_quote_group = {
@@ -90,11 +105,13 @@ export const useCreateRequest = ({ data, id }) => {
     name: data.name,
     suppliers_identified: 'Yes',
     description: requestDescription,
+    proposed_deadline_str: data.proposedDeadline,
+    no_proposed_deadline: data.proposedDeadline ? false : true,
+    timeline: requestTimeline,
     site: {
       billing_same_as_shipping: data.billingSameAsShipping,
       name: data.name,
     },
-    proposed_deadline_str: data.proposedDeadline,
     shipping_address_attributes: {
       city: data.shipping.city,
       country: data.shipping.country,
@@ -115,16 +132,21 @@ export const useCreateRequest = ({ data, id }) => {
     },
   }
 
-  posting(`/wares/${id}/quote_groups.json`, { pg_quote_group })
+  const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
+  postMessageOrAttachment({ id: response.requestID, files: data.attachments })
+
+  return response
+  /* eslint-enable camelcase */
 }
 
-export const useInitializeRequest = (id) => {
-  const { data, error } = useSWR(`/wares/${id}/quote_groups.json`, fetcher)
+export const useInitializeRequest = (id, accessToken) => {
+  const { data, error } = useSWR(id && accessToken ? [`/wares/${id}/quote_groups.json`, accessToken] : null)
   let dynamicForm = { name: data?.name }
+  let dynamicFormInfo = data?.dynamic_forms[0]
 
-  if (data?.dynamic_form) {
-    const defaultSchema = data.dynamic_form.schema
-    const defaultOptions = data.dynamic_form.options
+  if (dynamicFormInfo) {
+    const defaultSchema = dynamicFormInfo.schema
+    const defaultOptions = dynamicFormInfo.options
     const schema = dynamicFormSchema(defaultSchema)
 
     dynamicForm = {
@@ -136,7 +158,7 @@ export const useInitializeRequest = (id) => {
 
   return {
     dynamicForm,
-    isLoadingInitialRequest: !error && !dynamicForm,
+    isLoadingInitialRequest: !error && !data,
     isInitialRequestError: error,
   }
 }
@@ -181,6 +203,16 @@ export const dynamicFormSchema = (defaultSchema) => {
     'required': requiredFields,
     'properties': propertyFields,
     'dependencies': dependencyFields,
+  }
+}
+
+export const useDefaultWare = (accessToken) => {
+  const { data, error } = useSWR(accessToken ? [`/wares.json?q=make-a-request`, accessToken] : null)
+
+  return {
+    defaultWareID: data?.ware_refs?.[0]?.id.toString(),
+    isLoadingDefaultWare: !error && !data,
+    isDefaultWareError: error,
   }
 }
 
