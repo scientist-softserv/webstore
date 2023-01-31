@@ -143,7 +143,7 @@ export const configureMessages = (data) => {
     attachments: note.attachments.map((attachment) => ({
       ...attachment,
       contentLength: formatBytes(attachment.content_length),
-      href: `https://${process.env.NEXT_PUBLIC_DOMAIN_NAME}.scientist.com/secure_attachments/${attachment.uuid}`
+      href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${attachment.uuid}`
     })) || [],
   }))
 }
