@@ -24,7 +24,7 @@ jobs:
           scope: '@scientist-softserv'
           node-version-file: package.json
       - name: Authenticate with private GPR package
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > $NPM_CONFIG_USERCONFIG
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}\n@scientist-softserv:registry=https://npm.pkg.github.com" > $NPM_CONFIG_USERCONFIG
       - run: yarn install
       - run: yarn test
 
