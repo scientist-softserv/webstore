@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
-import { Item, Notice, SearchBar } from '@scientist-softserv/webstore-component-library'
+import { Item, ItemLoading, Notice, SearchBar } from '@scientist-softserv/webstore-component-library'
 import { configureErrors, configureServices, useFilteredWares } from '../../utils'
 
 const Browse = () => {
@@ -16,6 +16,7 @@ const Browse = () => {
 
   const { wares, isLoading, isError } = useFilteredWares(query, session?.accessToken)
   const services = configureServices({ data: wares, path: '/requests/new' })
+
   const handleOnSubmit = ({ value }) => {
     setQuery(value)
     return router.push({ pathname: '/browse', query: { q: value } }, (value.length > 0 ? `/browse?q=${value}` : '/browse'))
@@ -40,8 +41,11 @@ const Browse = () => {
       <SearchBar onSubmit={handleOnSubmit} initialValue={existingQuery} />
       {isLoading
         ? (
-          // TODO(alishaevn): refactor for prop error: missing "item.id"
-          <Item isLoading={isLoading} orientation='horizontal' />
+          <>
+            <ItemLoading orientation='horizontal' withButtonLink={true} />
+            <ItemLoading orientation='horizontal' withButtonLink={true} />
+            <ItemLoading orientation='horizontal' withButtonLink={true} />
+          </>
         ) : (
           services.map(service => (
             <Item
