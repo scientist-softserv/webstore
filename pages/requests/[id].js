@@ -34,6 +34,8 @@ const Request = () => {
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
   const isError = isRequestError || isSOWError || isMessagesError
 
+  if (isLoading) return <Loading wrapperClass='item-page mt-5' />
+
   if (!session) {
     return (
       <Notice
@@ -46,8 +48,6 @@ const Request = () => {
       />
     )
   }
-
-  if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
   if (isError) {
     return (
