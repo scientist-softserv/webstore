@@ -60,7 +60,7 @@ const Requests = () => {
           label: 'Initiate a New Request',
           size: 'large',
         }}
-        path={`/requests/new/make-a-request?id=${defaultWareID}`}
+        path={{ pathname: `/requests/new/make-a-request`, query: { id: defaultWareID } }}
         addClass='text-end d-block mt-4 mb-2'
       />
       <RequestList requests={requests} />

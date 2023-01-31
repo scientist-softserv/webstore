@@ -15,7 +15,7 @@ $white: #ffffff;
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/mixins";
 
-// create our own custom colors map, and merge it with bootstrap's theme-colors map to generate utility functions that can be used throughout the map
+// create our own custom colors map, and merge it with bootstrap's theme-colors map to generate utility functions that can be used throughout the app
 $custom-colors: (
   "light-2": darken($light, 3%),
   "light-3": darken($light, 10%)

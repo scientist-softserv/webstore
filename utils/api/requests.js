@@ -210,7 +210,7 @@ export const useDefaultWare = (accessToken) => {
   const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken])
 
   return {
-    defaultWareID: data?.ware_refs?.[0]?.id.toString(),
+    defaultWareID: data?.ware_refs?.[0]?.id,
     isLoadingDefaultWare: !error && !data,
     isDefaultWareError: error,
   }
