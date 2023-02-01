@@ -26,7 +26,7 @@ const authOptions = {
     }
   ],
   theme: {
-    logo: '/Logo.svg', // requires a file in the public folder
+    logo: '/logo.svg', // requires a file in the public folder
   },
   callbacks: {
     async jwt({ token, account, user }) {
