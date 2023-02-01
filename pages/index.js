@@ -47,7 +47,7 @@ const Home = () => {
         ) : (
           <>
             <ItemGroup
-              items={featuredServices || [{}]}
+              items={featuredServices}
               isLoading={isLoading}
               withTitleLink={true}
             />

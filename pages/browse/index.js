@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import {
-  Item, ItemLoading, Notice, SearchBar 
+  Item,
+  ItemLoading,
+  Notice,
+  SearchBar,
 } from '@scientist-softserv/webstore-component-library'
 import { configureErrors, configureServices, useFilteredWares } from '../../utils'
 
