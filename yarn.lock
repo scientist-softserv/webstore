@@ -885,10 +885,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz#8be36a1f66f3265389e90b5f9c9962146758f728"
   integrity sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==
 
-"@scientist-softserv/webstore-component-library@^0.1.12":
-  version "0.1.12"
-  resolved "https://npm.pkg.github.com/download/@scientist-softserv/webstore-component-library/0.1.12/43e7749e13313f7250460f97dfdf446d089df20e#43e7749e13313f7250460f97dfdf446d089df20e"
-  integrity sha512-+jFYAnD5cZu3/iPUp/PlpxIkr6SuHmr4r8aF0EuKmucXb2LU9pAI5tK6izBIQXq+Im+ZPm1U1MRp9mqhQAqmWw==
+"@scientist-softserv/webstore-component-library@^0.1.13":
+  version "0.1.13"
+  resolved "https://npm.pkg.github.com/download/@scientist-softserv/webstore-component-library/0.1.13/e1c1abd0b960cc88aa792a52b3b32575337b8ae7#e1c1abd0b960cc88aa792a52b3b32575337b8ae7"
+  integrity sha512-vGRBo3t1i0JZlj3HAK9Ze25xF/5asoLtT71lvlHlF51PW5JBfi+RVMz6HhN72t2VOoQle0AcipBvNiuHlIH99w==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.2.1"
     "@fortawesome/free-regular-svg-icons" "^6.2.1"
@@ -4896,7 +4896,7 @@ react-bootstrap-storybook@^1.5.1:
     react-bootstrap "^2.5.0"
     yup "^0.32.9"
 
-react-bootstrap@^2.5.0, react-bootstrap@^2.6.0, react-bootstrap@^2.7.0:
+react-bootstrap@^2.5.0, react-bootstrap@^2.6.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-2.7.0.tgz#4a8f0311bccac477dc925366763c536f46e4393b"
   integrity sha512-Jcrn6aUuRVBeSB6dzKODKZU1TONOdhAxu0IDm4Sv74SJUm98dMdhSotF2SNvFEADANoR+stV+7TK6SNX1wWu5w==
