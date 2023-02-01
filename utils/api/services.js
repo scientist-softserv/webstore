@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 
 export const useAllWares = (accessToken) => {
-  const { data, error } = useSWR(accessToken ? [`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`, accessToken] : null)
+  const { data, error } = useSWR([`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`, accessToken])
 
   return {
     wares: data?.ware_refs,
@@ -11,9 +11,7 @@ export const useAllWares = (accessToken) => {
 }
 
 export const useFilteredWares = (query, accessToken) => {
-  // This function has "url" separated to avoid a linting line length error
-  const url = accessToken ? [`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, accessToken] : null
-  const { data, error } = useSWR(url)
+  const { data, error } = useSWR([`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, accessToken])
 
   return {
     wares: data?.ware_refs,
@@ -23,7 +21,7 @@ export const useFilteredWares = (query, accessToken) => {
 }
 
 export const useOneWare = (id, accessToken) => {
-  const { data, error } = useSWR([`/wares/${id}.json`, accessToken])
+  const { data, error } = useSWR(id ? [`/wares/${id}.json`, accessToken] : null)
 
   return {
     ware: data?.ware,

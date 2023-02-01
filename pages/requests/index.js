@@ -23,6 +23,9 @@ const Requests = () => {
   const isLoading = isLoadingAllRequests || isLoadingDefaultWare
 
   // Check whether the user is authenticated first. If it does, we can return the API errors if applicable.
+
+  if (isLoading) return <Loading wrapperClass='mt-5' />
+
   if (!session) {
     return (
       <Notice
@@ -35,8 +38,6 @@ const Requests = () => {
       />
     )
   }
-
-  if (isLoading) return <Loading wrapperClass='mt-5' />
 
   if (isError) {
     return (

@@ -111,7 +111,9 @@ const NewRequest = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestSucceeded, requestErred, requestID])
 
-  // TODO(alishaevn): update the return value after https://github.com/scientist-softserv/webstore-component-library/issues/136 is completed
+  // TODO(alishaevn): use react bs placeholder component
+  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page mt-5' />
+
   if (!session) {
     return (
       <Notice
@@ -124,9 +126,6 @@ const NewRequest = () => {
       />
     )
   }
-
-  // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
 
   if (isInitialRequestError) {
     return (
