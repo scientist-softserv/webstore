@@ -112,7 +112,7 @@ const NewRequest = () => {
   }, [requestSucceeded, requestErred, requestID])
 
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item- mt-5' />
+  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page mt-5' />
 
   if (!session) {
     return (
