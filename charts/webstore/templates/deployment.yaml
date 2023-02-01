@@ -33,6 +33,18 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.apiTokenConfigSecret }}
+          env:
+            - name: NEXTAUTH_URL
+              value: "{{ .Values.nextAuthUrl }}"
+            - name: NEXT_PUBLIC_PROVIDER_NAME
+              value: "{{ .Values.providerName }}"
+            - name: NEXT_PUBLIC_PROVIDER_ID
+              value: "{{ .Values.providerId }}"
+            - name: NEXT_PUBLIC_SCIENTIST_API_VERSION
+              value: "{{ .Values.scientistApiVersion }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
