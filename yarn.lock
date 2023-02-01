@@ -849,10 +849,10 @@
     lodash-es "^4.17.15"
     react-is "^18.2.0"
 
-"@rjsf/validator-ajv8@^5.0.0-beta.17":
-  version "5.0.0-beta.17"
-  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.0.0-beta.17.tgz#590bf9358638363062c10176113fddd7cbc58c83"
-  integrity sha512-Dr8yQ3sh4jjI02o0jOB2Y1Hrn/v6rNYDV94vofeIh3P2heFJApunQeCzsK0xZz5kC/45gfTkosVlsNpIuwvN0Q==
+"@rjsf/validator-ajv8@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.0.1.tgz#920891e9c5fd9ece12a6bad2259ac8d59c2e2931"
+  integrity sha512-lou9/rWDJHkUsNXwrc3d4AMUNxLnL1z/YImMsM3bODljys5mOQmrzsvFSgZSsT7KZiaKM4X6xlE/aAoMDrDXqQ==
   dependencies:
     ajv "^8.11.0"
     ajv-formats "^2.1.1"
@@ -885,10 +885,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz#8be36a1f66f3265389e90b5f9c9962146758f728"
   integrity sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==
 
-"@scientist-softserv/webstore-component-library@^0.1.10":
-  version "0.1.10"
-  resolved "https://npm.pkg.github.com/download/@scientist-softserv/webstore-component-library/0.1.10/29ba77b67c6a73f8490ecb1ebabd122fd5ecc6cc#29ba77b67c6a73f8490ecb1ebabd122fd5ecc6cc"
-  integrity sha512-D6o50079X01Mv6RdOyoR8PVc4DN6gSOBciMWxTAfcbVcsRP4wUpFWBqrykZ2ECQJ1Kun1jYZ7H+TUzOcXOtPFw==
+"@scientist-softserv/webstore-component-library@^0.1.11":
+  version "0.1.11"
+  resolved "https://npm.pkg.github.com/download/@scientist-softserv/webstore-component-library/0.1.11/a80eb032b342013fde0d0144b46f455588b765c8#a80eb032b342013fde0d0144b46f455588b765c8"
+  integrity sha512-uQIFvWuUVLNO42PE6cyEOp9TBqYLoooLFLL2oXhzwkIKQ2M9rZMlICT6Qc4jUdWIXFEZqube3YtPiGu9aGFjsQ==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.2.1"
     "@fortawesome/free-regular-svg-icons" "^6.2.1"
@@ -1418,7 +1418,6 @@ ajv@^6.10.0, ajv@^6.12.4:
     uri-js "^4.2.2"
 
 ajv@^8.0.0, ajv@^8.11.0:
-  name ajv8
   version "8.12.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
   integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
