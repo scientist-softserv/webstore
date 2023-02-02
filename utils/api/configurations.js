@@ -155,6 +155,7 @@ export const  configureFiles = (data) => {
   const allFiles = notesWithFiles.map(note => {
     return note.attachments.map(file => ({
       ...file,
+      status: note.status,
       createdAt: normalizeDate(file.created_at),
       contentLength: formatBytes(file.content_length),
       href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${file.uuid}`
