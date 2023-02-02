@@ -28,7 +28,7 @@ const Request = () => {
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
-  const { messages, isLoadingMessagesAndFiles, isMessagesAndFilesError, mutate, data } = useMessagesAndFiles(id, session?.accessToken)
+  const { messages, files, isLoadingMessagesAndFiles, isMessagesAndFilesError, mutate, data } = useMessagesAndFiles(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessagesAndFiles
@@ -81,7 +81,7 @@ const Request = () => {
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
           {/* TODO(@summercook): add back in the handleSendingMessages={handleSendingMessages} prop to ActionsGroup once the direction of
           https://github.com/scientist-softserv/webstore/issues/156 has been decided */}
-          <ActionsGroup attachments={{}}/>
+          <ActionsGroup files={files}/>
           <div className='mt-3'>
             <RequestStats
               billingInfo={{ ...request.billingAddress }}
