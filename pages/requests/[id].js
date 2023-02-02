@@ -15,8 +15,8 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import {
   configureErrors,
-  postMessageOrAttachment,
-  useAllMessages,
+  postMessageOrFile,
+  useMessagesAndFiles,
   useAllSOWs,
   useOneRequest,
   STATUS_ARRAY,
@@ -28,11 +28,11 @@ const Request = () => {
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
-  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useAllMessages(id, session?.accessToken)
+  const { messages, isLoadingMessagesAndFiles, isMessagesAndFilesError, mutate, data } = useMessagesAndFiles(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
-  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
-  const isError = isRequestError || isSOWError || isMessagesError
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessagesAndFiles
+  const isError = isRequestError || isSOWError || isMessagesAndFilesError
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
@@ -65,7 +65,7 @@ const Request = () => {
 
   // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
   // const handleSendingMessages = ({ message, files }) => {
-  //   postMessageOrAttachment({
+  //   postMessageOrFile({
   //     id,
   //     message,
   //     files,
@@ -79,9 +79,9 @@ const Request = () => {
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4' />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          {/* // TODO(alishaevn): return the below once the direction of
+          {/* TODO(@summercook): add back in the handleSendingMessages={handleSendingMessages} prop to ActionsGroup once the direction of
           https://github.com/scientist-softserv/webstore/issues/156 has been decided */}
-          {/* <ActionsGroup handleSendingMessages={handleSendingMessages}/> */}
+          <ActionsGroup attachments={{}}/>
           <div className='mt-3'>
             <RequestStats
               billingInfo={{ ...request.billingAddress }}
