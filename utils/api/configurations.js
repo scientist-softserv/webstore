@@ -151,20 +151,16 @@ export const configureMessages = (data) => {
 export const  configureFiles = (data) => {
   // NOTE(alishaevn): doing some basic filtering here until we come to a resolution on
   // https://github.com/assaydepot/scientist_api_v2/issues/167
-  const filteredMessages = data.filter(d => d.user_ref && d.body)
-
-  return filteredMessages.map(note => ({
-    avatar: note.user_ref.image,
-    body: note.body,
-    id: note.id,
-    name: `${note.user_ref.first_name} ${note.user_ref.last_name}`,
-    timeSince: timeSince(Date.parse(note.created_at)),
-    attachments: note.attachments.map((attachment) => ({
-      ...attachment,
-      contentLength: formatBytes(attachment.content_length),
-      href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${attachment.uuid}`
-    })) || [],
-  }))
+  const notesWithFiles = data.filter(d => d.attachments?.length !== 0)
+  const allFiles = notesWithFiles.map(note => {
+    return note.attachments.map(file => ({
+      ...file,
+      createdAt: normalizeDate(file.created_at),
+      contentLength: formatBytes(file.content_length),
+      href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${file.uuid}`
+    }))
+  })
+  return allFiles
 }
 
 export const configureDocuments = (documents, requestIdentifier) => {
