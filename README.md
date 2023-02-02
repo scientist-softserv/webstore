@@ -13,6 +13,7 @@
 - [Testing](#testing)
   - [Jest](#jest)
   - [Cypress](#cypress)
+- [Cutting a New Release](#cutting-a-new-release)
 
 ---
 
@@ -142,3 +143,20 @@ There are 2 types of Cypress tests, e2e & component.
   - component: tests components in isolation
 
 If you are creating an e2e test, it will live in the `cypress/e2e` directory. Component tests will need to be created in a directory called `cypress/component `
+
+## Cutting a New Release
+A git tag should exist for every release. We use `release-it` to automate the coordination of package.json and git tag.
+
+If you want to release a new semver release run:
+
+  ```
+  yarn release # You will be prompted to select a release type, e.g. patch)
+  ```
+
+After selecting the release type you'll see the following prompts, one by one. Please respond as noted below:
+``` bash
+? Publish webstore to npm? # No
+? Commit (Release X.X.X)? # Yes
+? Tag (X.X.X)? # Yes
+? Push? # Yes
+```
