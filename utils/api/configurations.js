@@ -159,6 +159,7 @@ export const  configureFiles = (data) => {
   notesWithFiles.map(note => {
     let singleFileArray = note.attachments.map(file => ({
       ...file,
+      uploadedBy: note.created_by,
       status: note.status,
       createdAt: normalizeDate(file.created_at),
       contentLength: formatBytes(file.content_length),
