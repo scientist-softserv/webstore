@@ -52,7 +52,7 @@ const Request = () => {
   if (isError) {
     return (
       <Notice
-        alert={configureErrors([isRequestError, isSOWError, isMessagesError])}
+        alert={configureErrors([isRequestError, isSOWError, isMessagesAndFilesError])}
         dismissible={false}
         withBackButton={true}
         buttonProps={{

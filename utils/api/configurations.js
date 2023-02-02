@@ -151,16 +151,24 @@ export const configureMessages = (data) => {
 export const  configureFiles = (data) => {
   // NOTE(alishaevn): doing some basic filtering here until we come to a resolution on
   // https://github.com/assaydepot/scientist_api_v2/issues/167
+  // filter out the notes that do not have attachments 
   const notesWithFiles = data.filter(d => d.attachments?.length !== 0)
-  const allFiles = notesWithFiles.map(note => {
-    return note.attachments.map(file => ({
+  let fileArrays = []
+
+  // modify the object for each file
+  notesWithFiles.map(note => {
+    let singleFileArray = note.attachments.map(file => ({
       ...file,
       status: note.status,
       createdAt: normalizeDate(file.created_at),
       contentLength: formatBytes(file.content_length),
       href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${file.uuid}`
     }))
+    fileArrays.push(singleFileArray)
   })
+
+  // flatten the array of file arrays so we have a single array of only files
+  const allFiles = [].concat(...fileArrays)
   return allFiles
 }
 
