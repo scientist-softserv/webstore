@@ -64,7 +64,7 @@ const Request = () => {
   }
 
   // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
-  // const handleSendingMessages = ({ message, files }) => {
+  // const handleSendingMessagesOrFiles = ({ message, files }) => {
   //   postMessageOrFile({
   //     id,
   //     message,
@@ -79,9 +79,9 @@ const Request = () => {
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4' />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          {/* TODO(@summercook): add back in the handleSendingMessages={handleSendingMessages} prop to ActionsGroup once the direction of
+          {/* TODO(@summercook): add back in the handleSendingMessagesOrFiles={handleSendingMessagesOrFiles} prop to ActionsGroup once the direction of
           https://github.com/scientist-softserv/webstore/issues/156 has been decided */}
-          <ActionsGroup files={files}/>
+          <ActionsGroup initialFiles={files}/>
           <div className='mt-3'>
             <RequestStats
               billingInfo={{ ...request.billingAddress }}
