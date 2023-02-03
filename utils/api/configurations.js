@@ -149,8 +149,6 @@ export const configureMessages = (data) => {
 }
 
 export const  configureFiles = (data) => {
-  // NOTE(alishaevn): doing some basic filtering here until we come to a resolution on
-  // https://github.com/assaydepot/scientist_api_v2/issues/167
   // filter out the notes that do not have attachments 
   const notesWithFiles = data.filter(d => d.attachments?.length !== 0)
   let fileArrays = []
