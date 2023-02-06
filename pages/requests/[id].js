@@ -25,10 +25,16 @@ import {
 const Request = () => {
   const router = useRouter()
   const { data: session } = useSession()
+  // queries the router to get the quote group (request) id
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
-  const { messages, files, isLoadingMessagesAndFiles, isMessagesAndFilesError, mutate, data } = useMessagesAndFiles(id, session?.accessToken)
+  const { messages, 
+    files, 
+    isLoadingMessagesAndFiles, 
+    isMessagesAndFilesError, 
+    mutate, 
+    data } = useMessagesAndFiles(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessagesAndFiles
@@ -63,7 +69,8 @@ const Request = () => {
     )
   }
 
-  // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
+  // TODO(summer-cook) need to use the quoted ware id here instead of the quote group id.
+  // can be found at https://{{base_path}}/quote_groups/{{quote_group_id}}/quoted_wares.json
   // const handleSendingMessagesOrFiles = ({ message, files }) => {
   //   postMessageOrFile({
   //     id,
@@ -79,8 +86,9 @@ const Request = () => {
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4' />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          {/* TODO(@summercook): add back in the handleSendingMessagesOrFiles={handleSendingMessagesOrFiles} prop to ActionsGroup once the direction of
-          https://github.com/scientist-softserv/webstore/issues/156 has been decided */}
+          {/* TODO(@summercook): 
+          - add back in the handleSendingMessagesOrFiles={handleSendingMessagesOrFiles} prop
+            to ActionsGroup once posting messages/attachments has been refactored. */}
           <ActionsGroup initialFiles={files}/>
           <div className='mt-3'>
             <RequestStats
