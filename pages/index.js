@@ -32,7 +32,7 @@ const Home = () => {
     <>
       <Head>
         <title>Golden Pacific Sciences - WebStore</title>
-        <link rel='icon' href='gps-favicon.png' />
+        <link rel='icon' href='favicon.png' />
       </Head>
       <Image
         alt='DNA chain'
