@@ -156,12 +156,15 @@ export const  configureFiles = (data) => {
   // modify the object for each file
   notesWithFiles.map(note => {
     let singleFileArray = note.attachments.map(file => ({
-      ...file,
-      uploadedBy: note.created_by,
-      status: note.status,
-      createdAt: normalizeDate(file.created_at),
       contentLength: formatBytes(file.content_length),
-      href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${file.uuid}`
+      contentType: note.content_type,
+      createdAt: normalizeDate(file.created_at),
+      download: note.download,
+      fileName: note.filename,
+      href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${file.uuid}`,
+      status: note.status,
+      uploadedBy: note.created_by,
+      uuid: note.uuid
     }))
     fileArrays.push(singleFileArray)
   })
