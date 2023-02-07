@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import {
@@ -29,6 +30,10 @@ const Home = () => {
 
   return (
     <>
+      <Head>
+        <title>Golden Pacific Sciences - WebStore</title>
+        <link rel='icon' href='favicon.png' />
+      </Head>
       <Image
         alt='DNA chain'
         src={hero.src}
