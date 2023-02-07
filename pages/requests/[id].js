@@ -104,7 +104,7 @@ const Request = () => {
           <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
           <Title addClass='mt-4' title='Documents' size='small' />
           {documents.length ? documents.map((document, index) => (
-            <Document key={index} document={document} addClass='mt-3' />
+            <Document key={`${request.id}-${index}`} document={document} addClass='mt-3' />
           )) : (
             <TextBox
               alignment='left'
