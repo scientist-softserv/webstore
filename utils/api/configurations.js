@@ -157,14 +157,14 @@ export const  configureFiles = (data) => {
   notesWithFiles.map(note => {
     let singleFileArray = note.attachments.map(file => ({
       contentLength: formatBytes(file.content_length),
-      contentType: note.content_type,
+      contentType: file.content_type,
       createdAt: normalizeDate(file.created_at),
-      download: note.download,
-      fileName: note.filename,
+      download: file.download,
+      fileName: file.filename,
       href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${file.uuid}`,
       status: note.status,
       uploadedBy: note.created_by,
-      uuid: note.uuid
+      uuid: file.uuid
     }))
     fileArrays.push(singleFileArray)
   })
