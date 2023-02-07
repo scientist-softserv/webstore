@@ -25,7 +25,7 @@ import {
 const Request = () => {
   const router = useRouter()
   const { data: session } = useSession()
-  // queries the router to get the quote group (request) id
+  // parses the query string to get the quote group (request) id
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
