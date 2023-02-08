@@ -72,7 +72,7 @@ export const useMessagesAndFiles = (id, accessToken) => {
 }
 
 // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
-export const postMessageOrFile = ({ id, message, files, accessToken }) => {
+export const createMessageOrFile = ({ id, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
   // in the scientist marketplace, both user messages sent on a request's page and
@@ -139,7 +139,7 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
   }
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
-  postMessageOrFile({ id: response.requestID, files: data.attachments })
+  createMessageOrFile({ id: response.requestID, files: data.attachments })
 
   return response
   /* eslint-enable camelcase */

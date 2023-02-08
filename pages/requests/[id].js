@@ -15,7 +15,7 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import {
   configureErrors,
-  postMessageOrFile,
+  createMessageOrFile,
   useMessagesAndFiles,
   useAllSOWs,
   useOneRequest,
@@ -72,7 +72,7 @@ const Request = () => {
   // TODO(summer-cook) need to use the quoted ware id here instead of the quote group id.
   // can be found at https://{{base_path}}/quote_groups/{{quote_group_id}}/quoted_wares.json
   // const handleSendingMessagesOrFiles = ({ message, files }) => {
-  //   postMessageOrFile({
+  //   createMessageOrFile({
   //     id,
   //     message,
   //     files,
