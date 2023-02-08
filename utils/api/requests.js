@@ -8,6 +8,7 @@ import {
 } from './configurations'
 import { posting } from './base'
 
+/** GET METHODS */
 export const useAllRequests = (accessToken) => {
   const { data, error } = useSWR([`/quote_groups/mine.json`, accessToken])
   const requests = data && configureRequests({ data: data.quote_group_refs, path: '/requests' })
@@ -67,6 +68,41 @@ export const useAllMessages = (id, accessToken) => {
   }
 }
 
+export const useInitializeRequest = (id, accessToken) => {
+  const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups.json`, accessToken] : null)
+  let dynamicForm = { name: data?.name }
+  let dynamicFormInfo = data?.dynamic_forms[0]
+
+  if (dynamicFormInfo) {
+    const defaultSchema = dynamicFormInfo.schema
+    const defaultOptions = dynamicFormInfo.options
+    const schema = configureDynamicFormSchema(defaultSchema)
+
+    dynamicForm = {
+      ...dynamicForm,
+      schema,
+      uiSchema: configureDynamicFormUiSchema(schema, defaultOptions),
+    }
+  }
+
+  return {
+    dynamicForm,
+    isLoadingInitialRequest: !error && !data,
+    isInitialRequestError: error,
+  }
+}
+
+export const useDefaultWare = (accessToken) => {
+  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken])
+
+  return {
+    defaultWareID: data?.ware_refs?.[0]?.id,
+    isLoadingDefaultWare: !error && !data,
+    isDefaultWareError: error,
+  }
+}
+
+/** POST METHODS */
 // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
 export const postMessageOrAttachment = ({ id, message, files, accessToken }) => {
   /* eslint-disable camelcase */
@@ -139,38 +175,4 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
 
   return response
   /* eslint-enable camelcase */
-}
-
-export const useInitializeRequest = (id, accessToken) => {
-  const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups.json`, accessToken] : null)
-  let dynamicForm = { name: data?.name }
-  let dynamicFormInfo = data?.dynamic_forms[0]
-
-  if (dynamicFormInfo) {
-    const defaultSchema = dynamicFormInfo.schema
-    const defaultOptions = dynamicFormInfo.options
-    const schema = configureDynamicFormSchema(defaultSchema)
-
-    dynamicForm = {
-      ...dynamicForm,
-      schema,
-      uiSchema: configureDynamicFormUiSchema(schema, defaultOptions),
-    }
-  }
-
-  return {
-    dynamicForm,
-    isLoadingInitialRequest: !error && !data,
-    isInitialRequestError: error,
-  }
-}
-
-export const useDefaultWare = (accessToken) => {
-  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken])
-
-  return {
-    defaultWareID: data?.ware_refs?.[0]?.id,
-    isLoadingDefaultWare: !error && !data,
-    isDefaultWareError: error,
-  }
 }

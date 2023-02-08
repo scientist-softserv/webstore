@@ -1,5 +1,6 @@
 import useSWR from 'swr'
 
+/** GET METHODS */
 export const useAllWares = (accessToken) => {
   const { data, error } = useSWR([`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`, accessToken])
 
