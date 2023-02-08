@@ -1,6 +1,8 @@
 import useSWR from 'swr'
 import {
   configureDocuments,
+  configureDynamicFormSchema,
+  configureDynamicFormUiSchema,
   configureMessages,
   configureRequests,
 } from './configurations'
@@ -147,12 +149,12 @@ export const useInitializeRequest = (id, accessToken) => {
   if (dynamicFormInfo) {
     const defaultSchema = dynamicFormInfo.schema
     const defaultOptions = dynamicFormInfo.options
-    const schema = dynamicFormSchema(defaultSchema)
+    const schema = configureDynamicFormSchema(defaultSchema)
 
     dynamicForm = {
       ...dynamicForm,
       schema,
-      uiSchema: dynamicFormUiSchema(schema, defaultOptions),
+      uiSchema: configureDynamicFormUiSchema(schema, defaultOptions),
     }
   }
 
@@ -160,49 +162,6 @@ export const useInitializeRequest = (id, accessToken) => {
     dynamicForm,
     isLoadingInitialRequest: !error && !data,
     isInitialRequestError: error,
-  }
-}
-
-// TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
-// update the method at the code above to return the configured schema below
-export const dynamicFormSchema = (defaultSchema) => {
-  // TODO(alishaevn): may need to account for multiple forms
-
-  const removedProperties = [
-    'concierge_support', 'suppliers_identified', 'price_comparison', 'number_suppliers',
-    'supplier_criteria', 'supplier_confirmation'
-  ]
-  let propertyFields = {}
-  let requiredFields = []
-  let dependencyFields = {}
-
-  Object.entries(defaultSchema.properties).forEach(prop => {
-    const [key, value] = prop
-    let adjustedProperty
-
-    if (!removedProperties.includes(key)) {
-      if (value.required) {
-        requiredFields.push(key)
-        let { required, ...remainingProperties } = value
-        adjustedProperty = { ...remainingProperties }
-      }
-
-      if (value.dependencies) {
-        dependencyFields[key] = [value['dependencies']]
-        // fallback to the initial value in case "required" wasn't on this property
-        let { dependencies, ...remainingProperties } = adjustedProperty || value
-        adjustedProperty = { ...remainingProperties }
-      }
-
-      propertyFields[key] = adjustedProperty
-    }
-  })
-
-  return {
-    'type': defaultSchema.type,
-    'required': requiredFields,
-    'properties': propertyFields,
-    'dependencies': dependencyFields,
   }
 }
 
@@ -214,35 +173,4 @@ export const useDefaultWare = (accessToken) => {
     isLoadingDefaultWare: !error && !data,
     isDefaultWareError: error,
   }
-}
-
-// TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
-// update the method at the code above to return the configured options below
-// when updating, change the "helper" sentence to say "supplier" instead of "suppliers"
-// also don't make fields dependent on "suppliers_identified" since that will always be true for a webstore
-export const dynamicFormUiSchema = (schema, defaultOptions) => {
-  let UiSchema = {}
-  const { fields } = defaultOptions
-
-  if (fields) {
-    for (let key in schema.properties) {
-      if (fields.hasOwnProperty(key)) {
-        let fieldOptions = { 'ui:classNames': 'mb-4' }
-
-        if(fields[key].helper) fieldOptions['ui:help'] = fields[key].helper
-        if(fields[key].placeholder) fieldOptions['ui:placeholder'] = fields[key].placeholder
-        if(fields[key].type) fieldOptions['ui:inputType'] = fields[key].type
-        if(fields[key].rows) {
-          fieldOptions['ui:options']= {
-            widget: 'textarea',
-            rows: fields[key].rows,
-          }
-        }
-
-        UiSchema[key] = fieldOptions
-      }
-    }
-  }
-
-  return UiSchema
 }

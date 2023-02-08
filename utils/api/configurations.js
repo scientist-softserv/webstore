@@ -182,3 +182,71 @@ const configureLineItems = (lineItems) => (lineItems.map(lineItem => ({
   total: lineItem.retail_subtotal_price_currency,
   unitPrice: lineItem.unit_price,
 })))
+
+export const configureDynamicFormSchema = (defaultSchema) => {
+  // TODO(alishaevn): will need to account for multiple forms in phase 2
+
+  const removedProperties = [
+    'concierge_support', 'suppliers_identified', 'price_comparison', 'number_suppliers',
+    'supplier_criteria', 'supplier_confirmation'
+  ]
+  let propertyFields = {}
+  let requiredFields = []
+  let dependencyFields = {}
+
+  Object.entries(defaultSchema.properties).forEach(prop => {
+    const [key, value] = prop
+    let adjustedProperty
+
+    if (!removedProperties.includes(key)) {
+      if (value.required) {
+        requiredFields.push(key)
+        let { required, ...remainingProperties } = value
+        adjustedProperty = { ...remainingProperties }
+      }
+
+      if (value.dependencies) {
+        dependencyFields[key] = [value['dependencies']]
+        // fallback to the initial value in case "required" wasn't on this property
+        let { dependencies, ...remainingProperties } = adjustedProperty || value
+        adjustedProperty = { ...remainingProperties }
+      }
+
+      propertyFields[key] = adjustedProperty
+    }
+  })
+
+  return {
+    'type': defaultSchema.type,
+    'required': requiredFields,
+    'properties': propertyFields,
+    'dependencies': dependencyFields,
+  }
+}
+
+export const configureDynamicFormUiSchema = (schema, defaultOptions) => {
+  let UiSchema = {}
+  const { fields } = defaultOptions
+
+  if (fields) {
+    for (let key in schema.properties) {
+      if (fields.hasOwnProperty(key)) {
+        let fieldOptions = { 'ui:classNames': 'mb-4' }
+
+        if(fields[key].helper) fieldOptions['ui:help'] = fields[key].helper
+        if(fields[key].placeholder) fieldOptions['ui:placeholder'] = fields[key].placeholder
+        if(fields[key].type) fieldOptions['ui:inputType'] = fields[key].type
+        if(fields[key].rows) {
+          fieldOptions['ui:options']= {
+            widget: 'textarea',
+            rows: fields[key].rows,
+          }
+        }
+
+        UiSchema[key] = fieldOptions
+      }
+    }
+  }
+
+  return UiSchema
+}
