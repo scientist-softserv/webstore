@@ -63,7 +63,12 @@ export const configureRequests = ({ data, path }) => {
 // takes an array of errors for each page or component
 export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
-  const remainingErrors = errors.filter(error => error)
+  const remainingErrors = errors
+    .filter(error => error)
+    .map(error => ({
+      ...error,
+      message: `${error.message} (${error.response?.data?.message})`,
+    }))
   let body = []
   let title = ''
 
