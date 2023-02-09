@@ -1,14 +1,14 @@
-// these colors can be customized for each webstore instance. they are the default bootstrap theme colors and are used in bootstrap's theme_colors sass map, so updating these will also make sure that text overlaying areas with these background colors remains accessible. See https://getbootstrap.com/docs/5.0/customize/sass/#maps-and-loops for more details on how to add additional theme colors to this map. 
+// these colors can be customized for each webstore instance. they are the default bootstrap theme colors and are used in bootstrap's theme_colors sass map, so updating these will also make sure that text overlaying areas with these background colors remains accessible. See https://getbootstrap.com/docs/5.0/customize/sass/#maps-and-loops for more details on how to add additional theme colors to this map.
 
-$primary: #333333; 
-$secondary: #CCCCCC; 
-$success: #666666; 
-$info: #999999; 
-$warning: #2a2a2a;
-$danger: #606060;
-$light: #f8f9fa;
-$dark: #212529;
-$white: #ffffff;
+$primary: #94D1BE;
+$secondary: #9DB5B2;
+$light: #DAF0EE;
+$dark: #3B413C;
+$white: #FFFFFF;
+$success: #B0E298;
+$info: #FFFBA6;
+$warning: #E9DF00;
+$danger: #D20000;
 
 // these imports must be AFTER the theme color overrides above in order to properly override bootstrap's colors, but before the theme maps.
 @import "../../node_modules/bootstrap/scss/functions";
@@ -21,7 +21,6 @@ $custom-colors: (
   "light-3": darken($light, 10%)
 );
 $theme-colors: map-merge($theme-colors, $custom-colors);
-
 
 // these variables are also exported for use in variables.js
 :export {
