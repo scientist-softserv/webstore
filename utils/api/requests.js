@@ -1,5 +1,6 @@
 import useSWR from 'swr'
 import {
+  configureFiles,
   configureDocuments,
   configureDynamicFormSchema,
   configureDynamicFormUiSchema,
@@ -54,17 +55,22 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
   }
 }
 
-export const useAllMessages = (id, accessToken) => {
+export const useMessagesAndFiles = (id, accessToken) => {
   const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
   let messages
-  if (data) messages = configureMessages(data.notes)
+  let files
+  if (data) {
+    messages = configureMessages(data.notes)
+    files =  configureFiles(data.notes)
+  }
 
   return {
     data,
     messages,
+    files,
     mutate,
-    isLoadingMessages: !error && !data,
-    isMessageError: error,
+    isLoadingMessagesAndFiles: !error && !data,
+    isMessagesAndFilesError: error,
   }
 }
 
@@ -104,7 +110,7 @@ export const useDefaultWare = (accessToken) => {
 
 /** POST METHODS */
 // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
-export const postMessageOrAttachment = ({ id, message, files, accessToken }) => {
+export const createMessageOrFile = ({ id, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
   // in the scientist marketplace, both user messages sent on a request's page and
@@ -171,7 +177,7 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
   }
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
-  postMessageOrAttachment({ id: response.requestID, files: data.attachments })
+  createMessageOrFile({ id: response.requestID, files: data.attachments })
 
   return response
   /* eslint-enable camelcase */

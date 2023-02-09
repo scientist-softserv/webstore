@@ -153,6 +153,32 @@ export const configureMessages = (data) => {
   }))
 }
 
+export const  configureFiles = (data) => {
+  // filter out the notes that do not have attachments 
+  const notesWithFiles = data.filter(d => d.attachments?.length !== 0)
+  let fileArrays = []
+
+  // modify the object for each file
+  notesWithFiles.map(note => {
+    let singleFileArray = note.attachments.map(file => ({
+      contentLength: formatBytes(file.content_length),
+      contentType: file.content_type,
+      createdAt: normalizeDate(file.created_at),
+      download: file.download,
+      fileName: file.filename,
+      href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${file.uuid}`,
+      status: note.status,
+      uploadedBy: note.created_by,
+      uuid: file.uuid
+    }))
+    fileArrays.push(singleFileArray)
+  })
+
+  // flatten the array of file arrays so we have a single array of only files
+  const allFiles = [].concat(...fileArrays)
+  return allFiles
+}
+
 export const configureDocuments = (documents, requestIdentifier) => {
   return documents?.map(document => ({
     identifier: document.identifier,
