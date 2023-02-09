@@ -1,7 +1,7 @@
-describe('The home page', () => {
-  it('should be able to reach the browse page', () => {
+describe('Browse', () => {
+  it('should be able to reach the browse page from the homepage search bar', () => {
     // Start from the home/index page
-    cy.visit('http://localhost:3000/')
+    cy.visit('/')
 
     // Find the search button and perform an empty search, which should lead to the browse page
     cy.get('button.search-button').click()
@@ -10,3 +10,5 @@ describe('The home page', () => {
     cy.url().should('include', '/browse')
   })
 })
+
+//
