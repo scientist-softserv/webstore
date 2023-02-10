@@ -160,3 +160,9 @@ After selecting the release type you'll see the following prompts, one by one. P
 ? Tag (X.X.X)? # Yes
 ? Push? # Yes
 ```
+
+In order to deploy this new release to staging, use the command below
+``` bash
+# the tag is the semver release that was created above
+helm upgrade --install --kube-context=k3 --namespace=webstore-staging webstore-staging charts/webstore -f charts/webstore/values/webstore-staging.yaml --set=image.tag=X.X.X
+```
