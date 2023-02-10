@@ -142,3 +142,17 @@ There are 2 types of Cypress tests, e2e & component.
   - component: tests components in isolation
 
 If you are creating an e2e test, it will live in the `cypress/e2e` directory. Component tests will need to be created in a directory called `cypress/component `
+
+#### Setup your Cypress env variables
+- the Cypress suite requires environment variables that should be stored in your `.env.local` and not committed to git.
+- (these two are not secrets)
+  - TEST_SCIENTIST_USER=test@test.com
+  - TEST_SCIENTIST_PW=!test1234
+- (this one is a secret)
+  - TEST_SESSION_COOKIE=
+    - to get the value for this variable, open your browser to your running app at localhost:3000.
+    - inspect the page
+    - click the "Application" tab
+    - click "Cookies" 
+    - find the value for `next-auth.session-token`
+    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable for you .env.local
