@@ -1,6 +1,6 @@
 {
   "name": "webstore",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "engines": {
     "node": "^18.13.0"
@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "next lint --dir pages --dir utils",
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "release": "release-it"
   },
   "dependencies": {
     "@rjsf/core": "^5.0.0-beta.17",
@@ -36,6 +37,7 @@
     "eslint": "8.25.0",
     "eslint-config-next": "12.3.1",
     "jest": "^29.3.1",
-    "jest-environment-jsdom": "^29.3.1"
+    "jest-environment-jsdom": "^29.3.1",
+    "release-it": "^15.6.0"
   }
 }

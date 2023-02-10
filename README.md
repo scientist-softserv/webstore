@@ -13,6 +13,7 @@
 - [Testing](#testing)
   - [Jest](#jest)
   - [Cypress](#cypress)
+- [Cutting a New Release](#cutting-a-new-release)
 
 ---
 
@@ -150,9 +151,32 @@ If you are creating an e2e test, it will live in the `cypress/e2e` directory. Co
   - TEST_SCIENTIST_PW=!test1234
 - (this one is a secret)
   - TEST_SESSION_COOKIE=
-    - to get the value for this variable, open your browser to your running app at localhost:3000.
+    - to get the value for this variable, open your browser to your running app at `localhost:3000`.
     - inspect the page
     - click the "Application" tab
     - click "Cookies" 
     - find the value for `next-auth.session-token`
-    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable for you .env.local
+    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your .env.local
+    - do not ever commit this value
+## Cutting a New Release
+A git tag should exist for every release. We use `release-it` to automate the coordination of package.json and git tag.
+
+If you want to release a new semver release run:
+
+  ```
+  yarn release # You will be prompted to select a release type, e.g. patch)
+  ```
+
+After selecting the release type you'll see the following prompts, one by one. Please respond as noted below:
+``` bash
+? Publish webstore to npm? # No
+? Commit (Release X.X.X)? # Yes
+? Tag (X.X.X)? # Yes
+? Push? # Yes
+```
+
+In order to deploy this new release to staging, use the command below
+``` bash
+# the tag is the semver release that was created above
+helm upgrade --install --kube-context=k3 --namespace=webstore-staging webstore-staging charts/webstore -f charts/webstore/values/webstore-staging.yaml --set=image.tag=X.X.X
+```
