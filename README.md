@@ -158,6 +158,7 @@ If you are creating an e2e test, it will live in the `cypress/e2e` directory. Co
     - find the value for `next-auth.session-token`
     - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your .env.local
     - do not ever commit this value
+    
 ## Cutting a New Release
 A git tag should exist for every release. We use `release-it` to automate the coordination of package.json and git tag.
 
