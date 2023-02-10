@@ -33,7 +33,7 @@ Cypress.Commands.add('login', (username, password) => {
 
 	// Set the cookie for cypress.
 	// It has to be a valid cookie so next-auth can decrypt it and confirm its validity.
-	// This cookie also may need to be refreshed intermittently 
+	// This cookie also may need to be refreshed intermittently if it expires
 	cy.setCookie("next-auth.session-token", Cypress.env('TEST_SESSION_COOKIE'));
   })
 })
