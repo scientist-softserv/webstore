@@ -63,7 +63,12 @@ export const configureRequests = ({ data, path }) => {
 // takes an array of errors for each page or component
 export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
-  const remainingErrors = errors.filter(error => error)
+  const remainingErrors = errors
+    .filter(error => error)
+    .map(error => ({
+      ...error,
+      message: `${error.message} (${error.response?.data?.message})`,
+    }))
   let body = []
   let title = ''
 
@@ -148,6 +153,32 @@ export const configureMessages = (data) => {
   }))
 }
 
+export const  configureFiles = (data) => {
+  // filter out the notes that do not have attachments 
+  const notesWithFiles = data.filter(d => d.attachments?.length !== 0)
+  let fileArrays = []
+
+  // modify the object for each file
+  notesWithFiles.map(note => {
+    let singleFileArray = note.attachments.map(file => ({
+      contentLength: formatBytes(file.content_length),
+      contentType: file.content_type,
+      createdAt: normalizeDate(file.created_at),
+      download: file.download,
+      fileName: file.filename,
+      href: `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/secure_attachments/${file.uuid}`,
+      status: note.status,
+      uploadedBy: note.created_by,
+      uuid: file.uuid
+    }))
+    fileArrays.push(singleFileArray)
+  })
+
+  // flatten the array of file arrays so we have a single array of only files
+  const allFiles = [].concat(...fileArrays)
+  return allFiles
+}
+
 export const configureDocuments = (documents, requestIdentifier) => {
   return documents?.map(document => ({
     identifier: document.identifier,
@@ -182,3 +213,71 @@ const configureLineItems = (lineItems) => (lineItems.map(lineItem => ({
   total: lineItem.retail_subtotal_price_currency,
   unitPrice: lineItem.unit_price,
 })))
+
+export const configureDynamicFormSchema = (defaultSchema) => {
+  // TODO(alishaevn): will need to account for multiple forms in phase 2
+
+  const removedProperties = [
+    'concierge_support', 'suppliers_identified', 'price_comparison', 'number_suppliers',
+    'supplier_criteria', 'supplier_confirmation'
+  ]
+  let propertyFields = {}
+  let requiredFields = []
+  let dependencyFields = {}
+
+  Object.entries(defaultSchema.properties).forEach(prop => {
+    const [key, value] = prop
+    let adjustedProperty
+
+    if (!removedProperties.includes(key)) {
+      if (value.required) {
+        requiredFields.push(key)
+        let { required, ...remainingProperties } = value
+        adjustedProperty = { ...remainingProperties }
+      }
+
+      if (value.dependencies) {
+        dependencyFields[key] = [value['dependencies']]
+        // fallback to the initial value in case "required" wasn't on this property
+        let { dependencies, ...remainingProperties } = adjustedProperty || value
+        adjustedProperty = { ...remainingProperties }
+      }
+
+      propertyFields[key] = adjustedProperty
+    }
+  })
+
+  return {
+    'type': defaultSchema.type,
+    'required': requiredFields,
+    'properties': propertyFields,
+    'dependencies': dependencyFields,
+  }
+}
+
+export const configureDynamicFormUiSchema = (schema, defaultOptions) => {
+  let UiSchema = {}
+  const { fields } = defaultOptions
+
+  if (fields) {
+    for (let key in schema.properties) {
+      if (fields.hasOwnProperty(key)) {
+        let fieldOptions = { 'ui:classNames': 'mb-4' }
+
+        if(fields[key].helper) fieldOptions['ui:help'] = fields[key].helper
+        if(fields[key].placeholder) fieldOptions['ui:placeholder'] = fields[key].placeholder
+        if(fields[key].type) fieldOptions['ui:inputType'] = fields[key].type
+        if(fields[key].rows) {
+          fieldOptions['ui:options']= {
+            widget: 'textarea',
+            rows: fields[key].rows,
+          }
+        }
+
+        UiSchema[key] = fieldOptions
+      }
+    }
+  }
+
+  return UiSchema
+}

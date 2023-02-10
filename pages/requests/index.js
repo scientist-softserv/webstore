@@ -55,15 +55,16 @@ const Requests = () => {
 
   return (
     <div className='container'>
-      <LinkedButton
-        buttonProps={{
-          backgroundColor: dark,
-          label: 'Initiate a New Request',
-          size: 'large',
-        }}
-        path={{ pathname: `/requests/new/make-a-request`, query: { id: defaultWareID } }}
-        addClass='text-end d-block mt-4 mb-2'
-      />
+      <div className='text-end d-block mt-4 mb-2'>
+        <LinkedButton
+          buttonProps={{
+            backgroundColor: dark,
+            label: 'Initiate a New Request',
+            size: 'large',
+          }}
+          path={{ pathname: `/requests/new/make-a-request`, query: { id: defaultWareID } }}
+        />
+      </div>
       <RequestList requests={requests} />
     </div>
   )

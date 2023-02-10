@@ -20,7 +20,7 @@ export const LOGO = {
   src: logo.src,
 }
 
-export const FOOTER_NAME = 'Golden Pacific Services'
+export const FOOTER_NAME = 'Golden Pacific Sciences'
 
 export const FOOTER_SECTIONS = [
   {

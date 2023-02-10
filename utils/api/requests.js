@@ -1,11 +1,15 @@
 import useSWR from 'swr'
 import {
+  configureFiles,
   configureDocuments,
+  configureDynamicFormSchema,
+  configureDynamicFormUiSchema,
   configureMessages,
   configureRequests,
 } from './configurations'
 import { posting } from './base'
 
+/** GET METHODS */
 export const useAllRequests = (accessToken) => {
   const { data, error } = useSWR([`/quote_groups/mine.json`, accessToken])
   const requests = data && configureRequests({ data: data.quote_group_refs, path: '/requests' })
@@ -51,22 +55,62 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
   }
 }
 
-export const useAllMessages = (id, accessToken) => {
+export const useMessagesAndFiles = (id, accessToken) => {
   const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
   let messages
-  if (data) messages = configureMessages(data.notes)
+  let files
+  if (data) {
+    messages = configureMessages(data.notes)
+    files =  configureFiles(data.notes)
+  }
 
   return {
     data,
     messages,
+    files,
     mutate,
-    isLoadingMessages: !error && !data,
-    isMessageError: error,
+    isLoadingMessagesAndFiles: !error && !data,
+    isMessagesAndFilesError: error,
   }
 }
 
+export const useInitializeRequest = (id, accessToken) => {
+  const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups.json`, accessToken] : null)
+  let dynamicForm = { name: data?.name }
+  let dynamicFormInfo = data?.dynamic_forms[0]
+
+  if (dynamicFormInfo) {
+    const defaultSchema = dynamicFormInfo.schema
+    const defaultOptions = dynamicFormInfo.options
+    const schema = configureDynamicFormSchema(defaultSchema)
+
+    dynamicForm = {
+      ...dynamicForm,
+      schema,
+      uiSchema: configureDynamicFormUiSchema(schema, defaultOptions),
+    }
+  }
+
+  return {
+    dynamicForm,
+    isLoadingInitialRequest: !error && !data,
+    isInitialRequestError: error,
+  }
+}
+
+export const useDefaultWare = (accessToken) => {
+  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken])
+
+  return {
+    defaultWareID: data?.ware_refs?.[0]?.id,
+    isLoadingDefaultWare: !error && !data,
+    isDefaultWareError: error,
+  }
+}
+
+/** POST METHODS */
 // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
-export const postMessageOrAttachment = ({ id, message, files, accessToken }) => {
+export const createMessageOrFile = ({ id, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
   // in the scientist marketplace, both user messages sent on a request's page and
@@ -133,116 +177,8 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
   }
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
-  postMessageOrAttachment({ id: response.requestID, files: data.attachments })
+  createMessageOrFile({ id: response.requestID, files: data.attachments })
 
   return response
   /* eslint-enable camelcase */
-}
-
-export const useInitializeRequest = (id, accessToken) => {
-  const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups.json`, accessToken] : null)
-  let dynamicForm = { name: data?.name }
-  let dynamicFormInfo = data?.dynamic_forms[0]
-
-  if (dynamicFormInfo) {
-    const defaultSchema = dynamicFormInfo.schema
-    const defaultOptions = dynamicFormInfo.options
-    const schema = dynamicFormSchema(defaultSchema)
-
-    dynamicForm = {
-      ...dynamicForm,
-      schema,
-      uiSchema: dynamicFormUiSchema(schema, defaultOptions),
-    }
-  }
-
-  return {
-    dynamicForm,
-    isLoadingInitialRequest: !error && !data,
-    isInitialRequestError: error,
-  }
-}
-
-// TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
-// update the method at the code above to return the configured schema below
-export const dynamicFormSchema = (defaultSchema) => {
-  // TODO(alishaevn): may need to account for multiple forms
-
-  const removedProperties = [
-    'concierge_support', 'suppliers_identified', 'price_comparison', 'number_suppliers',
-    'supplier_criteria', 'supplier_confirmation'
-  ]
-  let propertyFields = {}
-  let requiredFields = []
-  let dependencyFields = {}
-
-  Object.entries(defaultSchema.properties).forEach(prop => {
-    const [key, value] = prop
-    let adjustedProperty
-
-    if (!removedProperties.includes(key)) {
-      if (value.required) {
-        requiredFields.push(key)
-        let { required, ...remainingProperties } = value
-        adjustedProperty = { ...remainingProperties }
-      }
-
-      if (value.dependencies) {
-        dependencyFields[key] = [value['dependencies']]
-        // fallback to the initial value in case "required" wasn't on this property
-        let { dependencies, ...remainingProperties } = adjustedProperty || value
-        adjustedProperty = { ...remainingProperties }
-      }
-
-      propertyFields[key] = adjustedProperty
-    }
-  })
-
-  return {
-    'type': defaultSchema.type,
-    'required': requiredFields,
-    'properties': propertyFields,
-    'dependencies': dependencyFields,
-  }
-}
-
-export const useDefaultWare = (accessToken) => {
-  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken])
-
-  return {
-    defaultWareID: data?.ware_refs?.[0]?.id,
-    isLoadingDefaultWare: !error && !data,
-    isDefaultWareError: error,
-  }
-}
-
-// TODO(alishaevn): https://github.com/assaydepot...scientist_api_v2/app/serializers/scientist_api_v2/dynamic_form_serializer.rb#L39
-// update the method at the code above to return the configured options below
-// when updating, change the "helper" sentence to say "supplier" instead of "suppliers"
-// also don't make fields dependent on "suppliers_identified" since that will always be true for a webstore
-export const dynamicFormUiSchema = (schema, defaultOptions) => {
-  let UiSchema = {}
-  const { fields } = defaultOptions
-
-  if (fields) {
-    for (let key in schema.properties) {
-      if (fields.hasOwnProperty(key)) {
-        let fieldOptions = { 'ui:classNames': 'mb-4' }
-
-        if(fields[key].helper) fieldOptions['ui:help'] = fields[key].helper
-        if(fields[key].placeholder) fieldOptions['ui:placeholder'] = fields[key].placeholder
-        if(fields[key].type) fieldOptions['ui:inputType'] = fields[key].type
-        if(fields[key].rows) {
-          fieldOptions['ui:options']= {
-            widget: 'textarea',
-            rows: fields[key].rows,
-          }
-        }
-
-        UiSchema[key] = fieldOptions
-      }
-    }
-  }
-
-  return UiSchema
 }
