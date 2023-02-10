@@ -1,5 +1,5 @@
 import { signIn, signOut } from 'next-auth/react'
-import logo from '../assets/svg/logo.svg'
+import logo from '../assets/svg/bbs-logo.svg'
 import item from '../assets/img/item.jpg'
 
 export const DEFAULT_WARE_IMAGE = {
