@@ -7,6 +7,8 @@ const api = axios.create({ baseURL })
 
 export const fetcher = (url, token) => {
   console.log('UPCOMING GET REQUEST::', url)
+  console.log('the public token is a secret')
+  console.log('NEXT_PUBLIC_TOKEN::', process.env.NEXT_PUBLIC_TOKEN)
   try {
     return api.get(url, { headers: defaultHeaders(token) })
       .then(res => res.data)
