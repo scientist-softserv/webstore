@@ -13,6 +13,11 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+apiTokenConfigSecret: ""
+nextAuthUrl: ""
+providerName: ""
+providerId: ""
+scientistApiVersion: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
