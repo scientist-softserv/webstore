@@ -6,6 +6,7 @@ const defaultHeaders = (token) => ({ Authorization: `Bearer ${token || process.e
 const api = axios.create({ baseURL })
 
 export const fetcher = (url, token) => {
+  console.log('UPCOMING GET REQUEST::', url)
   try {
     return api.get(url, { headers: defaultHeaders(token) })
       .then(res => res.data)
@@ -16,6 +17,7 @@ export const fetcher = (url, token) => {
 }
 
 export const posting = async (url, data, token) => {
+  console.log('UPCOMING POST REQUEST::', url)
   try {
     const response = await api.post(url, data, { headers: defaultHeaders(token) })
 
