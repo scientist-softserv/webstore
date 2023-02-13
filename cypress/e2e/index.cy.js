@@ -9,4 +9,26 @@ describe('The home page', () => {
     // The new url should include "/browse"
     cy.url().should('include', '/browse')
   })
+<<<<<<< Updated upstream:cypress/e2e/index.cy.js
 })
+=======
+
+  it('should perform a search on the browse page', () => {
+    // Start from the browse page
+    cy.visit('/browse')
+
+    // type an example search into the searchbar
+    cy.get('input.search-bar').type('next')
+
+    // Find the search button to enter the search
+    cy.get('button.search-button').click()
+
+    // The new url should include "/browse"
+    cy.get('div.card-title').contains('Next Generation Sequencing').then(() => {
+			cy.log("Successfully performed a search from the browse page");
+		});
+  })
+})
+
+//
+>>>>>>> Stashed changes:cypress/e2e/browse.cy.js
