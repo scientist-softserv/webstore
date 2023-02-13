@@ -6,9 +6,11 @@ const defaultHeaders = (token) => ({ Authorization: `Bearer ${token || process.e
 const api = axios.create({ baseURL })
 
 export const fetcher = (url, token) => {
-  console.log('UPCOMING GET REQUEST::', url)
-  console.log('the public token is a secret')
-  console.log('NEXT_PUBLIC_TOKEN::', process.env.NEXT_PUBLIC_TOKEN)
+  console.log('UPCOMING GET REQUEST::', { url })
+  console.log('public >> NEXT_PUBLIC_PROVIDER_NAME::', process.env.NEXT_PUBLIC_PROVIDER_NAME)
+  console.log('secret >> NEXT_PUBLIC_RANDOM_SECRET::', process.env.NEXT_PUBLIC_RANDOM_SECRET)
+  console.log('secret >> RANDOM_VALUE::', process.env.RANDOM_VALUE)
+
   try {
     return api.get(url, { headers: defaultHeaders(token) })
       .then(res => res.data)
