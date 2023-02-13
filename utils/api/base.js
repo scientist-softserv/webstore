@@ -8,6 +8,9 @@ const api = axios.create({ baseURL })
 export const fetcher = (url, token) => {
   console.log('UPCOMING GET REQUEST::', { url })
   console.log('public >> NEXT_PUBLIC_PROVIDER_NAME::', process.env.NEXT_PUBLIC_PROVIDER_NAME)
+  console.log('public >> NEXT_PUBLIC_PROVIDER_ID::', process.env.NEXT_PUBLIC_PROVIDER_ID)
+  console.log('public >> NEXT_PUBLIC_SCIENTIST_API_VERSION::', process.env.NEXT_PUBLIC_SCIENTIST_API_VERSION)
+
   console.log('secret >> NEXT_PUBLIC_RANDOM_SECRET::', process.env.NEXT_PUBLIC_RANDOM_SECRET)
   console.log('secret >> RANDOM_VALUE::', process.env.RANDOM_VALUE)
 
