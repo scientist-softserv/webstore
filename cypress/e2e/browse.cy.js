@@ -9,9 +9,6 @@ describe('The home page', () => {
     // The new url should include "/browse"
     cy.url().should('include', '/browse')
   })
-<<<<<<< Updated upstream:cypress/e2e/index.cy.js
-})
-=======
 
   it('should perform a search on the browse page', () => {
     // Start from the browse page
@@ -31,4 +28,3 @@ describe('The home page', () => {
 })
 
 //
->>>>>>> Stashed changes:cypress/e2e/browse.cy.js
