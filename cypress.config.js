@@ -1,6 +1,6 @@
-require('dotenv').config({ path: `.env.local`, override: true });
+require('dotenv').config({ path: `.env.local`, override: true })
 
-const { defineConfig } = require("cypress");
+const { defineConfig } = require("cypress")
 
 module.exports = defineConfig({
   component: {
