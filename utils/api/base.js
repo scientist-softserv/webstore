@@ -8,16 +8,10 @@ const defaultHeaders = (token) => ({ Authorization: `Bearer ${token || process.e
 const api = axios.create({ baseURL })
 
 export const fetcher = (url, token) => {
-  console.log('UPCOMING GET REQUEST::', { url })
   console.log('public >> NEXT_PUBLIC_PROVIDER_NAME::', process.env.NEXT_PUBLIC_PROVIDER_NAME)
-  console.log('public >> NEXT_PUBLIC_PROVIDER_ID::', process.env.NEXT_PUBLIC_PROVIDER_ID)
   console.log('public >> NEXT_PUBLIC_SCIENTIST_API_VERSION::', process.env.NEXT_PUBLIC_SCIENTIST_API_VERSION)
-
   console.log('secret >> NEXT_PUBLIC_RANDOM_SECRET::', process.env.NEXT_PUBLIC_RANDOM_SECRET)
-  console.log('secret >> RANDOM_VALUE::', process.env.RANDOM_VALUE)
-
   console.log('publicRuntimeConfig >> NEXT_PUBLIC_RANDOM_SECRET::', publicRuntimeConfig.NEXT_PUBLIC_RANDOM_SECRET)
-
 
   try {
     return api.get(url, { headers: defaultHeaders(token) })
@@ -29,7 +23,6 @@ export const fetcher = (url, token) => {
 }
 
 export const posting = async (url, data, token) => {
-  console.log('UPCOMING POST REQUEST::', url)
   try {
     const response = await api.post(url, data, { headers: defaultHeaders(token) })
 

@@ -2,7 +2,6 @@ import useSWR from 'swr'
 
 /** GET METHODS */
 export const useAllWares = (accessToken) => {
-  console.log(accessToken ? `token: ${accessToken}` : 'no token received')
   const { data, error } = useSWR([`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`, accessToken])
 
   return {
