@@ -39,7 +39,7 @@ The webstore requires a [React component library](https://reactjs.org/docs/react
 Using the published github npm package requires an auth token to pull:
 
   1. Create a classic token on your github account https://github.com/settings/tokens
-  2. `echo "//npm.pkg.github.com/:_authToken=$THE_ABOVE_TOKEN_GOES_HERE" >> ~/.npmrc`
+  2. `echo "//npm.pkg.github.com/:_authToken=THE_ABOVE_TOKEN_GOES_HERE" >> ~/.npmrc`
 
 #### Component Library Dev Mode
 Using the local github repository requires you to manually clone the component library to your computer, build, and link it:
