@@ -1,4 +1,6 @@
 import axios from 'axios'
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
 
 const baseURL = `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/api/${process.env.NEXT_PUBLIC_SCIENTIST_API_VERSION}`
 // Use the user's own access token if they are signed in. If not, fall back to the access token provided through the provider credentials
@@ -13,6 +15,9 @@ export const fetcher = (url, token) => {
 
   console.log('secret >> NEXT_PUBLIC_RANDOM_SECRET::', process.env.NEXT_PUBLIC_RANDOM_SECRET)
   console.log('secret >> RANDOM_VALUE::', process.env.RANDOM_VALUE)
+
+  console.log('publicRuntimeConfig >> NEXT_PUBLIC_RANDOM_SECRET::', publicRuntimeConfig.NEXT_PUBLIC_RANDOM_SECRET)
+
 
   try {
     return api.get(url, { headers: defaultHeaders(token) })
