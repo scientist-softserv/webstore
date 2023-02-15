@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 
-// add a command to login that uses a session, so the user will remain logged in throughout the test vs. needing to log in before each example.
+// add a command to login that uses a session, so the user will remain logged in throughout the test file vs. needing to log in before each example.
 // source: https://github.com/nextauthjs/next-auth/discussions/2053#discussioncomment-1191016
 Cypress.Commands.add('login', (username, password) => {
   cy.session([username, password], () => {
