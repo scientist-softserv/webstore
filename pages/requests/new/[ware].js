@@ -17,6 +17,7 @@ import {
   addDays,
   configureErrors,
   createRequest,
+  dark,
   useInitializeRequest,
 } from '../../../utils'
 
@@ -194,6 +195,7 @@ const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateReques
     </div>
     <Button
       addClass='btn btn-primary my-4 ms-auto d-block'
+      backgroundColor={dark}
       label='Initiate Request'
       type='submit'
       size='large'

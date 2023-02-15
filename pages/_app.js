@@ -24,12 +24,14 @@ const WebStore = ({ Component }) => {
           signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
           signOut: signOut,
         }}
+        linkColor='white'
         logo={LOGO}
         navLinks={NAVIGATION_LINKS}
         userSession={session}
       />
       <Component />
       <Footer
+        color='white'
         companyName={FOOTER_NAME}
         sections={FOOTER_SECTIONS}
         socials={FOOTER_SOCIALS}

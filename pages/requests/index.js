@@ -65,7 +65,7 @@ const Requests = () => {
           path={{ pathname: `/requests/new/make-a-request`, query: { id: defaultWareID } }}
         />
       </div>
-      <RequestList requests={requests} />
+      <RequestList backgroundColor='light' requests={requests} />
     </div>
   )
 }
