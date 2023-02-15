@@ -124,6 +124,7 @@ export const configureStatus = (status) => {
 
   case 'SOW Submitted':
   case 'Estimate Submitted':
+  case 'Selected for Work':
     status = 'SOW Selection'
     break
 
