@@ -1,5 +1,5 @@
-describe('Browse', () => {
-  it('should be able to reach the browse page from the homepage search bar', () => {
+describe('Browsing', () => {
+  it('a user should be able to navigate to the browse page from the home page search bar', () => {
     // Start from the home/index page
     cy.visit('/')
 
@@ -10,5 +10,3 @@ describe('Browse', () => {
     cy.url().should('include', '/browse')
   })
 })
-
-//
