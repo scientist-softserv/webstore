@@ -1,24 +1,29 @@
 // these colors can be customized for each webstore instance. they are the default bootstrap theme colors and are used in bootstrap's theme_colors sass map, so updating these will also make sure that text overlaying areas with these background colors remains accessible. See https://getbootstrap.com/docs/5.0/customize/sass/#maps-and-loops for more details on how to add additional theme colors to this map.
 
 $primary: #294682;
-$secondary: #365889;
-$light: #7897C4;
-$dark: #1B2028;
-$white: #FFFFFF;
+$secondary: #80A3D6;
+$light: #F2F2F2;
+$dark: #070818;
 $success: #B0E298;
 $info: #FFFBA6;
 $warning: #E9DF00;
 $danger: #D20000;
+$black: #000000;
+$white: #FFFFFF;
 
 // these imports must be AFTER the theme color overrides above in order to properly override bootstrap's colors, but before the theme maps.
-@import "../../node_modules/bootstrap/scss/functions";
-@import "../../node_modules/bootstrap/scss/variables";
-@import "../../node_modules/bootstrap/scss/mixins";
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
 
 // create our own custom colors map, and merge it with bootstrap's theme-colors map to generate utility functions that can be used throughout the app
 $custom-colors: (
-  "light-2": darken($light, 3%),
-  "light-3": darken($light, 10%)
+  'light-2': darken($light, 3%),
+  'light-3': darken($light, 10%),
+  'secondary-2': darken($secondary, 3%),
+  'secondary-3': darken($secondary, 10%),
+  'black': $black,
+  'white': $white,
 );
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
@@ -32,5 +37,6 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
   danger: $danger;
   light: $light;
   dark: $dark;
+  black: $black;
   white: $white;
 }
