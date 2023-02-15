@@ -1,5 +1,5 @@
 describe('Browsing', () => {
-  it('a user should be able to navigate to the browse page from the home page search bar', () => {
+  it('a user can search from the home page and be directed to "/browse" with a blank query', () => {
     // Start from the home/index page
     cy.visit('/')
 
@@ -8,5 +8,8 @@ describe('Browsing', () => {
 
     // The new url should include "/browse"
     cy.url().should('include', '/browse')
+
+    // The search bar on the browse page should remain blank
+    cy.get('input.search-bar').should('have.value', '')
   })
 })
