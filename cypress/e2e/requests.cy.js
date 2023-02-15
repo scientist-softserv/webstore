@@ -15,7 +15,8 @@ describe('Viewing all requests', () => {
 		// Visit a protected route in order to allow cypress to set the cookie and mock the login
 		cy.visit("/requests")
 
-		const requestListExists = cy.get('h1').contains('My Requests') || 
+    // check that either the requests are showing, or that the user has no requests
+		const requestListExists = cy.get('article.request-item').should('exist') || 
     cy.get('p.no-requests').contains('You do not have any requests yet.')
 
     requestListExists.then(() => {
