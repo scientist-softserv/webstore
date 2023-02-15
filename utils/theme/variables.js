@@ -12,7 +12,7 @@ export {
 // These are the colors used for the requests
 export const statusColors = {
   'Supplier Review': {
-    bg: info,
+    bg: white,
     text: dark,
   },
   'SOW Selection': {
@@ -20,7 +20,7 @@ export const statusColors = {
     text: white,
   },
   'Work Started': {
-    bg: success,
+    bg: primary,
     text: white,
   },
   'Work Completed': {
