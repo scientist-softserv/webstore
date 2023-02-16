@@ -7,7 +7,12 @@ import {
   Notice,
   SearchBar,
 } from '@scientist-softserv/webstore-component-library'
-import { configureErrors, configureServices, secondary, useFilteredWares } from '../../utils'
+import {
+  configureErrors,
+  configureServices,
+  secondary,
+  useFilteredWares,
+} from '../../utils'
 
 const Browse = () => {
   const router = useRouter()

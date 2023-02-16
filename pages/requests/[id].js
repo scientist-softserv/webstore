@@ -30,11 +30,11 @@ const Request = () => {
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
   const {
-    messages, 
-    files, 
-    isLoadingMessagesAndFiles, 
-    isMessagesAndFilesError, 
-    mutate, 
+    messages,
+    files,
+    isLoadingMessagesAndFiles,
+    isMessagesAndFilesError,
+    mutate,
     data,
   } = useMessagesAndFiles(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
@@ -85,16 +85,21 @@ const Request = () => {
 
   return (
     <div className='container'>
-      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4' />
+      <StatusBar
+        addClass='mt-4'
+        apiRequestStatus={request.status.text}
+        backgroundColor='light'
+        statusArray={STATUS_ARRAY}
+      />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          {/* TODO(@summercook): 
+          {/* TODO(@summercook):
           - add back in the handleSendingMessagesOrFiles={handleSendingMessagesOrFiles} prop
             to ActionsGroup once posting messages/attachments has been refactored. */}
-          <ActionsGroup initialFiles={files}/>
+          <ActionsGroup initialFiles={files} />
           <div className='mt-3'>
             <RequestStats
-              addClass='bg-secondary'
+              addClass='bg-secondary-8'
               billingInfo={{ ...request.billingAddress }}
               createdAt={request.createdAt}
               deadline={request.proposedDeadline}
