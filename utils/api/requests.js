@@ -72,7 +72,7 @@ export const useMessages = (requestUuid, accessToken) => {
 }
 
 export const useFiles = (id, accessToken) => {
-  const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+  const { data, error } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
   let files
   if (data) {
     files =  configureFiles(data.notes)
