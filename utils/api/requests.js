@@ -189,8 +189,7 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
   }
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
-  console.log({response})
-  //createMessageOrFile({ id: response.requestID, files: data.attachments })
+  createMessageOrFile({ id: response.requestID, files: data.attachments, quotedWareID: response.quotedWareID })
 
   return response
   /* eslint-enable camelcase */
