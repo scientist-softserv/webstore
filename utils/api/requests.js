@@ -147,6 +147,7 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
   const pg_quote_group = {
     ...formData,
     name: data.name,
+    provider_ids: [process.env.NEXT_PUBLIC_PROVIDER_ID],
     suppliers_identified: 'Yes',
     description: requestDescription,
     proposed_deadline_str: data.proposedDeadline,
