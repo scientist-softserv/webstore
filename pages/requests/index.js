@@ -9,7 +9,7 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import {
   configureErrors,
-  dark,
+  primary,
   useDefaultWare,
   useAllRequests
 } from '../../utils'
@@ -58,7 +58,7 @@ const Requests = () => {
       <div className='text-end d-block mt-4 mb-2'>
         <LinkedButton
           buttonProps={{
-            backgroundColor: dark,
+            backgroundColor: primary,
             label: 'Initiate a New Request',
             size: 'large',
           }}
