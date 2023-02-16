@@ -184,13 +184,18 @@ const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateReques
     <div className='row'>
       <div className='col'>
         <ShippingDetails
+          backgroundColor='light'
           billingCountry={requestForm.billing.country}
           shippingCountry={requestForm.shipping.country}
           updateRequestForm={updateRequestForm}
         />
       </div>
       <div className='col'>
-        <AdditionalInfo updateRequestForm={updateRequestForm} defaultRequiredDate={defaultRequiredDate} />
+        <AdditionalInfo
+          updateRequestForm={updateRequestForm}
+          defaultRequiredDate={defaultRequiredDate}
+          backgroundColor='light'
+        />
       </div>
     </div>
     <Button
