@@ -121,7 +121,6 @@ export const useDefaultWare = (accessToken) => {
 }
 
 /** POST METHODS */
-// TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
 export const createMessageOrFile = ({ id, quotedWareId, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
@@ -190,7 +189,8 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
   }
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
-  createMessageOrFile({ id: response.requestID, files: data.attachments })
+  console.log({response})
+  //createMessageOrFile({ id: response.requestID, files: data.attachments })
 
   return response
   /* eslint-enable camelcase */
