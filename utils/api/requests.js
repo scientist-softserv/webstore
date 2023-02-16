@@ -121,7 +121,7 @@ export const useDefaultWare = (accessToken) => {
 }
 
 /** POST METHODS */
-export const createMessageOrFile = ({ id, quotedWareId, message, files, accessToken }) => {
+export const createMessageOrFile = ({ id, quotedWareID, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
   // in the scientist marketplace, both user messages sent on a request's page and
@@ -132,7 +132,7 @@ export const createMessageOrFile = ({ id, quotedWareId, message, files, accessTo
     title: message ? null : 'New Attachment',
     status: message ? null : 'Other File',
     body: message || null,
-    quoted_ware_ids: [quotedWareId],
+    quoted_ware_ids: [quotedWareID],
     data_files: files,
   }
   /* eslint-enable camelcase */

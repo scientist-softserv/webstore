@@ -72,7 +72,7 @@ const Request = () => {
       message,
       files,
       accessToken: session?.accessToken,
-      quotedWareId: request.quotedWareId,
+      quotedWareID: request.quotedWareID,
     })
     mutate({ ...data, ...messages })
   }
