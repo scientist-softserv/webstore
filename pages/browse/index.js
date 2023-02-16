@@ -7,7 +7,7 @@ import {
   Notice,
   SearchBar,
 } from '@scientist-softserv/webstore-component-library'
-import { configureErrors, configureServices, primary, useFilteredWares } from '../../utils'
+import { configureErrors, configureServices, secondary, useFilteredWares } from '../../utils'
 
 const Browse = () => {
   const router = useRouter()
@@ -60,7 +60,7 @@ const Browse = () => {
               buttonLink={service.href}
               orientation='horizontal'
               buttonProps={{
-                backgroundColor: primary,
+                backgroundColor: secondary,
                 label: 'Request this item',
               }}
             />
