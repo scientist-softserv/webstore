@@ -1,4 +1,6 @@
-const { defineConfig } = require("cypress");
+require('dotenv').config({ path: `.env.local`, override: true })
+
+const { defineConfig } = require("cypress")
 
 module.exports = defineConfig({
   component: {
@@ -9,8 +11,14 @@ module.exports = defineConfig({
   },
 
   e2e: {
+    baseUrl: 'http://localhost:3000',
+    chromeWebSecurity: false,
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      config.env = {
+        ...process.env,
+        ...config.env
+      }
+      return config 
     },
   },
 });

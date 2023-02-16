@@ -1,3 +1,9 @@
+apiTokenConfigSecret: "webstore-staging-api-tokens"
+nextAuthUrl: "https://webstore-staging.scientist.com/api/auth"
+providerName: "acme"
+providerId: "572"
+scientistApiVersion: "v2"
+
 ingress:
   enabled: true
   className: "nginx"

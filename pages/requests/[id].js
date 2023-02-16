@@ -15,8 +15,8 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import {
   configureErrors,
-  postMessageOrAttachment,
-  useAllMessages,
+  createMessageOrFile,
+  useMessagesAndFiles,
   useAllSOWs,
   useOneRequest,
   STATUS_ARRAY,
@@ -25,14 +25,22 @@ import {
 const Request = () => {
   const router = useRouter()
   const { data: session } = useSession()
+  // parses the query string to get the quote group (request) id
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
-  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useAllMessages(id, session?.accessToken)
+  const {
+    messages, 
+    files, 
+    isLoadingMessagesAndFiles, 
+    isMessagesAndFilesError, 
+    mutate, 
+    data,
+  } = useMessagesAndFiles(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
-  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessages
-  const isError = isRequestError || isSOWError || isMessagesError
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessagesAndFiles
+  const isError = isRequestError || isSOWError || isMessagesAndFilesError
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
@@ -52,7 +60,7 @@ const Request = () => {
   if (isError) {
     return (
       <Notice
-        alert={configureErrors([isRequestError, isSOWError, isMessagesError])}
+        alert={configureErrors([isRequestError, isSOWError, isMessagesAndFilesError])}
         dismissible={false}
         withBackButton={true}
         buttonProps={{
@@ -63,9 +71,10 @@ const Request = () => {
     )
   }
 
-  // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
-  // const handleSendingMessages = ({ message, files }) => {
-  //   postMessageOrAttachment({
+  // TODO(summer-cook) need to use the quoted ware id here instead of the quote group id.
+  // can be found at https://{{base_path}}/quote_groups/{{quote_group_id}}/quoted_wares.json
+  // const handleSendingMessagesOrFiles = ({ message, files }) => {
+  //   createMessageOrFile({
   //     id,
   //     message,
   //     files,
@@ -79,9 +88,10 @@ const Request = () => {
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4' />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          {/* // TODO(alishaevn): return the below once the direction of
-          https://github.com/scientist-softserv/webstore/issues/156 has been decided */}
-          {/* <ActionsGroup handleSendingMessages={handleSendingMessages}/> */}
+          {/* TODO(@summercook): 
+          - add back in the handleSendingMessagesOrFiles={handleSendingMessagesOrFiles} prop
+            to ActionsGroup once posting messages/attachments has been refactored. */}
+          <ActionsGroup initialFiles={files}/>
           <div className='mt-3'>
             <RequestStats
               addClass='bg-secondary'
@@ -96,8 +106,8 @@ const Request = () => {
           <Title title={request.title} />
           <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
           <Title addClass='mt-4' title='Documents' size='small' />
-          {documents.length ? documents.map(document => (
-            <Document key={request.id} document={document} addClass='mt-3' />
+          {documents.length ? documents.map((document, index) => (
+            <Document key={`${request.id}-${index}`} document={document} addClass='mt-3' />
           )) : (
             <TextBox
               alignment='left'
