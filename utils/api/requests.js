@@ -55,24 +55,36 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
   }
 }
 
-export const useMessagesAndFiles = (id, accessToken) => {
-  const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+export const useMessages = (requestUuid, accessToken) => {
+  const { data, error, mutate } = useSWR(requestUuid ? [`/quote_groups/${requestUuid}/messages.json`, accessToken] : null)
   let messages
-  let files
   if (data) {
-    messages = configureMessages(data.notes)
-    files =  configureFiles(data.notes)
+    messages = configureMessages(data.messages)
   }
 
   return {
     data,
     messages,
-    files,
     mutate,
-    isLoadingMessagesAndFiles: !error && !data,
-    isMessagesAndFilesError: error,
+    isLoadingMessages: !error && !data,
+    isMessagesError: error,
   }
 }
+
+export const useFiles = (id, accessToken) => {
+  const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+  let files
+  if (data) {
+    files =  configureFiles(data.notes)
+  }
+
+  return {
+    files,
+    isLoadingFiles: !error && !data,
+    isFilesError: error,
+  }
+}
+
 
 export const useInitializeRequest = (id, accessToken) => {
   const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups/new.json`, accessToken] : null)

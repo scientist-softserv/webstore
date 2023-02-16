@@ -16,6 +16,8 @@ import {
 import {
   configureErrors,
   createMessageOrFile,
+  useMessages,
+  useFiles,
   useMessagesAndFiles,
   useAllSOWs,
   useOneRequest,
@@ -29,18 +31,12 @@ const Request = () => {
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
-  const {
-    messages, 
-    files, 
-    isLoadingMessagesAndFiles, 
-    isMessagesAndFilesError, 
-    mutate, 
-    data,
-  } = useMessagesAndFiles(id, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useMessages(request?.uuid, session?.accessToken)
+  const { files, isLoadingFiles, isFilesError } = useFiles(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
-  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessagesAndFiles
-  const isError = isRequestError || isSOWError || isMessagesAndFilesError
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
+  const isError = isRequestError || isSOWError || isFilesError|| isMessagesError
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
@@ -60,7 +56,7 @@ const Request = () => {
   if (isError) {
     return (
       <Notice
-        alert={configureErrors([isRequestError, isSOWError, isMessagesAndFilesError])}
+        alert={configureErrors([isRequestError, isSOWError, isMessagesError, isFilesError])}
         dismissible={false}
         withBackButton={true}
         buttonProps={{
