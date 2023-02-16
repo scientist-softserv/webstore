@@ -146,7 +146,6 @@ If you are creating an e2e test, it will live in the `cypress/e2e` directory. Co
 
 #### Setup your Cypress env variables
 - the Cypress suite requires an environment variable that should be stored in your `.env.local` and not committed to git.
-- (this one is a secret)
   - TEST_SESSION_COOKIE=
     - to get the value for this variable, open your browser to your running app at `localhost:3000`.
     - inspect the page
