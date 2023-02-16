@@ -84,6 +84,7 @@ const Request = () => {
           {/* <ActionsGroup handleSendingMessages={handleSendingMessages}/> */}
           <div className='mt-3'>
             <RequestStats
+              addClass='bg-secondary'
               billingInfo={{ ...request.billingAddress }}
               createdAt={request.createdAt}
               deadline={request.proposedDeadline}
