@@ -18,10 +18,24 @@ $white: #FFFFFF;
 
 // create our own custom colors map, and merge it with bootstrap's theme-colors map to generate utility functions that can be used throughout the app
 $custom-colors: (
-  'light-2': darken($light, 3%),
+  'light-1': darken($light, 3%),
+  'light-2': darken($light, 5%),
   'light-3': darken($light, 10%),
-  'secondary-2': darken($secondary, 3%),
+  'light-4': darken($light, 20%),
+  'light-5': $light,
+  'light-6': lighten($light, 3%),
+  'light-7': lighten($light, 5%),
+  'light-8': lighten($light, 10%),
+  'light-9': lighten($light, 20%),
+  'secondary-1': darken($secondary, 3%),
+  'secondary-2': darken($secondary, 5%),
   'secondary-3': darken($secondary, 10%),
+  'secondary-4': darken($secondary, 20%),
+  'secondary-5': $secondary,
+  'secondary-6': lighten($secondary, 3%),
+  'secondary-7': lighten($secondary, 5%),
+  'secondary-8': lighten($secondary, 10%),
+  'secondary-9': lighten($secondary, 20%),
   'black': $black,
   'white': $white,
 );

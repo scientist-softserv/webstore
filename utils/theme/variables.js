@@ -27,15 +27,15 @@ export {
 // These are used for the request and document statuses
 export const statusColors = {
   'Supplier Review': {
-    bg: light,
-    text: dark,
+    bg: primary,
+    text: light,
   },
   'SOW Selection': {
-    bg: secondary,
+    bg: primary,
     text: light,
   },
   'Work Started': {
-    bg: primary,
+    bg: secondary,
     text: light,
   },
   'Work Completed': {
