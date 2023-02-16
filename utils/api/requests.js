@@ -75,7 +75,7 @@ export const useMessagesAndFiles = (id, accessToken) => {
 }
 
 export const useInitializeRequest = (id, accessToken) => {
-  const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups.json`, accessToken] : null)
+  const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups/new.json`, accessToken] : null)
   let dynamicForm = { name: data?.name }
   let dynamicFormInfo = data?.dynamic_forms[0]
 
@@ -147,6 +147,7 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
   const pg_quote_group = {
     ...formData,
     name: data.name,
+    provider_ids: [process.env.NEXT_PUBLIC_PROVIDER_ID],
     suppliers_identified: 'Yes',
     description: requestDescription,
     proposed_deadline_str: data.proposedDeadline,
