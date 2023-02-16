@@ -144,6 +144,18 @@ There are 2 types of Cypress tests, e2e & component.
 
 If you are creating an e2e test, it will live in the `cypress/e2e` directory. Component tests will need to be created in a directory called `cypress/component `
 
+#### Setup your Cypress env variables
+- the Cypress suite requires an environment variable that should be stored in your `.env.local` and not committed to git.
+  - TEST_SESSION_COOKIE=
+    - to get the value for this variable, open your browser to your running app at `localhost:3000`.
+    - inspect the page
+    - click the "Application" tab
+    - click "Cookies" 
+    - find the value for `next-auth.session-token`
+    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your .env.local
+    - do not ever commit this value
+    - this value will need to be updated whenever the cookie expires, approximately once per month
+    
 ## Cutting a New Release
 A git tag should exist for every release. We use `release-it` to automate the coordination of package.json and git tag.
 
