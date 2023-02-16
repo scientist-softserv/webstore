@@ -29,7 +29,7 @@ export const configureRequests = ({ data, path }) => {
     ? data.sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     : [data]
 
-  return sortedRequests?.map(request => {
+    return sortedRequests?.map(request => {
     const status = configureStatus(request.status)
     return {
       billingAddress: {
@@ -57,6 +57,7 @@ export const configureRequests = ({ data, path }) => {
       title: `${request.identifier}: ${request.name}`,
       updatedAt: normalizeDate(request.updated_at),
       uuid: request.uuid,
+      quotedWareId: request.quoted_ware_refs[0].id
     }
   })
 }

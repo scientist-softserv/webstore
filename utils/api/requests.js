@@ -122,7 +122,7 @@ export const useDefaultWare = (accessToken) => {
 
 /** POST METHODS */
 // TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
-export const createMessageOrFile = ({ id, message, files, accessToken }) => {
+export const createMessageOrFile = ({ id, quotedWareId, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
   // in the scientist marketplace, both user messages sent on a request's page and
@@ -133,12 +133,12 @@ export const createMessageOrFile = ({ id, message, files, accessToken }) => {
     title: message ? null : 'New Attachment',
     status: message ? null : 'Other File',
     body: message || null,
-    quoted_ware_ids: [id],
+    quoted_ware_ids: [quotedWareId],
     data_files: files,
   }
   /* eslint-enable camelcase */
 
-  // posting(`/quote_groups/${id}/notes.json`, note, accessToken)
+  posting(`/quote_groups/${id}/notes.json`, note, accessToken)
 }
 
 export const createRequest = async ({ data, wareID, accessToken }) => {

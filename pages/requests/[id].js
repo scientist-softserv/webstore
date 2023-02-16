@@ -18,7 +18,6 @@ import {
   createMessageOrFile,
   useMessages,
   useFiles,
-  useMessagesAndFiles,
   useAllSOWs,
   useOneRequest,
   STATUS_ARRAY,
@@ -67,27 +66,23 @@ const Request = () => {
     )
   }
 
-  // TODO(summer-cook) need to use the quoted ware id here instead of the quote group id.
-  // can be found at https://{{base_path}}/quote_groups/{{quote_group_id}}/quoted_wares.json
-  // const handleSendingMessagesOrFiles = ({ message, files }) => {
-  //   createMessageOrFile({
-  //     id,
-  //     message,
-  //     files,
-  //     accessToken: session?.accessToken,
-  //   })
-  //   mutate({ ...data, ...messages })
-  // }
+  const handleSendingMessagesOrFiles = ({ message, files }) => {
+    createMessageOrFile({
+      id,
+      message,
+      files,
+      accessToken: session?.accessToken,
+      quotedWareId: request.quotedWareId,
+    })
+    mutate({ ...data, ...messages })
+  }
 
   return (
     <div className='container'>
       <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4' />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          {/* TODO(@summercook): 
-          - add back in the handleSendingMessagesOrFiles={handleSendingMessagesOrFiles} prop
-            to ActionsGroup once posting messages/attachments has been refactored. */}
-          <ActionsGroup initialFiles={files}/>
+          <ActionsGroup initialFiles={files} handleSendingMessagesOrFiles={handleSendingMessagesOrFiles}/>
           <div className='mt-3'>
             <RequestStats
               billingInfo={{ ...request.billingAddress }}
