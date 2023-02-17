@@ -89,9 +89,6 @@ const Request = () => {
       />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
-          {/* TODO(@summercook):
-          - add back in the handleSendingMessagesOrFiles={handleSendingMessagesOrFiles} prop
-            to ActionsGroup once posting messages/attachments has been refactored. */}
           <ActionsGroup
             initialFiles={files}
             handleSendingMessagesOrFiles={handleSendingMessagesOrFiles}

@@ -18,12 +18,14 @@ export const fetcher = (url, token) => {
 export const posting = async (url, data, token) => {
   try {
     const response = await api.post(url, data, { headers: defaultHeaders(token) })
-
-    if (response.data.id) {
+    let quotedWareID = response.data.quoted_ware_refs?.[0].id
+    let requestID = response.data.id
+    if (requestID) {
       return {
         success: true,
         error: false,
-        requestID: response.data.id,
+        requestID,
+        quotedWareID,
       }
     }
   } catch (error) {
