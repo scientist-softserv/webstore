@@ -20,7 +20,7 @@ export const posting = async (url, data, token) => {
     const response = await api.post(url, data, { headers: defaultHeaders(token) })
     let quotedWareID = response.data.quoted_ware_refs?.[0].id
     let requestID = response.data.id
-    if (requestID && quotedWareID) {
+    if (requestID) {
       return {
         success: true,
         error: false,
