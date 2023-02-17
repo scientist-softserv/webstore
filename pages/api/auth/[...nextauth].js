@@ -25,9 +25,6 @@ const authOptions = {
       }
     }
   ],
-  theme: {
-    logo: '/logo.svg', // requires a file in the public folder
-  },
   callbacks: {
     async jwt({ token, account, user }) {
       // Triggered on the initial sign in
