@@ -192,7 +192,7 @@ const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateReques
         />
       </div>
       <div className='col'>
-      <AdditionalInfo
+        <AdditionalInfo
           updateRequestForm={updateRequestForm}
           defaultRequiredDate={defaultRequiredDate}
           backgroundColor={requestFormHeaderBg}
