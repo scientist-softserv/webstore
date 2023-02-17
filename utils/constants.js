@@ -1,4 +1,3 @@
-import { signIn, signOut } from 'next-auth/react'
 import logo from '../assets/svg/bbs-logo-white.svg'
 import item from '../assets/img/louis-reed-pwcKF7L4-no-unsplash.jpg'
 
@@ -10,7 +9,9 @@ export const DEFAULT_WARE_IMAGE = {
 export const TITLE = 'About Us'
 
 /* eslint-disable max-len */
-export const TEXT = `Beachside Biotechnology Services is a multinational value, evidence and market access commercialization solutions organization. We deliver end-to-end clinical evidence services from Phase I to IV, plus medical affairs and commercial market access strategy and support and the  Best Service Ever .\nOur team includes senior leaders with in-depth experience in health economics and outcomes research (HEOR), evidence assessment, value communications, data analytics, real world evidence, observational research, and private and public payer market access solutions.  Our regulatory-grade proprietary RWD platform enables integrated, real world insights derived from 100 million patients, across all major therapeutic areas.`
+export const ABOUT_US = `Golden Pacific Sciences provides a range of products, Best Service Ever , and services within the life-science industry. We are able to support requests from the world’s top pharma companies and 100s of biotechs using Scientist.com.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio aenean sed adipiscing diam donec adipiscing tristique. Eu lobortis elementum nibh tellus molestie. Mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus et. Nisl purus in mollis nunc sed id semper risus in. Diam volutpat commodo sed egestas egestas fringilla. Lectus proin nibh nisl condimentum. Odio euismod lacinia at quis risus sed vulputate odio ut. Ac feugiat sed lectus vestibulum mattis ullamcorper. Iaculis at erat pellentesque adipiscing commodo elit at. Eget nullam non nisi est sit amet facilisis magna etiam. Faucibus turpis in eu mi bibendum neque egestas. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.`
 /* eslint-enable max-len */
 
 export const LOGO = {

@@ -55,24 +55,36 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
   }
 }
 
-export const useMessagesAndFiles = (id, accessToken) => {
-  const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+export const useMessages = (requestUuid, accessToken) => {
+  const { data, error, mutate } = useSWR(requestUuid ? [`/quote_groups/${requestUuid}/messages.json`, accessToken] : null)
   let messages
-  let files
   if (data) {
-    messages = configureMessages(data.notes)
-    files =  configureFiles(data.notes)
+    messages = configureMessages(data.messages)
   }
 
   return {
     data,
     messages,
-    files,
     mutate,
-    isLoadingMessagesAndFiles: !error && !data,
-    isMessagesAndFilesError: error,
+    isLoadingMessages: !error && !data,
+    isMessagesError: error,
   }
 }
+
+export const useFiles = (id, accessToken) => {
+  const { data, error } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+  let files
+  if (data) {
+    files =  configureFiles(data.notes)
+  }
+
+  return {
+    files,
+    isLoadingFiles: !error && !data,
+    isFilesError: error,
+  }
+}
+
 
 export const useInitializeRequest = (id, accessToken) => {
   const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups/new.json`, accessToken] : null)
@@ -109,8 +121,7 @@ export const useDefaultWare = (accessToken) => {
 }
 
 /** POST METHODS */
-// TODO(alishaevn): refactor the below once the direction of https://github.com/scientist-softserv/webstore/issues/156 has been decided
-export const createMessageOrFile = ({ id, message, files, accessToken }) => {
+export const createMessageOrFile = ({ id, quotedWareID, message, files, accessToken }) => {
   /* eslint-disable camelcase */
 
   // in the scientist marketplace, both user messages sent on a request's page and
@@ -121,12 +132,12 @@ export const createMessageOrFile = ({ id, message, files, accessToken }) => {
     title: message ? null : 'New Attachment',
     status: message ? null : 'Other File',
     body: message || null,
-    quoted_ware_ids: [id],
+    quoted_ware_ids: [quotedWareID],
     data_files: files,
   }
   /* eslint-enable camelcase */
 
-  // posting(`/quote_groups/${id}/notes.json`, note, accessToken)
+  posting(`/quote_groups/${id}/notes.json`, note, accessToken)
 }
 
 export const createRequest = async ({ data, wareID, accessToken }) => {
@@ -178,7 +189,7 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
   }
 
   const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
-  createMessageOrFile({ id: response.requestID, files: data.attachments })
+  createMessageOrFile({ id: response.requestID, files: data.attachments, quotedWareID: response.quotedWareID })
 
   return response
   /* eslint-enable camelcase */

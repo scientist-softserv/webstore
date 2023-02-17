@@ -56,6 +56,8 @@ export const configureRequests = ({ data, path }) => {
       },
       title: `${request.identifier}: ${request.name}`,
       updatedAt: normalizeDate(request.updated_at),
+      uuid: request.uuid,
+      quotedWareID: request.quoted_ware_refs?.[0].id,
     }
   })
 }
@@ -155,7 +157,7 @@ export const configureMessages = (data) => {
 }
 
 export const  configureFiles = (data) => {
-  // filter out the notes that do not have attachments 
+  // filter out the notes that do not have attachments
   const notesWithFiles = data.filter(d => d.attachments?.length !== 0)
   let fileArrays = []
 

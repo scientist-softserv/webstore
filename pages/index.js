@@ -14,7 +14,7 @@ import {
   configureServices,
   useAllWares,
   FEATURED_SERVICE_PATH,
-  TEXT,
+  ABOUT_US,
   TITLE,
 } from '../utils'
 
@@ -43,7 +43,7 @@ const Home = () => {
       />
       <div className='container'>
         <SearchBar onSubmit={handleOnSubmit} />
-        <TitledTextBox title={TITLE} text={TEXT} />
+        <TitledTextBox title={TITLE} text={ABOUT_US} />
         {isError ? (
           <Notice
             alert={configureErrors([isError])}

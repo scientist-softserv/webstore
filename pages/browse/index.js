@@ -8,9 +8,9 @@ import {
   SearchBar,
 } from '@scientist-softserv/webstore-component-library'
 import {
+  buttonBg,
   configureErrors,
   configureServices,
-  secondary,
   useFilteredWares,
 } from '../../utils'
 
@@ -65,7 +65,7 @@ const Browse = () => {
               buttonLink={service.href}
               orientation='horizontal'
               buttonProps={{
-                backgroundColor: secondary,
+                backgroundColor: buttonBg,
                 label: 'Request this item',
               }}
             />
