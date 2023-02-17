@@ -8,8 +8,9 @@ import {
   RequestList,
 } from '@scientist-softserv/webstore-component-library'
 import {
+  buttonBg,
   configureErrors,
-  dark,
+  requestListBg,
   useDefaultWare,
   useAllRequests
 } from '../../utils'
@@ -58,14 +59,14 @@ const Requests = () => {
       <div className='text-end d-block mt-4 mb-2'>
         <LinkedButton
           buttonProps={{
-            backgroundColor: dark,
+            backgroundColor: buttonBg,
             label: 'Initiate a New Request',
             size: 'large',
           }}
           path={{ pathname: `/requests/new/make-a-request`, query: { id: defaultWareID } }}
         />
       </div>
-      <RequestList requests={requests} />
+      <RequestList backgroundColor={requestListBg} requests={requests} />
     </div>
   )
 }

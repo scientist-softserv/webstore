@@ -1,13 +1,16 @@
 import { Footer, Header } from '@scientist-softserv/webstore-component-library'
 import { SWRConfig } from 'swr'
 import {
-  SessionProvider, signIn, signOut, useSession
+  SessionProvider,
+  signIn,
+  signOut,
+  useSession,
 } from 'next-auth/react'
-
 import {
   FOOTER_NAME,
   FOOTER_SECTIONS,
   FOOTER_SOCIALS,
+  headerAndFooterLinkColors,
   LOGO,
   NAVIGATION_LINKS,
   fetcher,
@@ -24,12 +27,14 @@ const WebStore = ({ Component }) => {
           signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
           signOut: signOut,
         }}
+        linkColor={headerAndFooterLinkColors}
         logo={LOGO}
         navLinks={NAVIGATION_LINKS}
         userSession={session}
       />
       <Component />
       <Footer
+        color={headerAndFooterLinkColors}
         companyName={FOOTER_NAME}
         sections={FOOTER_SECTIONS}
         socials={FOOTER_SOCIALS}
