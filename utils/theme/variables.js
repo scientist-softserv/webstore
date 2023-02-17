@@ -13,9 +13,10 @@ const {
 } = themeColors
 
 // sometimes we pass the variable itself because the hexadecimal value is needed
-// other times, we pass the string version of the variable because it's being concatenated into a bootstrap class in the component lib
+// other times, we pass a string because it's being concatenated into a bootstrap class in the component library
 export const buttonBg = primary
 export const headerAndFooterLinkColors = 'white'
+export const requestActionsBg = 'secondary'
 export const requestFormHeaderBg = 'light'
 export const requestStatsHeaderBg = 'bg-secondary-8'
 export const requestListBg = 'light'

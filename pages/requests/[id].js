@@ -16,6 +16,7 @@ import {
 import {
   configureErrors,
   createMessageOrFile,
+  requestActionsBg,
   requestStatsHeaderBg,
   STATUS_ARRAY,
   statusBarBg,
@@ -90,6 +91,7 @@ const Request = () => {
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
           <ActionsGroup
+            backgroundColor={requestActionsBg}
             initialFiles={files}
             handleSendingMessagesOrFiles={handleSendingMessagesOrFiles}
           />
