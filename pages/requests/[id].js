@@ -19,7 +19,8 @@ import {
   requestStatsHeaderBg,
   STATUS_ARRAY,
   statusBarBg,
-  useMessagesAndFiles,
+  useMessages,
+  useFiles,
   useAllSOWs,
   useOneRequest,
 } from '../../utils'
@@ -31,18 +32,12 @@ const Request = () => {
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
-  const {
-    messages,
-    files,
-    isLoadingMessagesAndFiles,
-    isMessagesAndFilesError,
-    mutate,
-    data,
-  } = useMessagesAndFiles(id, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useMessages(request?.uuid, session?.accessToken)
+  const { files, isLoadingFiles, isFilesError } = useFiles(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
-  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingMessagesAndFiles
-  const isError = isRequestError || isSOWError || isMessagesAndFilesError
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
+  const isError = isRequestError || isSOWError || isFilesError|| isMessagesError
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
@@ -62,7 +57,7 @@ const Request = () => {
   if (isError) {
     return (
       <Notice
-        alert={configureErrors([isRequestError, isSOWError, isMessagesAndFilesError])}
+        alert={configureErrors([isRequestError, isSOWError, isMessagesError, isFilesError])}
         dismissible={false}
         withBackButton={true}
         buttonProps={{
@@ -73,17 +68,16 @@ const Request = () => {
     )
   }
 
-  // TODO(summer-cook) need to use the quoted ware id here instead of the quote group id.
-  // can be found at https://{{base_path}}/quote_groups/{{quote_group_id}}/quoted_wares.json
-  // const handleSendingMessagesOrFiles = ({ message, files }) => {
-  //   createMessageOrFile({
-  //     id,
-  //     message,
-  //     files,
-  //     accessToken: session?.accessToken,
-  //   })
-  //   mutate({ ...data, ...messages })
-  // }
+  const handleSendingMessagesOrFiles = ({ message, files }) => {
+    createMessageOrFile({
+      id,
+      message,
+      files,
+      accessToken: session?.accessToken,
+      quotedWareID: request.quotedWareID,
+    })
+    mutate({ ...data, ...messages })
+  }
 
   return (
     <div className='container'>
@@ -98,7 +92,10 @@ const Request = () => {
           {/* TODO(@summercook):
           - add back in the handleSendingMessagesOrFiles={handleSendingMessagesOrFiles} prop
             to ActionsGroup once posting messages/attachments has been refactored. */}
-          <ActionsGroup initialFiles={files} />
+          <ActionsGroup
+            initialFiles={files}
+            handleSendingMessagesOrFiles={handleSendingMessagesOrFiles}
+          />
           <div className='mt-3'>
             <RequestStats
               addClass={requestStatsHeaderBg}

@@ -56,6 +56,7 @@ export const configureRequests = ({ data, path }) => {
       },
       title: `${request.identifier}: ${request.name}`,
       updatedAt: normalizeDate(request.updated_at),
+      uuid: request.uuid,
     }
   })
 }
