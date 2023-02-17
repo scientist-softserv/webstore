@@ -15,8 +15,10 @@ import {
 } from '@scientist-softserv/webstore-component-library'
 import {
   addDays,
+  buttonBg,
   configureErrors,
   createRequest,
+  requestFormHeaderBg,
   useInitializeRequest,
 } from '../../../utils'
 
@@ -183,17 +185,23 @@ const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateReques
     <div className='row'>
       <div className='col'>
         <ShippingDetails
+          backgroundColor={requestFormHeaderBg}
           billingCountry={requestForm.billing.country}
           shippingCountry={requestForm.shipping.country}
           updateRequestForm={updateRequestForm}
         />
       </div>
       <div className='col'>
-        <AdditionalInfo updateRequestForm={updateRequestForm} defaultRequiredDate={defaultRequiredDate} />
+        <AdditionalInfo
+          updateRequestForm={updateRequestForm}
+          defaultRequiredDate={defaultRequiredDate}
+          backgroundColor={requestFormHeaderBg}
+        />
       </div>
     </div>
     <Button
       addClass='btn btn-primary my-4 ms-auto d-block'
+      backgroundColor={buttonBg}
       label='Initiate Request'
       type='submit'
       size='large'

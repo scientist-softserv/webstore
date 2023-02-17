@@ -1,26 +1,39 @@
 import themeColors from './theme.module.scss'
-const { dark, primary, success, info, secondary, white } = themeColors
-export {
+const {
+  black,
   dark,
-  primary,
-  success,
+  danger,
   info,
+  light,
+  primary,
   secondary,
+  success,
+  warning,
   white,
-}
+} = themeColors
 
-// These are the colors used for the requests
+// sometimes we pass the variable itself because the hexadecimal value is needed
+// other times, we pass a string because it's being concatenated into a bootstrap class in the component library
+export const buttonBg = primary
+export const headerAndFooterLinkColors = 'white'
+export const requestActionsBg = 'secondary'
+export const requestFormHeaderBg = 'light'
+export const requestStatsHeaderBg = 'bg-secondary-8'
+export const requestListBg = 'light'
+export const statusBarBg = 'light'
+
+// These are the colors used for the request and document statuses
 export const statusColors = {
   'Supplier Review': {
-    bg: info,
-    text: dark,
+    bg: primary,
+    text: white,
   },
   'SOW Selection': {
-    bg: secondary,
+    bg: primary,
     text: white,
   },
   'Work Started': {
-    bg: success,
+    bg: secondary,
     text: white,
   },
   'Work Completed': {
@@ -28,4 +41,3 @@ export const statusColors = {
     text: white,
   },
 }
-

@@ -16,11 +16,14 @@ import {
 import {
   configureErrors,
   createMessageOrFile,
+  requestActionsBg,
+  requestStatsHeaderBg,
+  STATUS_ARRAY,
+  statusBarBg,
   useMessages,
   useFiles,
   useAllSOWs,
   useOneRequest,
-  STATUS_ARRAY,
 } from '../../utils'
 
 const Request = () => {
@@ -79,15 +82,22 @@ const Request = () => {
 
   return (
     <div className='container'>
-      <StatusBar statusArray={STATUS_ARRAY} apiRequestStatus={request.status.text} addClass='mt-4' />
+      <StatusBar
+        addClass='mt-4'
+        apiRequestStatus={request.status.text}
+        backgroundColor={statusBarBg}
+        statusArray={STATUS_ARRAY}
+      />
       <div className='row mb-4'>
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
           <ActionsGroup
+            backgroundColor={requestActionsBg}
             initialFiles={files}
             handleSendingMessagesOrFiles={handleSendingMessagesOrFiles}
           />
           <div className='mt-3'>
             <RequestStats
+              addClass={requestStatsHeaderBg}
               billingInfo={{ ...request.billingAddress }}
               createdAt={request.createdAt}
               deadline={request.proposedDeadline}
