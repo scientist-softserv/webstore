@@ -17,6 +17,7 @@ const {
 export const buttonBg = primary
 export const headerAndFooterLinkColors = 'white'
 export const requestFormHeaderBg = 'light'
+export const requestStatsHeaderBg = 'bg-secondary-8'
 export const requestListBg = 'light'
 export const statusBarBg = 'light'
 

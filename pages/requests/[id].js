@@ -16,11 +16,12 @@ import {
 import {
   configureErrors,
   createMessageOrFile,
+  requestStatsHeaderBg,
+  STATUS_ARRAY,
+  statusBarBg,
   useMessagesAndFiles,
   useAllSOWs,
   useOneRequest,
-  STATUS_ARRAY,
-  statusBarBg,
 } from '../../utils'
 
 const Request = () => {
@@ -100,6 +101,7 @@ const Request = () => {
           <ActionsGroup initialFiles={files} />
           <div className='mt-3'>
             <RequestStats
+              addClass={requestStatsHeaderBg}
               billingInfo={{ ...request.billingAddress }}
               createdAt={request.createdAt}
               deadline={request.proposedDeadline}
