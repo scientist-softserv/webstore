@@ -1,6 +1,6 @@
 {
   "name": "webstore",
-  "version": "0.1.1",
+  "version": "0.1.6",
   "private": true,
   "engines": {
     "node": "^18.13.0"
