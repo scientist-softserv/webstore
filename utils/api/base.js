@@ -25,7 +25,7 @@ export const posting = async (url, data, token) => {
         success: true,
         error: false,
         requestID,
-        quotedWareID
+        quotedWareID,
       }
     }
   } catch (error) {
