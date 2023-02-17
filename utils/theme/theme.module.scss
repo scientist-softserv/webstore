@@ -1,9 +1,9 @@
-// these colors can be customized for each webstore instance. they are the default bootstrap theme colors and are used in bootstrap's theme_colors sass map, so updating these will also make sure that text overlaying areas with these background colors remains accessible. See https://getbootstrap.com/docs/5.0/customize/sass/#maps-and-loops for more details on how to add additional theme colors to this map. 
+// these colors can be customized for each webstore instance. they are the default bootstrap theme colors and are used in bootstrap's theme_colors sass map, so updating these will also make sure that text overlaying areas with these background colors remains accessible. See https://getbootstrap.com/docs/5.0/customize/sass/#maps-and-loops for more details on how to add additional theme colors to this map.
 
-$primary: #333333; 
-$secondary: #CCCCCC; 
-$success: #666666; 
-$info: #999999; 
+$primary: #333333;
+$secondary: #CCCCCC;
+$success: #666666;
+$info: #999999;
 $warning: #2a2a2a;
 $danger: #606060;
 $light: #f8f9fa;
@@ -11,14 +11,50 @@ $dark: #212529;
 $white: #ffffff;
 
 // these imports must be AFTER the theme color overrides above in order to properly override bootstrap's colors, but before the theme maps.
-@import "../../node_modules/bootstrap/scss/functions";
-@import "../../node_modules/bootstrap/scss/variables";
-@import "../../node_modules/bootstrap/scss/mixins";
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
 
 // create our own custom colors map, and merge it with bootstrap's theme-colors map to generate utility functions that can be used throughout the app
 $custom-colors: (
-  "light-2": darken($light, 3%),
-  "light-3": darken($light, 10%)
+  'dark-1': darken($dark, 3%),
+  'dark-2': darken($dark, 5%),
+  'dark-3': darken($dark, 10%),
+  'dark-4': darken($dark, 20%),
+  'dark-5': $dark,
+  'dark-6': lighten($dark, 3%),
+  'dark-7': lighten($dark, 5%),
+  'dark-8': lighten($dark, 10%),
+  'dark-9': lighten($dark, 20%),
+  'light-1': darken($light, 3%),
+  'light-2': darken($light, 5%),
+  'light-3': darken($light, 10%),
+  'light-4': darken($light, 20%),
+  'light-5': $light,
+  'light-6': lighten($light, 3%),
+  'light-7': lighten($light, 5%),
+  'light-8': lighten($light, 10%),
+  'light-9': lighten($light, 20%),
+  'primary-1': darken($primary, 3%),
+  'primary-2': darken($primary, 5%),
+  'primary-3': darken($primary, 10%),
+  'primary-4': darken($primary, 20%),
+  'primary-5': $primary,
+  'primary-6': lighten($primary, 3%),
+  'primary-7': lighten($primary, 5%),
+  'primary-8': lighten($primary, 10%),
+  'primary-9': lighten($primary, 20%),
+  'secondary-1': darken($secondary, 3%),
+  'secondary-2': darken($secondary, 5%),
+  'secondary-3': darken($secondary, 10%),
+  'secondary-4': darken($secondary, 20%),
+  'secondary-5': $secondary,
+  'secondary-6': lighten($secondary, 3%),
+  'secondary-7': lighten($secondary, 5%),
+  'secondary-8': lighten($secondary, 10%),
+  'secondary-9': lighten($secondary, 20%),
+  'black': $black,
+  'white': $white,
 );
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
