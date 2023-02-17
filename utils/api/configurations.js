@@ -124,6 +124,7 @@ export const configureStatus = (status) => {
 
   case 'SOW Submitted':
   case 'Estimate Submitted':
+  case 'Selected for Work':
     status = 'SOW Selection'
     break
 
@@ -154,7 +155,7 @@ export const configureMessages = (data) => {
 }
 
 export const  configureFiles = (data) => {
-  // filter out the notes that do not have attachments 
+  // filter out the notes that do not have attachments
   const notesWithFiles = data.filter(d => d.attachments?.length !== 0)
   let fileArrays = []
 
