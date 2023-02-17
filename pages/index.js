@@ -31,7 +31,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Golden Pacific Sciences - WebStore</title>
+        <title>Beachside Biotechnology Services - WebStore</title>
         <link rel='icon' href='favicon.png' />
       </Head>
       <Image
