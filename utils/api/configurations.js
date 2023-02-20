@@ -39,7 +39,7 @@ export const configureRequests = ({ data, path }) => {
       createdAt: normalizeDate(request.created_at),
       description: normalizeDescription(request.description),
       htmlDescription: normalizeHtmlDescription(request.description),
-      href: `${path}/${request.id}`,
+      href: `${path}/${request.uuid}`,
       id: request.id,
       identifier: request.identifier,
       // TODO(alishaevn): pass the actual image here when it's available
