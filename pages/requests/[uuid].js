@@ -29,12 +29,15 @@ import {
 const Request = () => {
   const router = useRouter()
   const { data: session } = useSession()
-  // parses the query string to get the quote group (request) id
-  const { id } = router.query
-  const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
-  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
-  const { messages, isLoadingMessages, isMessagesError, messagesMutate, messagesData } = useMessages(request?.uuid, session?.accessToken)
-  const { files, isLoadingFiles, isFilesError, filesMutate, filesData } = useFiles(id, session?.accessToken)
+  /**
+   * as a dynamically routed file, the router query will always consist of a "key: value" pair that's determined by the name of
+   * the file (key) and path string (value). additional query properties may also exist if they were explicitly passed.
+  */
+  const { uuid } = router.query
+  const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
+  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError, messagesMutate, messagesData } = useMessages(uuid, session?.accessToken)
+  const { files, isLoadingFiles, isFilesError, filesMutate, filesData } = useFiles(uuid, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
@@ -71,7 +74,7 @@ const Request = () => {
 
   const handleSendingMessagesOrFiles = ({ message, files }) => {
     createMessageOrFile({
-      id,
+      id: request.id,
       message,
       files,
       accessToken: session?.accessToken,
