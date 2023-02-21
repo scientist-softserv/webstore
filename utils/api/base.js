@@ -34,3 +34,18 @@ export const posting = async (url, data, token) => {
     return { success: false, error, requestID: undefined }
   }
 }
+
+export const updating = async (url, data, token) => {
+  try {
+    const response = await api.put(url, data, { headers: defaultHeaders(token) })
+
+    return {
+      data: response.data,
+      error: false,
+    }
+  } catch (error) {
+    // TODO(alishaevn): handle the error when sentry is set up
+    console.error(`The following error occurred when trying to update data:`, error)
+    return { data: undefined, error }
+  }
+}
