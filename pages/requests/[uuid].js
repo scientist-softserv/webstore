@@ -30,8 +30,8 @@ const Request = () => {
   const router = useRouter()
   const { data: session } = useSession()
   /**
-   * since this is a dynamically routed file, the router query will always consist of a "key: value" pair that's determined by the name of the file (key) and path string (value).
-   * additional query properties may also exist if they were explicitly passed.
+   * since this is a dynamically routed file, the router query will always consist of a "key: value" pair that's determined by the name of
+   * the file (key) and path string (value). additional query properties may also exist if they were explicitly passed.
   */
   const { uuid } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
