@@ -37,7 +37,7 @@ const Request = () => {
   const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
   const { messages, isLoadingMessages, isMessagesError, messagesMutate, messagesData } = useMessages(uuid, session?.accessToken)
-  const { files, isLoadingFiles, isFilesError, filesMutate, filesData } = useFiles(uuid, session?.accessToken)
+  const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
@@ -81,7 +81,7 @@ const Request = () => {
       quotedWareID: request.quotedWareID,
     })
     messagesMutate({ ...messagesData, ...messages })
-    filesMutate({ ...filesData, ...files })
+    mutateFiles({ ...filesData, ...files })
   }
 
   return (
