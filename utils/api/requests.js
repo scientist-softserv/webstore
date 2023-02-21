@@ -64,8 +64,8 @@ export const useMessages = (requestUuid, accessToken) => {
 
   return {
     messages,
-    messagesMutate,
-    messagesData,
+    mutateMessages: mutate,
+    messagesData: data,
     isLoadingMessages: !error && !data,
     isMessagesError: error,
   }
