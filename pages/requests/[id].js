@@ -33,8 +33,8 @@ const Request = () => {
   const { id } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
-  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useMessages(request?.uuid, session?.accessToken)
-  const { files, isLoadingFiles, isFilesError } = useFiles(id, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError, messagesMutate, messagesData } = useMessages(request?.uuid, session?.accessToken)
+  const { files, isLoadingFiles, isFilesError, filesMutate, filesData } = useFiles(id, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
@@ -77,7 +77,8 @@ const Request = () => {
       accessToken: session?.accessToken,
       quotedWareID: request.quotedWareID,
     })
-    mutate({ ...data, ...messages })
+    messagesMutate({ ...messagesData, ...messages })
+    filesMutate({ ...filesData, ...files })
   }
 
   return (

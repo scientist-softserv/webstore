@@ -57,22 +57,26 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
 
 export const useMessages = (requestUuid, accessToken) => {
   const { data, error, mutate } = useSWR(requestUuid ? [`/quote_groups/${requestUuid}/messages.json`, accessToken] : null)
+  let messagesData = data
+  let messagesMutate = mutate
   let messages
   if (data) {
     messages = configureMessages(data.messages)
   }
 
   return {
-    data,
     messages,
-    mutate,
+    messagesMutate,
+    messagesData,
     isLoadingMessages: !error && !data,
     isMessagesError: error,
   }
 }
 
 export const useFiles = (id, accessToken) => {
-  const { data, error } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+  const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+  let filesData = data
+  let filesMutate = mutate
   let files
   if (data) {
     files =  configureFiles(data.notes)
@@ -80,6 +84,8 @@ export const useFiles = (id, accessToken) => {
 
   return {
     files,
+    filesMutate,
+    filesData,
     isLoadingFiles: !error && !data,
     isFilesError: error,
   }
