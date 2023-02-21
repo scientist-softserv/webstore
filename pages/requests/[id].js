@@ -93,7 +93,7 @@ const Request = () => {
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
           <ActionsGroup
             backgroundColor={requestActionsBg}
-            initialFiles={files}
+            files={files}
             handleSendingMessagesOrFiles={handleSendingMessagesOrFiles}
           />
           <div className='mt-3'>
