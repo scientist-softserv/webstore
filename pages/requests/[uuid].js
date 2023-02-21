@@ -39,7 +39,6 @@ const Request = () => {
   const { messages, isLoadingMessages, isMessagesError, mutate, data } = useMessages(uuid, session?.accessToken)
   const { files, isLoadingFiles, isFilesError } = useFiles(uuid, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
-  console.log({ request })
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
   const isError = isRequestError || isSOWError || isFilesError|| isMessagesError
