@@ -57,8 +57,6 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
 
 export const useMessages = (requestUuid, accessToken) => {
   const { data, error, mutate } = useSWR(requestUuid ? [`/quote_groups/${requestUuid}/messages.json`, accessToken] : null)
-  let messagesData = data
-  let messagesMutate = mutate
   let messages
   if (data) {
     messages = configureMessages(data.messages)
