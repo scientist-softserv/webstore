@@ -80,8 +80,8 @@ export const useFiles = (id, accessToken) => {
 
   return {
     files,
-    filesMutate,
-    filesData,
+    filesMutate: mutate,
+    filesData: data,
     isLoadingFiles: !error && !data,
     isFilesError: error,
   }
