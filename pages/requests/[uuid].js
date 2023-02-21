@@ -74,7 +74,7 @@ const Request = () => {
 
   const handleSendingMessagesOrFiles = ({ message, files }) => {
     createMessageOrFile({
-      id,
+      id: request.id,
       message,
       files,
       accessToken: session?.accessToken,
