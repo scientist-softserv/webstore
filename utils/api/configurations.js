@@ -161,7 +161,7 @@ export const configureMessages = (data) => {
 
 export const  configureFiles = (data) => {
   // filter out the notes that do not have attachments
-  const notesWithFiles = data.filter(d => d.attachments?.length !== 0)
+  const notesWithFiles = data.filter(d => d.attachments?.length)
   let fileArrays = []
 
   // modify the object for each file
