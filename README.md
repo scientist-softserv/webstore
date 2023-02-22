@@ -51,7 +51,7 @@ Preparing your local copy of the component library:
     npm install
     yarn link # now there is a magic symlink in `~/.config/yarn/link` usable by the webstore app
 
-If there are changes to the component library, you will probably want to rebuild within that local repo. If you do not rebuild, you will not get the newest changes to the webstore. So, you will have to decide how often you want to rebuild the component library:
+If there are changes to the component library, you will need to rebuild in order to get the newest changes. You can either rebuild manually after changes are made, or have the webstore continually "watch" for changes:
 
     npm run build-lib # for a onetime build
     npm run watch-lib # for a continuous build
