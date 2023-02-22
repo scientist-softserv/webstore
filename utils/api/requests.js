@@ -139,19 +139,19 @@ export const createMessageOrFile = ({ id, quotedWareID, message, files, accessTo
   }
   /* eslint-enable camelcase */
 
-  posting(`/quote_groups/${id}/notes.json`, note, accessToken)
+  return posting(`/quote_groups/${id}/notes.json`, note, accessToken)
 }
 
-export const createRequest = async ({ data, wareID, accessToken }) => {
+export const createRequest = async ({ dynamicFormData, wareID, accessToken }) => {
   /* eslint-disable camelcase */
   // the api currently doesn't account for attachments
-  let requestDescription = data.description
-  let requestTimeline = data.timeline
-  let formData = data.formData
+  let requestDescription = dynamicFormData.description
+  let requestTimeline = dynamicFormData.timeline
+  let formData = dynamicFormData.formData
 
   // if the ware had a dynamic form, the description would come as part of the formData. otherwise, it comes from the local state
-  if (data.formData.description) {
-    const { description, timeline, ...remainingFormData } = data.formData
+  if (dynamicFormData.formData.description) {
+    const { description, timeline, ...remainingFormData } = dynamicFormData.formData
     formData = remainingFormData
     requestDescription = description
     requestTimeline = timeline
@@ -159,40 +159,52 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
 
   const pg_quote_group = {
     ...formData,
-    name: data.name,
+    name: dynamicFormData.name,
     provider_ids: [process.env.NEXT_PUBLIC_PROVIDER_ID],
     suppliers_identified: 'Yes',
     description: requestDescription,
-    proposed_deadline_str: data.proposedDeadline,
-    no_proposed_deadline: data.proposedDeadline ? false : true,
+    proposed_deadline_str: dynamicFormData.proposedDeadline,
+    no_proposed_deadline: dynamicFormData.proposedDeadline ? false : true,
     timeline: requestTimeline,
     site: {
-      billing_same_as_shipping: data.billingSameAsShipping,
-      name: data.name,
+      billing_same_as_shipping: dynamicFormData.billingSameAsShipping,
+      name: dynamicFormData.name,
     },
     shipping_address_attributes: {
-      city: data.shipping.city,
-      country: data.shipping.country,
-      state: data.shipping.state,
-      street: data.shipping.street,
-      street2: data.shipping.street2,
-      zipcode: data.shipping.zipcode,
+      city: dynamicFormData.shipping.city,
+      country: dynamicFormData.shipping.country,
+      state: dynamicFormData.shipping.state,
+      street: dynamicFormData.shipping.street,
+      street2: dynamicFormData.shipping.street2,
+      zipcode: dynamicFormData.shipping.zipcode,
       organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
     },
     billing_address_attributes: {
-      city: data.shipping.city,
-      country: data.shipping.country,
-      state: data.shipping.state,
-      street: data.shipping.street,
-      street2: data.shipping.street2,
-      zipcode: data.shipping.zipcode,
+      city: dynamicFormData.shipping.city,
+      country: dynamicFormData.shipping.country,
+      state: dynamicFormData.shipping.state,
+      street: dynamicFormData.shipping.street,
+      street2: dynamicFormData.shipping.street2,
+      zipcode: dynamicFormData.shipping.zipcode,
       organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
     },
   }
 
-  const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
-  createMessageOrFile({ id: response.requestID, files: data.attachments, quotedWareID: response.quotedWareID })
+  let { data, error } = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
 
-  return response
+  if (data && dynamicFormData.attachments) {
+    const attachedFiles = await createMessageOrFile({
+      id: data.id,
+      files: dynamicFormData.attachments,
+      quotedWareID: data.quoted_ware_refs?.[0].id,
+    })
+
+    if (attachedFiles.error) {
+      // acknowledges that the request was created, but the file attachment failed
+      error = attachedFiles.error
+    }
+  }
+
+  return { data, error }
   /* eslint-enable camelcase */
 }
