@@ -106,6 +106,7 @@ const NewRequest = () => {
         pathname: `/requests/${createdRequestUUID}`
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createdRequestUUID])
 
   // TODO(alishaevn): use react bs placeholder component
