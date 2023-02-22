@@ -63,23 +63,25 @@ export const useMessages = (requestUuid, accessToken) => {
   }
 
   return {
-    data,
     messages,
-    mutate,
+    mutateMessages: mutate,
+    messagesData: data,
     isLoadingMessages: !error && !data,
     isMessagesError: error,
   }
 }
 
 export const useFiles = (id, accessToken) => {
-  const { data, error } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+  const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
   let files
   if (data) {
     files =  configureFiles(data.notes)
   }
 
   return {
-    files,
+    files: files || [],
+    mutateFiles: mutate,
+    filesData: data,
     isLoadingFiles: !error && !data,
     isFilesError: error,
   }

@@ -36,8 +36,8 @@ const Request = () => {
   const { uuid } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
-  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useMessages(uuid, session?.accessToken)
-  const { files, isLoadingFiles, isFilesError } = useFiles(uuid, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, session?.accessToken)
+  const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
@@ -80,7 +80,8 @@ const Request = () => {
       accessToken: session?.accessToken,
       quotedWareID: request.quotedWareID,
     })
-    mutate({ ...data, ...messages })
+    mutateMessages({ ...messagesData, ...messages })
+    mutateFiles({ ...filesData, ...files })
   }
 
   return (
@@ -95,7 +96,7 @@ const Request = () => {
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
           <ActionsGroup
             backgroundColor={requestActionsBg}
-            initialFiles={files}
+            files={files}
             handleSendingMessagesOrFiles={handleSendingMessagesOrFiles}
           />
           <div className='mt-3'>
