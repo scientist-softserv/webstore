@@ -13,13 +13,12 @@ describe('Viewing a single request', () => {
     // if there are requests, click the first one at the top of the list
     requestListExists.then(() => {
 			cy.contains(': New Request').click()
+      // after clicking a request, check to make sure it navigated to the single request page successfully
+      if (cy.contains('Request Info')) {
+        cy.log('Successfully viewed a single request')
+      } else {
+        cy.log('Unsuccessfully viewed a single request')
+      }
     })
-
-    // after clicking a request, check to make sure it navigated to the single request page successfully
-    if (cy.contains('Request Info')) {
-      cy.log('Successfully viewed a single request')
-    } else {
-      cy.log('Unsuccessfully viewed a single request')
-    }
 	})
 })
