@@ -194,3 +194,40 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
   return response
   /* eslint-enable camelcase */
 }
+
+export const acceptSOW = ({request, sowID, accessToken}) => {
+  const sow = {
+    name: request.title,
+    description: request.description,
+    provider_ids: [process.env.NEXT_PUBLIC_PROVIDER_ID],
+    provider_names: [process.env.NEXT_PUBLIC_PROVIDER_NAME],
+    proposed_deadline_str: request.proposedDeadline,
+    site: {
+      billing_same_as_shipping: request.billingSameAsShipping,
+      name: request.name,
+    },
+    shipping_address_attributes: {
+      city: request.shippingAddress.city,
+      country: request.shippingAddress.country,
+      state: request.shippingAddress.state,
+      street: request.shippingAddress.street,
+      street2: request.shippingAddress.street2,
+      zipcode: request.shippingAddress.zipcode,
+      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
+    },
+    billing_address_attributes: {
+      city: request.billingAddress.city,
+      country: request.billingAddress.country,
+      state: request.billingAddress.state,
+      street: request.billingAddress.street,
+      street2: request.billingAddress.street2,
+      zipcode: request.billingAddress.zipcode,
+      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
+    },
+    winning_proposal_id: sowID,
+    purchase_justifications: [],
+    purchase_justification_comment: '',
+  }
+
+  // posting(`/quote_groups/${request.id}/accept_sow.json`, {pg_quote_group: sow}, accessToken)
+}
