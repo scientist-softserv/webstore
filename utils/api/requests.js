@@ -79,7 +79,7 @@ export const useFiles = (id, accessToken) => {
   }
 
   return {
-    files,
+    files: files || [],
     isLoadingFiles: !error && !data,
     isFilesError: error,
   }
