@@ -72,16 +72,19 @@ const Request = () => {
     )
   }
 
-  const handleSendingMessagesOrFiles = ({ message, files }) => {
-    createMessageOrFile({
+  const handleSendingMessagesOrFiles = async ({ message, files }) => {
+    const { data, error } = await createMessageOrFile({
       id: request.id,
       message,
       files,
       accessToken: session?.accessToken,
       quotedWareID: request.quotedWareID,
     })
-    mutateMessages({ ...messagesData, ...messages })
-    mutateFiles({ ...filesData, ...files })
+
+    if (data) {
+      mutateMessages({ ...messagesData, ...messages })
+      mutateFiles({ ...filesData, ...files })
+    }
   }
 
   return (

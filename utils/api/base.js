@@ -18,15 +18,10 @@ export const fetcher = (url, token) => {
 export const posting = async (url, data, token) => {
   try {
     const response = await api.post(url, data, { headers: defaultHeaders(token) })
-    let quotedWareID = response.data.quoted_ware_refs?.[0].id
-    let requestID = response.data.id
-    if (requestID) {
-      return {
-        success: true,
-        error: false,
-        requestID,
-        quotedWareID,
-      }
+
+    return {
+      data: response.data,
+      error: false,
     }
   } catch (error) {
     // TODO(alishaevn): handle the error when sentry is set up

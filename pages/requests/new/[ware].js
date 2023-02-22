@@ -56,9 +56,8 @@ const NewRequest = () => {
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
   const [formData, setFormData] = useState(initialFormData)
-  const [requestSucceeded, setRequestSucceeded] = useState(false)
-  const [requestErred, setRequestErred] = useState(false)
-  const [requestID, setNewRequestID] = useState(undefined)
+  const [createRequestError, setCreateRequestError] = useState(undefined)
+  const [createdRequestUUID, setCreatedRequestUUID] = useState(undefined)
 
   /**
    * @param {object} event onChange event
@@ -91,27 +90,27 @@ const NewRequest = () => {
 
     if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
 
-    const { success, error, requestID } = await createRequest({
-      data: { name: dynamicForm.name, formData, ...requestForm },
+    const { data, error } = await createRequest({
+      dynamicFormData: { name: dynamicForm.name, formData, ...requestForm },
       wareID,
       accessToken: session?.accessToken,
     })
+    if (error) return setCreateRequestError(error)
+
     const sentToVendor = await sendRequestToVendor(data.id, session?.accessToken)
     if (sentToVendor.error) return setCreateRequestError(sentToVendor.error)
 
+    setCreatedRequestUUID(data.uuid)
   }
 
   useEffect(() => {
-    if (requestSucceeded) {
+    if (createdRequestUUID) {
       router.push({
-        pathname: `/requests/${requestID}`
+        pathname: `/requests/${createdRequestUUID}`
       })
     }
-    if (requestErred) {
-      //TODO: set error alerts here
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [requestSucceeded, requestErred, requestID])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdRequestUUID])
 
   // TODO(alishaevn): use react bs placeholder component
   if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page mt-5' />
@@ -139,6 +138,16 @@ const NewRequest = () => {
           onClick: () => router.back(),
           text: 'Click to return to the previous page.',
         }}
+      />
+    )
+  }
+
+  if (createRequestError) {
+    return (
+      <Notice
+        alert={configureErrors([createRequestError])}
+        dismissible={true}
+        withBackButton={false}
       />
     )
   }
