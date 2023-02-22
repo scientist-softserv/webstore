@@ -139,7 +139,7 @@ export const createMessageOrFile = ({ id, quotedWareID, message, files, accessTo
   }
   /* eslint-enable camelcase */
 
-  posting(`/quote_groups/${id}/notes.json`, note, accessToken)
+  return posting(`/quote_groups/${id}/notes.json`, note, accessToken)
 }
 
 export const createRequest = async ({ dynamicFormData, wareID, accessToken }) => {
