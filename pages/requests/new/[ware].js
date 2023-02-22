@@ -96,9 +96,9 @@ const NewRequest = () => {
       wareID,
       accessToken: session?.accessToken,
     })
-    setRequestSucceeded(success)
-    setRequestErred(error)
-    setNewRequestID(requestID)
+    const sentToVendor = await sendRequestToVendor(data.id, session?.accessToken)
+    if (sentToVendor.error) return setCreateRequestError(sentToVendor.error)
+
   }
 
   useEffect(() => {

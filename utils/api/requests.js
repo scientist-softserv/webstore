@@ -7,7 +7,7 @@ import {
   configureMessages,
   configureRequests,
 } from './configurations'
-import { posting } from './base'
+import { posting, updating } from './base'
 
 /** GET METHODS */
 export const useAllRequests = (accessToken) => {
@@ -195,4 +195,10 @@ export const createRequest = async ({ data, wareID, accessToken }) => {
 
   return response
   /* eslint-enable camelcase */
+}
+
+export const sendRequestToVendor = async (requestID, accessToken) => {
+  const { data, error } = await updating(`/quote_groups/${requestID}/send_to_vendors.json`, {}, accessToken)
+
+  return { data, error }
 }

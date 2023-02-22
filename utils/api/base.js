@@ -46,6 +46,9 @@ export const updating = async (url, data, token) => {
   } catch (error) {
     // TODO(alishaevn): handle the error when sentry is set up
     console.error(`The following error occurred when trying to update data:`, error)
-    return { data: undefined, error }
+    return {
+      data: undefined,
+      error,
+    }
   }
 }
