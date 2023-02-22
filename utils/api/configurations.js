@@ -69,7 +69,7 @@ export const configureRequests = ({ data, path }) => {
 export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
   const remainingErrors = errors
-    .filter(error => error)
+    .filter(error => Object.keys(error).length)
     .map(error => ({
       ...error,
       message: `${error.message} (${error.response?.data?.message})`,
