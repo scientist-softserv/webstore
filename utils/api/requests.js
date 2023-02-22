@@ -190,9 +190,21 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
     },
   }
 
-  const response = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
-  createMessageOrFile({ id: response.requestID, files: data.attachments, quotedWareID: response.quotedWareID })
+  let { data, error } = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
 
-  return response
+  if (data && dynamicFormData.attachments) {
+    const attachedFiles = await createMessageOrFile({
+      id: data.id,
+      files: dynamicFormData.attachments,
+      quotedWareID: data.quoted_ware_refs?.[0].id,
+    })
+
+    if (attachedFiles.error) {
+      // acknowledges that the request was created, but the file attachment failed
+      error = attachedFiles.error
+    }
+  }
+
+  return { data, error }
   /* eslint-enable camelcase */
 }
