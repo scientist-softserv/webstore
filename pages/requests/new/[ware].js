@@ -59,6 +59,7 @@ const NewRequest = () => {
   const [createRequestError, setCreateRequestError] = useState(undefined)
   const [createdRequestUUID, setCreatedRequestUUID] = useState(undefined)
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
   /**
    * @param {object} event onChange event
@@ -82,6 +83,7 @@ const NewRequest = () => {
 
   const handleSubmit = async (event) => {
     setButtonDisabled(true)
+    setFormSubmitting(true)
     if (!event.formData) {
       // these steps are needed for requests without a dynamic form
       // but error on the event resulting from the react json form
@@ -112,7 +114,7 @@ const NewRequest = () => {
   }, [createdRequestUUID])
 
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page mt-5' />
+  if (isLoadingInitialRequest || !wareID || formSubmitting) return <Loading wrapperClass='item-page mt-5' />
 
   if (!session) {
     return (
