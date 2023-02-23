@@ -84,9 +84,9 @@ const NewRequest = () => {
   const handleSubmit = async (event) => {
     setButtonDisabled(true)
     if (!event.formData) {
+      setFormSubmitting(true)
       // these steps are needed for requests without a dynamic form
       // but error on the event resulting from the react json form
-      setFormSubmitting(true)
       event.preventDefault()
       event.stopPropagation()
       setValidated(true)
