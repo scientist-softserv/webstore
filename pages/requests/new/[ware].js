@@ -58,6 +58,7 @@ const NewRequest = () => {
   const [formData, setFormData] = useState(initialFormData)
   const [createRequestError, setCreateRequestError] = useState(undefined)
   const [createdRequestUUID, setCreatedRequestUUID] = useState(undefined)
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   /**
    * @param {object} event onChange event
@@ -80,6 +81,7 @@ const NewRequest = () => {
   }
 
   const handleSubmit = async (event) => {
+    setButtonDisabled(true)
     if (!event.formData) {
       // these steps are needed for requests without a dynamic form
       // but error on the event resulting from the react json form
@@ -166,6 +168,14 @@ const NewRequest = () => {
             requestForm={requestForm}
             updateRequestForm={updateRequestForm}
           />
+          <Button
+            addClass='btn btn-primary my-4 ms-auto d-block'
+            backgroundColor={buttonBg}
+            disabled={buttonDisabled}
+            label='Initiate Request'
+            type='submit'
+            size='large'
+          />
         </Form>
       ) : (
         <BsForm
@@ -180,39 +190,42 @@ const NewRequest = () => {
             requestForm={requestForm}
             updateRequestForm={updateRequestForm}
           />
+          <Button
+            addClass='btn btn-primary my-4 ms-auto d-block'
+            backgroundColor={buttonBg}
+            disabled={buttonDisabled}
+            label='Initiate Request'
+            type='submit'
+            size='large'
+          />
         </BsForm>
       )}
     </div>
   )
 }
 
-const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateRequestForm, }) => (
-  <>
-    <div className='row'>
-      <div className='col'>
-        <ShippingDetails
-          backgroundColor={requestFormHeaderBg}
-          billingCountry={requestForm.billing.country}
-          shippingCountry={requestForm.shipping.country}
-          updateRequestForm={updateRequestForm}
-        />
+const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateRequestForm, }) => {
+  return (
+    <>
+      <div className='row'>
+        <div className='col'>
+          <ShippingDetails
+            backgroundColor={requestFormHeaderBg}
+            billingCountry={requestForm.billing.country}
+            shippingCountry={requestForm.shipping.country}
+            updateRequestForm={updateRequestForm}
+          />
+        </div>
+        <div className='col'>
+          <AdditionalInfo
+            updateRequestForm={updateRequestForm}
+            defaultRequiredDate={defaultRequiredDate}
+            backgroundColor={requestFormHeaderBg}
+          />
+        </div>
       </div>
-      <div className='col'>
-        <AdditionalInfo
-          updateRequestForm={updateRequestForm}
-          defaultRequiredDate={defaultRequiredDate}
-          backgroundColor={requestFormHeaderBg}
-        />
-      </div>
-    </div>
-    <Button
-      addClass='btn btn-primary my-4 ms-auto d-block'
-      backgroundColor={buttonBg}
-      label='Initiate Request'
-      type='submit'
-      size='large'
-    />
-  </>
-)
+    </>
+  )
+}
 
 export default NewRequest
