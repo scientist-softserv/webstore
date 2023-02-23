@@ -58,8 +58,8 @@ const NewRequest = () => {
   const [formData, setFormData] = useState(initialFormData)
   const [createRequestError, setCreateRequestError] = useState(undefined)
   const [createdRequestUUID, setCreatedRequestUUID] = useState(undefined)
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [formSubmitting, setFormSubmitting] = useState(false)
 
   /**
    * @param {object} event onChange event
@@ -83,10 +83,10 @@ const NewRequest = () => {
 
   const handleSubmit = async (event) => {
     setButtonDisabled(true)
-    setFormSubmitting(true)
     if (!event.formData) {
       // these steps are needed for requests without a dynamic form
       // but error on the event resulting from the react json form
+      setFormSubmitting(true)
       event.preventDefault()
       event.stopPropagation()
       setValidated(true)
@@ -169,14 +169,7 @@ const NewRequest = () => {
             defaultRequiredDate={oneWeekFromNow}
             requestForm={requestForm}
             updateRequestForm={updateRequestForm}
-          />
-          <Button
-            addClass='btn btn-primary my-4 ms-auto d-block'
-            backgroundColor={buttonBg}
-            disabled={buttonDisabled}
-            label='Initiate Request'
-            type='submit'
-            size='large'
+            buttonDisabled={buttonDisabled}
           />
         </Form>
       ) : (
@@ -191,14 +184,7 @@ const NewRequest = () => {
             defaultRequiredDate={oneWeekFromNow}
             requestForm={requestForm}
             updateRequestForm={updateRequestForm}
-          />
-          <Button
-            addClass='btn btn-primary my-4 ms-auto d-block'
-            backgroundColor={buttonBg}
-            disabled={buttonDisabled}
-            label='Initiate Request'
-            type='submit'
-            size='large'
+            buttonDisabled={buttonDisabled}
           />
         </BsForm>
       )}
@@ -206,7 +192,7 @@ const NewRequest = () => {
   )
 }
 
-const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateRequestForm, }) => {
+const StandardRequestOptions = ({ buttonDisabled, defaultRequiredDate, requestForm, updateRequestForm, }) => {
   return (
     <>
       <div className='row'>
@@ -226,6 +212,14 @@ const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateReques
           />
         </div>
       </div>
+      <Button
+        addClass='btn btn-primary my-4 ms-auto d-block'
+        backgroundColor={buttonBg}
+        disabled={buttonDisabled}
+        label='Initiate Request'
+        type='submit'
+        size='large'
+      />
     </>
   )
 }
