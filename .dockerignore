@@ -1,4 +1,5 @@
 node_modules/
+Dockerfile.slim
 Dockerfile
 .github/
 .swc/
