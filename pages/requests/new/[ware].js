@@ -89,8 +89,8 @@ const NewRequest = () => {
       event.preventDefault()
       event.stopPropagation()
       setValidated(true)
-      setFormSubmitting(true)
     }
+    setFormSubmitting(true)
 
     if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
 
