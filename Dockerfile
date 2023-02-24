@@ -10,5 +10,5 @@ ADD . /home/node/app
 # https://github.com/vercel/next.js/discussions/22149#discussioncomment-366180
 RUN yarn install && npm prune --omit=dev
 
-ENTRYPOINT ["sh", "-c", "yarn build && npm start"]
+ENTRYPOINT ["sh", "-c", "npm build && npm start"]
 CMD []

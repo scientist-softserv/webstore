@@ -4,6 +4,13 @@ providerName: "acme"
 providerId: "572"
 scientistApiVersion: "v2"
 
+resources:
+  limits:
+    memory: 2048Mi
+  requests:
+    cpu: 500m
+    memory: 2048Mi
+
 ingress:
   enabled: true
   className: "nginx"
