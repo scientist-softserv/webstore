@@ -1,0 +1,75 @@
+name: "Build Docker Images"
+run-name: Build of ${{ github.ref_name }} by @${{ github.actor }}
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - id: setup
+        name: Setup
+        uses: scientist-softserv/actions/setup-env@v0.0.6
+        with:
+          tag: ${{ inputs.tag }}
+          image_name: ${{ inputs.image_name }}
+          token: ${{ secrets.CHECKOUT_TOKEN || secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v3
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@scientist-softserv'
+          node-version-file: package.json
+      - name: GPR authToken
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > $NPM_CONFIG_USERCONFIG
+      - name: GPR alias
+        run: echo "@scientist-softserv:registry=https://npm.pkg.github.com" >> $NPM_CONFIG_USERCONFIG
+      - run: yarn install
+      - run: yarn test
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Retag action for Docker image
+        id: meta-docker-image
+        uses: docker/metadata-action@v4.1.1
+        with:
+          images: |
+            name=${{ env.REGISTRY }}/${{ env.REPO_LOWER }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - run: cp $NPM_CONFIG_USERCONFIG .npmrc; cat .npmrc
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.REPO_LOWER }}:${{ env.TAG }}
+          context: .
+          push: true
+          tags: |
+            ${{ steps.meta-docker-image.outputs.tags }}
+            ${{ steps.meta-docker-image.outputs.labels }}
+            ${{ env.REGISTRY }}/${{ env.REPO_LOWER }}:${{ env.TAG }}
