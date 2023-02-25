@@ -1,0 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/scientist-softserv/webstore
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  # tag: "0.0.2"
+
+imagePullSecrets:
+  - name: github
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {
+    nginx.ingress.kubernetes.io/proxy-body-size: "0",
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  }
+  hosts:
+    - host: webstore-staging.notch8.cloud
+      paths:
+        - path: /
+  tls:
+    - hosts:
+        - webstore-staging.notch8.cloud
+      secretName: notch8cloud
