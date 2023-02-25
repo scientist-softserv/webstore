@@ -10,7 +10,7 @@
 
 if [ -z "$1" ] || [ -z "$2" ]
 then
-    echo './bin/deploy RELEASE_NAME NAMESPACE'
+    echo './bin/helm_deploy RELEASE_NAME NAMESPACE'
     exit 1
 fi
 release_name="${1}"
