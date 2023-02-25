@@ -1,9 +1,8 @@
 name: "Build Docker Images"
 run-name: Build of ${{ github.ref_name }} by @${{ github.actor }}
-on:
-  push:
-    branches:
-      - main
+push:
+    tags:
+      - "*"
   workflow_dispatch:
     inputs:
       debug_enabled:
@@ -68,5 +67,4 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta-docker-image.outputs.tags }}
-            ${{ steps.meta-docker-image.outputs.labels }}
             ${{ env.REGISTRY }}/${{ env.REPO_LOWER }}:${{ env.TAG }}
