@@ -1,8 +1,12 @@
 name: "Build Docker Images"
 run-name: Build of ${{ github.ref_name }} by @${{ github.actor }}
-push:
-    tags:
-      - "*"
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       debug_enabled:
