@@ -1,3 +1,13 @@
+apiTokenConfigSecret: "webstore-staging-api-tokens"
+nextAuthUrl: "https://webstore-staging.notch8.cloud/api/auth"
+providerName: "acme"
+providerId: "572"
+scientistApiVersion: "v2"
+nextPublicToken: $NEXT_PUBLIC_TOKEN
+nextAuthSecret: $NEXTAUTH_SECRET
+clientSecret: $CLIENT_SECRET
+clientId: $CLIENT_ID
+
 replicaCount: 1
 
 image:
