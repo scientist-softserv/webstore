@@ -1,0 +1,40 @@
+{
+  "quote_group_refs": [
+      {
+          "id": 80688,
+          "identifier": "8AE755",
+          "uuid": "596127b7-2356-45aa-aec4-a4f8608ae755",
+          "name": "Example Request 1",
+          "description": "<p>Testing that we can see the request list</p>",
+          "status": "Compliance Required",
+          "billing_same_as_shipping": false,
+          "proposed_deadline": null,
+          "updated_at": "2023-02-23T07:12:44.086Z",
+          "created_at": "2023-02-16T21:51:59.343Z"
+      },
+      {
+          "id": 80691,
+          "identifier": "CA473C",
+          "uuid": "596127b7-2356-45aa-aec4-a4f8608ae755",
+          "name": "Example Request 2",
+          "description": "<p>Welcome to the Jungle</p>",
+          "status": "Work In Progress",
+          "billing_same_as_shipping": false,
+          "proposed_deadline": null,
+          "updated_at": "2023-02-23T07:12:44.086Z",
+          "created_at": "2023-02-16T21:51:59.343Z"
+      },
+      {
+          "id": 80692,
+          "identifier": "8AE755",
+          "uuid": "596127b7-2356-45aa-aec4-a4f8608ae755",
+          "name": "Example Request 3",
+          "description": "<p>Here is a 3rd request</p>",
+          "status": "Compliance Required",
+          "billing_same_as_shipping": false,
+          "proposed_deadline": null,
+          "updated_at": "2023-02-23T07:12:44.086Z",
+          "created_at": "2023-02-16T21:51:59.343Z"
+      }
+  ]
+}
