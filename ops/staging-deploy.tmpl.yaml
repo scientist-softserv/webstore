@@ -1,4 +1,3 @@
-apiTokenConfigSecret: "webstore-staging-api-tokens"
 nextAuthUrl: "https://webstore-staging.notch8.cloud/api/auth"
 providerName: "acme"
 providerId: "572"
