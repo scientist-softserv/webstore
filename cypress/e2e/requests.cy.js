@@ -89,7 +89,7 @@ describe('Viewing all requests', () => {
       })
 
       context('the user can see the <LinkedButton /> component', () => {
-        [true, false].forEach( (value)=>{
+        [true, false].forEach((value) => {
           before(() => {
             requestList = value
           })
