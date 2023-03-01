@@ -27,7 +27,7 @@ describe('Viewing all requests', () => {
           req.reply()
         } else if ((requestList === undefined) && (loading === false) && (error === true)) {
           // error will be defined
-          req.reply({ statusCode: 404 })
+          req.reply({ statusCode: 500 })
         } else if (requestList === true) {
           // reply with a request body- default status code is 200
           req.reply({ fixture: 'all-requests/requests.json' })
@@ -79,7 +79,7 @@ describe('Viewing all requests', () => {
 
       context('the user has 0 requests', () => {
         before(() => {
-          requestList = false
+          requestList = []
         })
         it("should show a message notifying the user they don't have any requests.", () => {
           cy.get('p.no-requests').contains('You do not have any requests yet.').then(() => {
