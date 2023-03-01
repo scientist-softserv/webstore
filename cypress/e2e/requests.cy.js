@@ -24,28 +24,28 @@ describe('Viewing all requests', () => {
       cy.intercept('GET', `${scientistApiBaseURL}/quote_groups/mine.json`, (req) => {
         switch (true) {
           // reply with an empty response: both data and error will be undefined.
-          case loading : req.reply()
+          case loading: req.reply()
           break
 
           // error will be defined
-          case error : req.reply({ statusCode: 500 })
+          case error: req.reply({ statusCode: 500 })
           break
 
-          case requestList : req.reply({ fixture: 'all-requests/requests.json' })
+          case requestList: req.reply({ fixture: 'all-requests/requests.json' })
           break
 
           // reply with a request body- default status code is 200
-          case !requestList : req.reply({ fixture: 'all-requests/no-requests.json' })
+          case !requestList: req.reply({ fixture: 'all-requests/no-requests.json' })
           break
         }
       })
       // Intercept the response from the endpoint that gets the default ware ID
       cy.intercept('GET', `${scientistApiBaseURL}/wares.json?q=make-a-request`, (req) => {
         switch (true) {
-          case error : req.reply({ statusCode: 500 })
+          case error: req.reply({ statusCode: 500 })
           break
 
-          default : req.reply({ fixture: 'all-requests/make-a-request.json' })
+          default: req.reply({ fixture: 'all-requests/make-a-request.json' })
           break
         }
       })
