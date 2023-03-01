@@ -30,7 +30,7 @@
           "uuid": "596127b7-2356-45aa-aec4-a4f8608ae755",
           "name": "Example Request 3",
           "description": "<p>Here is a 3rd request</p>",
-          "status": "Compliance Required",
+          "status": "SOW Submitted",
           "billing_same_as_shipping": false,
           "proposed_deadline": null,
           "updated_at": "2023-02-23T07:12:44.086Z",
