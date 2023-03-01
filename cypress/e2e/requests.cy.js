@@ -25,7 +25,7 @@ describe('Viewing all requests', () => {
         if ((requestList === undefined) && (loading === true)) {
           // reply with an empty response: both data and error will be undefined.
           req.reply()
-        } else if ((requestList === undefined) && (loading === undefined) && (error === true)) {
+        } else if ((requestList === undefined) && (loading === false) && (error === true)) {
           // error will be defined
           req.reply({ statusCode: 404 })
         } else if (requestList === true) {
@@ -55,7 +55,7 @@ describe('Viewing all requests', () => {
     context('error while making a request to the api', () => {
       before(() => {
         requestList = undefined
-        loading = undefined
+        loading = false
         error = true
       })
       it('should show an error message.', () => {
