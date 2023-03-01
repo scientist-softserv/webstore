@@ -37,7 +37,6 @@ describe('Viewing all requests', () => {
           // reply with a request body- default status code is 200
           case !requestList : req.reply({ fixture: 'all-requests/no-requests.json' })
           break
-          
         }
       })
       // Intercept the response from the endpoint that gets the default ware ID
