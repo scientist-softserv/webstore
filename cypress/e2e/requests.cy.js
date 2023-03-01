@@ -22,21 +22,33 @@ describe('Viewing all requests', () => {
       // Intercept the response from the endpoint to view all requests
       // TODO(summer-cook): extract out this base url into the config to use as an environment variable. it was not cooperating before
       cy.intercept('GET', `${scientistApiBaseURL}/quote_groups/mine.json`, (req) => {
-        if ((requestList === undefined) && (loading === true)) {
+        switch (true) {
           // reply with an empty response: both data and error will be undefined.
-          req.reply()
-        } else if ((requestList === undefined) && (loading === false) && (error === true)) {
+          case loading: req.reply()
+          break
+
           // error will be defined
-          req.reply({ statusCode: 500 })
-        } else if (requestList === true) {
+          case error: req.reply({ statusCode: 500 })
+          break
+
+          case requestList: req.reply({ fixture: 'all-requests/requests.json' })
+          break
+
           // reply with a request body- default status code is 200
-          req.reply({ fixture: 'all-requests/requests.json' })
-        } else if (requestList === false) {
-          req.reply({ fixture: 'all-requests/no-requests.json' })
+          case !requestList: req.reply({ fixture: 'all-requests/no-requests.json' })
+          break
         }
       })
       // Intercept the response from the endpoint that gets the default ware ID
-      cy.intercept('GET', `${scientistApiBaseURL}/wares.json?q=make-a-request`, { fixture: 'all-requests/make-a-request.json' })
+      cy.intercept('GET', `${scientistApiBaseURL}/wares.json?q=make-a-request`, (req) => {
+        switch (true) {
+          case error: req.reply({ statusCode: 500 })
+          break
+
+          default: req.reply({ fixture: 'all-requests/make-a-request.json' })
+          break
+        }
+      })
       cy.visit('/requests')
     })
 
@@ -52,24 +64,24 @@ describe('Viewing all requests', () => {
       })
     })
 
-    // TODO: uncomment this and try to make the page it not get an undefined error
-    // context('error while making a request to the api', () => {
-    //   before(() => {
-    //     requestList = undefined
-    //     loading = false
-    //     error = true
-    //   })
-    //   it('should show an error message.', () => {
-    //     cy.get("div[role='alert']").should('be.visible').then(() => {
-    //       cy.log('Successfully hits an error.')
-    //     })
-    //   })
-    // })
+    context('error while making a request to the api', () => {
+      before(() => {
+        requestList = undefined
+        loading = false
+        error = true
+      })
+      it('should show an error message.', () => {
+        cy.get("div[role='alert']").should('be.visible').then(() => {
+          cy.log('Successfully hits an error.')
+        })
+      })
+    })
 
     describe('request components are loading successfully, &', () => {
       context('the user has requests', () => {
         before(() => {
           requestList = true
+          error = false
         })
         it("should show the user's request list.", () => {
           cy.get('article.request-item').should('exist').then(() => {
