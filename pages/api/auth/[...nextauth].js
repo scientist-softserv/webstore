@@ -1,5 +1,7 @@
 import NextAuth from 'next-auth'
 import axios from 'axios'
+// TODO(alishaevn): use the api value from https://github.com/assaydepot/rx/issues/21497 in the next phase
+import { EXPIRATION_DURATION } from '../../../utils'
 
 // For more information on each option (and a full list of options) go to: https://next-auth.js.org/configuration/options
 const authOptions = {
@@ -32,6 +34,7 @@ const authOptions = {
       if (account && user) {
         return {
           accessToken: account.access_token,
+          accessTokenExpires: Date.now() + EXPIRATION_DURATION,
           refreshToken: account.refresh_token,
           user,
         }
@@ -80,6 +83,7 @@ const refreshAccessToken = async (token) => {
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
+      accessTokenExpires: Date.now() + EXPIRATION_DURATION,
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to the old refresh token
     }
   } catch (error) {
