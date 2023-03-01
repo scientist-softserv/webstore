@@ -80,7 +80,7 @@ describe('Viewing all requests', () => {
 
       context('the user has 0 requests', () => {
         before(() => {
-          requestList = []
+          requestList = false
         })
         it("should show a message notifying the user they don't have any requests.", () => {
           cy.get('p.no-requests').contains('You do not have any requests yet.').then(() => {
