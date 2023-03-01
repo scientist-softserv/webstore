@@ -90,7 +90,7 @@ describe('Viewing all requests', () => {
           })
         })
       })
-      
+
       context('the user has 0 requests', () => {
         before(() => {
           requestList = false
