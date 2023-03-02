@@ -41,7 +41,9 @@ Cypress.Commands.add('login', (username, password) => {
 // intercepts requests and creates potential cases for loading, error, data, and empty data
 // required params are action, defaultFixture, requestURL
 // optional params such as data, loading, and error can be passed depending on the creation of test cases that are related to that specific api call
-Cypress.Commands.add('customApiIntercept', ({ action, alias, data, defaultFixture, emptyFixture, error, errorCaseStatusCode, loading, requestURL }) => {
+Cypress.Commands.add('customApiIntercept', ({
+  action, alias, data, defaultFixture, emptyFixture, error, errorCaseStatusCode, loading, requestURL
+}) => {
   cy.intercept(action, scientistApiBaseURL + requestURL, (req) => {
     switch (true) {
       // reply with an empty response: both data and error will be undefined.
