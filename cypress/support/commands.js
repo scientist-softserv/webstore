@@ -23,7 +23,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-import { scientistApiBaseURL } from "./e2e";
+import { scientistApiBaseURL } from './e2e'
 
 // add a command to login that uses a session, so the user will remain logged in throughout the test file vs. needing to log in before each example.
 // source: https://github.com/nextauthjs/next-auth/discussions/2053#discussioncomment-1191016
