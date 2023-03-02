@@ -1,3 +1,5 @@
+import { scientistApiBaseURL } from '../support/e2e'
+
 describe('Viewing all requests', () => {
   describe('as a logged out user', () => {
     it('should show an error message.', () => {
@@ -10,7 +12,6 @@ describe('Viewing all requests', () => {
   })
   
   describe('as a logged in user', () => {
-    let scientistApiBaseURL = `https://${Cypress.env('NEXT_PUBLIC_PROVIDER_NAME')}.scientist.com/api/v2`
     // declare variables that can be used to change how the response is intercepted.
     let requestList
     let loading
@@ -20,34 +21,23 @@ describe('Viewing all requests', () => {
       // Call the custom cypress command to log in
       cy.login(Cypress.env('TEST_SCIENTIST_USER'), Cypress.env('TEST_SCIENTIST_PW'))
       // Intercept the response from the endpoint to view all requests
-      // TODO(summer-cook): extract out this base url into the config to use as an environment variable. it was not cooperating before
-      cy.intercept('GET', `${scientistApiBaseURL}/quote_groups/mine.json`, (req) => {
-        switch (true) {
-          // reply with an empty response: both data and error will be undefined.
-          case loading: req.reply()
-          break
-
-          // error will be defined
-          case error: req.reply({ statusCode: 500 })
-          break
-
-          case requestList: req.reply({ fixture: 'all-requests/requests.json' })
-          break
-
-          // reply with a request body- default status code is 200
-          case !requestList: req.reply({ fixture: 'all-requests/no-requests.json' })
-          break
-        }
+      cy.customApiIntercept({
+        action: 'GET',
+        alias: 'useAllRequests',
+        requestURL: `/quote_groups/mine.json`,
+        data: requestList,
+        defaultFixture: 'all-requests/requests.json',
+        emptyFixture: 'all-requests/no-requests.json',
+        loading,
+        error
       })
       // Intercept the response from the endpoint that gets the default ware ID
-      cy.intercept('GET', `${scientistApiBaseURL}/wares.json?q=make-a-request`, (req) => {
-        switch (true) {
-          case error: req.reply({ statusCode: 500 })
-          break
-
-          default: req.reply({ fixture: 'all-requests/make-a-request.json' })
-          break
-        }
+      cy.customApiIntercept({
+        action: 'GET',
+        alias: 'useDefaultWare',
+        requestURL: `/wares.json?q=make-a-request`,
+        defaultFixture: 'all-requests/make-a-request.json',
+        error
       })
       cy.visit('/requests')
     })
