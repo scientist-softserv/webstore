@@ -29,12 +29,15 @@ import {
 const Request = () => {
   const router = useRouter()
   const { data: session } = useSession()
-  // parses the query string to get the quote group (request) id
-  const { id } = router.query
-  const { request, isLoadingRequest, isRequestError } = useOneRequest(id, session?.accessToken)
-  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(id, request?.identifier, session?.accessToken)
-  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useMessages(request?.uuid, session?.accessToken)
-  const { files, isLoadingFiles, isFilesError } = useFiles(id, session?.accessToken)
+  /**
+   * as a dynamically routed file, the router query will always consist of a "key: value" pair that's determined by the name of
+   * the file (key) and path string (value). additional query properties may also exist if they were explicitly passed.
+  */
+  const { uuid } = router.query
+  const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
+  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, session?.accessToken)
+  const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
@@ -69,15 +72,19 @@ const Request = () => {
     )
   }
 
-  const handleSendingMessagesOrFiles = ({ message, files }) => {
-    createMessageOrFile({
-      id,
+  const handleSendingMessagesOrFiles = async ({ message, files }) => {
+    const { data, error } = await createMessageOrFile({
+      id: request.id,
       message,
       files,
       accessToken: session?.accessToken,
       quotedWareID: request.quotedWareID,
     })
-    mutate({ ...data, ...messages })
+
+    if (data) {
+      mutateMessages({ ...messagesData, ...messages })
+      mutateFiles({ ...filesData, ...files })
+    }
   }
 
   return (
@@ -92,7 +99,7 @@ const Request = () => {
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
           <ActionsGroup
             backgroundColor={requestActionsBg}
-            initialFiles={files}
+            files={files}
             handleSendingMessagesOrFiles={handleSendingMessagesOrFiles}
           />
           <div className='mt-3'>
