@@ -65,6 +65,7 @@ export const useAllPOs = (quotedWareId, uuid, requestIdentifier, accessToken) =>
     let onePOData = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${poId}.json`, accessToken)
     enhancedPOArray.push(onePOData)
   })
+  // need to still configure POs to make sure they are returning all the right stuff, also need to figure out how best to use loading and error in this call
   if (enhancedPOArray.length) {
     allPOs = configurePOs(enhancedPOArray, requestIdentifier)
   }
