@@ -7,7 +7,7 @@ import {
   configureMessages,
   configureRequests,
 } from './configurations'
-import { fetcher, posting } from './base'
+import { fetcher, posting, updating } from './base'
 
 /** GET METHODS */
 export const useAllRequests = (accessToken) => {
@@ -220,4 +220,11 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
 
   return { data, error }
   /* eslint-enable camelcase */
+}
+
+/** PUT METHODS */
+export const sendRequestToVendor = async (requestID, accessToken) => {
+  const { data, error } = await updating(`/quote_groups/${requestID}/send_to_vendors.json`, {}, accessToken)
+
+  return { data, error }
 }

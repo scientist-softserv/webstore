@@ -19,14 +19,16 @@ import {
   configureErrors,
   createRequest,
   requestFormHeaderBg,
+  sendRequestToVendor,
   useInitializeRequest,
 } from '../../../utils'
 
 const NewRequest = () => {
   const router = useRouter()
   const { data: session } = useSession()
+  const accessToken = session?.accessToken
   const wareID = router.query.id
-  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID, session?.accessToken)
+  const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID, accessToken)
   const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
   const initialFormData = { 'suppliers_identified': 'Yes' }
   const initialState = {
@@ -97,9 +99,12 @@ const NewRequest = () => {
     const { data, error } = await createRequest({
       dynamicFormData: { name: dynamicForm.name, formData, ...requestForm },
       wareID,
-      accessToken: session?.accessToken,
+      accessToken,
     })
     if (error) return setCreateRequestError(error)
+
+    const sentToVendor = await sendRequestToVendor(data.id, accessToken)
+    if (sentToVendor.error) return setCreateRequestError(sentToVendor.error)
 
     setCreatedRequestUUID(data.uuid)
   }
