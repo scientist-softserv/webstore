@@ -3,7 +3,6 @@
 
 - [Getting Started](#getting-started)
   - [Webstore Component Library](#webstore-component-library)
-    - [Configure token to pull from the github npm repository](#configure-token-to-pull-from-the-github-npm-repository)
     - [Component Library Dev Mode](#component-library-dev-mode)
   - [Environment Variables](#environment-variables)
     - [Authentication](#authentication)
@@ -33,13 +32,7 @@
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages. -->
 
 ### Webstore Component Library
-The webstore requires a [React component library](https://reactjs.org/docs/react-component.html) of view components. That dependency is packaged and released independently and we fetch it from the github repository.
-
-#### Configure token to pull from the github npm repository
-Using the published github npm package requires an auth token to pull:
-
-  1. Create a classic token on your github account https://github.com/settings/tokens
-  2. `echo "//npm.pkg.github.com/:_authToken=THE_ABOVE_TOKEN_GOES_HERE" >> ~/.npmrc`
+The webstore requires a [React component library](https://reactjs.org/docs/react-component.html) of view components. That dependency is packaged and released independently.
 
 #### Component Library Dev Mode
 Using the local github repository requires you to manually clone the component library to your computer, build, and link it:
@@ -51,7 +44,7 @@ Preparing your local copy of the component library:
     npm install
     yarn link # now there is a magic symlink in `~/.config/yarn/link` usable by the webstore app
 
-And you have to decide how often you want to rebuild the component library:
+If there are changes to the component library, you will need to rebuild in order to get the newest changes. You can either rebuild manually after changes are made, or have the webstore continually "watch" for changes:
 
     npm run build-lib # for a onetime build
     npm run watch-lib # for a continuous build
@@ -150,12 +143,12 @@ If you are creating an e2e test, it will live in the `cypress/e2e` directory. Co
     - to get the value for this variable, open your browser to your running app at `localhost:3000`.
     - inspect the page
     - click the "Application" tab
-    - click "Cookies" 
+    - click "Cookies"
     - find the value for `next-auth.session-token`
     - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your .env.local
     - do not ever commit this value
     - this value will need to be updated whenever the cookie expires, approximately once per month
-    
+
 ## Cutting a New Release
 A git tag should exist for every release. We use `release-it` to automate the coordination of package.json and git tag.
 

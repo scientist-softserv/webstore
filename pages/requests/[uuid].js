@@ -36,10 +36,10 @@ const Request = () => {
   */
   const { uuid } = router.query
   const accessToken = session?.accessToken
-  const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, accessToken)
-  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, accessToken)
-  const { messages, isLoadingMessages, isMessagesError, mutate, data } = useMessages(uuid, accessToken)
-  const { files, isLoadingFiles, isFilesError } = useFiles(uuid, accessToken)
+  const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
+  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
+  const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, session?.accessToken)
+  const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
@@ -74,15 +74,19 @@ const Request = () => {
     )
   }
 
-  const handleSendingMessagesOrFiles = ({ message, files }) => {
-    createMessageOrFile({
+  const handleSendingMessagesOrFiles = async ({ message, files }) => {
+    const { data, error } = await createMessageOrFile({
       id: request.id,
       message,
       files,
       accessToken: accessToken,
       quotedWareID: request.quotedWareID,
     })
-    mutate({ ...data, ...messages })
+
+    if (data) {
+      mutateMessages({ ...messagesData, ...messages })
+      mutateFiles({ ...filesData, ...files })
+    }
   }
 
   return (
@@ -97,7 +101,7 @@ const Request = () => {
         <div className='col-sm-4 col-md-3 mt-2 mt-sm-4 order-1 order-sm-0'>
           <ActionsGroup
             backgroundColor={requestActionsBg}
-            initialFiles={files}
+            files={files}
             handleSendingMessagesOrFiles={handleSendingMessagesOrFiles}
           />
           <div className='mt-3'>

@@ -56,9 +56,10 @@ const NewRequest = () => {
   const [validated, setValidated] = useState(false)
   const [requestForm, setRequestForm] = useState(initialState)
   const [formData, setFormData] = useState(initialFormData)
-  const [requestSucceeded, setRequestSucceeded] = useState(false)
-  const [requestErred, setRequestErred] = useState(false)
-  const [requestID, setNewRequestID] = useState(undefined)
+  const [createRequestError, setCreateRequestError] = useState(undefined)
+  const [createdRequestUUID, setCreatedRequestUUID] = useState(undefined)
+  const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [formSubmitting, setFormSubmitting] = useState(false)
 
   /**
    * @param {object} event onChange event
@@ -81,6 +82,7 @@ const NewRequest = () => {
   }
 
   const handleSubmit = async (event) => {
+    setButtonDisabled(true)
     if (!event.formData) {
       // these steps are needed for requests without a dynamic form
       // but error on the event resulting from the react json form
@@ -88,33 +90,31 @@ const NewRequest = () => {
       event.stopPropagation()
       setValidated(true)
     }
+    setFormSubmitting(true)
 
     if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
 
-    const { success, error, requestID } = await createRequest({
-      data: { name: dynamicForm.name, formData, ...requestForm },
+    const { data, error } = await createRequest({
+      dynamicFormData: { name: dynamicForm.name, formData, ...requestForm },
       wareID,
       accessToken: session?.accessToken,
     })
-    setRequestSucceeded(success)
-    setRequestErred(error)
-    setNewRequestID(requestID)
+    if (error) return setCreateRequestError(error)
+
+    setCreatedRequestUUID(data.uuid)
   }
 
   useEffect(() => {
-    if (requestSucceeded) {
+    if (createdRequestUUID) {
       router.push({
-        pathname: `/requests/${requestID}`
+        pathname: `/requests/${createdRequestUUID}`
       })
     }
-    if (requestErred) {
-      //TODO: set error alerts here
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [requestSucceeded, requestErred, requestID])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdRequestUUID])
 
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !wareID) return <Loading wrapperClass='item-page mt-5' />
+  if (isLoadingInitialRequest || !wareID || formSubmitting) return <Loading wrapperClass='item-page mt-5' />
 
   if (!session) {
     return (
@@ -143,6 +143,16 @@ const NewRequest = () => {
     )
   }
 
+  if (createRequestError) {
+    return (
+      <Notice
+        alert={configureErrors([createRequestError])}
+        dismissible={true}
+        withBackButton={false}
+      />
+    )
+  }
+
   return(
     <div className='container'>
       <Title title={dynamicForm.name || ''} addClass='my-4' />
@@ -159,6 +169,7 @@ const NewRequest = () => {
             defaultRequiredDate={oneWeekFromNow}
             requestForm={requestForm}
             updateRequestForm={updateRequestForm}
+            buttonDisabled={buttonDisabled}
           />
         </Form>
       ) : (
@@ -173,6 +184,7 @@ const NewRequest = () => {
             defaultRequiredDate={oneWeekFromNow}
             requestForm={requestForm}
             updateRequestForm={updateRequestForm}
+            buttonDisabled={buttonDisabled}
           />
         </BsForm>
       )}
@@ -180,33 +192,36 @@ const NewRequest = () => {
   )
 }
 
-const StandardRequestOptions = ({ defaultRequiredDate, requestForm, updateRequestForm, }) => (
-  <>
-    <div className='row'>
-      <div className='col'>
-        <ShippingDetails
-          backgroundColor={requestFormHeaderBg}
-          billingCountry={requestForm.billing.country}
-          shippingCountry={requestForm.shipping.country}
-          updateRequestForm={updateRequestForm}
-        />
+const StandardRequestOptions = ({ buttonDisabled, defaultRequiredDate, requestForm, updateRequestForm, }) => {
+  return (
+    <>
+      <div className='row'>
+        <div className='col'>
+          <ShippingDetails
+            backgroundColor={requestFormHeaderBg}
+            billingCountry={requestForm.billing.country}
+            shippingCountry={requestForm.shipping.country}
+            updateRequestForm={updateRequestForm}
+          />
+        </div>
+        <div className='col'>
+          <AdditionalInfo
+            updateRequestForm={updateRequestForm}
+            defaultRequiredDate={defaultRequiredDate}
+            backgroundColor={requestFormHeaderBg}
+          />
+        </div>
       </div>
-      <div className='col'>
-        <AdditionalInfo
-          updateRequestForm={updateRequestForm}
-          defaultRequiredDate={defaultRequiredDate}
-          backgroundColor={requestFormHeaderBg}
-        />
-      </div>
-    </div>
-    <Button
-      addClass='btn btn-primary my-4 ms-auto d-block'
-      backgroundColor={buttonBg}
-      label='Initiate Request'
-      type='submit'
-      size='large'
-    />
-  </>
-)
+      <Button
+        addClass='btn btn-primary my-4 ms-auto d-block'
+        backgroundColor={buttonBg}
+        disabled={buttonDisabled}
+        label='Initiate Request'
+        type='submit'
+        size='large'
+      />
+    </>
+  )
+}
 
 export default NewRequest

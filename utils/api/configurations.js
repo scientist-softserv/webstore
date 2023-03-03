@@ -82,7 +82,7 @@ export const configureRequests = ({ data, path }) => {
 export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
   const remainingErrors = errors
-    .filter(error => error)
+    .filter(error => Object.keys(error).length)
     .map(error => ({
       ...error,
       message: `${error.message} (${error.response?.data?.message})`,
@@ -174,7 +174,7 @@ export const configureMessages = (data) => {
 
 export const  configureFiles = (data) => {
   // filter out the notes that do not have attachments
-  const notesWithFiles = data.filter(d => d.attachments?.length !== 0)
+  const notesWithFiles = data.filter(d => d.attachments?.length)
   let fileArrays = []
 
   // modify the object for each file

@@ -103,3 +103,8 @@ export const NAVIGATION_LINKS = [
 // change this to '/services' to have this link to a page for an individual service.
 // if you choose to go this route, you can update the content for the service's page at pages/services/[ware].js
 export const FEATURED_SERVICE_PATH = '/requests/new'
+
+// TODO(alishaevn): use the api value from https://github.com/assaydepot/rx/issues/21497 in the next phase
+// this amount, listed in milliseconds, represents when the access token will expire
+// the default is 1 week
+export const EXPIRATION_DURATION = 604800000
