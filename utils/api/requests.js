@@ -194,6 +194,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
 
   if (data && dynamicFormData.attachments) {
     const attachedFiles = await createMessageOrFile({
+      accessToken,
       id: data.id,
       files: dynamicFormData.attachments,
       quotedWareID: data.quoted_ware_refs?.[0].id,
