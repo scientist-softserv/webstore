@@ -22,6 +22,7 @@ import {
   statusBarBg,
   useMessages,
   useFiles,
+  useAllPOs,
   useAllSOWs,
   useOneRequest,
 } from '../../utils'
@@ -36,6 +37,8 @@ const Request = () => {
   const { uuid } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
+  const { allPOs, isLoadingPOs, isPOError } = useAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
+  //console.log(allPOs, 'uuid.js all POS')
   const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, session?.accessToken)
   const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []

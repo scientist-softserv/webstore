@@ -69,7 +69,7 @@ export const configureRequests = ({ data, path }) => {
 export const configureErrors = (errors) => {
   const env = process.env.NODE_ENV
   const remainingErrors = errors
-    .filter(error => Object.keys(error).length)
+    .filter(error => error && Object.keys(error).length)
     .map(error => ({
       ...error,
       message: `${error.message} (${error.response?.data?.message})`,
@@ -186,6 +186,8 @@ export const  configureFiles = (data) => {
 }
 
 export const configureDocuments = (documents, requestIdentifier) => {
+  //lineitems, shipto, shipfrom, and terms are only in SOWs
+  // POs will need a SOW identifier to match up and get data from the correct SOW
   return documents?.map(document => ({
     identifier: document.identifier,
     date: normalizeDate(document.created_at),
@@ -201,15 +203,19 @@ export const configureDocuments = (documents, requestIdentifier) => {
     totalPrice: document.retail_total_price_currency,
     shippingPrice: document.shipping_cost_currency,
     shipTo: {
-      organizationName: document.ship_to.organization_name,
-      text: document.ship_to.text,
+      organizationName: document.ship_to?.organization_name,
+      text: document.ship_to?.text,
     },
     shipFrom: {
-      organizationName: document.ship_from.organization_name,
-      text: document.ship_from.text,
+      organizationName: document.ship_from?.organization_name,
+      text: document.ship_from?.text,
     },
   }))
 }
+
+// export const configurePOs = (POs, requestIdentifier, relatedSOWIdentifier) => {
+
+// }
 
 const configureLineItems = (lineItems) => (lineItems.map(lineItem => ({
   id: lineItem.id,

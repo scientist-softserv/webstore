@@ -7,7 +7,7 @@ import {
   configureMessages,
   configureRequests,
 } from './configurations'
-import { posting } from './base'
+import { posting, fetcher } from './base'
 
 /** GET METHODS */
 export const useAllRequests = (accessToken) => {
@@ -52,6 +52,26 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
     allSOWs,
     isLoadingSOWs: !error && !data,
     isSOWError: error,
+  }
+}
+
+export const useAllPOs = (quotedWareId, uuid, requestIdentifier, accessToken) => {
+  const { data: allPOData, error: allPOErrors } = useSWR(quotedWareId ? [`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json`, accessToken] : null)
+  let allPOs
+  let arrayOfPOIds = []
+  let enhancedPOArray = []
+  allPOData && allPOData.map((po) => {arrayOfPOIds.push(po.id)})
+  arrayOfPOIds && arrayOfPOIds.map( async (poId) => {
+    let onePOData = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${poId}.json`, accessToken)
+    enhancedPOArray.push(onePOData)
+  })
+  if (enhancedPOArray.length) {
+    allPOs = configurePOs(enhancedPOArray, requestIdentifier)
+  }
+  return {
+    allPOs,
+    //isLoadingPOs: !error && !data,
+    //isPOError: error,
   }
 }
 
