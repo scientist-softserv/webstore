@@ -210,6 +210,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   /* eslint-enable camelcase */
 }
 
+/** PUT METHODS */
 export const sendRequestToVendor = async (requestID, accessToken) => {
   const { data, error } = await updating(`/quote_groups/${requestID}/send_to_vendors.json`, {}, accessToken)
 
