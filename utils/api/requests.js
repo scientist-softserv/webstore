@@ -196,7 +196,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
     /**
      * TODO(alishaevn): I'm not sure why, but sometimes our data does not have the "quoted_ware_refs" property on it.
      * a search for the request in postman however, returns the property. we should find the underlying commonality on
-     * requests that don't return the value so we can fix it.
+     * requests that don't return the value so we can fix it. (ref: https://github.com/scientist-softserv/webstore/issues/252)
      */
     let quotedWareID = data.quoted_ware_refs?.[0]?.id
     if (!quotedWareID) {
