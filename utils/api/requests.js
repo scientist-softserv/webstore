@@ -55,24 +55,24 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
   }
 }
 
-export const useAllPOs = (quotedWareId, uuid, requestIdentifier, accessToken) => {
-  const { data: allPOData, error: allPOErrors } = useSWR(quotedWareId ? [`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json`, accessToken] : null)
+// TODO(summer-cook): eventually we can use the useSWRList hook here instead of mapping & calling the fetcher. This hook is actively being contributed to the swr repo, but the semantics of the work are still being debated. see https://github.com/vercel/swr/discussions/1988 for the RFC and https://github.com/vercel/swr/pull/2047 for the PR.
+export const useAllPOs = async (quotedWareId, uuid, requestIdentifier, accessToken) => {
   let allPOs
-  let arrayOfPOIds = []
   let enhancedPOArray = []
-  allPOData && allPOData.map((po) => {arrayOfPOIds.push(po.id)})
-  arrayOfPOIds && arrayOfPOIds.map( async (poId) => {
-    let onePOData = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${poId}.json`, accessToken)
-    enhancedPOArray.push(onePOData)
-  })
-  // need to still configure POs to make sure they are returning all the right stuff, also need to figure out how best to use loading and error in this call
-  if (enhancedPOArray.length) {
-    allPOs = configurePOs(enhancedPOArray, requestIdentifier)
-  }
-  return {
-    allPOs,
-    //isLoadingPOs: !error && !data,
-    //isPOError: error,
+  let arrayOfPOIds = []
+  try {
+    const allPOData = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json`, accessToken)
+    allPOData && allPOData.map((po) => {arrayOfPOIds.push(po.id)})
+    arrayOfPOIds && await Promise.all(arrayOfPOIds.map(async (poId) => {
+      const onePOData = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${poId}.json`, accessToken)
+      return enhancedPOArray.push(onePOData)
+    }))
+    allPOs = configureDocuments(enhancedPOArray, requestIdentifier)
+    return { allPOs }
+  } catch (error) {
+    return {
+      isPOError: error
+    }
   }
 }
 

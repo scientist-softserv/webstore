@@ -186,8 +186,6 @@ export const  configureFiles = (data) => {
 }
 
 export const configureDocuments = (documents, requestIdentifier) => {
-  //lineitems, shipto, shipfrom, and terms are only in SOWs
-  // POs will need a SOW identifier to match up and get data from the correct SOW
   return documents?.map(document => ({
     identifier: document.identifier,
     date: normalizeDate(document.created_at),
@@ -210,12 +208,14 @@ export const configureDocuments = (documents, requestIdentifier) => {
       organizationName: document.ship_from?.organization_name,
       text: document.ship_from?.text,
     },
+    // the following properties only need to exist on POs
+    turnaroundTime: document.turn_around_time.human || '',
+    poNumber: document.po_number || '',
+    relatedSOWIdentifier: document.proposal_ref?.identifier || '',
+    adPO: document.scientist_identifier,
   }))
 }
 
-// export const configurePOs = (POs, requestIdentifier, relatedSOWIdentifier) => {
-
-// }
 
 const configureLineItems = (lineItems) => (lineItems.map(lineItem => ({
   id: lineItem.id,

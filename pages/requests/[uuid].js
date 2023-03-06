@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import {
@@ -37,14 +37,30 @@ const Request = () => {
   const { uuid } = router.query
   const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
-  const { allPOs, isLoadingPOs, isPOError } = useAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
-  //console.log(allPOs, 'uuid.js all POS')
   const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, session?.accessToken)
   const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
-  const documents = (allSOWs) ? [...allSOWs] : []
 
-  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
+  const [allPOs, setAllPOs] = useState(false)
+  const [isPOError, setIsPOError] = useState(false)
+  const [isPOLoading, setIsPOLoading] = useState(false)
+  useEffect(() => {
+    const getPOsAsync = async () => {
+      const response = await useAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
+      if (response.allPOs) {
+        setAllPOs(response.allPOs)
+      } else if (response.isPOError) {
+        setIsPOError(response.isPOError)
+      } else {
+        setIsPOLoading(true)
+      }
+    }
+    getPOsAsync()
+  }, [allPOs]);
+  
+  console.log(allPOs)
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages || isPOLoading
   const isError = isRequestError || isSOWError || isFilesError|| isMessagesError
+  const documents = (allSOWs) ? [...allSOWs] : []
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
