@@ -212,7 +212,7 @@ export const configureDocuments = (documents, requestIdentifier) => {
     turnaroundTime: document.turn_around_time.human || '',
     poNumber: document.po_number || '',
     relatedSOWIdentifier: document.proposal_ref?.identifier || '',
-    adPO: document.scientist_identifier,
+    adPO: document.scientist_identifier || '',
   }))
 }
 
