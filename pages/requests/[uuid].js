@@ -55,12 +55,13 @@ const Request = () => {
       }
     }
     getPOsAsync()
-  }, [allPOs]);
+  }, [allPOs, isPOError]);
   
   console.log(allPOs)
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages || isPOLoading
   const isError = isRequestError || isSOWError || isFilesError|| isMessagesError
-  const documents = (allSOWs) ? [...allSOWs] : []
+  let documents = (allSOWs) ? [...allSOWs] : []
+  allPOs ? (documents = [...documents, ...allPOs]) : (documents = [...documents])
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
