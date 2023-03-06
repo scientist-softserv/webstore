@@ -22,7 +22,7 @@ import {
   statusBarBg,
   useMessages,
   useFiles,
-  useAllPOs,
+  getAllPOs,
   useAllSOWs,
   useOneRequest,
 } from '../../utils'
@@ -45,7 +45,7 @@ const Request = () => {
   const [isPOLoading, setIsPOLoading] = useState(false)
   useEffect(() => {
     const getPOsAsync = async () => {
-      const response = await useAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
+      const response = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
       if (response.allPOs) {
         setAllPOs(response.allPOs)
       } else if (response.isPOError) {
@@ -55,7 +55,7 @@ const Request = () => {
       }
     }
     getPOsAsync()
-  }, [allPOs, isPOError]);
+  }, [allPOs, isPOError, request?.quotedWareID, uuid, request?.identifier, session?.accessToken])
   
   console.log(allPOs)
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages || isPOLoading
