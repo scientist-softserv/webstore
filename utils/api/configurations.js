@@ -209,10 +209,10 @@ export const configureDocuments = (documents, requestIdentifier) => {
       text: document.ship_from?.text,
     },
     // the following properties only need to exist on POs
-    turnaroundTime: document.turn_around_time.human || '',
-    poNumber: document.po_number || '',
-    relatedSOWIdentifier: document.proposal_ref?.identifier || '',
-    adPO: document.scientist_identifier || '',
+    turnaroundTime: document.turn_around_time.human || undefined,
+    poNumber: document.po_number || undefined,
+    relatedSOWIdentifier: document.proposal_ref?.identifier || undefined,
+    adPO: document.scientist_identifier || undefined,
   }))
 }
 
