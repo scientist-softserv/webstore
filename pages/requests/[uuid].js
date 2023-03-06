@@ -57,7 +57,6 @@ const Request = () => {
     getPOsAsync()
   }, [allPOs, isPOError, request?.quotedWareID, uuid, request?.identifier, session?.accessToken])
   
-  console.log(allPOs)
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages || isPOLoading
   const isError = isRequestError || isSOWError || isFilesError|| isMessagesError
   let documents = (allSOWs) ? [...allSOWs] : []
