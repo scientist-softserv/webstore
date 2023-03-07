@@ -50,6 +50,7 @@ const Request = () => {
   if (!session) {
     return (
       <Notice
+        addClass='my-5'
         alert={{
           body: ['Please log in to view this request.'],
           title: 'Unauthorized',
@@ -63,6 +64,7 @@ const Request = () => {
   if (isError) {
     return (
       <Notice
+        addClass='my-5'
         alert={configureErrors([isRequestError, isSOWError, isMessagesError, isFilesError])}
         dismissible={false}
         withBackButton={true}

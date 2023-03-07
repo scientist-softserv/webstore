@@ -30,6 +30,7 @@ const Requests = () => {
   if (!session) {
     return (
       <Notice
+        addClass='my-5'
         alert={{
           body: ['Please log in to make new requests or view existing ones.'],
           title: 'Unauthorized',
@@ -43,6 +44,7 @@ const Requests = () => {
   if (isError) {
     return (
       <Notice
+        addClass='my-5'
         alert={configureErrors([isAllRequestsError, isDefaultWareError])}
         dismissible={false}
         withBackButton={true}
