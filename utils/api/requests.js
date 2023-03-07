@@ -222,7 +222,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   /* eslint-enable camelcase */
 }
 
-export const acceptSOW = ({request, sowID, accessToken}) => {
+export const acceptSOW = ({ request, sowID, accessToken }) => {
   const sow = {
     name: request.title,
     description: request.description,
@@ -252,12 +252,13 @@ export const acceptSOW = ({request, sowID, accessToken}) => {
       organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
     },
     winning_proposal_id: sowID,
-    purchase_justifications: [],
+    purchase_justifications: [''],
     purchase_justification_comment: '',
   }
 
-  // posting(`/quote_groups/${request.id}/accept_sow.json`, {pg_quote_group: sow}, accessToken)
+  return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group: sow }, accessToken)
 }
+
 /** PUT METHODS */
 export const sendRequestToVendor = async (requestID, accessToken) => {
   const { data, error } = await updating(`/quote_groups/${requestID}/send_to_vendors.json`, {}, accessToken)
