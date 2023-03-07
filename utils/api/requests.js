@@ -1,11 +1,11 @@
 import useSWR from 'swr'
 import {
   configureFiles,
-  configureDocuments,
   configureDynamicFormSchema,
   configureDynamicFormUiSchema,
   configureMessages,
   configureRequests,
+  configureSOWs,
 } from './configurations'
 import { fetcher, posting, updating } from './base'
 
@@ -45,7 +45,7 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
   const { data, error } = useSWR(id ? [`/quote_groups/${id}/proposals.json`, accessToken] : null)
   let allSOWs
   if (data) {
-    allSOWs = configureDocuments(data, requestIdentifier)
+    allSOWs = configureSOWs(data, requestIdentifier)
   }
 
   return {

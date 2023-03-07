@@ -185,34 +185,35 @@ export const  configureFiles = (data) => {
   return allFiles
 }
 
-export const configureDocuments = (documents, requestIdentifier) => {
-  return documents?.map(document => ({
-    identifier: document.identifier,
+export const configureDocument = (document, requestIdentifier) => {
+  return {
     date: normalizeDate(document.created_at),
     documentStatus: document.status,
     documentStatusColor: statusColors[configureStatus(document.status)].bg,
     documentType: document.type,
     documentTypeColor: 'bg-dark',
+    identifier: document.identifier,
     lineItems: configureLineItems(document.line_items),
     requestIdentifier,
+    shippingPrice: document.shipping_cost_currency,
+    shipTo: {
+      organizationName: document.ship_to.organization_name,
+      text: document.ship_to.text,
+    },
+    shipFrom: {
+      organizationName: document.ship_from.organization_name,
+      text: document.ship_from.text,
+    },
     subtotalPrice: document.retail_subtotal_price_currency,
     taxAmount: document.tax_cost_currency,
     terms: document.payment_terms,
     totalPrice: document.retail_total_price_currency,
-    shippingPrice: document.shipping_cost_currency,
-    shipTo: {
-      organizationName: document.ship_to?.organization_name,
-      text: document.ship_to?.text,
-    },
-    shipFrom: {
-      organizationName: document.ship_from?.organization_name,
-      text: document.ship_from?.text,
-    },
-    // the following properties only need to exist on POs
-    turnaroundTime: document.turn_around_time.human || null,
-    poNumber: document.po_number || null,
-    relatedSOWIdentifier: document.proposal_ref?.identifier || null,
-    adPO: document.scientist_identifier || null,
+  }
+}
+
+export const configureSOWs = (sows, requestIdentifier) => {
+  return sows?.map((sow) => ({
+    ...configureDocument(sow, requestIdentifier),
   }))
 }
 
