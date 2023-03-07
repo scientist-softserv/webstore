@@ -1,7 +1,9 @@
 import useOneRequestResponseBody from '../fixtures/one-request/request.json'
 
-describe('Viewing one request', () => {
-  // currently this is using a real request ID, since the routes are generated dynamically, so far i haven't found a way to generate a route for a fake request within the test
+describe.skip('Viewing one request', () => {
+  // TODO: currently this uses a real request uuid, which would allow it to visit a route that actually existed.
+  // since the routes are generated dynamically, we will need to mock the next router in order to generate a route for a fake request w/ mock uuid within the test
+  // this test should remain skipped until the above is done since it runs as a regular e2e vs e2e with mocked data 
   let uuid = useOneRequestResponseBody.uuid
 
   describe('as a logged out user', () => {
@@ -87,58 +89,26 @@ describe('Viewing one request', () => {
     describe('request page components are loading successfully, &', () => {
       context('the request page', () => {
         before(() => {
-          loading = false
+          loading =
           request = true
           proposals = true
           messages = true
           files = true
         })
+
         it("should show the request stats section.", () => {
-        console.log({loading, request, proposals, messages, files, error})
-          // cy.get('div.request-stats-card').should('exist').then(() => {
-          //   cy.log('Request stats section renders successfully.')
-          // })
+          cy.get('div.request-stats-card').should('exist').then(() => {
+            cy.log('Request stats section renders successfully.')
+          })
         })
-        // it("should show the status bar.", () => {
-        //   cy.get("div[data-cy='status-bar']").should('exist').then(() => {
-        //     cy.log('Status bar renders successfully.')
-        //   })
-        // })
+
+        it("should show the status bar.", () => {
+          cy.get("div[data-cy='status-bar']").should('exist').then(() => {
+            cy.log('Status bar renders successfully.')
+          })
+        })
+        // TODO: add tests to confirm that messages, files, additional info, document sections all show correctly.
       })
-
-      // context('the user has 0 requests', () => {
-      //   before(() => {
-      //     requestList = false
-      //   })
-      //   it("should show a message notifying the user they don't have any requests.", () => {
-      //     cy.get('p.no-requests').contains('You do not have any requests yet.').then(() => {
-      //       cy.log('Successfully viewing request page with no requests.')
-      //     })
-      //   })
-      // })
-
-      // context('the user can see the <LinkedButton /> component', () => {
-      //   [true, false].forEach((value) => {
-      //     before(() => {
-      //       requestList = value
-      //     })
-      //     it(`should show a button that links to the initialize request page for the default ware ${value ? 'with a request list' : 'with 0 requests'}.`, () => {
-      //       cy.get("a[data-cy='linked-button']").should('have.attr', 'href', `/requests/new/make-a-request?id=123`).then(() => {
-      //         cy.log('The <LinkedButton /> component displays correctly')
-      //       })
-      //     })
-      //   })
-      // })
     })
   })
 })
-
-
-    // it('renders the request page with the appropriate components', () => {
-    //   let requestPath = useOneRequestResponseBody.request.href.pathname
-    //   //let scientistApiBaseURL = `https://${Cypress.env('NEXT_PUBLIC_PROVIDER_NAME')}.scientist.com/api/${Cypress.env('NEXT_PUBLIC_SCIENTIST_API_VERSION')}`
-    //   cy.intercept('GET', `${scientistApiBaseURL}/quote_groups/*`, { fixture: 'one-request/request.json' }).as('useOneRequest')
-    //   //cy.wait(['@useOneRequest'])
-    //   cy.visit(requestPath)
-    //   cy.get('h1').should('contains.text', useOneRequestResponseBody.request.title)
-    //   })
