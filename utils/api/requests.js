@@ -56,9 +56,7 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
   }
 }
 
-// The name of this function is getAllPOs vs. useAllPOs.
-// Since it is async, it is technically not a custom hook and according to linter should not start with use.
-export const getAllPOs = async (quotedWareId, uuid, requestIdentifier, accessToken) => {
+// The name of this function is getAllPOs vs. useAllPOs. Since it is not a hook, it should not start with "use".
   try {
     // TODO(summer-cook): eventually we can use the useSWRList hook here instead of mapping & calling the fetcher.
     // This hook is actively being contributed to the swr repo, but the semantics of the work are still being debated.
