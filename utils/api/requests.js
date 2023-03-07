@@ -4,6 +4,7 @@ import {
   configureDynamicFormSchema,
   configureDynamicFormUiSchema,
   configureMessages,
+  configurePO,
   configureRequests,
   configureSOWs,
 } from './configurations'
@@ -58,24 +59,24 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
 // The name of this function is getAllPOs vs. useAllPOs.
 // Since it is async, it is technically not a custom hook and according to linter should not start with use.
 export const getAllPOs = async (quotedWareId, uuid, requestIdentifier, accessToken) => {
-  let allPOs
-  let enhancedPOArray = []
-  let arrayOfPOIds = []
   try {
-    // TODO(summer-cook): eventually we can use the useSWRList hook here instead of mapping & calling the fetcher.
-    // This hook is actively being contributed to the swr repo, but the semantics of the work are still being debated.
-    // See https://github.com/vercel/swr/discussions/1988 for the RFC and https://github.com/vercel/swr/pull/2047 for the PR.
-    const allPOData = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json`, accessToken)
-    allPOData && allPOData.map((po) => {arrayOfPOIds.push(po.id)})
-    arrayOfPOIds && await Promise.all(arrayOfPOIds.map(async (poId) => {
-      const onePOData = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${poId}.json`, accessToken)
-      return enhancedPOArray.push(onePOData)
-    }))
-    allPOs = configureDocuments(enhancedPOArray, requestIdentifier)
-    return { allPOs }
+    const data = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json`, accessToken)
+    const configuredPOs = data.map(async (po) => {
+      const purchaseOrder = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${po.id}.json`, accessToken)
+      return configurePO(purchaseOrder, requestIdentifier)
+    })
+    const allPOs = await Promise.all(configuredPOs).then(res => res)
+
+    return {
+      allPOs,
+      isLoadingPOs: !allPOs,
+      isPOError: false,
+    }
   } catch (error) {
     return {
-      isPOError: error
+      allPOs: [],
+      isLoadingPOs: false,
+      isPOError: error,
     }
   }
 }

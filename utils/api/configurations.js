@@ -217,6 +217,13 @@ export const configureSOWs = (sows, requestIdentifier) => {
   }))
 }
 
+export const configurePO = (po, requestIdentifier) => ({
+  ...configureDocument(po, requestIdentifier),
+  turnaroundTime: po.turn_around_time.human,
+  poNumber: po.po_number,
+  relatedSOWIdentifier: po.proposal_ref?.identifier,
+  adPO: po.scientist_identifier,
+})
 
 const configureLineItems = (lineItems) => (lineItems.map(lineItem => ({
   id: lineItem.id,

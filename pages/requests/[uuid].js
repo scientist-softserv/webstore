@@ -40,27 +40,24 @@ const Request = () => {
   const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, session?.accessToken)
   const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
 
-  const [allPOs, setAllPOs] = useState(false)
+  const [allPOs, setAllPOs] = useState([])
   const [isPOError, setIsPOError] = useState(false)
-  const [isPOLoading, setIsPOLoading] = useState(false)
+  const [isLoadingPOs, setIsLoadingPOs] = useState(true)
   useEffect(() => {
-    const getPOsAsync = async () => {
-      const response = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
-      if (response.allPOs) {
-        setAllPOs(response.allPOs)
-      } else if (response.isPOError) {
-        setIsPOError(response.isPOError)
-      } else {
-        setIsPOLoading(true)
-      }
+    if (request) {
+      (async () => {
+        const { allPOs, isLoadingPOs, isPOError } = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
+
+        setIsLoadingPOs(isLoadingPOs)
+        setAllPOs(allPOs)
+        setIsPOError(isPOError)
+      })()
     }
-    getPOsAsync()
-  }, [allPOs, isPOError, request?.quotedWareID, uuid, request?.identifier, session?.accessToken])
-  
-  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages || isPOLoading
-  const isError = isRequestError || isSOWError || isFilesError|| isMessagesError
-  let documents = (allSOWs) ? [...allSOWs] : []
-  allPOs ? (documents = [...documents, ...allPOs]) : (documents = [...documents])
+  }, [allPOs, isPOError, request, uuid, session])
+
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages || isLoadingPOs
+  const isError = isRequestError || isSOWError || isFilesError|| isMessagesError || isPOError
+  const documents = (allSOWs) ? [...allSOWs, ...allPOs] : []
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
@@ -80,7 +77,7 @@ const Request = () => {
   if (isError) {
     return (
       <Notice
-        alert={configureErrors([isRequestError, isSOWError, isMessagesError, isFilesError])}
+        alert={configureErrors([isRequestError, isSOWError, isMessagesError, isFilesError, isPOError])}
         dismissible={false}
         withBackButton={true}
         buttonProps={{
