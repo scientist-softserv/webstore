@@ -7,7 +7,7 @@ import {
   configureMessages,
   configureRequests,
 } from './configurations'
-import { posting } from './base'
+import { fetcher, posting, updating } from './base'
 
 /** GET METHODS */
 export const useAllRequests = (accessToken) => {
@@ -193,11 +193,23 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   let { data, error } = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
 
   if (data && dynamicFormData.attachments) {
+    /**
+     * TODO(alishaevn): I'm not sure why, but sometimes our data does not have the "quoted_ware_refs" property on it.
+     * a search for the request in postman however, returns the property. we should find the underlying commonality on
+     * requests that don't return the value so we can fix it. (ref: https://github.com/scientist-softserv/webstore/issues/252)
+     */
+    let quotedWareID = data.quoted_ware_refs?.[0]?.id
+    if (!quotedWareID) {
+      // we have to explicity use fetcher because "useOneRequest" is a hook
+      const res = await fetcher(`/quote_groups/${data.id}.json`, accessToken)
+      quotedWareID = res.quoted_ware_refs?.[0]?.id
+    }
+
     const attachedFiles = await createMessageOrFile({
       accessToken,
       id: data.id,
       files: dynamicFormData.attachments,
-      quotedWareID: data.quoted_ware_refs?.[0].id,
+      quotedWareID,
     })
 
     if (attachedFiles.error) {
@@ -208,4 +220,11 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
 
   return { data, error }
   /* eslint-enable camelcase */
+}
+
+/** PUT METHODS */
+export const sendRequestToVendor = async (requestID, accessToken) => {
+  const { data, error } = await updating(`/quote_groups/${requestID}/send_to_vendors.json`, {}, accessToken)
+
+  return { data, error }
 }
