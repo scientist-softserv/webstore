@@ -60,6 +60,9 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
 // Since it is async, it is technically not a custom hook and according to linter should not start with use.
 export const getAllPOs = async (quotedWareId, uuid, requestIdentifier, accessToken) => {
   try {
+    // TODO(summer-cook): eventually we can use the useSWRList hook here instead of mapping & calling the fetcher.
+    // This hook is actively being contributed to the swr repo, but the semantics of the work are still being debated.
+    // See https://github.com/vercel/swr/discussions/1988 for the RFC and https://github.com/vercel/swr/pull/2047 for the PR.
     const data = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json`, accessToken)
     const configuredPOs = data.map(async (po) => {
       const purchaseOrder = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${po.id}.json`, accessToken)
