@@ -223,6 +223,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
 }
 
 export const acceptSOW = ({ request, sowID, accessToken }) => {
+  /* eslint-disable camelcase */
   const sow = {
     name: request.title,
     description: request.description,
@@ -255,6 +256,7 @@ export const acceptSOW = ({ request, sowID, accessToken }) => {
     purchase_justifications: [''],
     purchase_justification_comment: '',
   }
+  /* eslint-enable camelcase */
 
   return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group: sow }, accessToken)
 }
