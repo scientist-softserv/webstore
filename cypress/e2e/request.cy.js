@@ -3,7 +3,8 @@ import useOneRequestResponseBody from '../fixtures/one-request/request.json'
 describe.skip('Viewing one request', () => {
   // TODO: currently this uses a real request uuid, which would allow it to visit a route that actually existed.
   // since the routes are generated dynamically, we will need to mock the next router in order to generate a route for a fake request w/ mock uuid within the test
-  // this test should remain skipped until the above is done since it runs as a regular e2e vs e2e with mocked data 
+  // this test should remain skipped until the above is done since it runs as a regular e2e vs e2e with mocked data
+  // Existing ticket to complete this test: https://github.com/scientist-softserv/webstore/issues/218
   let uuid = useOneRequestResponseBody.uuid
 
   describe('as a logged out user', () => {
