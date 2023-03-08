@@ -185,20 +185,16 @@ export const  configureFiles = (data) => {
   return allFiles
 }
 
-export const configureDocuments = (documents, requestIdentifier) => {
-  return documents?.map(document => ({
-    identifier: document.identifier,
+export const configureDocument = (document, requestIdentifier) => {
+  return {
     date: normalizeDate(document.created_at),
     documentStatus: document.status,
     documentStatusColor: statusColors[configureStatus(document.status)].bg,
     documentType: document.type,
     documentTypeColor: 'bg-dark',
+    identifier: document.identifier,
     lineItems: configureLineItems(document.line_items),
     requestIdentifier,
-    subtotalPrice: document.retail_subtotal_price_currency,
-    taxAmount: document.tax_cost_currency,
-    terms: document.payment_terms,
-    totalPrice: document.retail_total_price_currency,
     shippingPrice: document.shipping_cost_currency,
     shipTo: {
       organizationName: document.ship_to.organization_name,
@@ -208,8 +204,26 @@ export const configureDocuments = (documents, requestIdentifier) => {
       organizationName: document.ship_from.organization_name,
       text: document.ship_from.text,
     },
+    subtotalPrice: document.retail_subtotal_price_currency,
+    taxAmount: document.tax_cost_currency,
+    terms: document.payment_terms,
+    totalPrice: document.retail_total_price_currency,
+  }
+}
+
+export const configureSOWs = (sows, requestIdentifier) => {
+  return sows?.map((sow) => ({
+    ...configureDocument(sow, requestIdentifier),
   }))
 }
+
+export const configurePO = (po, requestIdentifier) => ({
+  ...configureDocument(po, requestIdentifier),
+  turnaroundTime: po.turn_around_time.human,
+  poNumber: po.po_number,
+  relatedSOWIdentifier: po.proposal_ref?.identifier,
+  adPO: po.scientist_identifier,
+})
 
 const configureLineItems = (lineItems) => (lineItems.map(lineItem => ({
   id: lineItem.id,
