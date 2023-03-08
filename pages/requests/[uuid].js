@@ -48,7 +48,7 @@ const Request = () => {
   useEffect(() => {
     if (request) {
       (async () => {
-        const { allPOs, isLoadingPOs, isPOError } = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
+        const { allPOs, isLoadingPOs, isPOError } = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, accessToken)
 
         setIsLoadingPOs(isLoadingPOs)
         setAllPOs(allPOs)
@@ -96,7 +96,7 @@ const Request = () => {
       id: request.id,
       message,
       files,
-      accessToken: accessToken,
+      accessToken,
       quotedWareID: request.quotedWareID,
     })
 
