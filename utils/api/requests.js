@@ -250,7 +250,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   /* eslint-enable camelcase */
 }
 
-export const acceptSOW = ({ request, sowID, accessToken }) => {
+export const acceptSOW = (request, sowID, accessToken) => {
   /* eslint-disable camelcase */
   const sow = {
     name: request.title,
