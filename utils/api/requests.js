@@ -219,7 +219,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   let sharedRequestData = requestData({
     request: dynamicFormData,
     shipping: dynamicFormData.shipping,
-    billing: dynamicFormData.shipping,
+    billing: dynamicFormData.billing,
   })
 
   const pg_quote_group = {
