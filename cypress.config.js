@@ -21,4 +21,8 @@ module.exports = defineConfig({
       return config 
     },
   },
+  env: {
+    TEST_SCIENTIST_USER: 'test@test.com',
+    TEST_SCIENTIST_PW: '!test1234',
+  },
 });
