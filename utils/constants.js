@@ -6,7 +6,7 @@ export const DEFAULT_WARE_IMAGE = {
   alt: 'Several rows of test tubes with a liquid being put into one.',
 }
 
-export const APP_TITLE = 'Golden Pacific Sciences - WebStore'
+export const APP_TITLE = 'Beachside Biotechnology Services - WebStore'
 
 export const ABOUT_US_TITLE = 'About Us'
 
