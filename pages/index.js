@@ -18,8 +18,8 @@ import {
   ABOUT_US_TITLE,
   APP_TITLE,
 } from '../utils'
-import { Integrations } from "@sentry/tracing";
-import * as Sentry from "@sentry/react";
+import { Integrations } from '@sentry/tracing'
+import * as Sentry from '@sentry/react'
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
