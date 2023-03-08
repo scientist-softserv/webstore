@@ -1,11 +1,12 @@
 import useSWR from 'swr'
 import {
   configureFiles,
-  configureDocuments,
   configureDynamicFormSchema,
   configureDynamicFormUiSchema,
   configureMessages,
+  configurePO,
   configureRequests,
+  configureSOWs,
 } from './configurations'
 import { fetcher, posting, updating } from './base'
 
@@ -45,13 +46,40 @@ export const useAllSOWs = (id, requestIdentifier, accessToken) => {
   const { data, error } = useSWR(id ? [`/quote_groups/${id}/proposals.json`, accessToken] : null)
   let allSOWs
   if (data) {
-    allSOWs = configureDocuments(data, requestIdentifier)
+    allSOWs = configureSOWs(data, requestIdentifier)
   }
 
   return {
     allSOWs,
     isLoadingSOWs: !error && !data,
     isSOWError: error,
+  }
+}
+
+// The name of this function is getAllPOs vs. useAllPOs. Since it is not a hook, it should not start with "use".
+export const getAllPOs = async (quotedWareId, uuid, requestIdentifier, accessToken) => {
+  try {
+    // TODO(summer-cook): eventually we can use the useSWRList hook here instead of mapping & calling the fetcher.
+    // This hook is actively being contributed to the swr repo, but the semantics of the work are still being debated.
+    // See https://github.com/vercel/swr/discussions/1988 for the RFC and https://github.com/vercel/swr/pull/2047 for the PR.
+    const data = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json`, accessToken)
+    const configuredPOs = data.map(async (po) => {
+      const purchaseOrder = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${po.id}.json`, accessToken)
+      return configurePO(purchaseOrder, requestIdentifier)
+    })
+    const allPOs = await Promise.all(configuredPOs).then(res => res)
+
+    return {
+      allPOs,
+      isLoadingPOs: !allPOs,
+      isPOError: false,
+    }
+  } catch (error) {
+    return {
+      allPOs: [],
+      isLoadingPOs: false,
+      isPOError: error,
+    }
   }
 }
 

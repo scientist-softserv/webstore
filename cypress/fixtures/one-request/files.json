@@ -1,0 +1,24 @@
+{
+  "notes": [
+      {
+          "id": 674804,
+          "title": null,
+          "status": null,
+          "body": "hi",
+          "created_by": "Summer Cook",
+          "created_at": "2023-03-01T22:16:46.167Z",
+          "updated_at": "2023-03-01T22:16:46.167Z",
+          "attachments": [],
+          "user_ref": {
+              "first_name": "Summer",
+              "last_name": "Cook",
+              "organization_name": "Acme",
+              "email": "summer@scientist.com",
+              "title": "Frontend Dev",
+              "company": "",
+              "site": "{\"name\"=>\"Cell Based Assays\", \"billing_same_as_shipping\"=>true}",
+              "image": "https://avatars.scientist.com/avatars/0d93b3808f701fc3dbde5002a80c2475/S C/xs?time=1677774999"
+          }
+      }
+  ]
+}

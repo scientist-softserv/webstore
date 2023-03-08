@@ -1,0 +1,41 @@
+{
+  "id": 80688,
+  "identifier": "8AE755",
+  "uuid": "596127b7-2356-45aa-aec4-a4f8608ae755",
+  "name": "Example Request",
+  "description": "<p>this is an example request</p>",
+  "status": "Compliance Required",
+  "billing_same_as_shipping": false,
+  "proposed_deadline": null,
+  "updated_at": "2023-02-23T07:12:44.086Z",
+  "created_at": "2023-02-16T21:51:59.343Z",
+  "shipping_address": {
+      "id": 453994,
+      "organization_name": "acme-staging",
+      "street": "123 Pineapple Way",
+      "street2": "",
+      "city": "Bikini Bottom",
+      "state": "CA",
+      "zipcode": "92107",
+      "country": "Mexico",
+      "person_name": "Summer Cook",
+      "text": "123 Pineapple Way\nBikini Bottom, CA, 92107"
+  },
+  "billing_address": {
+      "id": 453995,
+      "organization_name": "acme-staging",
+      "street": "123 Pineapple Way",
+      "street2": "",
+      "city": "Bikini Bottom",
+      "state": "CA",
+      "zipcode": "92107",
+      "country": "Mexico",
+      "name": null,
+      "text": "123 Pineapple Way\nBikini Bottom, CA, 92107"
+  },
+  "quoted_ware_refs": [
+      {
+          "id": 728152
+      }
+  ]
+}

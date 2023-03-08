@@ -65,8 +65,10 @@ const refreshAccessToken = async (token) => {
     const url = `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/oauth/token`
     const encodedString = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64')
     const params = new URLSearchParams({
+      /* eslint-disable camelcase */
       grant_type: 'refresh_token',
       refresh_token: token.refreshToken,
+      /* eslint-enable camelcase */
     })
 
     const response = await axios.post(url, params, {
