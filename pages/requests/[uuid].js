@@ -106,6 +106,19 @@ const Request = () => {
     }
   }
 
+  const handleClick = (value) => {
+    switch (value) {
+      case 'Accept SOW':
+        acceptSOW({
+          // params
+        })
+
+      case 'Purchase Orders':
+        // do something
+
+    }
+  }
+
   return (
     <div className='container'>
       <StatusBar
@@ -135,16 +148,20 @@ const Request = () => {
           <Title title={request.title} />
           <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
           <Title addClass='mt-4' title='Documents' size='small' />
-          {documents.length ? documents.map((document, index) => (
-            <Document 
-              addClass='mt-3'
-              acceptSOW={acceptSOW}
-              accessToken={accessToken}
-              document={document}
-              key={`${request.id}-${index}`}
-              request={request}
-            />
-          )) : (
+          {documents.length ? documents.map((document, index) => {
+            return (
+              <Document
+                addClass='mt-3'
+                onClick={() => {
+                  // add callback function to get the value of the string from the component
+                  handleClick(value)
+                }}
+                document={document}
+                key={`${request.id}-${index}`}
+                request={request}
+              />
+            )
+          }) : (
             <TextBox
               alignment='left'
               size='medium'
