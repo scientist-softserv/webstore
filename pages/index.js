@@ -14,8 +14,9 @@ import {
   configureServices,
   useAllWares,
   FEATURED_SERVICE_PATH,
-  ABOUT_US,
-  TITLE,
+  ABOUT_US_TEXT,
+  ABOUT_US_TITLE,
+  APP_TITLE,
 } from '../utils'
 
 const Home = () => {
@@ -31,7 +32,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Beachside Biotechnology Services - WebStore</title>
+        <title>{APP_TITLE}</title>
         <link rel='icon' href='favicon.png' />
       </Head>
       <Image
@@ -43,7 +44,7 @@ const Home = () => {
       />
       <div className='container'>
         <SearchBar onSubmit={handleOnSubmit} />
-        <TitledTextBox title={TITLE} text={ABOUT_US} />
+        <TitledTextBox title={ABOUT_US_TITLE} text={ABOUT_US_TEXT} />
         {isError ? (
           <Notice
             alert={configureErrors([isError])}

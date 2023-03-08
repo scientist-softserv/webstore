@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import {
@@ -22,6 +22,7 @@ import {
   statusBarBg,
   useMessages,
   useFiles,
+  getAllPOs,
   useAllSOWs,
   useOneRequest,
 } from '../../utils'
@@ -38,10 +39,25 @@ const Request = () => {
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
   const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, session?.accessToken)
   const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
-  const documents = (allSOWs) ? [...allSOWs] : []
 
-  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
-  const isError = isRequestError || isSOWError || isFilesError|| isMessagesError
+  const [allPOs, setAllPOs] = useState([])
+  const [isPOError, setIsPOError] = useState(false)
+  const [isLoadingPOs, setIsLoadingPOs] = useState(true)
+  useEffect(() => {
+    if (request) {
+      (async () => {
+        const { allPOs, isLoadingPOs, isPOError } = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
+
+        setIsLoadingPOs(isLoadingPOs)
+        setAllPOs(allPOs)
+        setIsPOError(isPOError)
+      })()
+    }
+  }, [allPOs, isPOError, request, uuid, session])
+
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages || isLoadingPOs
+  const isError = isRequestError || isSOWError || isFilesError|| isMessagesError || isPOError
+  const documents = (allSOWs) ? [...allSOWs, ...allPOs] : []
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 
@@ -61,7 +77,7 @@ const Request = () => {
   if (isError) {
     return (
       <Notice
-        alert={configureErrors([isRequestError, isSOWError, isMessagesError, isFilesError])}
+        alert={configureErrors([isRequestError, isSOWError, isMessagesError, isFilesError, isPOError])}
         dismissible={false}
         withBackButton={true}
         buttonProps={{

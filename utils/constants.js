@@ -6,10 +6,12 @@ export const DEFAULT_WARE_IMAGE = {
   alt: 'Several rows of test tubes with a liquid being put into one.',
 }
 
-export const TITLE = 'About Us'
+export const APP_TITLE = 'Golden Pacific Sciences - WebStore'
+
+export const ABOUT_US_TITLE = 'About Us'
 
 /* eslint-disable max-len */
-export const ABOUT_US = `Beachside Biotechnology Services is a multinational value, evidence and market access commercialization solutions organization. We deliver end-to-end clinical evidence services from Phase I to IV, plus medical affairs and commercial market access strategy and support and the  Best Service Ever .\nOur team includes senior leaders with in-depth experience in health economics and outcomes research (HEOR), evidence assessment, value communications, data analytics, real world evidence, observational research, and private and public payer market access solutions.  Our regulatory-grade proprietary RWD platform enables integrated, real world insights derived from 100 million patients, across all major therapeutic areas.`
+export const ABOUT_US_TEXT = `Beachside Biotechnology Services is a multinational value, evidence and market access commercialization solutions organization. We deliver end-to-end clinical evidence services from Phase I to IV, plus medical affairs and commercial market access strategy and support and the  Best Service Ever .\nOur team includes senior leaders with in-depth experience in health economics and outcomes research (HEOR), evidence assessment, value communications, data analytics, real world evidence, observational research, and private and public payer market access solutions.  Our regulatory-grade proprietary RWD platform enables integrated, real world insights derived from 100 million patients, across all major therapeutic areas.`
 /* eslint-enable max-len */
 
 export const LOGO = {
