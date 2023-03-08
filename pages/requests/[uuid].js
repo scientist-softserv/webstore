@@ -36,10 +36,10 @@ const Request = () => {
   */
   const { uuid } = router.query
   const accessToken = session?.accessToken
-  const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
-  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
-  const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, session?.accessToken)
-  const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
+  const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, accessToken)
+  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, accessToken)
+  const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, accessToken)
+  const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, accessToken)
   const documents = (allSOWs) ? [...allSOWs] : []
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
