@@ -49,6 +49,7 @@ const Home = () => {
           <Notice
             alert={configureErrors([isError])}
             withBackButton={false}
+            addClass='my-5'
           />
         ) : (
           <>
