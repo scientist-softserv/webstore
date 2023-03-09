@@ -1,0 +1,40 @@
+{
+  "ware_refs": [
+      {
+          "id": 1234,
+          "slug": "example-ware",
+          "name": "Example Ware 1",
+          "snippet": "This is an example snippet.",
+          "urls": {
+              "promo_image": "https://acme-staging.scientist.com/wares/61eac343-379e-4cac-b772-1522bf8e0e8d/promo_image"
+          }
+      },
+      {
+        "id": 2345,
+        "slug": "example-ware-2",
+        "name": "Example Ware 2",
+        "snippet": "Second Example Ware.",
+        "urls": {
+            "promo_image": "https://acme-staging.scientist.com/wares/61eac343-379e-4cac-b772-1522bf8e0e8d/promo_image"
+        }
+      },
+      {
+        "id": 3456,
+        "slug": "test-ware",
+        "name": "Test Ware",
+        "snippet": "Here is a test ware snippet.",
+        "urls": {
+            "promo_image": "https://acme-staging.scientist.com/wares/61eac343-379e-4cac-b772-1522bf8e0e8d/promo_image"
+        }
+    },
+    {
+      "id": 4567,
+      "slug": "another-test-ware",
+      "name": "Another Test Ware",
+      "snippet": "Another test snippet.",
+      "urls": {
+          "promo_image": "https://acme-staging.scientist.com/wares/61eac343-379e-4cac-b772-1522bf8e0e8d/promo_image"
+      }
+    }
+  ]
+}
