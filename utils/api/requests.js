@@ -170,6 +170,37 @@ export const createMessageOrFile = ({ id, quotedWareID, message, files, accessTo
   return posting(`/quote_groups/${id}/notes.json`, note, accessToken)
 }
 
+const requestData = ({request, shipping, billing}) => {
+  return {
+    /* eslint-disable camelcase */
+    provider_ids: [process.env.NEXT_PUBLIC_PROVIDER_ID],
+    proposed_deadline_str: request.proposedDeadline,
+    site: {
+      billing_same_as_shipping: request.billingSameAsShipping,
+      name: request.name,
+    },
+    shipping_address_attributes: {
+      city: shipping.city,
+      country: shipping.country,
+      state: shipping.state,
+      street: shipping.street,
+      street2: shipping.street2,
+      zipcode: shipping.zipcode,
+      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
+    },
+    billing_address_attributes: {
+      city: billing.city,
+      country: billing.country,
+      state: billing.state,
+      street: billing.street,
+      street2: billing.street2,
+      zipcode: billing.zipcode,
+      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
+    },
+    /* eslint-enable camelcase */
+  }
+}
+
 export const createRequest = async ({ dynamicFormData, wareID, accessToken }) => {
   /* eslint-disable camelcase */
   // the api currently doesn't account for attachments
@@ -185,37 +216,20 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
     requestTimeline = timeline
   }
 
+  let sharedRequestData = requestData({
+    request: dynamicFormData,
+    shipping: dynamicFormData.shipping,
+    billing: dynamicFormData.billing,
+  })
+
   const pg_quote_group = {
     ...formData,
+    ...sharedRequestData,
     name: dynamicFormData.name,
-    provider_ids: [process.env.NEXT_PUBLIC_PROVIDER_ID],
     suppliers_identified: 'Yes',
     description: requestDescription,
-    proposed_deadline_str: dynamicFormData.proposedDeadline,
     no_proposed_deadline: dynamicFormData.proposedDeadline ? false : true,
     timeline: requestTimeline,
-    site: {
-      billing_same_as_shipping: dynamicFormData.billingSameAsShipping,
-      name: dynamicFormData.name,
-    },
-    shipping_address_attributes: {
-      city: dynamicFormData.shipping.city,
-      country: dynamicFormData.shipping.country,
-      state: dynamicFormData.shipping.state,
-      street: dynamicFormData.shipping.street,
-      street2: dynamicFormData.shipping.street2,
-      zipcode: dynamicFormData.shipping.zipcode,
-      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
-    },
-    billing_address_attributes: {
-      city: dynamicFormData.shipping.city,
-      country: dynamicFormData.shipping.country,
-      state: dynamicFormData.shipping.state,
-      street: dynamicFormData.shipping.street,
-      street2: dynamicFormData.shipping.street2,
-      zipcode: dynamicFormData.shipping.zipcode,
-      organization_name: process.env.NEXT_PUBLIC_PROVIDER_NAME
-    },
   }
 
   let { data, error } = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
@@ -248,6 +262,26 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
 
   return { data, error }
   /* eslint-enable camelcase */
+}
+
+export const acceptSOW = (request, sowID, accessToken) => {
+  let sharedRequestData = requestData({
+    request: request,
+    shipping: request.shippingAddress,
+    billing: request.billingAddress,
+  })
+
+  const sow = {
+    ...sharedRequestData,
+    name: request.title,
+    description: request.description,
+    provider_names: [process.env.NEXT_PUBLIC_PROVIDER_NAME],
+    winning_proposal_id: sowID,
+    purchase_justifications: [''],
+    purchase_justification_comment: '',
+  }
+
+  return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group: sow }, accessToken)
 }
 
 /** PUT METHODS */

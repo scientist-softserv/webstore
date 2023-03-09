@@ -34,8 +34,15 @@ export const configureRequests = ({ data, path }) => {
     return {
       billingAddress: {
         address: request.billing_address?.text,
+        city: request.billing_address?.city,
+        country: request.billing_address?.country,
+        state: request.billing_address?.state,
+        street: request.billing_address?.street,
+        street2: request.billing_address?.street2,
+        zipcode: request.billing_address?.zipcode,
         id: request.billing_address?.id,
       },
+      billingSameAsShipping: request.billing_same_as_shipping,
       createdAt: normalizeDate(request.created_at),
       description: normalizeDescription(request.description),
       htmlDescription: normalizeHtmlDescription(request.description),
@@ -50,6 +57,12 @@ export const configureRequests = ({ data, path }) => {
       proposedDeadline: normalizeDate(request.proposed_deadline),
       shippingAddress: {
         address: request.shipping_address?.text,
+        city: request.shipping_address?.city,
+        country: request.shipping_address?.country,
+        state: request.shipping_address?.state,
+        street: request.shipping_address?.street,
+        street2: request.shipping_address?.street2,
+        zipcode: request.shipping_address?.zipcode,
         id: request.shipping_address?.id,
       },
       status: {

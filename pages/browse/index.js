@@ -35,6 +35,7 @@ const Browse = () => {
   if (isError) {
     return (
       <Notice
+        addClass='my-5'
         alert={configureErrors([isError])}
         dismissible={false}
         withBackButton={true}
