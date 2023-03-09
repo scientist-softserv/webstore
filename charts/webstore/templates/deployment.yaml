@@ -50,6 +50,8 @@ spec:
               value: "{{ .Values.clientSecret }}"
             - name: CLIENT_ID
               value: "{{ .Values.clientId }}"
+            - name: SENTRY_DSN
+              value: "{{ .Values.sentryDsn }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
