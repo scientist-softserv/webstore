@@ -1,4 +1,6 @@
 import React from 'react'
+import { Integrations } from '@sentry/tracing'
+import * as Sentry from '@sentry/react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import {
@@ -14,6 +16,14 @@ import {
   useDefaultWare,
   useAllRequests
 } from '../../utils'
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [
+    new Integrations.BrowserTracing(),
+  ],
+  tracesSampleRate: 1.0,
+});
 
 const Requests = () => {
   const router = useRouter()
