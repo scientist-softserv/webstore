@@ -1,5 +1,3 @@
-import { Integrations } from '@sentry/tracing'
-import * as Sentry from '@sentry/react'
 import { Footer, Header } from '@scientist-softserv/webstore-component-library'
 import { SWRConfig } from 'swr'
 import {
@@ -18,14 +16,6 @@ import {
   fetcher,
 } from '../utils'
 import '../utils/theme/globals.scss'
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  integrations: [
-    new Integrations.BrowserTracing(),
-  ],
-  tracesSampleRate: 1.0,
-})
 
 const WebStore = ({ Component }) => {
   const { data: session } = useSession()
