@@ -124,6 +124,7 @@ const NewRequest = () => {
   if (!session) {
     return (
       <Notice
+        addClass='my-5'
         alert={{
           body: ['Please log in to make new requests.'],
           title: 'Unauthorized',
@@ -137,6 +138,7 @@ const NewRequest = () => {
   if (isInitialRequestError) {
     return (
       <Notice
+        addClass='my-5'
         alert={configureErrors([isInitialRequestError])}
         dismissible={false}
         withBackButton={true}
@@ -151,6 +153,7 @@ const NewRequest = () => {
   if (createRequestError) {
     return (
       <Notice
+        addClass='my-5'
         alert={configureErrors([createRequestError])}
         dismissible={true}
         withBackButton={false}

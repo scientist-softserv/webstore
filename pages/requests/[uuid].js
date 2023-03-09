@@ -14,6 +14,7 @@ import {
   Title,
 } from '@scientist-softserv/webstore-component-library'
 import {
+  acceptSOW,
   configureErrors,
   createMessageOrFile,
   requestActionsBg,
@@ -35,10 +36,11 @@ const Request = () => {
    * the file (key) and path string (value). additional query properties may also exist if they were explicitly passed.
   */
   const { uuid } = router.query
-  const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, session?.accessToken)
-  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, session?.accessToken)
-  const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, session?.accessToken)
-  const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, session?.accessToken)
+  const accessToken = session?.accessToken
+  const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, accessToken)
+  const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, accessToken)
+  const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, accessToken)
+  const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, accessToken)
 
   const [allPOs, setAllPOs] = useState([])
   const [isPOError, setIsPOError] = useState(false)
@@ -46,7 +48,7 @@ const Request = () => {
   useEffect(() => {
     if (request) {
       (async () => {
-        const { allPOs, isLoadingPOs, isPOError } = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, session?.accessToken)
+        const { allPOs, isLoadingPOs, isPOError } = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, accessToken)
 
         setIsLoadingPOs(isLoadingPOs)
         setAllPOs(allPOs)
@@ -64,6 +66,7 @@ const Request = () => {
   if (!session) {
     return (
       <Notice
+        addClass='my-5'
         alert={{
           body: ['Please log in to view this request.'],
           title: 'Unauthorized',
@@ -93,7 +96,7 @@ const Request = () => {
       id: request.id,
       message,
       files,
-      accessToken: session?.accessToken,
+      accessToken,
       quotedWareID: request.quotedWareID,
     })
 
@@ -133,7 +136,17 @@ const Request = () => {
           <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
           <Title addClass='mt-4' title='Documents' size='small' />
           {documents.length ? documents.map((document, index) => (
-            <Document key={`${request.id}-${index}`} document={document} addClass='mt-3' />
+            <Document 
+              addClass='mt-3'
+              acceptSOW={acceptSOW(
+                request,
+                document.sowID,
+                accessToken,
+              )}
+              document={document}
+              key={`${request.id}-${index}`}
+              request={request}
+            />
           )) : (
             <TextBox
               alignment='left'

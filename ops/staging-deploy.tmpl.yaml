@@ -7,7 +7,7 @@ nextPublicToken: $NEXT_PUBLIC_TOKEN
 nextAuthSecret: $NEXTAUTH_SECRET
 clientSecret: $CLIENT_SECRET
 clientId: $CLIENT_ID
-
+sentryDsn: $SENTRY_DSN
 replicaCount: 1
 
 image:
