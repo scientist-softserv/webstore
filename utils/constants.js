@@ -1,4 +1,4 @@
-import logo from '../assets/svg/bbs-logo-white.svg'
+import logo from '../assets/svg/bbs-logo-white.png'
 import item from '../assets/img/louis-reed-pwcKF7L4-no-unsplash.jpg'
 
 export const DEFAULT_WARE_IMAGE = {
