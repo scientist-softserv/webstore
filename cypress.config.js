@@ -1,4 +1,3 @@
-require('dotenv').config({ path: `.env.local`, override: true })
 const dotenvFlowPlugin = require('cypress-dotenv-flow');
 const { defineConfig } = require("cypress")
 
@@ -25,5 +24,7 @@ module.exports = defineConfig({
   env: {
     TEST_SCIENTIST_USER: 'test@test.com',
     TEST_SCIENTIST_PW: '!test1234',
+    NEXT_PUBLIC_PROVIDER_NAME: 'acme',
+    NEXT_PUBLIC_PROVIDER_ID: '572'
   },
 });
