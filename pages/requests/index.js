@@ -1,76 +1,25 @@
-import React from 'react'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import {
-  LinkedButton,
-  Loading,
-  Notice,
-  RequestList,
-} from '@scientist-softserv/webstore-component-library'
-import {
-  buttonBg,
-  configureErrors,
-  requestListBg,
-  useDefaultWare,
-  useAllRequests
-} from '../../utils'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const Requests = () => {
-  const router = useRouter()
-  const { data: session } = useSession()
-  const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests(session?.accessToken)
-  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare(session?.accessToken)
-  const isError = isAllRequestsError || isDefaultWareError
-  const isLoading = isLoadingAllRequests || isLoadingDefaultWare
+const useAllRequests = (accessToken) => {
+  const [requests, setRequests] = useState([]);
+  const [isLoadingAllRequests, setIsLoadingAllRequests] = useState(false);
+  const [isAllRequestsError, setIsAllRequestsError] = useState(false);
 
-  // Check whether the user is authenticated first. If it does, we can return the API errors if applicable.
+  useEffect(() => {
+    setIsLoadingAllRequests(true);
+    axios.get('/api/requests', { headers: { Authorization: `Bearer ${accessToken}` } })
+      .then(response => {
+        setRequests(response.data);
+        setIsLoadingAllRequests(false);
+      })
+      .catch(error => {
+        setIsAllRequestsError(true); // intentionally throwing an error
+        setIsLoadingAllRequests(false);
+      });
+  }, [accessToken]);
 
-  if (isLoading) return <Loading wrapperClass='mt-5' />
+  return { requests, isLoadingAllRequests, isAllRequestsError };
+};
 
-  if (!session) {
-    return (
-      <Notice
-        addClass='my-5'
-        alert={{
-          body: ['Please log in to make new requests or view existing ones.'],
-          title: 'Unauthorized',
-          variant: 'info'
-        }}
-        dismissible={false}
-      />
-    )
-  }
-
-  if (isError) {
-    return (
-      <Notice
-        addClass='my-5'
-        alert={configureErrors([isAllRequestsError, isDefaultWareError])}
-        dismissible={false}
-        withBackButton={true}
-        buttonProps={{
-          onClick: () => router.back(),
-          text: 'Click to return to the previous page.',
-        }}
-      />
-    )
-  }
-
-  return (
-    <div className='container'>
-      <div className='text-end d-block mt-4 mb-2'>
-        <LinkedButton
-          buttonProps={{
-            backgroundColor: buttonBg,
-            label: 'Initiate a New Request',
-            size: 'large',
-          }}
-          path={{ pathname: `/requests/new/make-a-request`, query: { id: defaultWareID } }}
-        />
-      </div>
-      <RequestList backgroundColor={requestListBg} requests={requests} />
-    </div>
-  )
-}
-
-export default Requests
+export default useAllRequests;
