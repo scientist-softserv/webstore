@@ -1,4 +1,4 @@
-const dotenvFlowPlugin = require('cypress-dotenv-flow');
+const dotenvFlowPlugin = require('cypress-dotenv-flow')
 const { defineConfig } = require("cypress")
 
 module.exports = defineConfig({
