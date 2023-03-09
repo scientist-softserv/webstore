@@ -10,3 +10,6 @@ node_modules/
 
 # we want the default npmrc but sometimes folks put in the gh tokens, don't commit those
 .npmrc
+
+# Sentry
+.sentryclirc
