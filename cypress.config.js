@@ -1,5 +1,5 @@
 require('dotenv').config({ path: `.env.local`, override: true })
-
+const dotenvFlowPlugin = require('cypress-dotenv-flow');
 const { defineConfig } = require("cypress")
 
 module.exports = defineConfig({
@@ -14,6 +14,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3000',
     chromeWebSecurity: false,
     setupNodeEvents(on, config) {
+      config = dotenvFlowPlugin(config)
       config.env = {
         ...process.env,
         ...config.env
