@@ -3,6 +3,7 @@
 
 - [Getting Started](#getting-started)
   - [Webstore Component Library](#webstore-component-library)
+    - [Upgrading To The Latest Version](#upgrading-to-the-latest-version)
     - [Component Library Dev Mode](#component-library-dev-mode)
   - [Environment Variables](#environment-variables)
     - [Authentication](#authentication)
@@ -12,7 +13,7 @@
 - [Testing](#testing)
   - [Jest](#jest)
   - [Cypress](#cypress)
-- [Cutting a New Release](#cutting-a-new-release)
+- [Deployment](#deployment)
 
 ---
 
@@ -33,6 +34,16 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 ### Webstore Component Library
 The webstore requires a [React component library](https://reactjs.org/docs/react-component.html) of view components. That dependency is packaged and released independently.
+
+#### Upgrading To The Latest Version
+In the terminal:
+``` bash
+# first check for whether there is an updated version
+yarn outdated @scientist-softserv/webstore-component-library # check the values under "current" and "latest"
+
+# if there's an updated version
+yarn upgrade @scientist-softserv/webstore-component-library --latest
+```
 
 #### Component Library Dev Mode
 Using the local github repository requires you to manually clone the component library to your computer, build, and link it:
@@ -149,7 +160,7 @@ If you are creating an e2e test, it will live in the `cypress/e2e` directory. Co
     - do not ever commit this value
     - this value will need to be updated whenever the cookie expires, approximately once per month
 
-## Cutting a New Release
+<!-- ## Cutting a New Release
 A git tag should exist for every release. We use `release-it` to automate the coordination of package.json and git tag.
 
 If you want to release a new semver release run:
@@ -170,4 +181,7 @@ In order to deploy this new release to staging, use the command below
 ``` bash
 # the tag is the semver release that was created above
 helm upgrade --install --kube-context=k3 --namespace=webstore-staging webstore-staging charts/webstore -f charts/webstore/values/webstore-staging.yaml --set=image.tag=X.X.X
-```
+``` -->
+
+## Deployment
+We are currently using [Vercel](www.vercel.com) to auto deploy this app to our staging environment. The `main` branch is accessible at https://webstore-staging.vercel.app.
