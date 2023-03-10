@@ -1,45 +1,10 @@
 describe('Browsing', () => {
-  // will need to use the intercepts/fixtures from home page test here
-  // it('completes a search from the home page and navigates to "/browse" with a blank query', () => {
-  //   // Start from the home/index page
-  //   cy.visit('/')
-
-  //   // Find the search button and perform an empty search, which should lead to the browse page
-  //   cy.get('button.search-button').click()
-
-  //   // The new url should include "/browse"
-  //   cy.url().should('include', '/browse')
-
-  //   // The new url should not contain a query
-  //   cy.url().should('not.include', '?')
-
-  //   // The search bar on the browse page should remain blank
-  //   cy.get('input.search-bar').should('have.value', '')
-  // })
-
-  // it('completes a search from the home page and navigates to "/browse" with a query term', () => {
-  //   // Start from the home/index page
-  //   cy.visit('/')
-
-  //   // type an example search into the searchbar
-  //   cy.get('input.search-bar').type('next')
-
-  //   // Press the search button
-  //   cy.get('button.search-button').click()
-
-  //   // The new url should include "/browse"
-  //   cy.url().should('include', '/browse?q=next')
-
-  //   // The search bar on the browse page should have the text that was searched for
-  //   cy.get('input.search-bar').should('have.value', 'next')
-  // })
-
   let wares
   let loading
   let error
   let intercepts = [
     {
-      alias: 'useAllWares',
+      alias: 'useFilteredWares',
     },
     {
       alias: 'useFilteredWares - blank search',
@@ -54,25 +19,27 @@ describe('Browsing', () => {
       emptyFixture: 'services/no-wares.json',
     },
   ]
-  
-  describe('from the /browse page', () => {
-    beforeEach(() => {
-      // Intercept the responses from the endpoint to view all requests.
-      // Even though this is to the same endpoint, the call happens on the page twice, 
-      // once when the page loads with all the wares, and again after any search is performed.
-      // this makes it necessary to create an intercept for each time the call is made.
-      intercepts.forEach((intercept) => {
-        cy.customApiIntercept({
-          action: 'GET',
-          alias: intercept.alias,
-          requestURL: `/providers/${Cypress.env('NEXT_PUBLIC_PROVIDER_ID')}/wares.json?q=${intercept.query || ''}`,
-          data: wares,
-          defaultFixture: 'services/wares.json',
-          emptyFixture: intercept.emptyFixture || '',
-          loading,
-          error
-        })
+  beforeEach(() => {
+    // Intercept the responses from the endpoint to view all requests.
+    // Even though this is to the same endpoint, the call happens on each page twice, 
+    // once when the page loads with all the wares, and again after any search is performed.
+    // this makes it necessary to create an intercept for each time the call is made.
+    intercepts.forEach((intercept) => {
+      cy.customApiIntercept({
+        action: 'GET',
+        alias: intercept.alias,
+        requestURL: `/providers/${Cypress.env('NEXT_PUBLIC_PROVIDER_ID')}/wares.json?q=${intercept.query || ''}`,
+        data: wares,
+        defaultFixture: 'services/wares.json',
+        emptyFixture: intercept.emptyFixture || '',
+        loading,
+        error
       })
+    })
+  })
+
+  describe('from the browse page', () => {
+    beforeEach(() => {
       cy.visit('/browse')
     })
 
@@ -120,9 +87,6 @@ describe('Browsing', () => {
         cy.get(".card[data-cy='item-card']").should('be.visible')
       })
 
-      before(() => {
-        wares = true
-      })
       it('completes a search with a query term', () => {
         // Type an example search into the searchbar
         cy.get('input.search-bar').type('test')
@@ -149,7 +113,51 @@ describe('Browsing', () => {
         // The search bar on the browse page should have the text that was searched for
         cy.get('input.search-bar').should('have.value', 'asdfghjk')
         // The message showing that there are no results should show
+        cy.get("p[data-cy='no-results']").should('contain', 'Your search for asdfghjk returned no results')
       })
+    })
+  })
+
+  describe('from the home page', () => {
+    beforeEach(() => {
+      wares = true
+      // Intercept the api call being made on the homepage
+      cy.customApiIntercept({
+        action: 'GET',
+        alias: 'useAllWares',
+        requestURL: `/providers/${Cypress.env('NEXT_PUBLIC_PROVIDER_ID')}/wares.json`,
+        data: wares,
+        defaultFixture: 'services/wares.json',
+        loading,
+        error
+      })
+      cy.visit('/')
+    })
+
+    it('completes a search from the home page and navigates to "/browse" with a blank query', () => {
+      // Find the search button and perform an empty search, which should lead to the browse page
+      cy.get('button.search-button').click()
+      // The new url should include "/browse"
+      cy.url().should('include', '/browse')
+      // The new url should not contain a query
+      cy.url().should('not.include', '?')
+      // The search bar on the browse page should remain blank
+      cy.get('input.search-bar').should('have.value', '')
+      // The service card component should be visible
+      cy.get(".card[data-cy='item-card']").should('be.visible')
+    })
+    
+    it('completes a search from the home page and navigates to "/browse" with a query term', () => {
+      // type an example search into the searchbar
+      cy.get('input.search-bar').type('test')
+      // Press the search button
+      cy.get('button.search-button').click()
+      // The new url should include "/browse"
+      cy.url().should('include', '/browse?q=test')
+      // The search bar on the browse page should have the text that was searched for
+      cy.get('input.search-bar').should('have.value', 'test')
+      // The service card component should be visible
+      cy.get(".card[data-cy='item-card']").should('be.visible')
     })
   })
 })
