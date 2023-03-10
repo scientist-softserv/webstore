@@ -26,9 +26,9 @@ describe('Viewing Home page', () => {
     before(() => {
       loading = true
     })
-    it('should show a loading spinner.', () => {
-      cy.get("[aria-label='tail-spin-loading']").should('be.visible').then(() => {
-        cy.log('Loading spinner displays correctly.')
+    it('should show 3 placeholder cards loading', () => {
+      cy.get('p.placeholder-glow').should('be.visible').then(() => {
+        cy.log('Loading text displays correctly.')
       })
     })
   })
