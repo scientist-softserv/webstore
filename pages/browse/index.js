@@ -58,19 +58,29 @@ const Browse = () => {
             <ItemLoading orientation='horizontal' withButtonLink={true} />
           </>
         ) : (
-          services.map(service => (
-            <Item
-              key={service.id}
-              item={service}
-              withButtonLink={true}
-              buttonLink={service.href}
-              orientation='horizontal'
-              buttonProps={{
-                backgroundColor: buttonBg,
-                label: 'Request this item',
-              }}
-            />
-          ))
+          <>
+            {(services.length > 0) ? (
+              <>
+                {services.map(service => (
+                  <Item
+                    key={service.id}
+                    item={service}
+                    withButtonLink={true}
+                    buttonLink={service.href}
+                    orientation='horizontal'
+                    buttonProps={{
+                      backgroundColor: buttonBg,
+                      label: 'Request this item',
+                    }}
+                  />
+                ))}
+              </>
+            ) : (
+              <p data-cy='no-results'>
+                Your search for <b>{query}</b> returned no results. Please try another search term.
+              </p>
+            )}
+          </>
         )
       }
     </div>

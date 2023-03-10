@@ -38,6 +38,6 @@ export const statusColors = {
   },
   'Work Completed': {
     bg: dark,
-    text: white,
+    text: light,
   },
 }
