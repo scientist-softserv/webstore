@@ -19,6 +19,7 @@ describe('Browsing', () => {
       emptyFixture: 'services/no-wares.json',
     },
   ]
+  
   beforeEach(() => {
     // Intercept the responses from the endpoint to view all requests.
     // Even though this is to the same endpoint, the call happens on each page twice, 
