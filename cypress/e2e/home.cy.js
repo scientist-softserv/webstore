@@ -43,4 +43,27 @@ describe('Viewing Home page', () => {
       })
     })
   })
+
+  context('home page components are loading successfully, &', () => {
+    before(() => {
+      featuredServices = true
+      loading =
+      error = false
+    })
+    it('should show the search bar.', () => {
+      cy.get("[data-cy='search-bar']").should('exist').then(() => {
+        cy.log('Search bar renders successfully.')
+      })
+    })
+    it('should show the about text.', () => {
+      cy.get('TitledTextBox[data-cy="about-us"]').should('exist').then(() => {
+        cy.log('Abouttext renders successfully.')
+      })
+    })
+    it('should show the featured services cards.', () => {
+      cy.get("row[data-cy='item-group']").should('exist').then(() => {
+        cy.log('Status bar renders successfully.')
+      })
+    })
   })
+})

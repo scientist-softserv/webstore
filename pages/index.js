@@ -44,7 +44,7 @@ const Home = () => {
       />
       <div className='container'>
         <SearchBar onSubmit={handleOnSubmit} />
-        <TitledTextBox title={ABOUT_US_TITLE} text={ABOUT_US_TEXT} />
+        <TitledTextBox title={ABOUT_US_TITLE} text={ABOUT_US_TEXT} data-cy='about-us'/>
         {isError ? (
           <Notice
             alert={configureErrors([isError])}
