@@ -1,5 +1,3 @@
-import { scientistApiBaseURL } from '../support/e2e'
-
 describe('Viewing Home page', () => {
   // declare variables that can be used to change how the response is intercepted.
   let loading
