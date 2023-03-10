@@ -5,17 +5,13 @@
 const { withSentryConfig } = require('@sentry/nextjs')
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const moduleExports = {
   output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
   eslint: {
     dirs: ['pages', 'utils'], // Only run ESLint on the 'pages' and 'utils' directories during production builds
   },
-}
-
-const moduleExports = {
-  nextConfig,
   sentry: {
     // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
     // for client-side builds. (This will be the default starting in
