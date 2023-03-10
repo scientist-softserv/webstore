@@ -76,7 +76,7 @@ const Browse = () => {
                 ))}
               </>
             ) : (
-              <p>
+              <p data-cy='no-results'>
                 Your search for <b>{query}</b> returned no results. Please try another search term.
               </p>
             )}
