@@ -92,7 +92,7 @@ describe('Browsing', () => {
         cy.get('input.search-bar').type('test')
         // Press the search button
         cy.get('button.search-button').click()
-        // The new url should include "/browse" as well as the query
+        // The new url should include the query
         cy.url().should('include', '/browse?q=test')
         // The search bar on the browse page should have the text that was searched for
         cy.get('input.search-bar').should('have.value', 'test')
@@ -108,7 +108,7 @@ describe('Browsing', () => {
         cy.get('input.search-bar').type('asdfghjk')
         // Press the search button
         cy.get('button.search-button').click()
-        // The new url should include "/browse"
+        // The new url should include the query
         cy.url().should('include', '/browse?q=asdfghjk')
         // The search bar on the browse page should have the text that was searched for
         cy.get('input.search-bar').should('have.value', 'asdfghjk')
@@ -153,7 +153,7 @@ describe('Browsing', () => {
         cy.get('input.search-bar').type('test')
         // Press the search button
         cy.get('button.search-button').click()
-        // The new url should include "/browse"
+        // The new url should include the query
         cy.url().should('include', '/browse?q=test')
         // The search bar on the browse page should have the text that was searched for
         cy.get('input.search-bar').should('have.value', 'test')
