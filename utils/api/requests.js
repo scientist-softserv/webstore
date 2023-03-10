@@ -275,6 +275,7 @@ export const acceptSOW = (request, sowID, accessToken) => {
     ...sharedRequestData,
     name: request.title,
     description: request.description,
+    /* eslint-disable camelcase */
     provider_names: [process.env.NEXT_PUBLIC_PROVIDER_NAME],
     winning_proposal_id: sowID,
     purchase_justifications: [''],
@@ -282,6 +283,7 @@ export const acceptSOW = (request, sowID, accessToken) => {
   }
 
   return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group: sow }, accessToken)
+  /* eslint-enable camelcase */
 }
 
 /** PUT METHODS */

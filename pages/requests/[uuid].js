@@ -55,7 +55,7 @@ const Request = () => {
         setIsPOError(isPOError)
       })()
     }
-  }, [allPOs, isPOError, request, uuid, session])
+  }, [allPOs, isPOError, request, uuid, session, accessToken])
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages || isLoadingPOs
   const isError = isRequestError || isSOWError || isFilesError|| isMessagesError || isPOError
