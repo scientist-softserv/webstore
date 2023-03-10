@@ -69,12 +69,12 @@ describe('Browsing', () => {
     // filtering by query is handled in the api and not the webstore
     // since we are stubbing that response, our tests will not return actual filtered wares based on on test query.
     // the purpose of these tests is just to show that the correct components appear in the UI in each case.
-    context('a search is completed successfully from the browse page', () => {
+    context('a search is completed successfully and', () => {
       before(() => {
         wares = true
         error = false
       })
-      it('completes a search with a blank query', () => {
+      it('has a blank query', () => {
         // Find the search button and perform an empty search, which should lead to the browse page
         cy.get('button.search-button').click()
         // The new url should include "/browse"
@@ -87,7 +87,7 @@ describe('Browsing', () => {
         cy.get(".card[data-cy='item-card']").should('be.visible')
       })
 
-      it('completes a search with a query term', () => {
+      it('has a query term', () => {
         // Type an example search into the searchbar
         cy.get('input.search-bar').type('test')
         // Press the search button
@@ -103,7 +103,7 @@ describe('Browsing', () => {
       before(() => {
         wares = false
       })
-      it('completes a search with a query term, but has no results', () => {
+      it('has a query term, but that term has no results', () => {
         // type an example search into the searchbar
         cy.get('input.search-bar').type('asdfghjk')
         // Press the search button
@@ -134,30 +134,32 @@ describe('Browsing', () => {
       cy.visit('/')
     })
 
-    it('completes a search from the home page and navigates to "/browse" with a blank query', () => {
-      // Find the search button and perform an empty search, which should lead to the browse page
-      cy.get('button.search-button').click()
-      // The new url should include "/browse"
-      cy.url().should('include', '/browse')
-      // The new url should not contain a query
-      cy.url().should('not.include', '?')
-      // The search bar on the browse page should remain blank
-      cy.get('input.search-bar').should('have.value', '')
-      // The service card component should be visible
-      cy.get(".card[data-cy='item-card']").should('be.visible')
-    })
-    
-    it('completes a search from the home page and navigates to "/browse" with a query term', () => {
-      // type an example search into the searchbar
-      cy.get('input.search-bar').type('test')
-      // Press the search button
-      cy.get('button.search-button').click()
-      // The new url should include "/browse"
-      cy.url().should('include', '/browse?q=test')
-      // The search bar on the browse page should have the text that was searched for
-      cy.get('input.search-bar').should('have.value', 'test')
-      // The service card component should be visible
-      cy.get(".card[data-cy='item-card']").should('be.visible')
+    context('a search is completed successfully and', () => {
+      it('navigates to "/browse" with a blank query', () => {
+        // Find the search button and perform an empty search, which should lead to the browse page
+        cy.get('button.search-button').click()
+        // The new url should include "/browse"
+        cy.url().should('include', '/browse')
+        // The new url should not contain a query
+        cy.url().should('not.include', '?')
+        // The search bar on the browse page should remain blank
+        cy.get('input.search-bar').should('have.value', '')
+        // The service card component should be visible
+        cy.get(".card[data-cy='item-card']").should('be.visible')
+      })
+      
+      it('navigates to "/browse" with a query term', () => {
+        // type an example search into the searchbar
+        cy.get('input.search-bar').type('test')
+        // Press the search button
+        cy.get('button.search-button').click()
+        // The new url should include "/browse"
+        cy.url().should('include', '/browse?q=test')
+        // The search bar on the browse page should have the text that was searched for
+        cy.get('input.search-bar').should('have.value', 'test')
+        // The service card component should be visible
+        cy.get(".card[data-cy='item-card']").should('be.visible')
+      })
     })
   })
 })
