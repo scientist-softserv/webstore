@@ -10,8 +10,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir pages --dir utils",
-    "test": "jest",
-    "test-watch": "jest --watch",
+    "cypress": "cypress run",
+    "cypress-gui": "cypress open",
+    "jest": "jest",
+    "jest-watch": "jest --watch",
     "release": "release-it"
   },
   "dependencies": {
