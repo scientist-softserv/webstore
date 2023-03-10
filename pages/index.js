@@ -8,7 +8,7 @@ import {
   SearchBar,
   TitledTextBox,
 } from '@scientist-softserv/webstore-component-library'
-import hero from '../assets/img/hero.jpg'
+import hero from '../assets/img/milad-fakurian-58Z17lnVS4U-unsplash.jpg'
 import {
   configureErrors,
   configureServices,
