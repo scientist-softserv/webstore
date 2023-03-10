@@ -76,28 +76,18 @@ describe('Browsing', () => {
         error = false
       })
       it('has a blank query', () => {
-        // Find the search button and perform an empty search, which should lead to the browse page
         cy.get('button.search-button').click()
-        // The new url should include "/browse"
         cy.url().should('include', '/browse')
-        // The new url should not contain a query
         cy.url().should('not.include', '?')
-        // The search bar on the browse page should remain blank
         cy.get('input.search-bar').should('have.value', '')
-        // The service card component should be visible
         cy.get(".card[data-cy='item-card']").should('be.visible')
       })
 
       it('has a query term', () => {
-        // Type an example search into the searchbar
         cy.get('input.search-bar').type('test')
-        // Press the search button
         cy.get('button.search-button').click()
-        // The new url should include the query
         cy.url().should('include', '/browse?q=test')
-        // The search bar on the browse page should have the text that was searched for
         cy.get('input.search-bar').should('have.value', 'test')
-        // The service card component should be visible
         cy.get(".card[data-cy='item-card']").should('be.visible')
       })
 
@@ -105,15 +95,10 @@ describe('Browsing', () => {
         wares = false
       })
       it('has a query term, but that term has no results', () => {
-        // type an example search into the searchbar
         cy.get('input.search-bar').type('asdfghjk')
-        // Press the search button
         cy.get('button.search-button').click()
-        // The new url should include the query
         cy.url().should('include', '/browse?q=asdfghjk')
-        // The search bar on the browse page should have the text that was searched for
         cy.get('input.search-bar').should('have.value', 'asdfghjk')
-        // The message showing that there are no results should show
         cy.get("p[data-cy='no-results']").should('contain', 'Your search for asdfghjk returned no results')
       })
     })
@@ -137,28 +122,18 @@ describe('Browsing', () => {
 
     context('a search is completed successfully and', () => {
       it('navigates to "/browse" with a blank query', () => {
-        // Find the search button and perform an empty search, which should lead to the browse page
         cy.get('button.search-button').click()
-        // The new url should include "/browse"
         cy.url().should('include', '/browse')
-        // The new url should not contain a query
         cy.url().should('not.include', '?')
-        // The search bar on the browse page should remain blank
         cy.get('input.search-bar').should('have.value', '')
-        // The service card component should be visible
         cy.get(".card[data-cy='item-card']").should('be.visible')
       })
       
       it('navigates to "/browse" with a query term', () => {
-        // type an example search into the searchbar
         cy.get('input.search-bar').type('test')
-        // Press the search button
         cy.get('button.search-button').click()
-        // The new url should include the query
         cy.url().should('include', '/browse?q=test')
-        // The search bar on the browse page should have the text that was searched for
         cy.get('input.search-bar').should('have.value', 'test')
-        // The service card component should be visible
         cy.get(".card[data-cy='item-card']").should('be.visible')
       })
     })
