@@ -19,14 +19,13 @@
 
 ## Getting Started
 
-  1. [Configure token to pull from the github npm repository](configure-token-to-pull-from-the-github-npm-repository)
-  2. Confirm that your local node version is compliant with the node engine in the package.json
+  1. Confirm that your local node version is compliant with the node engine in the package.json
   2. `yarn` to install automatic dependencies
   3. `yarn dev` to boot this app as a server
-  - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
-  - Create pages by adding them to the `pages` directory
-    - Reference [this documentation](https://nextjs.org/docs/basic-features/pages) for more info about pages
-    - The page auto-updates as you edit the file, although there may be a few seconds delay
+      - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
+  4. Create pages by adding them to the `pages` directory
+      - Reference [this documentation](https://nextjs.org/docs/basic-features/pages) for more info about pages
+      - The page auto-updates as you edit the file, although there may be a few seconds delay
 
 <!-- [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
