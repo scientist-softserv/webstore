@@ -33,7 +33,6 @@ describe('Viewing Home page', () => {
 
   context('error while making a request to the api', () => {
     before(() => {
-      featuredServices = undefined
       loading = false
       error = true
     })
