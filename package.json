@@ -10,8 +10,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir pages --dir utils",
-    "test": "jest",
-    "test-watch": "jest --watch",
+    "cypress": "cypress run",
+    "cypress-gui": "cypress open",
+    "jest": "jest",
+    "jest-watch": "jest --watch",
     "release": "release-it"
   },
   "dependencies": {
@@ -19,8 +21,7 @@
     "@rjsf/utils": "^5.0.0-beta.17",
     "@rjsf/validator-ajv8": "^5.0.1",
     "@scientist-softserv/webstore-component-library": "^0.1.16",
-    "@sentry/react": "^7.42.0",
-    "@sentry/tracing": "^7.42.0",
+    "@sentry/nextjs": "^7.42.0",
     "axios": "^1.1.3",
     "bootstrap": "^5.2.3",
     "next": "12.3.1",

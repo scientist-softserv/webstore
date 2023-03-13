@@ -7,7 +7,7 @@ nextPublicToken: $NEXT_PUBLIC_TOKEN
 nextAuthSecret: $NEXTAUTH_SECRET
 clientSecret: $CLIENT_SECRET
 clientId: $CLIENT_ID
-sentryDsn: 'https://6c537d3cdd954401a893831313a976cc@o1008683.ingest.sentry.io/4504805305810944'
+sentryDsn: 'https://78ce09ae2f694f0e8981cf5cec6fc2c7@o1008683.ingest.sentry.io/4504810271408128'
 replicaCount: 1
 
 image:

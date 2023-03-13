@@ -1,4 +1,5 @@
 import axios from 'axios'
+import * as Sentry from '@sentry/nextjs'
 
 const baseURL = `https://${process.env.NEXT_PUBLIC_PROVIDER_NAME}.scientist.com/api/${process.env.NEXT_PUBLIC_SCIENTIST_API_VERSION}`
 // Use the user's own access token if they are signed in. If not, fall back to the access token provided through the provider credentials
@@ -6,13 +7,11 @@ const defaultHeaders = (token) => ({ Authorization: `Bearer ${token || process.e
 const api = axios.create({ baseURL })
 
 export const fetcher = (url, token) => {
-  try {
-    return api.get(url, { headers: defaultHeaders(token) })
-      .then(res => res.data)
-  } catch (error) {
-    // TODO(alishaevn): handle the error when sentry is set up
-    console.error(`The following error occurred when trying to retrieve data:`, error)
-  }
+  return api.get(url, { headers: defaultHeaders(token) })
+    .then(res => res.data)
+    .catch(error => {
+      Sentry.captureException(error)
+    })
 }
 
 export const posting = async (url, data, token) => {
@@ -24,9 +23,12 @@ export const posting = async (url, data, token) => {
       error: false,
     }
   } catch (error) {
-    // TODO(alishaevn): handle the error when sentry is set up
-    console.error(`The following error occurred when trying to post new data:`, error)
-    return { success: false, error, requestID: undefined }
+    Sentry.captureException(error)
+
+    return {
+      data: undefined,
+      error,
+    }
   }
 }
 
@@ -39,8 +41,8 @@ export const updating = async (url, data, token) => {
       error: false,
     }
   } catch (error) {
-    // TODO(alishaevn): handle the error when sentry is set up
-    console.error(`The following error occurred when trying to update data:`, error)
+    Sentry.captureException(error)
+
     return {
       data: undefined,
       error,

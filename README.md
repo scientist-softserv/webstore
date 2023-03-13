@@ -125,13 +125,13 @@ This project uses both Cypress and Jest for testing.
 
 To run all jest tests for files you have changed, run
 ```
-yarn test
+yarn jest
 ```
 
 or if you want to run tests on changes, in a constant loop
 
 ```
-yarn test-watch
+yarn jest-watch
 ```
 
 and press `a`
@@ -139,7 +139,8 @@ and press `a`
 ### Cypress
 Cypress is an desktop application that runs on your computer. Cypress is already installed on this project, but your machine will need to meet certain [system requirements](https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements) to run the Cypress application.
 
-If you meet the requirements in the Cypress docs, you can run the `yarn run cypress open` command to start Cypress. from the Cypress desktop app, you will be able to create and run tests.
+If you meet the requirements in the Cypress docs, you can run either of the cypress scripts in package.json; one runs in the cli and the other in a browser window. From the Cypress desktop app, you will be able to create and run tests.
+
 
 There are 2 types of Cypress tests, e2e & component.
   - e2e: tests entire flows of the application
