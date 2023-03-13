@@ -33,9 +33,6 @@ const sentryWebpackPluginOptions = {
   project: process.env.SENTRY_PROJECT,
   org: process.env.SENTRY_ORG,
   authToken: process.env.SENTRY_AUTH_TOKEN,
-  setCommits: {
-    auto: true,
-  }
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
