@@ -47,7 +47,6 @@ describe('Viewing Home page', () => {
   context('home page components are loading successfully, &', () => {
     before(() => {
       featuredServices = true
-      loading =
       error = false
     })
     it('should show the search bar.', () => {
