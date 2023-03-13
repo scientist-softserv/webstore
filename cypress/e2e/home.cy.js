@@ -51,17 +51,17 @@ describe('Viewing Home page', () => {
       error = false
     })
     it('should show the search bar.', () => {
-      cy.get("[data-cy='search-bar']").should('exist').then(() => {
+      cy.get("form[data-cy='search-bar']").should('exist').then(() => {
         cy.log('Search bar renders successfully.')
       })
     })
     it('should show the about text.', () => {
-      cy.get('TitledTextBox[data-cy="about-us"]').should('exist').then(() => {
+      cy.get("section[data-cy='about-us-section']").should('exist').then(() => {
         cy.log('Abouttext renders successfully.')
       })
     })
     it('should show the featured services cards.', () => {
-      cy.get("row[data-cy='item-group']").should('exist').then(() => {
+      cy.get("div[data-cy='item-group']").should('exist').then(() => {
         cy.log('Status bar renders successfully.')
       })
     })
