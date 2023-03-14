@@ -264,7 +264,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   /* eslint-enable camelcase */
 }
 
-export const acceptSOW = (request, sowID, accessToken) => {
+export const acceptSOW = (request, sow, accessToken) => {
   let sharedRequestData = requestData({
     request: request,
     shipping: request.shippingAddress,
@@ -277,9 +277,10 @@ export const acceptSOW = (request, sowID, accessToken) => {
     description: request.description,
     /* eslint-disable camelcase */
     provider_names: [process.env.NEXT_PUBLIC_PROVIDER_NAME],
-    winning_proposal_id: sowID,
+    winning_proposal_id: sow.id,
     purchase_justifications: [''],
     purchase_justification_comment: '',
+    po_number: `PO${sow.identifier}`,
   }
 
   return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group: sow }, accessToken)

@@ -136,11 +136,11 @@ const Request = () => {
           <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
           <Title addClass='mt-4' title='Documents' size='small' />
           {documents.length ? documents.map((document, index) => (
-            <Document 
+            <Document
               addClass='mt-3'
               acceptSOW={acceptSOW(
                 request,
-                document.sowID,
+                document,
                 accessToken,
               )}
               document={document}
