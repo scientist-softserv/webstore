@@ -177,7 +177,7 @@ const requestData = ({request, shipping, billing}) => {
     proposed_deadline_str: request.proposedDeadline,
     site: {
       billing_same_as_shipping: request.billingSameAsShipping,
-      name: request.name,
+      name: process.env.NEXT_PUBLIC_PROVIDER_NAME,
     },
     shipping_address_attributes: {
       city: shipping.city,
