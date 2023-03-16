@@ -271,7 +271,7 @@ export const acceptSOW = (request, sow, accessToken) => {
     billing: request.billingAddress,
   })
 
-  const sow = {
+  const pg_quote_group = {
     ...sharedRequestData,
     name: request.title,
     description: request.description,
@@ -283,7 +283,7 @@ export const acceptSOW = (request, sow, accessToken) => {
     po_number: `PO${sow.identifier}`,
   }
 
-  return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group: sow }, accessToken)
+  return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group }, accessToken)
   /* eslint-enable camelcase */
 }
 
