@@ -276,7 +276,10 @@ export const configureDynamicFormSchema = (defaultSchema) => {
         adjustedProperty = { ...remainingProperties }
       }
 
-      propertyFields[key] = adjustedProperty
+      if (value.type !== 'array') {
+        // TODO(alishaevn): figure out the "items" property for arrays
+        propertyFields[key] = adjustedProperty
+      }
     }
   })
 
