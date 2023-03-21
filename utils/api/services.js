@@ -2,7 +2,7 @@ import useSWR from 'swr'
 
 /** GET METHODS */
 export const useAllWares = (accessToken) => {
-  const { data, error } = useSWR([`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json`, accessToken])
+  const { data, error } = useSWR([`/wares.json`, accessToken])
 
   return {
     wares: data?.ware_refs,
@@ -12,10 +12,10 @@ export const useAllWares = (accessToken) => {
 }
 
 export const useFilteredWares = (query, accessToken) => {
-  const { data, error } = useSWR([`/providers/${process.env.NEXT_PUBLIC_PROVIDER_ID}/wares.json?q=${query}`, accessToken])
+  const { data, error } = useSWR([`/wares.json?q=${query}`, accessToken])
 
   return {
-    wares: data?.ware_refs,
+    wares: data?.ware_refs.filter(item => item.slug !== 'make-a-request'),
     isLoading: !error && !data,
     isError: error,
   }
