@@ -141,10 +141,12 @@ export const useInitializeRequest = (id, accessToken) => {
 }
 
 export const useDefaultWare = (accessToken) => {
-  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken])
+  const { data, error } = useSWR([`/wares.json`, accessToken])
+  const defaultWare = data?.ware_refs?.find(item => item.slug === 'make-a-request')
 
   return {
-    defaultWareID: data?.ware_refs?.[0]?.id,
+    // TODO(alishaevn): check this still works with the next client
+    defaultWareID: defaultWare?.id,
     isLoadingDefaultWare: !error && !data,
     isDefaultWareError: error,
   }
