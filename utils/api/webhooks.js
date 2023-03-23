@@ -15,8 +15,11 @@ export const createWebhookConfig = (accessToken) => {
     'params': {
       'base_url': `${process.env.NEXT_PUBLIC_APP_BASE_URL}`
     },
-    'all_events': false,
-    'events': WEBHOOK_EVENTS,
+    'all_events': true,
+    // TODO(alishaevn): attempt to use the below again when https://github.com/assaydepot/scientist_api_v2/pull/248
+    // is available on api prod
+    // 'all_events': false,
+    // 'events': WEBHOOK_EVENTS,
     'send_own_action_items': false,
   }
 
