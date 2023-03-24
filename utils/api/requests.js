@@ -141,10 +141,12 @@ export const useInitializeRequest = (id, accessToken) => {
 }
 
 export const useDefaultWare = (accessToken) => {
-  const { data, error } = useSWR([`/wares.json?q=make-a-request`, accessToken])
+  const { data, error } = useSWR([`/wares.json`, accessToken])
+  const defaultWare = data?.ware_refs?.find(item => item.slug === 'make-a-request')
 
   return {
-    defaultWareID: data?.ware_refs?.[0]?.id,
+    // TODO(alishaevn): check this still works with the next client
+    defaultWareID: defaultWare?.id,
     isLoadingDefaultWare: !error && !data,
     isDefaultWareError: error,
   }
@@ -177,7 +179,7 @@ const requestData = ({request, shipping, billing}) => {
     proposed_deadline_str: request.proposedDeadline,
     site: {
       billing_same_as_shipping: request.billingSameAsShipping,
-      name: request.name,
+      name: process.env.NEXT_PUBLIC_PROVIDER_NAME,
     },
     shipping_address_attributes: {
       city: shipping.city,

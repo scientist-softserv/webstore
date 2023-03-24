@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth'
 import axios from 'axios'
 // TODO(alishaevn): use the api value from https://github.com/assaydepot/rx/issues/21497 in the next phase
-import { EXPIRATION_DURATION } from '../../../utils'
+import { EXPIRATION_DURATION, getWebhookConfig, createWebhookConfig } from '../../../utils'
 
 // For more information on each option (and a full list of options) go to: https://next-auth.js.org/configuration/options
 const authOptions = {
@@ -32,6 +32,12 @@ const authOptions = {
     async jwt({ token, account, user }) {
       // Triggered on the initial sign in
       if (account && user) {
+        // add the webstore webhook if it isn't there
+        const data = await getWebhookConfig(accessToken)
+        if(!data.id) {
+          createWebhookConfig(account.access_token)
+        }
+
         return {
           accessToken: account.access_token,
           accessTokenExpires: Date.now() + EXPIRATION_DURATION,
