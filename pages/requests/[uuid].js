@@ -139,7 +139,7 @@ const Request = () => {
           {documents.length ? documents.map((document, index) => (
             <Document
               addClass='mt-3'
-              acceptSOW={acceptSOW(
+              acceptSOW={() => acceptSOW(
                 request,
                 document,
                 accessToken,
