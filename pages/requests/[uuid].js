@@ -45,8 +45,9 @@ const Request = () => {
   const [allPOs, setAllPOs] = useState([])
   const [isPOError, setIsPOError] = useState(false)
   const [isLoadingPOs, setIsLoadingPOs] = useState(true)
+
   useEffect(() => {
-    if (request) {
+    if (isLoadingPOs && request) {
       (async () => {
         const { allPOs, isLoadingPOs, isPOError } = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, accessToken)
 
