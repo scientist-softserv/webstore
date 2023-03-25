@@ -22,8 +22,8 @@ export const useAllRequests = (accessToken) => {
   }
 }
 
-export const useOneRequest = (id, accessToken) => {
-  const { data, error } = useSWR(id ? [`/quote_groups/${id}.json`, accessToken] : null)
+export const useOneRequest = (uuid, accessToken) => {
+  const { data, error } = useSWR(uuid ? [`/quote_groups/${uuid}.json`, accessToken] : null)
   let request = data && configureRequests({ data, path: '/requests' })[0]
   if (request) {
     request = {
