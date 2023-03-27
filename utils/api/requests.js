@@ -266,7 +266,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   /* eslint-enable camelcase */
 }
 
-export const acceptSOW = (request, sow, accessToken) => {
+export const acceptSOWandCreatePO = (request, sow, accessToken) => {
   let sharedRequestData = requestData({
     request: request,
     shipping: request.shippingAddress,
