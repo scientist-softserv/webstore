@@ -33,8 +33,8 @@ const authOptions = {
       // Triggered on the initial sign in
       if (account && user) {
         // add the webstore webhook if it isn't there
-        const data = await getWebhookConfig(accessToken)
-        if(!data.id) {
+        const data = await getWebhookConfig(account.accessToken)
+        if(!data?.id) {
           createWebhookConfig(account.access_token)
         }
 
