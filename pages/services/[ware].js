@@ -5,7 +5,8 @@ import { configureErrors, DEFAULT_WARE_IMAGE, useOneWare } from '../../utils'
 const Service = ({ session }) => {
   const router = useRouter()
   const { id } = router.query
-  const { ware, isLoading, isError } = useOneWare(id, session?.accessToken)
+  const accessToken = session?.accessToken
+  const { ware, isLoading, isError } = useOneWare(id, accessToken)
 
   if (isLoading) return <Loading wrapperClass='item-page mt-5' />
 

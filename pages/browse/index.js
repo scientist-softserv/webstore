@@ -17,12 +17,13 @@ const Browse = ({ session }) => {
   const router = useRouter()
   const [query, setQuery] = useState('')
   const existingQuery = router.query.q
+  const accessToken = session?.accessToken
 
   useEffect(() => {
     if (existingQuery) setQuery(existingQuery)
   }, [existingQuery])
 
-  const { wares, isLoading, isError } = useFilteredWares(query, session?.accessToken)
+  const { wares, isLoading, isError } = useFilteredWares(query, accessToken)
   const services = configureServices({ data: wares, path: '/requests/new' })
 
   const handleOnSubmit = ({ value }) => {

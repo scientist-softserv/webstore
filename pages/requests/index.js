@@ -16,8 +16,9 @@ import {
 
 const Requests = ({ session }) => {
   const router = useRouter()
-  const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests(session?.accessToken)
-  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare(session?.accessToken)
+  const accessToken = session?.accessToken
+  const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests(accessToken)
+  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare(accessToken)
   const isError = isAllRequestsError || isDefaultWareError
   const isLoading = isLoadingAllRequests || isLoadingDefaultWare
 
