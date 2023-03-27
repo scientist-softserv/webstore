@@ -22,8 +22,8 @@ export const useAllRequests = (accessToken) => {
   }
 }
 
-export const useOneRequest = (id, accessToken) => {
-  const { data, error } = useSWR(id ? [`/quote_groups/${id}.json`, accessToken] : null)
+export const useOneRequest = (uuid, accessToken) => {
+  const { data, error } = useSWR(uuid ? [`/quote_groups/${uuid}.json`, accessToken] : null)
   let request = data && configureRequests({ data, path: '/requests' })[0]
   if (request) {
     request = {
@@ -63,7 +63,7 @@ export const getAllPOs = async (quotedWareId, uuid, requestIdentifier, accessTok
     // This hook is actively being contributed to the swr repo, but the semantics of the work are still being debated.
     // See https://github.com/vercel/swr/discussions/1988 for the RFC and https://github.com/vercel/swr/pull/2047 for the PR.
     const data = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json`, accessToken)
-    const configuredPOs = data.map(async (po) => {
+    const configuredPOs = data?.map(async (po) => {
       const purchaseOrder = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${po.id}.json`, accessToken)
       return configurePO(purchaseOrder, requestIdentifier)
     })
@@ -266,25 +266,26 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   /* eslint-enable camelcase */
 }
 
-export const acceptSOW = (request, sowID, accessToken) => {
+export const acceptSOWandCreatePO = (request, sow, accessToken) => {
   let sharedRequestData = requestData({
     request: request,
     shipping: request.shippingAddress,
     billing: request.billingAddress,
   })
 
-  const sow = {
+  const pg_quote_group = {
     ...sharedRequestData,
     name: request.title,
     description: request.description,
     /* eslint-disable camelcase */
     provider_names: [process.env.NEXT_PUBLIC_PROVIDER_NAME],
-    winning_proposal_id: sowID,
+    winning_proposal_id: sow.id,
     purchase_justifications: [''],
     purchase_justification_comment: '',
+    po_number: `PO${sow.identifier}`,
   }
 
-  return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group: sow }, accessToken)
+  return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group }, accessToken)
   /* eslint-enable camelcase */
 }
 

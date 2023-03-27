@@ -205,6 +205,7 @@ export const configureDocument = (document, requestIdentifier) => {
     documentStatusColor: statusColors[configureStatus(document.status)].bg,
     documentType: document.type,
     documentTypeColor: 'bg-dark',
+    id: document.id,
     identifier: document.identifier,
     lineItems: configureLineItems(document.line_items),
     requestIdentifier,

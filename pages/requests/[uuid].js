@@ -14,7 +14,7 @@ import {
   Title,
 } from '@scientist-softserv/webstore-component-library'
 import {
-  acceptSOW,
+  acceptSOWandCreatePO,
   configureErrors,
   createMessageOrFile,
   requestActionsBg,
@@ -42,11 +42,14 @@ const Request = () => {
   const { messages, isLoadingMessages, isMessagesError, mutateMessages, messagesData } = useMessages(uuid, accessToken)
   const { files, isLoadingFiles, isFilesError, mutateFiles, filesData } = useFiles(uuid, accessToken)
 
+  const [show, setShow] = useState(false)
+  const [message, setMessage] = useState(null)
   const [allPOs, setAllPOs] = useState([])
   const [isPOError, setIsPOError] = useState(false)
   const [isLoadingPOs, setIsLoadingPOs] = useState(true)
+
   useEffect(() => {
-    if (request) {
+    if (isLoadingPOs && request) {
       (async () => {
         const { allPOs, isLoadingPOs, isPOError } = await getAllPOs(request?.quotedWareID, uuid, request?.identifier, accessToken)
 
@@ -55,9 +58,9 @@ const Request = () => {
         setIsPOError(isPOError)
       })()
     }
-  }, [allPOs, isPOError, request, uuid, session, accessToken])
+  }, [request, isLoadingPOs, accessToken, uuid])
 
-  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages || isLoadingPOs
+  const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
   const isError = isRequestError || isSOWError || isFilesError|| isMessagesError || isPOError
   const documents = (allSOWs) ? [...allSOWs, ...allPOs] : []
 
@@ -91,6 +94,16 @@ const Request = () => {
     )
   }
 
+  const handleShow = (messageText) => {
+    setMessage(messageText)
+    setShow(true)
+  }
+
+  const handleClose = () => {
+    setMessage(null)
+    setShow(false)
+  }
+
   const handleSendingMessagesOrFiles = async ({ message, files }) => {
     const { data, error } = await createMessageOrFile({
       id: request.id,
@@ -106,8 +119,32 @@ const Request = () => {
     }
   }
 
+  const handleAcceptingSOWandCreatingPO = async (document) => {
+    const { data, error } = await acceptSOWandCreatePO(
+      request,
+      document,
+      accessToken,
+    )
+
+    if (error || data.code) {
+      setIsPOError(error || data.code)
+    } else if (data.message) {
+      setIsLoadingPOs(true)
+      handleShow(data.message)
+    }
+  }
+
   return (
     <div className='container'>
+      {(message && show) && (
+        <Notice
+          alert={{
+            body: [message],
+            variant: 'success',
+            onClose: () => handleClose(),
+          }}
+        />
+      )}
       <StatusBar
         addClass='mt-4'
         apiRequestStatus={request.status.text}
@@ -136,13 +173,9 @@ const Request = () => {
           <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
           <Title addClass='mt-4' title='Documents' size='small' />
           {documents.length ? documents.map((document, index) => (
-            <Document 
+            <Document
               addClass='mt-3'
-              acceptSOW={acceptSOW(
-                request,
-                document.sowID,
-                accessToken,
-              )}
+              acceptSOW={() => handleAcceptingSOWandCreatingPO(document)}
               document={document}
               key={`${request.id}-${index}`}
               request={request}
