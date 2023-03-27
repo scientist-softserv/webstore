@@ -3,7 +3,6 @@ import { default as BsForm } from 'react-bootstrap/Form'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 import {
   AdditionalInfo,
   BlankRequestForm,
@@ -23,9 +22,8 @@ import {
   useInitializeRequest,
 } from '../../../utils'
 
-const NewRequest = () => {
+const NewRequest = ({ session }) => {
   const router = useRouter()
-  const { data: session } = useSession()
   const accessToken = session?.accessToken
   const wareID = router.query.id
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID, accessToken)

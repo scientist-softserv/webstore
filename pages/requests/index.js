@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import {
   LinkedButton,
@@ -15,11 +14,11 @@ import {
   useAllRequests
 } from '../../utils'
 
-const Requests = () => {
+const Requests = ({ session }) => {
   const router = useRouter()
-  const { data: session } = useSession()
-  const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests(session?.accessToken)
-  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare(session?.accessToken)
+  const accessToken = session?.accessToken
+  const { requests, isLoadingAllRequests, isAllRequestsError } = useAllRequests(accessToken)
+  const { defaultWareID, isLoadingDefaultWare, isDefaultWareError } = useDefaultWare(accessToken)
   const isError = isAllRequestsError || isDefaultWareError
   const isLoading = isLoadingAllRequests || isLoadingDefaultWare
 

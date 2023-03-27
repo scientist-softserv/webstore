@@ -32,7 +32,7 @@ const WebStore = ({ Component }) => {
         navLinks={NAVIGATION_LINKS}
         userSession={session}
       />
-      <Component />
+      <Component session={session} />
       <Footer
         color={headerAndFooterLinkColors}
         companyName={FOOTER_NAME}
