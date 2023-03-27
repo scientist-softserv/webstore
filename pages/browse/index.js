@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 import {
   Item,
   ItemLoading,
@@ -14,9 +13,8 @@ import {
   useFilteredWares,
 } from '../../utils'
 
-const Browse = () => {
+const Browse = ({ session }) => {
   const router = useRouter()
-  const { data: session } = useSession()
   const [query, setQuery] = useState('')
   const existingQuery = router.query.q
 

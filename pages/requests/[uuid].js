@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 import {
   ActionsGroup,
   CollapsibleSection,
@@ -28,9 +27,8 @@ import {
   useOneRequest,
 } from '../../utils'
 
-const Request = () => {
+const Request = ({ session }) => {
   const router = useRouter()
-  const { data: session } = useSession()
   /**
    * as a dynamically routed file, the router query will always consist of a "key: value" pair that's determined by the name of
    * the file (key) and path string (value). additional query properties may also exist if they were explicitly passed.
@@ -136,7 +134,7 @@ const Request = () => {
           <CollapsibleSection header='Additional Information' description={request.htmlDescription} />
           <Title addClass='mt-4' title='Documents' size='small' />
           {documents.length ? documents.map((document, index) => (
-            <Document 
+            <Document
               addClass='mt-3'
               acceptSOW={acceptSOW(
                 request,

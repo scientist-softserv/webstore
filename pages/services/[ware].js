@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 import { ItemPage, Notice, Loading } from '@scientist-softserv/webstore-component-library'
 import { configureErrors, DEFAULT_WARE_IMAGE, useOneWare } from '../../utils'
 
-const Service = () => {
+const Service = ({ session }) => {
   const router = useRouter()
-  const { data: session } = useSession()
   const { id } = router.query
   const { ware, isLoading, isError } = useOneWare(id, session?.accessToken)
 
