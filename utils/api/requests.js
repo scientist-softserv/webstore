@@ -12,7 +12,7 @@ import { fetcher, posting, updating } from './base'
 
 /** GET METHODS */
 export const useAllRequests = (accessToken) => {
-  const { data, error } = useSWR([`/quote_groups/mine.json`, accessToken])
+  const { data, error } = useSWR(accessToken ? [`/quote_groups/mine.json`, accessToken] : null)
   const requests = data && configureRequests({ data: data.quote_group_refs, path: '/requests' })
 
   return {
@@ -23,7 +23,7 @@ export const useAllRequests = (accessToken) => {
 }
 
 export const useOneRequest = (uuid, accessToken) => {
-  const { data, error } = useSWR(uuid ? [`/quote_groups/${uuid}.json`, accessToken] : null)
+  const { data, error } = useSWR(accessToken ? [`/quote_groups/${uuid}.json`, accessToken] : null)
   let request = data && configureRequests({ data, path: '/requests' })[0]
   if (request) {
     request = {
@@ -43,7 +43,7 @@ export const useOneRequest = (uuid, accessToken) => {
 }
 
 export const useAllSOWs = (id, requestIdentifier, accessToken) => {
-  const { data, error } = useSWR(id ? [`/quote_groups/${id}/proposals.json`, accessToken] : null)
+  const { data, error } = useSWR(accessToken ? [`/quote_groups/${id}/proposals.json`, accessToken] : null)
   let allSOWs
   if (data) {
     allSOWs = configureSOWs(data, requestIdentifier)
@@ -62,7 +62,8 @@ export const getAllPOs = async (quotedWareId, uuid, requestIdentifier, accessTok
     // TODO(summer-cook): eventually we can use the useSWRList hook here instead of mapping & calling the fetcher.
     // This hook is actively being contributed to the swr repo, but the semantics of the work are still being debated.
     // See https://github.com/vercel/swr/discussions/1988 for the RFC and https://github.com/vercel/swr/pull/2047 for the PR.
-    const data = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json`, accessToken)
+    const url = () => accessToken ? `quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json` : null
+    const data = await fetcher(url(), accessToken)
     const configuredPOs = data?.map(async (po) => {
       const purchaseOrder = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${po.id}.json`, accessToken)
       return configurePO(purchaseOrder, requestIdentifier)
@@ -84,7 +85,7 @@ export const getAllPOs = async (quotedWareId, uuid, requestIdentifier, accessTok
 }
 
 export const useMessages = (requestUuid, accessToken) => {
-  const { data, error, mutate } = useSWR(requestUuid ? [`/quote_groups/${requestUuid}/messages.json`, accessToken] : null)
+  const { data, error, mutate } = useSWR(accessToken ? [`/quote_groups/${requestUuid}/messages.json`, accessToken] : null)
   let messages
   if (data) {
     messages = configureMessages(data.messages)
@@ -100,7 +101,7 @@ export const useMessages = (requestUuid, accessToken) => {
 }
 
 export const useFiles = (id, accessToken) => {
-  const { data, error, mutate } = useSWR(id ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+  const { data, error, mutate } = useSWR(accessToken ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
   let files
   if (data) {
     files =  configureFiles(data.notes)
@@ -117,7 +118,7 @@ export const useFiles = (id, accessToken) => {
 
 
 export const useInitializeRequest = (id, accessToken) => {
-  const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups/new.json`, accessToken] : null)
+  const { data, error } = useSWR(accessToken ? [`/wares/${id}/quote_groups/new.json`, accessToken] : null)
   let dynamicForm = { name: data?.name }
   let dynamicFormInfo = data?.dynamic_forms[0]
 
@@ -141,7 +142,7 @@ export const useInitializeRequest = (id, accessToken) => {
 }
 
 export const useDefaultWare = (accessToken) => {
-  const { data, error } = useSWR([`/wares.json`, accessToken])
+  const { data, error } = useSWR(accessToken ? [`/wares.json`, accessToken] : null)
   const defaultWare = data?.ware_refs?.find(item => item.slug === 'make-a-request')
 
   return {
@@ -169,7 +170,8 @@ export const createMessageOrFile = ({ id, quotedWareID, message, files, accessTo
   }
   /* eslint-enable camelcase */
 
-  return posting(`/quote_groups/${id}/notes.json`, note, accessToken)
+  const url = () => accessToken ? `/quote_groups/${id}/notes.json` : null
+  return posting(url(), note, accessToken)
 }
 
 const requestData = ({request, shipping, billing}) => {
@@ -234,7 +236,8 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
     timeline: requestTimeline,
   }
 
-  let { data, error } = await posting(`/wares/${wareID}/quote_groups.json`, { pg_quote_group }, accessToken)
+  const url = () => accessToken ? `/wares/${wareID}/quote_groups.json` : null
+  let { data, error } = await posting(url(), { pg_quote_group }, accessToken)
 
   if (data && dynamicFormData.attachments) {
     /**
@@ -245,6 +248,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
     let quotedWareID = data.quoted_ware_refs?.[0]?.id
     if (!quotedWareID) {
       // we have to explicity use fetcher because "useOneRequest" is a hook
+      const url = () => accessToken ? `quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json` : null
       const res = await fetcher(`/quote_groups/${data.id}.json`, accessToken)
       quotedWareID = res.quoted_ware_refs?.[0]?.id
     }
@@ -285,13 +289,15 @@ export const acceptSOWandCreatePO = (request, sow, accessToken) => {
     po_number: `PO${sow.identifier}`,
   }
 
-  return posting(`/quote_groups/${request.id}/accept_sow.json`, { pg_quote_group }, accessToken)
+  const url = () => accessToken ? `/quote_groups/${request.id}/accept_sow.json` : null
+  return posting(url(), { pg_quote_group }, accessToken)
   /* eslint-enable camelcase */
 }
 
 /** PUT METHODS */
 export const sendRequestToVendor = async (requestID, accessToken) => {
-  const { data, error } = await updating(`/quote_groups/${requestID}/send_to_vendors.json`, {}, accessToken)
+  const url = () => accessToken ? `/quote_groups/${requestID}/send_to_vendors.json` : null
+  const { data, error } = await updating(url(), {}, accessToken)
 
   return { data, error }
 }
