@@ -91,6 +91,8 @@ export const useMessages = (requestUuid, accessToken) => {
     messages = configureMessages(data.messages)
   }
 
+  // TODO(alishaevn): check that we don't need to change anything here when
+  // https://github.com/assaydepot/scientist_api_v2/issues/251 is resolved
   return {
     messages,
     mutateMessages: mutate,
