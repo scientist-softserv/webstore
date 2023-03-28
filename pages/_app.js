@@ -1,5 +1,6 @@
 import { Footer, Header } from '@scientist-softserv/webstore-component-library'
 import { SWRConfig } from 'swr'
+import { useRouter } from 'next/router'
 import {
   SessionProvider,
   signIn,
@@ -19,13 +20,19 @@ import '../utils/theme/globals.scss'
 
 const WebStore = ({ Component }) => {
   const { data: session } = useSession()
+  const router = useRouter()
+
+  const signOutUser = () => {
+    signOut()
+    router.push('/')
+  }
 
   return (
     <>
       <Header
         auth={{
           signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
-          signOut: signOut,
+          signOut: signOutUser,
         }}
         linkColor={headerAndFooterLinkColors}
         logo={LOGO}
