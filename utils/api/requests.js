@@ -241,7 +241,7 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   const url = () => accessToken ? `/wares/${wareID}/quote_groups.json` : null
   let { data, error } = await posting(url(), { pg_quote_group }, accessToken)
 
-  if (data && dynamicFormData.attachments) {
+  if (data && dynamicFormData.attachments.length) {
     /**
      * TODO(alishaevn): I'm not sure why, but sometimes our data does not have the "quoted_ware_refs" property on it.
      * a search for the request in postman however, returns the property. we should find the underlying commonality on
@@ -250,8 +250,8 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
     let quotedWareID = data.quoted_ware_refs?.[0]?.id
     if (!quotedWareID) {
       // we have to explicity use fetcher because "useOneRequest" is a hook
-      const url = () => accessToken ? `quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json` : null
-      const res = await fetcher(`/quote_groups/${data.id}.json`, accessToken)
+      const url = () => accessToken ? `/quote_groups/${data.id}.json` : null
+      const res = await fetcher(url(), accessToken)
       quotedWareID = res.quoted_ware_refs?.[0]?.id
     }
 
