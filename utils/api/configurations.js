@@ -85,7 +85,7 @@ export const configureErrors = (errors) => {
     .filter(error => error && Object.keys(error).length)
     .map(error => ({
       ...error,
-      message: `${error.message} (${error.response?.data?.message})`,
+      message: `${error.message} (${error.response?.data?.message || ''})`,
     }))
   let body = []
   let title = ''
