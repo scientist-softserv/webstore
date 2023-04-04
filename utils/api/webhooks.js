@@ -9,6 +9,7 @@ export const getWebhookConfig = async (accessToken) => {
 }
 
 export const createWebhookConfig = (accessToken) => {
+  /* eslint-disable camelcase */
   const webhook_config = {
     'name': 'Webstore',
     'url': `${process.env.NEXT_PUBLIC_WEBHOOK_URL}`,
@@ -28,4 +29,5 @@ export const createWebhookConfig = (accessToken) => {
   // https://github.com/assaydepot/scientist_api_v2/pull/237 is available on api prod
   const url = () => accessToken ? '/webhook_config.json' : null
   updating(url(), webhook_config, accessToken)
+  /* eslint-enable camelcase */
 }

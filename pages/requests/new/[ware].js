@@ -123,7 +123,7 @@ const NewRequest = ({ session }) => {
       router.push({
         pathname: `/requests/${createdRequestUUID}`,
         query: { createRequestError: JSON.stringify(createRequestError) },
-        }, `/requests/${createdRequestUUID}`)
+      }, `/requests/${createdRequestUUID}`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createdRequestUUID, createRequestError])
