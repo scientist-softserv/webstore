@@ -33,7 +33,7 @@ const Request = ({ session }) => {
    * as a dynamically routed file, the router query will always consist of a "key: value" pair that's determined by the name of
    * the file (key) and path string (value). additional query properties may also exist if they were explicitly passed.
   */
-  const { uuid } = router.query
+  const { createRequestError, uuid } = router.query
   const accessToken = session?.accessToken
   const { request, isLoadingRequest, isRequestError } = useOneRequest(uuid, accessToken)
   const { allSOWs, isLoadingSOWs, isSOWError } = useAllSOWs(uuid, request?.identifier, accessToken)
@@ -78,6 +78,33 @@ const Request = ({ session }) => {
     )
   }
 
+  // this error is a result of creating the request
+  if (createRequestError) {
+    // TODO(alishaevn): how to handle a "sent to vendor" error?
+    const attachmentError = JSON.parse(createRequestError).config.url.includes('notes')
+
+    return (
+      <Notice
+        alert={attachmentError &&
+          {
+            body: ['Your attachment failed. Please visit your request and try again from the "View Files" tab.'],
+            title: 'Attachment Error',
+            variant: 'info',
+          }
+        }
+        dismissible={false}
+        withBackButton={true}
+        buttonProps={attachmentError &&
+          {
+            onClick: () => router.push({ pathname: `/requests/${uuid}` }),
+            text: 'Click to view your request.',
+          }
+        }
+      />
+    )
+  }
+
+  // this error is a result of getting the request or its related data
   if (isError) {
     return (
       <Notice

@@ -99,10 +99,21 @@ const NewRequest = ({ session }) => {
       wareID,
       accessToken,
     })
-    if (error) return setCreateRequestError(error)
+    // if we have data AND an error, the request was created, but the attachments failed
+    // in that case, we still need to send the request to the vendor
+    if (error && !data) {
+      setFormSubmitting(false)
+      setCreateRequestError(error)
+      return
+    } else if (error) {
+      setCreateRequestError(error)
+    }
 
     const sentToVendor = await sendRequestToVendor(data.id, accessToken)
-    if (sentToVendor.error) return setCreateRequestError(sentToVendor.error)
+    if (sentToVendor.error) {
+      setFormSubmitting(false)
+      setCreateRequestError(sentToVendor.error)
+    }
 
     setCreatedRequestUUID(data.uuid)
   }
@@ -110,11 +121,12 @@ const NewRequest = ({ session }) => {
   useEffect(() => {
     if (createdRequestUUID) {
       router.push({
-        pathname: `/requests/${createdRequestUUID}`
-      })
+        pathname: `/requests/${createdRequestUUID}`,
+        query: { createRequestError: JSON.stringify(createRequestError) },
+        }, `/requests/${createdRequestUUID}`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createdRequestUUID])
+  }, [createdRequestUUID, createRequestError])
 
   // TODO(alishaevn): use react bs placeholder component
   if (isLoadingInitialRequest || !wareID || formSubmitting) return <Loading wrapperClass='item-page mt-5' />
