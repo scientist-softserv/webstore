@@ -279,11 +279,11 @@ export const acceptSOWandCreatePO = (request, sow, accessToken) => {
     billing: request.billingAddress,
   })
 
+  /* eslint-disable camelcase */
   const pg_quote_group = {
     ...sharedRequestData,
     name: request.title,
     description: request.description,
-    /* eslint-disable camelcase */
     provider_names: [process.env.NEXT_PUBLIC_PROVIDER_NAME],
     winning_proposal_id: sow.id,
     purchase_justifications: [''],

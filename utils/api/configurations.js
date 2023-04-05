@@ -73,7 +73,7 @@ export const configureRequests = ({ data, path }) => {
       title: `${request.identifier}: ${request.name}`,
       updatedAt: normalizeDate(request.updated_at),
       uuid: request.uuid,
-      quotedWareID: request.quoted_ware_refs?.[0].id,
+      quotedWareID: request.quoted_ware_refs?.[0]?.id,
     }
   })
 }
@@ -85,7 +85,7 @@ export const configureErrors = (errors) => {
     .filter(error => error && Object.keys(error).length)
     .map(error => ({
       ...error,
-      message: `${error.message} (${error.response?.data?.message})`,
+      message: `${error.message} (${error.response?.data?.message || ''})`,
     }))
   let body = []
   let title = ''
