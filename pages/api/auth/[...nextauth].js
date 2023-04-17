@@ -88,6 +88,12 @@ const refreshAccessToken = async (token) => {
       throw refreshedTokens
     }
 
+    // add the webstore webhook if it isn't there
+    const data = await getWebhookConfig(refreshedTokens.access_token)
+    if(!data?.id) {
+      createWebhookConfig(refreshedTokens.access_token)
+    }
+
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
