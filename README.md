@@ -1,18 +1,18 @@
-# Webstore
-## Table of Contents
+# Webstore (a.k.a. Digital Storefront)
 
 - [Getting Started](#getting-started)
-  - [Webstore Component Library](#webstore-component-library)
-    - [Upgrading To The Latest Version](#upgrading-to-the-latest-version)
-    - [Component Library Dev Mode](#component-library-dev-mode)
   - [Environment Variables](#environment-variables)
     - [Authentication](#authentication)
       - [User Credentials](#user-credentials)
       - [Provider Credentials](#provider-credentials)
+- [Webstore Component Library](#webstore-component-library)
+    - [Upgrading To The Latest Version](#upgrading-to-the-latest-version)
+    - [Component Library Dev Mode](#component-library-dev-mode)
 - [Linting](#linting)
 - [Testing](#testing)
   - [Jest](#jest)
   - [Cypress](#cypress)
+    - [Setup your Cypress env variables](#setup-your-cypress-env-variables)
 - [Deployment](#deployment)
 
 ---
@@ -31,7 +31,7 @@
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages. -->
 
-### Webstore Component Library
+## Webstore Component Library
 The webstore requires a [React component library](https://reactjs.org/docs/react-component.html) of view components. That dependency is packaged and released independently.
 
 #### Upgrading To The Latest Version
