@@ -1,3 +1,7 @@
+// This guard clause allows the app to still build in the event another exception handler will be used,
+// or the sentry project hasn't been set up yet
+if (!process.env.SENTRY_DSN && !process.env.NEXT_PUBLIC_SENTRY_DSN) return
+
 // This file sets a custom webpack configuration to use your Next.js app
 // with Sentry.
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
