@@ -2,12 +2,15 @@
 
 - [Getting Started](#getting-started)
   - [Environment Variables](#environment-variables)
+    - [Creating the marketplace app](#creating-the-marketplace-app)
+    - [Provider ID](#provider-id)
     - [Authentication](#authentication)
       - [User Credentials](#user-credentials)
       - [Provider Credentials](#provider-credentials)
 - [Webstore Component Library](#webstore-component-library)
     - [Upgrading To The Latest Version](#upgrading-to-the-latest-version)
     - [Component Library Dev Mode](#component-library-dev-mode)
+- [Exception Handling](#exception-handling)
 - [Linting](#linting)
 - [Testing](#testing)
   - [Jest](#jest)
@@ -30,6 +33,77 @@
 <!-- [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages. -->
+
+### Environment Variables
+The following variables can be found in the `.env` and `.env.local` files.
+
+| Name | Description | Required |
+| ------------- | ------------- | ------------- |
+| NEXT_PUBLIC_PROVIDER_NAME | The subdomain of the `marketplace-domain` | Yes |
+| NEXT_PUBLIC_PROVIDER_ID | TODO | Yes |
+| NEXT_PUBLIC_APP_BASE_URL | TODO | Yes |
+| NEXT_PUBLIC_SCIENTIST_API_VERSION | TODO | Yes |
+| NEXT_PUBLIC_WEBHOOK_URL | TODO | Yes |
+| NEXTAUTH_SECRET | TODO | Yes |
+| NEXTAUTH_URL | TODO | Yes |
+| CLIENT_ID | TODO | Yes |
+| CLIENT_SECRET | TODO | Yes |
+| NEXT_PUBLIC_TOKEN | TODO | Yes |
+| SENTRY_DSN | TODO | No |
+| NEXT_PUBLIC_SENTRY_DSN | TODO | No |
+| SENTRY_URL | TODO | No |
+| SENTRY_ORG | TODO | No |
+| SENTRY_PROJECT | TODO | No |
+| SENTRY_AUTH_TOKEN | TODO | No |
+
+#### Creating the marketplace app
+Ensure that a marketplace, e.g. client-name.scientist.com, has been created by the Scientist.com Professional Services team. Once that exists, an app needs to be created on it by a developer with the proper permissions. This will allow for the environment variables in the `.env` and `.env.local` files to be set. You'll know if you have the proper developer permissions if once logged in on the client marketplace you can hover over your avatar and see "Applications" underneath the "Developer" settings.
+- Once you've clicked the "Applications" link mentioned above, press "New Application"
+  - Only the application name is required for the moment
+- Save and you should be redirected to the "Developer Details" page
+- There will be a button that says "Reveal Token"
+- Click it. You'll need that token in the next step.
+
+#### Provider ID
+In an API GUI (e.g. Postman) make a GET request for `<marketplace-domain>/api/v2/providers.json?q=${YOUR_PROVIDER_NAME}`, e.g. `webstore.scientist.com/api/v2/providers.json?q=webstore`. Your authorization needs to be your token from the step above, formatted as a Bearer Token. Scroll to the `provider_refs` array and use the `provider_id` value to fill in the `NEXT_PUBLIC_PROVIDER_ID` variable below.
+
+The `NEXT_PUBLIC_PROVIDER_NAME` needs to exactly match the subdomain of the `marketplace-domain`.
+
+
+``` bash
+# .env
+NEXT_PUBLIC_PROVIDER_NAME # e.g.: webstore
+NEXT_PUBLIC_PROVIDER_ID # e.g.: 500
+```
+
+#### Authentication
+All API endpoints in this app require some form of authentication. A logged out user will be able to access the home and browse pages using a provider credential, while a logged in user can access all pages using their own credentials.
+
+##### User Credentials
+``` bash
+# .env.local
+NEXTAUTH_SECRET # create this by running `openssl rand -base64 32` in your terminal
+CLIENT_ID # retrieved from the provider storefront
+CLIENT_SECRET # retrieved from the provider storefront
+```
+
+##### Provider Credentials
+Please run the following in your terminal:
+``` bash
+# When replacing the variables below with your actual values,
+# the following code should return something like: THISISAREALLYLONGALPHANUMERICSTRING
+echo -n 'CLIENT_ID:CLIENT_SECRET' | base64
+
+# Plug that string into the following line of code, replacing the all caps values with your actual values
+curl -X POST -H 'Authorization: Basic THISISAREALLYLONGALPHANUMERICSTRING' -d 'grant_type=client_credentials' https://NEXT_PUBLIC_PROVIDER_NAME.scientist.com/oauth/token/
+```
+
+The curl command will return a JSON object that has an `access_token` property. Store the value of that property as shown below:
+
+``` bash
+# .env.local
+NEXT_PUBLIC_TOKEN
+```
 
 ## Webstore Component Library
 The webstore requires a [React component library](https://reactjs.org/docs/react-component.html) of view components. That dependency is packaged and released independently.
@@ -67,46 +141,8 @@ and your `webstore` will start using the local component build.
 
 If you are using a local version of the component library, you will need to temporarily delete the line `"@scientist-softserv/webstore-component-library": "VERSION_HERE",` from the `package.json` file in order to see your local changes as opposed to pulling from the github package.
 
-### Environment Variables
-Configure the environment variables below in your local and published application to ensure that it works.
-
-#### Provider
-Someone with access to the api needs to visit `/providers.json?q=${YOUR_PROVIDER_NAME}` to find your provider object and id. Once found, update the variable below.
-
-``` bash
-# .env
-NEXT_PUBLIC_PROVIDER_NAME # e.g.: acme
-NEXT_PUBLIC_PROVIDER_ID # e.g.: 500
-```
-
-#### Authentication
-All API endpoints in this app require some form of authentication. A logged out user will be able to access the home and browse pages using a provider credential, while a logged in user can access all pages using their own credentials.
-
-##### User Credentials
-``` bash
-# .env.local
-NEXTAUTH_SECRET # create this by running `openssl rand -base64 32` in your terminal
-CLIENT_ID # retrieved from the provider storefront
-CLIENT_SECRET # retrieved from the provider storefront
-```
-
-##### Provider Credentials
-Please run the following in your terminal:
-``` bash
-# When replacing the variables below with your actual values,
-# the following code should return something like: THISISAREALLYLONGALPHANUMERICSTRING
-echo -n 'CLIENT_ID:CLIENT_SECRET' | base64
-
-# Plug that string into the following line of code, replacing the all caps values with your actual values
-curl -X POST -H 'Authorization: Basic THISISAREALLYLONGALPHANUMERICSTRING' -d 'grant_type=client_credentials' https://NEXT_PUBLIC_PROVIDER_NAME.scientist.com/oauth/token/
-```
-
-The curl command will return a JSON object that has an `access_token` property. Store the value of that property as shown below:
-
-``` bash
-# .env.local
-NEXT_PUBLIC_TOKEN
-```
+## Exception Handling
+<!-- TODO: add sentry details -->
 
 ## Linting
 ``` bash
