@@ -29,38 +29,38 @@ export const FOOTER_SECTIONS = [
         name: 'Privacy Policy',
         url: '/privacy-policy',
       },
-      // {
-      //   name: 'Terms and Conditions',
-      //   url: '/',
-      // },
-      // {
-      //   name: 'Terms of Use',
-      //   url: '/',
-      // },
-      // {
-      //   name: 'Cookie Policy',
-      //   url: '/',
-      // },
+      {
+        name: 'Terms and Conditions',
+        url: '/',
+      },
+      {
+        name: 'Terms of Use',
+        url: '/',
+      },
+      {
+        name: 'Cookie Policy',
+        url: '/',
+      },
     ],
   },
-  // {
-  //   header: 'Two',
-  //   links: [
-  //     {
-  //       name: 'Contact',
-  //       url: '/contact',
-  //     },
-  //   ],
-  // },
-  // {
-  //   header: 'Three',
-  //   links: [
-  //     {
-  //       name: 'Services',
-  //       url: '/services',
-  //     },
-  //   ],
-  // },
+  {
+    header: 'Two',
+    links: [
+      {
+        name: 'Contact',
+        url: '/',
+      },
+    ],
+  },
+  {
+    header: 'Three',
+    links: [
+      {
+        name: 'Services',
+        url: '/',
+      },
+    ],
+  },
 ]
 
 export const FOOTER_SOCIALS = [
