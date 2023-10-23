@@ -23,11 +23,23 @@ export const FOOTER_NAME = 'Beachside Biotechnology Services'
 
 export const FOOTER_SECTIONS = [
   {
-    header: 'One',
+    header: 'Legal',
     links: [
       {
-        name: 'The Team',
-        url: '/about-us',
+        name: 'Privacy Policy',
+        url: '/privacy-policy',
+      },
+      {
+        name: 'Terms and Conditions',
+        url: '/',
+      },
+      {
+        name: 'Terms of Use',
+        url: '/',
+      },
+      {
+        name: 'Cookie Policy',
+        url: '/',
       },
     ],
   },
@@ -36,7 +48,7 @@ export const FOOTER_SECTIONS = [
     links: [
       {
         name: 'Contact',
-        url: '/contact',
+        url: '/',
       },
     ],
   },
@@ -45,7 +57,7 @@ export const FOOTER_SECTIONS = [
     links: [
       {
         name: 'Services',
-        url: '/services',
+        url: '/',
       },
     ],
   },
