@@ -31,7 +31,7 @@ export const FOOTER_SECTIONS = [
       },
       {
         name: 'Terms and Conditions',
-        url: '/',
+        url: '/terms-and-conditions',
       },
       {
         name: 'Terms of Use',
