@@ -35,7 +35,7 @@ export const FOOTER_SECTIONS = [
       },
       {
         name: 'Terms of Use',
-        url: '/',
+        url: '/terms-of-use',
       },
       {
         name: 'Cookie Policy',
