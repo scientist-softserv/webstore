@@ -39,7 +39,7 @@ export const FOOTER_SECTIONS = [
       },
       {
         name: 'Cookie Policy',
-        url: '/',
+        url: '/cookie-policy',
       },
     ],
   },
