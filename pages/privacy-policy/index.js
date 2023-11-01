@@ -23,7 +23,7 @@ const privacyPolicy = (
       * Open https://magic.reactjs.net/htmltojsx.htm
       * Uncheck the "create class" box
       * Paste the copied html into the left box
-      * Copy the JS code from the right box into this space
+      * Copy the JS code from the right box into this space, replacing everything within the parenthesis'
       * If applicable, remove the following:
       *   - the title and logo from the jsx
       *   - all "fontFamily" and "backgroundColor: '#ffffff'" style attributes
