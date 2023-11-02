@@ -7,6 +7,7 @@ import {
   signOut,
   useSession,
 } from 'next-auth/react'
+import CookiePreferences from '../components/CookiePreferences'
 import {
   FOOTER_NAME,
   FOOTER_SECTIONS,
@@ -29,6 +30,7 @@ const WebStore = ({ Component }) => {
 
   return (
     <>
+      <CookiePreferences />
       <Header
         auth={{
           signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
