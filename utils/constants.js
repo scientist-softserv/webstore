@@ -21,6 +21,7 @@ export const LOGO = {
 
 export const FOOTER_NAME = 'Beachside Biotechnology Services'
 
+// adding target: '_blank' to a link will allow it to open in a new tab.
 export const FOOTER_SECTIONS = [
   {
     header: 'Legal',
@@ -49,6 +50,11 @@ export const FOOTER_SECTIONS = [
       {
         name: 'Contact',
         url: '/',
+      },
+      {
+        name: 'External Link',
+        url: 'http://www.google.com',
+        target: '_blank',
       },
     ],
   },
