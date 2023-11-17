@@ -1,19 +1,18 @@
-import Link from 'next/link'
 import { Title } from '@scientist-softserv/webstore-component-library'
 
-const PrivacyPolicy = () => (
+const TermsAndConditions = () => (
   <div className='container'>
-    <Title title='*Client* Privacy Policy' style={{ marginTop: '1rem'}} />
-    {privacyPolicy}
-    <p>View the <Link href='/privacy-policy/scientist-privacy-policy'>Scientist.com Global Privacy Policy</Link></p>
+    <Title title='Terms and Conditions of Purchase' style={{ marginTop: '1rem'}} />
+    {termsAndConditions}
   </div>
 )
 
-export default PrivacyPolicy
+export default TermsAndConditions
 
-const privacyPolicy = (
+const termsAndConditions = (
   <div>
-    Delete this text and the div! Just needed this so that the build would not fail.
+    {/* Delete this text and the div! Just needed this so that the build would not fail. */}
+    Place the terms and conditions here.
     {/*
       * How to add the proper html to this page:
       *

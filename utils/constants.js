@@ -84,6 +84,25 @@ export const FOOTER_SOCIALS = [
   },
 ]
 
+export const LEGAL_NOTICES = [
+  {
+    name: 'Cookie Policy',
+    url: 'legal-notices/cookie-policy',
+  },
+  {
+    name: 'Privacy Policy',
+    url: 'legal-notices/privacy-policy',
+  },
+  {
+    name: 'Terms and Conditions',
+    url: 'legal-notices/terms-and-conditions',
+  },
+  {
+    name: 'Terms of Use',
+    url: 'legal-notices/terms-of-use',
+  },
+]
+
 export const STATUS_ARRAY = [
   {
     statusLabel: 'Supplier Review',
