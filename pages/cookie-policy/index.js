@@ -9,6 +9,7 @@ const CookiePolicy = () => (
 
 export default CookiePolicy
 
+/* eslint-disable max-len, react/no-unescaped-entities */
 const cookiePolicy = (
   <div>
     <h2>Information About Our Use of Cookies</h2>
@@ -267,7 +268,7 @@ const cookiePolicy = (
     <p>Please note that third parties (including, for example, providers of external services like web traffic analysis services) may also use cookies, over which we have no control. These cookies are likely to be analytical/performance cookies or targeting cookies.</p>
     <p>You can block cookies by activating the setting on your browser that allows you to refuse the setting of all or some cookies. However, as set out above, if you use your browser settings to block all cookies (including essential cookies) you may not be able to access all or parts of our site.</p>
     <h2>More Information</h2>
-    <p>More information about cookies, including how to block them or delete them, can be found at <a href="http://www.aboutcookies.org" target="_blank">http://www.aboutcookies.org/</a></p>
+    <p>More information about cookies, including how to block them or delete them, can be found at <a href="http://www.aboutcookies.org" target="_blank" rel="noreferrer">http://www.aboutcookies.org/</a></p>
     <p>If you have any further questions, comments or requests regarding our cookies policy or how we use cookies
       on our site, then you can contact us by email at <a href="mailto:privacy@scientist.com">privacy@scientist.com</a>.</p>
     <h2>Changes To This Cookies Policy</h2>
@@ -278,3 +279,4 @@ const cookiePolicy = (
     <p>This policy was last reviewed and updated: May 31, 2018</p>
   </div>
 )
+/* eslint-enable max-len, react/no-unescaped-entities */

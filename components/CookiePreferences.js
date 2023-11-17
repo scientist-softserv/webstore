@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import { deleteCookie, getCookie, getCookies, setCookie } from 'cookies-next'
+import {
+  deleteCookie, getCookie, getCookies, setCookie,
+} from 'cookies-next'
 import { useState } from 'react'
 
-function CookiePreferences() {
+const CookiePreferences = () => {
   const cookieConsent = getCookie('dl_cookie_consent')
   const cookies = getCookies()
   const [show, setShow] = useState(false)
