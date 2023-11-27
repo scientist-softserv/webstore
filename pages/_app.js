@@ -1,4 +1,4 @@
-import { CookiePreferences, Footer, Header } from '@scientist-softserv/webstore-component-library'
+import { CookiePreferencesModal, Footer, Header } from '@scientist-softserv/webstore-component-library'
 import { SWRConfig } from 'swr'
 import { useRouter } from 'next/router'
 import {
@@ -32,7 +32,7 @@ const WebStore = ({ Component }) => {
 
   return (
     <>
-      <CookiePreferences
+      <CookiePreferencesModal
         cookieConsent={cookieConsent}
         disableCookies={disableCookies}
         enableCookies={enableCookies}
