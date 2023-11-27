@@ -1,9 +1,18 @@
-import { Title } from '@scientist-softserv/webstore-component-library'
+import { CookiePreferencesCheck, Title } from '@scientist-softserv/webstore-component-library'
+import { cookieConsent, disableCookies, enableCookies } from '../../utils'
 
 const CookiePolicy = () => (
   <div className='container'>
     <Title title='Cookie Policy' style={{ marginTop: '1rem' }} />
     {cookiePolicy}
+    <h2>Cookie Preferences</h2>
+    <p> Please provide your consent below to our use of non-essential cookies on our site.
+      You may withdraw your consent at any point by following the instructions above or by returning to this page and changing your selection.</p>
+    <CookiePreferencesCheck
+      cookieConsent={cookieConsent}
+      disableCookies={disableCookies}
+      enableCookies={enableCookies}
+    />
   </div>
 )
 

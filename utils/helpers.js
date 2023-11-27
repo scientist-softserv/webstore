@@ -1,5 +1,8 @@
 import {
-  deleteCookie, getCookie, getCookies, setCookie,
+  deleteCookie,
+  getCookie,
+  getCookies,
+  setCookie,
 } from 'cookies-next'
 
 // once the feature is ready, uncomment the line below and delete the line below it.
