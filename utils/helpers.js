@@ -1,3 +1,23 @@
+import {
+  deleteCookie, getCookie, getCookies, setCookie,
+} from 'cookies-next'
+
+// once the feature is ready, uncomment the line below and delete the line below it.
+// export const cookieConsent = getCookie('dl_cookie_consent')
+export const cookieConsent = 'false'
+export const cookies = getCookies()
+
+export const enableCookies = () => {
+  setCookie('dl_cookie_consent', 'true', { path: '/' })
+  // set other cookies
+}
+
+export const disableCookies = () => {
+  // will account for this in a future pr
+  // Object.keys(getCookies()).forEach(cookie => deleteCookie(cookie))
+  setCookie('dl_cookie_consent', 'false', { path: '/' })
+}
+
 export const addDays = (date, days) => {
   date.setDate(date.getDate() + days)
   return date

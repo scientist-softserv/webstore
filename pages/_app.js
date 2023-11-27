@@ -1,4 +1,4 @@
-import { Footer, Header } from '@scientist-softserv/webstore-component-library'
+import { CookiePreferences, Footer, Header } from '@scientist-softserv/webstore-component-library'
 import { SWRConfig } from 'swr'
 import { useRouter } from 'next/router'
 import {
@@ -7,15 +7,17 @@ import {
   signOut,
   useSession,
 } from 'next-auth/react'
-import CookiePreferences from '../components/CookiePreferences'
 import {
   FOOTER_NAME,
   FOOTER_SECTIONS,
   FOOTER_SOCIALS,
-  headerAndFooterLinkColors,
   LOGO,
   NAVIGATION_LINKS,
+  cookieConsent,
+  disableCookies,
+  enableCookies,
   fetcher,
+  headerAndFooterLinkColors,
 } from '../utils'
 import '../utils/theme/globals.scss'
 
@@ -30,7 +32,11 @@ const WebStore = ({ Component }) => {
 
   return (
     <>
-      <CookiePreferences />
+      <CookiePreferences
+        cookieConsent={cookieConsent}
+        disableCookies={disableCookies}
+        enableCookies={enableCookies}
+      />
       <Header
         auth={{
           signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
