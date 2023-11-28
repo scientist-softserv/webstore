@@ -13,9 +13,9 @@ import {
   FOOTER_SOCIALS,
   LOGO,
   NAVIGATION_LINKS,
-  cookieConsent,
   disableCookies,
   enableCookies,
+  getCookieConsent,
   fetcher,
   headerAndFooterLinkColors,
 } from '../utils'
@@ -33,9 +33,9 @@ const WebStore = ({ Component }) => {
   return (
     <>
       <CookiePreferencesModal
-        cookieConsent={cookieConsent}
         disableCookies={disableCookies}
         enableCookies={enableCookies}
+        getCookieConsent={getCookieConsent()}
       />
       <Header
         auth={{

@@ -20,3 +20,12 @@ export const disableCookies = () => {
   setCookie('_dl_cookie_consent', 'false', { path: '/' })
   setCookie('_cookies_updated_at', new Date(), { path: '/' })
 }
+
+export const getCookieConsent = () => {
+  const updatedAt = getCookie('_cookies_updated_at')
+  const oneYearInMilliseconds = 1000*60*60*24*365
+  const oneYearLapsed = (new Date() - updatedAt) >= oneYearInMilliseconds
+
+  if ((cookieConsent === undefined) || oneYearLapsed) return true
+  return false
+}
