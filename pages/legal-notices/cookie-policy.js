@@ -7,7 +7,8 @@ const CookiePolicy = () => (
     {cookiePolicy}
     <h2>Cookie Preferences</h2>
     <p> Please provide your consent below to our use of non-essential cookies on our site.
-      You may withdraw your consent at any point by following the instructions above or by returning to this page and changing your selection.</p>
+      You may withdraw your consent at any point by following the instructions above or by
+      returning to this page and changing your selection.</p>
     <CookiePreferencesCheck
       cookieConsentValue={cookieConsentValue}
       disableCookies={disableCookies}
