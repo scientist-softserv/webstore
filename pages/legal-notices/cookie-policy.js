@@ -14,6 +14,7 @@ const CookiePolicy = () => (
       disableCookies={disableCookies}
       enableCookies={enableCookies}
     />
+    <div className='mb-4'></div>
   </div>
 )
 
