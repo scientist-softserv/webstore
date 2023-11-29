@@ -9,7 +9,7 @@ const cookieConsentGiven = hasCookie('_dl_cookie_consent')
 
 export const getCookieConsent = () => !cookieConsentGiven
 
-export const cookieConsentValue = cookieConsentGiven ? getCookie('_dl_cookie_consent') : 'true'
+export const cookieConsentValue = cookieConsentGiven ? getCookie('_dl_cookie_consent') : 'false'
 
 /**
  * setting the maxAge means that the cookie will be "deleted" after the maxAge has passed.
@@ -41,6 +41,6 @@ const nonEssentialCookies = [
 ]
 
 export const disableCookies = () => {
-  nonEssentialCookies.forEach(cookie => deleteCookie(cookie))
+  // nonEssentialCookies.forEach(cookie => deleteCookie(cookie))
   setCookie('_dl_cookie_consent', 'false', cookieOptions)
 }
