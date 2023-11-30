@@ -19,6 +19,9 @@ import {
 import '../utils/theme/globals.scss'
 
 const WebStore = ({ Component }) => {
+  /**
+   * the session will return undefined if it's still loading, null if the user is not logged in, or an object if the user is logged in.
+   */
   const { data: session } = useSession()
   const router = useRouter()
 
