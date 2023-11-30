@@ -127,6 +127,8 @@ export const FEATURED_SERVICE_PATH = '/requests/new'
 // the default is 1 week
 export const EXPIRATION_DURATION = 604800000
 
+export const API_PER_PAGE = 2000
+
 export const WEBHOOK_EVENTS = {
   'signer': {
     'signature_voided': false,

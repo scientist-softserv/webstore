@@ -1,8 +1,9 @@
 import useSWR from 'swr'
+import { API_PER_PAGE } from '../constants'
 
 /** GET METHODS */
 export const useAllWares = (accessToken) => {
-  const { data, error } = useSWR([`/wares.json`, accessToken])
+  const { data, error } = useSWR([`/wares.json?per_page=${API_PER_PAGE}`, accessToken])
 
   return {
     wares: data?.ware_refs,
@@ -12,7 +13,7 @@ export const useAllWares = (accessToken) => {
 }
 
 export const useFilteredWares = (query, accessToken) => {
-  const { data, error } = useSWR([`/wares.json?q=${query}`, accessToken])
+  const { data, error } = useSWR([`/wares.json?per_page=${API_PER_PAGE}&q=${query}`, accessToken])
 
   return {
     wares: data?.ware_refs.filter(item => item.slug !== 'make-a-request'),
