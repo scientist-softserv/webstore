@@ -58,25 +58,22 @@ const Request = ({ session }) => {
     }
   }, [request, isLoadingPOs, accessToken, uuid])
 
+  /**
+   * checking for the presence of a session has to come after all of the hooks so we don't violate the react-hooks/rules-of-hooks
+   * rule. ref: https://legacy.reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
+   * we return the loading state in two different locations because it's rendered based on separate conditions. when
+   * isLoading is true because we don't have a user, it doesn't ever become false. that's why we were previously returning
+   * the loading spinner indefinitely.
+   * using a guard clause with an early return inside the api methods also violates the react-hooks/rules-of-hooks rule.
+   */
+  if (session === undefined) return pageLoading
+  if (session === null) return unauthorizedUser
+
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
   const isError = isRequestError || isSOWError || isFilesError|| isMessagesError || isPOError
   const documents = (allSOWs) ? [...allSOWs, ...allPOs] : []
 
-  if (isLoading) return <Loading wrapperClass='item-page mt-5' />
-
-  if (!session) {
-    return (
-      <Notice
-        addClass='my-5'
-        alert={{
-          body: ['Please log in to view this request.'],
-          title: 'Unauthorized',
-          variant: 'info'
-        }}
-        dismissible={false}
-      />
-    )
-  }
+  if (isLoading) return pageLoading
 
   // this error is a result of creating the request
   if (createRequestError) {
@@ -218,5 +215,19 @@ const Request = ({ session }) => {
     </div>
   )
 }
+
+const pageLoading = <Loading wrapperClass='item-page mt-5' />
+
+const unauthorizedUser = (
+  <Notice
+    addClass='my-5'
+    alert={{
+      body: ['Please log in to view this request.'],
+      title: 'Unauthorized',
+      variant: 'info'
+    }}
+    dismissible={false}
+  />
+)
 
 export default Request

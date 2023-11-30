@@ -61,6 +61,27 @@ const NewRequest = ({ session }) => {
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [formSubmitting, setFormSubmitting] = useState(false)
 
+  useEffect(() => {
+    if (createdRequestUUID) {
+      router.push({
+        pathname: `/requests/${createdRequestUUID}`,
+        query: { createRequestError: JSON.stringify(createRequestError) },
+      }, `/requests/${createdRequestUUID}`)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdRequestUUID, createRequestError])
+
+  /**
+   * checking for the presence of a session has to come after all of the hooks so we don't violate the react-hooks/rules-of-hooks
+   * rule. ref: https://legacy.reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
+   * we return the loading state in two different locations because it's rendered based on separate conditions. when
+   * isLoading is true because we don't have a user, it doesn't ever become false. that's why we were previously returning
+   * the loading spinner indefinitely.
+   * using a guard clause with an early return inside the api methods also violates the react-hooks/rules-of-hooks rule.
+   */
+  if (session === undefined) return pageLoading
+  if (session === null) return unauthorizedUser
+
   /**
    * @param {object} event onChange event
    * @param {string} property dot notated string representing the property in initialValue
@@ -118,32 +139,8 @@ const NewRequest = ({ session }) => {
     setCreatedRequestUUID(data.uuid)
   }
 
-  useEffect(() => {
-    if (createdRequestUUID) {
-      router.push({
-        pathname: `/requests/${createdRequestUUID}`,
-        query: { createRequestError: JSON.stringify(createRequestError) },
-      }, `/requests/${createdRequestUUID}`)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createdRequestUUID, createRequestError])
-
   // TODO(alishaevn): use react bs placeholder component
-  if (isLoadingInitialRequest || !wareID || formSubmitting) return <Loading wrapperClass='item-page mt-5' />
-
-  if (!session) {
-    return (
-      <Notice
-        addClass='my-5'
-        alert={{
-          body: ['Please log in to make new requests.'],
-          title: 'Unauthorized',
-          variant: 'info'
-        }}
-        dismissible={false}
-      />
-    )
-  }
+  if (isLoadingInitialRequest || !wareID || formSubmitting) return pageLoading
 
   if (isInitialRequestError) {
     return (
@@ -241,5 +238,19 @@ const StandardRequestOptions = ({ buttonDisabled, defaultRequiredDate, requestFo
     </>
   )
 }
+
+const pageLoading = <Loading wrapperClass='item-page mt-5' />
+
+const unauthorizedUser = (
+  <Notice
+    addClass='my-5'
+    alert={{
+      body: ['Please log in to make new requests.'],
+      title: 'Unauthorized',
+      variant: 'info'
+    }}
+    dismissible={false}
+  />
+)
 
 export default NewRequest
