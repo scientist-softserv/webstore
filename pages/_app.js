@@ -20,12 +20,10 @@ import {
   headerAndFooterLinkColors,
 } from '../utils'
 import '../utils/theme/globals.scss'
-import { getCookies } from 'cookies-next'
 
 const WebStore = ({ Component }) => {
   const { data: session } = useSession()
   const router = useRouter()
-  const cookies = getCookies()
 
   const signOutUser = () => {
     signOut()
