@@ -1,17 +1,18 @@
 import { Title } from '@scientist-softserv/webstore-component-library'
 
-const TermsAndConditions = () => (
+const TermsOfUse = () => (
   <div className='container'>
-    <Title title='Terms and Conditions of Purchase' style={{ marginTop: '1rem'}} />
-    {termsAndConditions}
+    <Title title='Terms of Use' style={{ marginTop: '1rem'}} />
+    {termsOfUse}
   </div>
 )
 
-export default TermsAndConditions
+export default TermsOfUse
 
-const termsAndConditions = (
+const termsOfUse = (
   <div>
-    Delete this text and the div! Just needed this so that the build would not fail.
+    {/* Delete this text and the div! Just needed this so that the build would not fail. */}
+    Place the terms of use here.
     {/*
       * How to add the proper html to this page:
       *
