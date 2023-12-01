@@ -307,7 +307,7 @@ export const configureDynamicFormUiSchema = (schema, defaultOptions) => {
   let UiSchema = {}
   const { fields } = defaultOptions
 
-    if (fields) {
+  if (fields) {
     for (let key in schema.properties) {
       if (fields.hasOwnProperty(key)) {
         let fieldOptions = { 'ui:classNames': 'mb-4' }
