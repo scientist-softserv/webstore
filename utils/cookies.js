@@ -15,7 +15,8 @@ import {
 
 const cookieConsentGiven = hasCookie('_dl_cookie_consent')
 
-export const getCookieConsent = () => !cookieConsentGiven
+export const getCookieConsent = () => cookieConsentGiven // delete this and uncomment the line below to re-enable cookie consent
+// export const getCookieConsent = () => !cookieConsentGiven
 
 export const cookieConsentValue = cookieConsentGiven ? getCookie('_dl_cookie_consent') : 'false'
 

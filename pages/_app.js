@@ -26,7 +26,6 @@ const WebStore = ({ Component }) => {
   const { data: session } = useSession()
   const router = useRouter()
   const cookies = getCookies()
-  console.log('APP.JS >>', { cookies })
 
   const signOutUser = () => {
     signOut()
