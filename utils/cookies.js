@@ -5,6 +5,14 @@ import {
   setCookie,
 } from 'cookies-next'
 
+/**
+ * TODO: determine if/how to handle cookies
+ * ref: https://assaydepot.slack.com/archives/C05U031L0V9/p1701363833246969
+ * tldr: no rx session cookies are being set, and google analytics isn't enabled
+ *
+ * if we want to handle cookies, we need to readdress enableCookies() and disableCookies()
+ */
+
 const cookieConsentGiven = hasCookie('_dl_cookie_consent')
 
 export const getCookieConsent = () => !cookieConsentGiven
@@ -23,9 +31,8 @@ const cookieOptions = {
 }
 
 export const enableCookies = () => {
-  setCookie('_dl_cookie_consent', 'true', cookieOptions)
-  setCookie('_dl_cookie_consent', cookie, { path: '/' })
-  // set other cookies
+  // TODO(alishaevn): check for the presence of non essential (analytics) cookies. if none, enable them.
+  // setCookie('_dl_cookie_consent', 'true', cookieOptions)
 }
 
 const nonEssentialCookies = [
@@ -42,5 +49,6 @@ const nonEssentialCookies = [
 
 export const disableCookies = () => {
   // nonEssentialCookies.forEach(cookie => deleteCookie(cookie))
-  setCookie('_dl_cookie_consent', 'false', cookieOptions)
+  // TODO(alishaevn): after deleting the cookies, we need to also disable them
+  // setCookie('_dl_cookie_consent', 'false', cookieOptions)
 }
