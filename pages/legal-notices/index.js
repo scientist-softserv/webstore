@@ -6,6 +6,7 @@ const LegalNotices = () => (
     <Title title='Legal Notices' style={{ marginTop: '1rem' }} />
     {LEGAL_NOTICES.map(({ name, url }) => (
       <Link
+        key={name}
         label={name}
         href={url}
         style={{
