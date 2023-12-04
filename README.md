@@ -84,7 +84,7 @@ All API endpoints in this app require some form of authentication. A logged out 
 
 ##### User Credentials
 ``` bash
-# .env.local
+# .env.development
 NEXTAUTH_SECRET # create this by running `openssl rand -base64 32` in your terminal
 CLIENT_ID # retrieved from the provider storefront
 CLIENT_SECRET # retrieved from the provider storefront
@@ -104,7 +104,7 @@ curl -X POST -H 'Authorization: Basic THISISAREALLYLONGALPHANUMERICSTRING' -d 'g
 The curl command will return a JSON object that has an `access_token` property. Store the value of that property as shown below:
 
 ``` bash
-# .env.local
+# .env.development
 NEXT_PUBLIC_TOKEN
 ```
 
@@ -149,14 +149,14 @@ There are 2 types of Cypress tests, e2e & component.
 If you are creating an e2e test, it will live in the `cypress/e2e` directory. Component tests will need to be created in a directory called `cypress/component `
 
 #### Setup your Cypress env variables
-- the Cypress suite requires an environment variable that should be stored in your `.env.local` and not committed to git.
+- the Cypress suite requires an environment variable that should be stored in your `.env.development` and not committed to git.
   - TEST_SESSION_COOKIE=
     - to get the value for this variable, open your browser to your running app at `localhost:3000`.
     - inspect the page
     - click the "Application" tab
     - click "Cookies"
     - find the value for `next-auth.session-token`
-    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your .env.local
+    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your .env.development
     - do not ever commit this value
     - this value will need to be updated whenever the cookie expires, approximately once per month
 
