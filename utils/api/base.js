@@ -7,9 +7,10 @@ const defaultHeaders = (token) => ({ Authorization: `Bearer ${token || process.e
 const api = axios.create({ baseURL })
 
 export const fetcher = (url, token) => {
-  return api.get(url, { headers: defaultHeaders(token) })
+  return api.get(url, { headers: `Bearer 1234` })
     .then(res => res.data)
     .catch(error => {
+      console.log({ error })
       Sentry.captureException(error)
     })
 }
