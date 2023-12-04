@@ -11,12 +11,12 @@ export const fetcher = (url, token) => {
     .then(res => res.data)
     .catch(error => {
       console.log({ error })
-      Sentry.captureException(error)
-      Sentry.captureEvent({
-        message: error,
-        stacktrace: error.stacktrace,
-        name: error.name,
-      })
+      throw Sentry.captureException(error)
+      // Sentry.captureEvent({
+      //   message: error,
+      //   stacktrace: error.stacktrace,
+      //   name: error.name,
+      // })
     })
 }
 
