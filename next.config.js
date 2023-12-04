@@ -1,6 +1,6 @@
 // This guard clause allows the app to still build in the event another exception handler will be used,
 // or the sentry project hasn't been set up yet
-if (!process.env.SENTRY_DSN && !process.env.NEXT_PUBLIC_SENTRY_DSN) return
+if (!process.env.SENTRY_DSN) return
 
 // This file sets a custom webpack configuration to use your Next.js app
 // with Sentry.
@@ -8,14 +8,13 @@ if (!process.env.SENTRY_DSN && !process.env.NEXT_PUBLIC_SENTRY_DSN) return
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 const { withSentryConfig } = require('@sentry/nextjs')
 
-/** @type {import('next').NextConfig} */
-const moduleExports = {
-  output: 'standalone',
+const nextConfig = {
+  // output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
-  eslint: {
-    dirs: ['pages', 'utils'], // Only run ESLint on the 'pages' and 'utils' directories during production builds
-  },
+  // eslint: {
+  //   dirs: ['pages', 'utils'], // Only run ESLint on the 'pages' and 'utils' directories during production builds
+  // },
   sentry: {
     // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
     // for client-side builds. (This will be the default starting in
@@ -44,6 +43,6 @@ const sentryWebpackPluginOptions = {
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
 module.exports = withSentryConfig(
-  moduleExports,
+  nextConfig,
   sentryWebpackPluginOptions
 )
