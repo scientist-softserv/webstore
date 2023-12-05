@@ -1,0 +1,23 @@
+version: '3.8'
+
+volumes:
+  node_modules:
+services:
+  web:
+    image: ghcr.io/scientist-softserv/webstore:${TAG:-latest}
+    # command: sleep infinity
+    build:
+      context: .
+      target: web
+    ports:
+      - 3000
+    env_file:
+      - .env
+      - .env.development
+    environment:
+      - VIRTUAL_PORT=3000
+      - VIRTUAL_HOST=webstore.test
+    volumes:
+      - /home/node/app/.next
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
