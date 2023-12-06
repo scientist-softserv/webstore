@@ -12,9 +12,9 @@ const nextConfig = {
   // output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
-  // eslint: {
-  //   dirs: ['pages', 'utils'], // Only run ESLint on the 'pages' and 'utils' directories during production builds
-  // },
+  eslint: {
+    dirs: ['pages', 'utils'], // Only run ESLint on the 'pages' and 'utils' directories during production builds
+  },
   sentry: {
     // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
     // for client-side builds. (This will be the default starting in
