@@ -9,7 +9,7 @@ if (!process.env.SENTRY_DSN) return
 const { withSentryConfig } = require('@sentry/nextjs')
 
 const nextConfig = {
-  // output: 'standalone',
+  output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
   eslint: {
