@@ -6,7 +6,9 @@ import {
 } from 'cookies-next'
 
 /**
- * if/when we add analytics, we need to address each TODO below
+ * if/when we add analytics, we need to address the following TODO's, as well as the TODO's in the code below
+ * - uncomment CookiePreferencesModal in pages/_app.js
+ * - uncomment CookiePreferencesCheck, the header and text in pages/legal-notices/cookie-policy.js
  */
 
 const cookieConsentGiven = hasCookie('_dl_cookie_consent')
