@@ -10,13 +10,7 @@ export const fetcher = (url, token) => {
   return api.get(url, { headers: `Bearer 1234` })
     .then(res => res.data)
     .catch(error => {
-      console.log({ error })
-      Sentry.captureException(new Error(error))
-      // Sentry.captureEvent({
-      //   message: error,
-      //   stacktrace: error.stacktrace,
-      //   name: error.name,
-      // })
+      Sentry.captureException(error)
     })
 }
 
