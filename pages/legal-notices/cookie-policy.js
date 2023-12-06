@@ -5,7 +5,7 @@ const CookiePolicy = () => (
   <div className='container'>
     <Title title='Cookie Policy' style={{ marginTop: '1rem' }} />
     {cookiePolicy}
-    <h2>Cookie Preferences</h2>
+    {/* <h2>Cookie Preferences</h2>
     <p> Please provide your consent below to our use of non-essential cookies on our site.
       You may withdraw your consent at any point by following the instructions above or by
       returning to this page and changing your selection.</p>
@@ -13,7 +13,7 @@ const CookiePolicy = () => (
       cookieConsentValue={cookieConsentValue}
       disableCookies={disableCookies}
       enableCookies={enableCookies}
-    />
+    /> */}
     <div className='mb-4'></div>
   </div>
 )
@@ -31,9 +31,9 @@ const cookiePolicy = (
     <ul>
       <li><strong>Strictly necessary cookies.</strong> These are cookies that are required for the operation of our site. They include, for example, cookies that enable you to log into secure areas of our site or make use of services. We do not require your consent to place these cookies. Nevertheless, you may be able to block these cookies yourself on your device/browser, but restricting these cookies is likely to mean that our site will not work as you would expect and certain functionality may be inoperable.</li>
       <p style={{textDecoration: 'underline'}}><strong>Non-essential cookies</strong></p>
-      <li><strong>Analytical/performance cookies.</strong> They allow us to recognise and count the number of visitors and to see how visitors move around our site when they are using it. This helps us to improve the way our site works, for example, by ensuring that users are finding what they are looking for easily. We use cookies to compile visitor statistics such as how many people have visited our site, how they reached our site, what type of technology they are using (e.g. Mac or Windows which helps to identify when our site isn't working as it should for particular technologies), how long they spend on the site, what page they look at etc. This helps us to continuously improve our website.</li>
+      {/* <li><strong>Analytical/performance cookies.</strong> They allow us to recognise and count the number of visitors and to see how visitors move around our site when they are using it. This helps us to improve the way our site works, for example, by ensuring that users are finding what they are looking for easily. We use cookies to compile visitor statistics such as how many people have visited our site, how they reached our site, what type of technology they are using (e.g. Mac or Windows which helps to identify when our site isn't working as it should for particular technologies), how long they spend on the site, what page they look at etc. This helps us to continuously improve our website.</li>
       <li><strong>Functionality cookies.</strong> These are used to recognise you/your language when you return to our site. This enables us to personalise our content for you and remember your preferences (for example, your choice of language or region).</li>
-      <li><strong>Targeting cookies.</strong> These cookies record your visit to our site, the pages you have visited and the links you have followed. This information will be used by us and third parties to make our site and the advertising displayed on it more relevant to your interests. We may also share this information with third parties for this purpose but only if you consent to such sharing.</li>
+      <li><strong>Targeting cookies.</strong> These cookies record your visit to our site, the pages you have visited and the links you have followed. This information will be used by us and third parties to make our site and the advertising displayed on it more relevant to your interests. We may also share this information with third parties for this purpose but only if you consent to such sharing.</li> */}
       <li><strong>Social Website Cookies.</strong> We have included buttons on our site for certain social media sites such as Facebook, Twitter and Instagram. These cookies are set by the third party social media sites to which they relate.</li>
     </ul>
     <p>The privacy implications vary from social media site to social media site and will be dependent on the privacy settings you have chosen on these sites. Please refer to the relevant social media site's privacy and cookies policy for more information.</p>
@@ -60,10 +60,10 @@ const cookiePolicy = (
         </tr>
         <tr>
           <td>
-            _rx_session
+            __Secure-next-auth.session-token
           </td>
           <td>
-            End of browser session
+            30 days
           </td>
           <td>
             Scientist.com
@@ -74,75 +74,33 @@ const cookiePolicy = (
         </tr>
         <tr>
           <td>
-            _rx_cookie_consent
+            __Host-next-auth.csrf-token
           </td>
           <td>
-            1 year
+            End of browser session
           </td>
           <td>
             Scientist.com
             <br />
             <br />
-            This cookie stores the user's cookie consent status.
+            This cookie provides cross site request forgery protection on authentication routes.
           </td>
         </tr>
         <tr>
           <td>
-            intercom-lou-XXX
+            __Secure-next-auth.callback-url
           </td>
           <td>
-            1 year
+            End of browser session
           </td>
           <td>
-            Intercom cookie
+            Scientist.com
             <br />
             <br />
-            This cookie helps to remember the user between visits and resume chat conversations.
+            This cookie allows the user to be redirected back to the application after signing in.
           </td>
         </tr>
-        <tr>
-          <td>
-            intercom-session-XXX
-          </td>
-          <td>
-            1 week
-          </td>
-          <td>
-            Intercom cookie
-            <br />
-            <br />
-            This cookie enables us to track the user's session, including maintaining continuity in chat conversations.
-          </td>
-        </tr>
-        <tr>
-          <td>
-            intercom-id-XXX
-          </td>
-          <td>
-            1 year
-          </td>
-          <td>
-            Intercom cookie
-            <br />
-            <br />
-            This cookie enables us to distinguish users.
-          </td>
-        </tr>
-        <tr>
-          <td>
-            NID
-          </td>
-          <td>
-            6 months
-          </td>
-          <td>
-            Google
-            <br />
-            <br />
-            This cookie contains a unique ID that identifies a returning user's device. Used by Google’s reCAPTCHA service to prevent spam.
-          </td>
-        </tr>
-        <tr>
+        {/* <tr>
           <td colSpan={3} style={{textDecoration: 'underline'}}>
             <strong>Non-essential cookies</strong>
           </td>
@@ -273,7 +231,7 @@ const cookiePolicy = (
             <br />
             This cookie enables us to remember the last language visited.
           </td>
-        </tr>
+        </tr> */}
       </tbody>
     </table>
     <p>Please note that third parties (including, for example, providers of external services like web traffic analysis services) may also use cookies, over which we have no control. These cookies are likely to be analytical/performance cookies or targeting cookies.</p>

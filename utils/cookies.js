@@ -6,17 +6,12 @@ import {
 } from 'cookies-next'
 
 /**
- * TODO: determine if/how to handle cookies
- * ref: https://assaydepot.slack.com/archives/C05U031L0V9/p1701363833246969
- * tldr: no rx session cookies are being set, and google analytics isn't enabled
- *
- * if we want to handle cookies, we need to readdress enableCookies() and disableCookies()
+ * if/when we add analytics, we need to address each TODO below
  */
 
 const cookieConsentGiven = hasCookie('_dl_cookie_consent')
 
-export const getCookieConsent = () => cookieConsentGiven // delete this and uncomment the line below to re-enable cookie consent
-// export const getCookieConsent = () => !cookieConsentGiven
+export const getCookieConsent = () => !cookieConsentGiven
 
 export const cookieConsentValue = cookieConsentGiven ? getCookie('_dl_cookie_consent') : 'false'
 
@@ -33,23 +28,16 @@ const cookieOptions = {
 
 export const enableCookies = () => {
   // TODO(alishaevn): check for the presence of non essential (analytics) cookies. if none, enable them.
-  // setCookie('_dl_cookie_consent', 'true', cookieOptions)
+  setCookie('_dl_cookie_consent', 'true', cookieOptions)
 }
 
 const nonEssentialCookies = [
-  '__ga',
-  '__gid',
-  '__utma',
-  '__utmt',
-  '__utmb',
-  '__utmc',
-  '__utmz',
-  '__utmv',
-  'pll_language'
+  // TODO(alishaevn): create this list
+  // TODO(alishaevn): add these cookies to pages/legal-notices/cookie-policy.js under "Non-essential cookies" with a description and expiration time frame
 ]
 
 export const disableCookies = () => {
-  // nonEssentialCookies.forEach(cookie => deleteCookie(cookie))
+  nonEssentialCookies.forEach(cookie => deleteCookie(cookie))
   // TODO(alishaevn): after deleting the cookies, we need to also disable them
-  // setCookie('_dl_cookie_consent', 'false', cookieOptions)
+  setCookie('_dl_cookie_consent', 'false', cookieOptions)
 }
