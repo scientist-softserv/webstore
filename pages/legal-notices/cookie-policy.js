@@ -97,7 +97,7 @@ const cookiePolicy = (
             Scientist.com
             <br />
             <br />
-            This cookie allows the user to be redirected back to the application after signing in.
+            This cookie allows for proper redirection during the sign up/in process.
           </td>
         </tr>
         {/* <tr>
