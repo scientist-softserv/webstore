@@ -35,11 +35,11 @@ const WebStore = ({ Component }) => {
 
   return (
     <>
-      <CookiePreferencesModal
+      {/* <CookiePreferencesModal
         disableCookies={disableCookies}
         enableCookies={enableCookies}
         getCookieConsent={getCookieConsent()}
-      />
+      /> */}
       <Header
         auth={{
           signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
