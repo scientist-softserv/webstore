@@ -118,7 +118,6 @@ export const useFiles = (id, accessToken) => {
   }
 }
 
-
 export const useInitializeRequest = (id, accessToken) => {
   const { data, error } = useSWR(accessToken ? [`/wares/${id}/quote_groups/new.json`, accessToken] : null)
   let dynamicForm = { name: data?.name }
@@ -127,12 +126,12 @@ export const useInitializeRequest = (id, accessToken) => {
   if (dynamicFormInfo) {
     const defaultSchema = dynamicFormInfo.schema
     const defaultOptions = dynamicFormInfo.options
-    const schema = configureDynamicFormSchema(defaultSchema)
+    const { adjustedSchemaProperties, uiSchema } = configureDynamicFormUiSchema(defaultSchema.properties, defaultOptions.fields)
 
     dynamicForm = {
       ...dynamicForm,
       schema,
-      uiSchema: configureDynamicFormUiSchema(schema, defaultOptions),
+      uiSchema,
     }
   }
 

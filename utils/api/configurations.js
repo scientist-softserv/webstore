@@ -303,30 +303,56 @@ export const configureDynamicFormSchema = (defaultSchema) => {
   }
 }
 
-export const configureDynamicFormUiSchema = (schema, defaultOptions) => {
+export const configureDynamicFormUiSchema = (defaultSchemaProperties, defaultOptionsFields) => {
   let UiSchema = {}
-  const { fields } = defaultOptions
+  let adjustedSchemaProperties = defaultSchemaProperties
+  const removedProperties = [
+    'concierge_support', 'suppliers_identified', 'price_comparison', 'quote_or_information',
+    'number_suppliers', 'supplier_criteria', 'supplier_confirmation'
+  ]
 
-  if (fields) {
-    for (let key in schema.properties) {
-      if (fields.hasOwnProperty(key)) {
+  for (let key in defaultOptionsFields) {
         let fieldOptions = { 'ui:classNames': 'mb-4' }
 
-        if(fields[key].helper) fieldOptions['ui:help'] = fields[key].helper
-        if(fields[key].placeholder) fieldOptions['ui:placeholder'] = fields[key].placeholder
-        if(fields[key].type) fieldOptions['ui:inputType'] = fields[key].type
-        if(fields[key].type === 'checkbox') fieldOptions['ui:widget'] = 'checkboxes'
-        if(fields[key].rows) {
+    if (removedProperties.includes(key)) {
+      delete adjustedSchemaProperties[key]
+      next
+    }
+
+    if (defaultOptionsFields[key].dependencies) {
+      const [dependency] = Object.entries(defaultOptionsFields[key].dependencies)
+
+      if (removedProperties.includes(dependency[0])) {
+        delete adjustedSchemaProperties[key]
+        next
+      } else if (!Object.keys(adjustedSchemaProperties).includes(dependency[0])) {
+        delete adjustedSchemaProperties[key]
+        next
+      } else {
+        fieldOptions[dependency[0]] = {
+          ...UiSchema[dependency[0]],
+          [dependency[1]]: {
+            description: {
+              'ui:widget': 'text'
+            }
+          }
+        }
+      }
+    }
+
+    if (defaultOptionsFields[key].helper) fieldOptions['ui:help'] = defaultOptionsFields[key].helper
+    if (defaultOptionsFields[key].placeholder) fieldOptions['ui:placeholder'] = defaultOptionsFields[key].placeholder
+    if (defaultOptionsFields[key].type) fieldOptions['ui:inputType'] = defaultOptionsFields[key].type
+    if (defaultOptionsFields[key].type === 'checkbox') fieldOptions['ui:widget'] = 'checkboxes'
+    if (defaultOptionsFields[key].rows) {
           fieldOptions['ui:options']= {
             widget: 'textarea',
-            rows: fields[key].rows,
+        rows: defaultOptionsFields[key].rows,
           }
         }
 
         UiSchema[key] = fieldOptions
-      }
-    }
   }
 
-  return UiSchema
+  return { adjustedSchemaProperties, UiSchema }
 }
