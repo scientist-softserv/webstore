@@ -127,6 +127,7 @@ export const useInitializeRequest = (id, accessToken) => {
     const defaultSchema = dynamicFormInfo.schema
     const defaultOptions = dynamicFormInfo.options
     const { adjustedSchemaProperties, uiSchema } = configureDynamicFormUiSchema(defaultSchema.properties, defaultOptions.fields)
+    const schema = configureDynamicFormSchema({...defaultSchema, ...adjustedSchemaProperties})
 
     dynamicForm = {
       ...dynamicForm,

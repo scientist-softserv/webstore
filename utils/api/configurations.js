@@ -248,71 +248,231 @@ const configureLineItems = (lineItems) => (lineItems.map(lineItem => ({
   unitPrice: lineItem.unit_price,
 })))
 
-export const configureDynamicFormSchema = (defaultSchema) => {
+/**
+ *
+ * @param {Object} adjustedSchema - the schema that has been adjusted to remove properties that shouldn't be shown based on `removedProperties`
+ * @returns {Object}
+ *
+ * This function takes the adjusted schema and returns a new schema that is formatted for react-jsonschema-form
+ */
+export const configureDynamicFormSchema = (adjustedSchema) => {
   // TODO(alishaevn): will need to account for multiple forms in phase 2
+  // TODO(alishaevn): if I remove all of the configuration below, as well as from configureDynamicFormUiSchema the select and input boxes
+  // work fine. the checkboxes and conditionals don't. try focusing on just that to simplify the code.
 
-  const removedProperties = [
-    'concierge_support', 'suppliers_identified', 'price_comparison', 'number_suppliers',
-    'supplier_criteria', 'supplier_confirmation'
-  ]
-  let propertyFields = {}
   let requiredFields = []
-  let dependencyFields = {}
+  let propertyFields = {}
 
-  Object.entries(defaultSchema.properties).forEach(prop => {
+  Object.entries(adjustedSchema.properties).forEach(prop => {
     const [key, value] = prop
-    let adjustedProperty
+    let definitionFields = {
+      [key]: { 'properties': {} },
+    }
+    let propertyValues = {
+      'title': '',
+      '$ref': `#/definitions/${key}`
+    }
 
-    if (!removedProperties.includes(key)) {
-      if (value.required) {
-        requiredFields.push(key)
-        let { required, ...remainingProperties } = value
-        adjustedProperty = { ...remainingProperties }
-      }
+    if (value.required) requiredFields.push(key)
 
-      if (value.dependencies) {
-        dependencyFields[key] = [value['dependencies']]
-        // fallback to the initial value in case "required" wasn't on this property
-        let { dependencies, ...remainingProperties } = adjustedProperty || value
-        adjustedProperty = { ...remainingProperties }
-      }
-
-      if (value.type === 'array') {
-        let { title, type } = adjustedProperty
-
-        propertyFields[key] = {
-          type,
-          title,
-          items: {
-            type: 'string',
-            enum: adjustedProperty.enum,
-          },
-          uniqueItems: true,
+    if (value.type === 'array') {
+      propertyValues['title'] = value.title
+      value.enum?.forEach(item => {
+        definitionFields[key]['properties'][item] = {
+          type: 'boolean',
+          title: item,
         }
-      } else {
-        propertyFields[key] = adjustedProperty
+      })
+    } else {
+      definitionFields[key]['properties'] = {
+        [key]: {
+          'type': value.type,
+          'title': value.title,
+          'enum': value.enum,
+        }
       }
     }
+
+    if (value.dependencies) {
+      // dependencyFields[key] = [value['dependencies']]
+      // // fallback to the initial value in case "required" wasn't on this property
+      // let { dependencies, ...remainingProperties } = propertyValues || value
+      // propertyValues = { ...remainingProperties }
+
+    }
+
+      // schema types are "string" or "array"
+      // if (value.type === 'array') {
+      // // if (key === 'n_terminus_modifications') {
+      //   // console.log('before', { propertyValues })
+      //   // delete propertyValues.enum
+      //   // const { enum, ...remainingProperties } = propertyValues
+      //   // console.log('after', { propertyValues })
+
+      //   propertyFields[key] = {
+      //     ...propertyValues,
+      //     // type: 'object',
+      //     // items: {
+      //     //   type: 'string',
+      //     //   enum: propertyValues.enum,
+      //     // },
+      //     // uniqueItems: true,
+      //   }
+      // } else {
+        propertyFields[key] = propertyValues
+      // }
+    // }
   })
 
+  // ARRAY WITH ENUM
+  // console.log('c_terminus_modifications::', propertyFields.c_terminus_modifications)
+  // {
+  //   "type": "array",
+  //   "title": "Please select any modifications you want added to the C-terminus",
+  //   "dependencies": "suppliers_identified",
+  //   "enum": [
+  //     "Amidated",
+  //     "Free Acid",
+  //     "Biotinylated",
+  //     "Peptide Nucleic Acids (PNAs)",
+  //     "Other"
+  //   ]
+  // }
+
+  // STRING WITH ENUM
+  // console.log('purity::', propertyFields.purity)
+  // {
+  //   "type": "string",
+  //   "title": "What is the requested purity?",
+  //   "enum": [
+  //     "Crude",
+  //     "> 75%",
+  //     "> 85%",
+  //     "> 90%",
+  //     "> 95%",
+  //     "> 98%",
+  //     "Other"
+  //   ],
+  //   "dependencies": "n_terminus_modifications"
+  // }
+
   return {
-    'type': defaultSchema.type,
+    'type': adjustedSchema.type,
     'required': requiredFields,
-    'properties': propertyFields,
-    'dependencies': dependencyFields,
+    // 'properties': adjustedSchema.properties,
+    // 'properties': propertyFields,
+    'properties': {
+      // CHECKBOXES
+      "c_terminus_modifications": {
+        "title": "Please select any modifications you want added to the C-terminus",
+        "$ref": "#/definitions/c_terminus_modifications"
+      },
+      // RADIO/SELECT
+      "purity": {
+        "title": "",
+        "$ref": "#/definitions/purity",
+      },
+      'suppliers_identified': {
+        "title": "",
+        "$ref": "#/definitions/suppliers_identified",
+      },
+      'timeline': {
+        "title": "",
+        "$ref": "#/definitions/timeline",
+      },
+    },
+    'definitions': {
+      'c_terminus_modifications': {
+        "properties": {
+          "Amidated": {
+            "type": "boolean",
+            "title": "Amidated"
+          },
+          "Other": {
+            "type": "boolean",
+            "title": "Other"
+          }
+        },
+        "dependencies": {
+          "Other": {
+            "oneOf": [
+              {
+                "properties": {
+                  "Other": {
+                    "enum": [true]
+                  },
+                  "description": {
+                    "type": "string",
+                    "title": "Other (e.g. Phosphorylation, Head-to-tail cyclic, stable isotope, BSA, etc.)"
+                  }
+                },
+                "required": [
+                  "description"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      'purity': {
+        "properties": {
+          "purity": {
+            "type": "string",
+            "title": "What is the requested purity?",
+            "enum": ["One", "Two", "Three", "Other"]
+          },
+        },
+        "dependencies": {
+          "purity": {
+            "oneOf": [
+              {
+                "properties": {
+                  "purity": {
+                    "enum": ["Other"]
+                  },
+                  "description": {
+                    "type": "string",
+                    "title": "Other"
+                  }
+                },
+                "required": ["description"]
+              }
+            ]
+          }
+        }
+      },
+      'suppliers_identified': {
+        "properties": {
+          "suppliers_identified": {
+            "type": "string",
+            "title": "Have you identified any suppliers?",
+            "enum": ["Yes", "No"]
+          },
+        },
+      },
+      'timeline': {
+        "properties": {
+          "timeline": {
+            "type": "string",
+            "title": "What is the timeline for this project?",
+          },
+        },
+      },
+    }
   }
 }
+
+const removedProperties = [
+  //'concierge_support', 'suppliers_identified', 'price_comparison', 'quote_or_information',
+  'number_suppliers', 'supplier_criteria', 'supplier_confirmation'
+]
 
 export const configureDynamicFormUiSchema = (defaultSchemaProperties, defaultOptionsFields) => {
   let UiSchema = {}
   let adjustedSchemaProperties = defaultSchemaProperties
-  const removedProperties = [
-    'concierge_support', 'suppliers_identified', 'price_comparison', 'quote_or_information',
-    'number_suppliers', 'supplier_criteria', 'supplier_confirmation'
-  ]
 
   for (let key in defaultOptionsFields) {
-        let fieldOptions = { 'ui:classNames': 'mb-4' }
+    let fieldOptions = { 'ui:classNames': 'mb-4' }
 
     if (removedProperties.includes(key)) {
       delete adjustedSchemaProperties[key]
@@ -345,14 +505,41 @@ export const configureDynamicFormUiSchema = (defaultSchemaProperties, defaultOpt
     if (defaultOptionsFields[key].type) fieldOptions['ui:inputType'] = defaultOptionsFields[key].type
     if (defaultOptionsFields[key].type === 'checkbox') fieldOptions['ui:widget'] = 'checkboxes'
     if (defaultOptionsFields[key].rows) {
-          fieldOptions['ui:options']= {
-            widget: 'textarea',
+      fieldOptions['ui:options']= {
+        widget: 'textarea',
         rows: defaultOptionsFields[key].rows,
-          }
-        }
+      }
+    }
 
-        UiSchema[key] = fieldOptions
+    UiSchema[key] = fieldOptions
   }
+  // console.log('purity_other ui schema::', UiSchema.purity_other)
 
-  return { adjustedSchemaProperties, UiSchema }
+  return { defaultSchemaProperties, defaultOptionsFields }
+  // return { adjustedSchemaProperties, UiSchema }
+
+  return {
+    "purity": {
+      "ui:classNames": "mb-4",
+      "ui:inputType": "radio",
+      // "Other": {
+      //   "Other": {
+      //     "ui:widget": "text"
+      //   }
+      // },
+    },
+    'purity_other': {
+      "ui:classNames": "mb-4",
+      // "purity_other": {
+        // "ui:classNames": "mb-4",
+        // "ui:inputType": "radio",
+        // "Other": {
+        //   "description": {
+            "ui:widget": "text",
+            "ui:placeholder": "Other"
+        //   }
+        // }
+      // },
+    }
+  }
 }
