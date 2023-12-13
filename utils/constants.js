@@ -40,7 +40,7 @@ export const FOOTER_SECTIONS = [
       },
       {
         name: 'Cookie Policy',
-        url: '/',
+        url: '/cookie-policy',
       },
     ],
   },
@@ -81,6 +81,25 @@ export const FOOTER_SOCIALS = [
   {
     icon: 'facebook',
     url: 'www.facebook.com',
+  },
+]
+
+export const LEGAL_NOTICES = [
+  {
+    name: 'Cookie Policy',
+    url: 'legal-notices/cookie-policy',
+  },
+  {
+    name: 'Privacy Policy',
+    url: 'legal-notices/privacy-policy',
+  },
+  {
+    name: 'Terms and Conditions',
+    url: 'legal-notices/terms-and-conditions',
+  },
+  {
+    name: 'Terms of Use',
+    url: 'legal-notices/terms-of-use',
   },
 ]
 

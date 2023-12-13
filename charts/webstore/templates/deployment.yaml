@@ -34,33 +34,47 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: NEXTAUTH_URL
-              value: "{{ .Values.nextAuthUrl }}"
-            - name: NEXT_PUBLIC_PROVIDER_NAME
-              value: "{{ .Values.providerName }}"
-            - name: NEXT_PUBLIC_PROVIDER_ID
-              value: "{{ .Values.providerId }}"
-            - name: NEXT_PUBLIC_SCIENTIST_API_VERSION
-              value: "{{ .Values.scientistApiVersion }}"
-            - name: NEXT_PUBLIC_TOKEN
-              value: "{{ .Values.nextPublicToken }}"
-            - name: NEXTAUTH_SECRET
-              value: "{{ .Values.nextAuthSecret }}"
             - name: CLIENT_SECRET
               value: "{{ .Values.clientSecret }}"
             - name: CLIENT_ID
               value: "{{ .Values.clientId }}"
+            - name: NEXTAUTH_SECRET
+              value: "{{ .Values.nextAuthSecret }}"
+            - name: NEXTAUTH_URL
+              value: "{{ .Values.nextAuthUrl }}"
+            - name: NEXT_PUBLIC_APP_BASE_URL
+              value: "{{ .Values.appBaseUrl }}"
+            - name: NEXT_PUBLIC_PROVIDER_ID
+              value: "{{ .Values.providerId }}"
+            - name: NEXT_PUBLIC_PROVIDER_NAME
+              value: "{{ .Values.providerName }}"
+            - name: NEXT_PUBLIC_SCIENTIST_API_VERSION
+              value: "{{ .Values.scientistApiVersion }}"
+            - name: NEXT_PUBLIC_TOKEN
+              value: "{{ .Values.nextPublicToken }}"
+            - name: NEXT_PUBLIC_WEBHOOK_URL
+              value: "{{ .Values.webhookUrl }}"
+            - name: SENTRY_AUTH_TOKEN
+              value: "{{ .Values.sentryAuthToken }}"
             - name: SENTRY_DSN
               value: "{{ .Values.sentryDsn }}"
+            - name: SENTRY_ORG
+              value: "{{ .Values.sentryOrg }}"
+            - name: SENTRY_PROJECT
+              value: "{{ .Values.sentryProject }}"
+            - name: SENTRY_URL
+              value: "{{ .Values.sentryUrl }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: 60
             httpGet:
               path: /
               port: http
           readinessProbe:
+            initialDelaySeconds: 60
             httpGet:
               path: /
               port: http
