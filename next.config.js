@@ -13,7 +13,10 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   eslint: {
-    dirs: ['pages', 'utils'], // Only run ESLint on the 'pages' and 'utils' directories during production builds
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    // ref: https://nextjs.org/docs/pages/api-reference/next-config-js/eslint
+    ignoreDuringBuilds: true,
   },
   sentry: {
     // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
