@@ -35,7 +35,8 @@ export const enableCookies = () => {
 
 const nonEssentialCookies = [
   // TODO(alishaevn): create this list
-  // TODO(alishaevn): add these cookies to pages/legal-notices/cookie-policy.js under "Non-essential cookies" with a description and expiration time frame
+  // TODO(alishaevn): add these cookies to pages/legal-notices/cookie-policy.js under
+  // "Non-essential cookies" with a description and expiration time frame
 ]
 
 export const disableCookies = () => {
