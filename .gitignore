@@ -17,3 +17,8 @@ node_modules/
 
 # Emacs
 *.~undo-tree~
+
+# Cypress
+cypress/results
+cypress/screenshots
+cypress/videos

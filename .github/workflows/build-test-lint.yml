@@ -22,13 +22,19 @@ jobs:
     with:
       platforms: 'linux/amd64'
       webTarget: web
-  test:
+  cypress:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cypress e2e
+        uses: cypress-io/github-action@v6
+      - name: Cypress component
+        uses: cypress-io/github-action@v6
+        with:
+          component: true
+  eslint:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/cypress.yaml@v0.0.14
+    uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.13
     with:
-      cypress-container-name: cypress-tests
-  lint:
-    needs: build
-    uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.14
-    with:
-      rubocop_cmd: docker-compose run web -- bash -c 'yarn && yarn lint:all'
+      lint_cmd: docker-compose run web -- bash -c 'yarn && yarn lint'
