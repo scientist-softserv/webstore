@@ -2,28 +2,29 @@
 # In order to deploy via github actions instead, please update/confirm the following files:
 # - ops/production-deploy.tmpl.yaml
 # - ops/staging-deploy.tmpl.yaml
-# Next, uncomment the following lines
 
-# name: "Deploy"
-# run-name: Deploy (${{ github.ref_name }} -> ${{ inputs.environment }}) by @${{ github.actor }}
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       environment:
-#         description: 'Deploy to Environment'
-#         required: true
-#         default: 'staging'
-#         type: choice
-#         options:
-#           - staging
-#           - production
-#       debug_enabled:
-#         type: boolean
-#         description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
-#         required: false
-#         default: false
+name: "Deploy"
+run-name: Deploy (${{ github.ref_name }} -> ${{ inputs.environment }}) by @${{ github.actor }}
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deploy to Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
 
-# jobs:
-#   deploy:
-#     uses: scientist-softserv/actions/.github/workflows/deploy.yaml@v0.0.16
-#     secrets: inherit
+jobs:
+  deploy:
+    # remove the line below to enable the job
+    if: false
+    uses: scientist-softserv/actions/.github/workflows/deploy.yaml@v0.0.16
+    secrets: inherit
