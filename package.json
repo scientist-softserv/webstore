@@ -8,13 +8,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next build && next start",
+    "deploy": "next build && next start",
+    "start": "next start",
     "lint": "next lint --dir pages --dir utils",
     "lint:fix": "next lint --dir pages --dir utils --fix",
     "cypress:open:component": "cypress open --component",
-    "cypress:open:e2e": "start-server-and-test dev http://localhost:3000 \"cypress open --e2e\"",
+    "cypress:open:e2e": "start-server-and-test dev http://localhost:3000 \"cypress open\"",
     "cypress:run:component": "cypress run --component",
-    "cypress:run:e2e": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\"",
+    "cypress:run:e2e": "start-server-and-test dev http://localhost:3000 \"cypress run\"",
     "jest": "jest",
     "jest-watch": "jest --watch",
     "release": "release-it"
