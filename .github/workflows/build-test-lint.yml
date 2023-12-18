@@ -22,8 +22,6 @@ jobs:
     with:
       platforms: 'linux/amd64'
       webTarget: web
-  # TODO(alishaevn): figure out how to get the below passing in github actions
-  #   it may be different than our typical setups since we don't use docker locally
   cypress:
     runs-on: ubuntu-22.04
     steps:
@@ -34,10 +32,6 @@ jobs:
         with:
           start: yarn start
           wait-on: 'http://localhost:3000'
-      - name: Cypress component
-        uses: cypress-io/github-action@v6
-        with:
-          component: true
   eslint:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.13

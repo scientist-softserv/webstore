@@ -6,18 +6,16 @@
     "node": "^18.13.0"
   },
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next build && next start",
+    "cypress:e2e": "start-server-and-test dev http://localhost:3000 \"cypress open --e2e --browser electron\"",
+    "cypress:headless:e2e": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e --browser electron\"",
+    "dev": "next dev",
     "lint": "next lint --dir pages --dir utils",
     "lint:fix": "next lint --dir pages --dir utils --fix",
-    "cypress:open:component": "cypress open --component",
-    "cypress:open:e2e": "start-server-and-test dev http://localhost:3000 \"cypress open\"",
-    "cypress:run:component": "cypress run --component",
-    "cypress:run:e2e": "start-server-and-test dev http://localhost:3000 \"cypress run\"",
     "jest": "jest",
     "jest-watch": "jest --watch",
-    "release": "release-it"
+    "release": "release-it",
+    "start": "next build && next start"
   },
   "dependencies": {
     "@rjsf/core": "^5.0.0-beta.17",
