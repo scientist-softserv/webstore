@@ -8,8 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "deploy": "next build && next start",
-    "start": "next start",
+    "start": "next build && next start",
     "lint": "next lint --dir pages --dir utils",
     "lint:fix": "next lint --dir pages --dir utils --fix",
     "cypress:open:component": "cypress open --component",

@@ -11,4 +11,4 @@ RUN  yarn
 
 COPY . /home/node/app
 RUN yarn build
-CMD ["yarn", "deploy"]
+CMD ["yarn", "start"]
