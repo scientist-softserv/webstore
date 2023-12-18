@@ -70,7 +70,7 @@ const Request = ({ session }) => {
   if (session === null) return unauthorizedUser
 
   const isLoading = isLoadingRequest || isLoadingSOWs || isLoadingFiles || isLoadingMessages
-  const isError = isRequestError || isSOWError || isFilesError|| isMessagesError || isPOError
+  const isError = isRequestError || isSOWError || isFilesError || isMessagesError || isPOError
   const documents = (allSOWs) ? [...allSOWs, ...allPOs] : []
 
   if (isLoading) return pageLoading

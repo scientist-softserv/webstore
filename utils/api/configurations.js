@@ -172,7 +172,7 @@ export const configureMessages = (data) => {
   }))
 }
 
-export const  configureFiles = (data) => {
+export const configureFiles = (data) => {
   // filter out the notes that do not have attachments
   const notesWithFiles = data.filter(d => d.attachments?.length)
   let fileArrays = []
@@ -235,7 +235,7 @@ export const configurePO = (po, requestIdentifier) => ({
   ...configureDocument(po, requestIdentifier),
   turnaroundTime: po.turn_around_time.human,
   poNumber: po.po_number,
-  relatedSOWIdentifier: po.proposal_ref?.identifier,
+  relatedSOWIdentifier: po.proposal_refs.first?.identifier,
   adPO: po.scientist_identifier,
 })
 
