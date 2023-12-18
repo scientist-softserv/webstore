@@ -35,8 +35,8 @@ jobs:
   #       uses: cypress-io/github-action@v6
   #       with:
   #         component: true
-  # eslint:
-  #   needs: build
-  #   uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.13
-  #   with:
-  #     lint_cmd: docker-compose run web -- bash -c 'yarn && yarn lint'
+  eslint:
+    needs: build
+    uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.13
+    with:
+      lint_cmd: docker-compose run web -- bash -c 'yarn && yarn lint'
