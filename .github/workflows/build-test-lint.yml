@@ -1,4 +1,4 @@
-name: "Build Test Lint"
+name: 'Build Test Lint'
 run-name: Build Test Lint of ${{ github.ref_name }} by @${{ github.actor }}
 on:
   push:
@@ -24,6 +24,14 @@ jobs:
       webTarget: web
   # TODO(alishaevn): figure out how to get the below passing in github actions
   #   it may be different than our typical setups since we don't use docker locally
+  cypress:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cypress e2e
+        uses: cypress-io/github-action@v6
+        with:
   # cypress:
   #   runs-on: ubuntu-22.04
   #   steps:
@@ -35,6 +43,12 @@ jobs:
   #       uses: cypress-io/github-action@v6
   #       with:
   #         component: true
+          start: yarn start
+          wait-on: 'http://web:3000'
+      - name: Cypress component
+        uses: cypress-io/github-action@v6
+        with:
+          component: true
   eslint:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.13
