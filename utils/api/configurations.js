@@ -172,7 +172,7 @@ export const configureMessages = (data) => {
   }))
 }
 
-export const  configureFiles = (data) => {
+export const configureFiles = (data) => {
   // filter out the notes that do not have attachments
   const notesWithFiles = data.filter(d => d.attachments?.length)
   let fileArrays = []
@@ -235,7 +235,7 @@ export const configurePO = (po, requestIdentifier) => ({
   ...configureDocument(po, requestIdentifier),
   turnaroundTime: po.turn_around_time.human,
   poNumber: po.po_number,
-  relatedSOWIdentifier: po.proposal_ref?.identifier,
+  relatedSOWIdentifier: po.proposal_refs.first?.identifier,
   adPO: po.scientist_identifier,
 })
 
@@ -277,9 +277,19 @@ export const configureDynamicFormSchema = (defaultSchema) => {
         adjustedProperty = { ...remainingProperties }
       }
 
-      if (value.type !== 'array') {
-        // TODO(alishaevn): figure out the "items" property for arrays
-        // ref: https://react-jsonschema-form.readthedocs.io/en/v1.8.1/form-customization/#form-customization
+      if (value.type === 'array') {
+        let { title, type } = adjustedProperty
+
+        propertyFields[key] = {
+          type,
+          title,
+          items: {
+            type: 'string',
+            enum: adjustedProperty.enum,
+          },
+          uniqueItems: true,
+        }
+      } else {
         propertyFields[key] = adjustedProperty
       }
     }
@@ -305,6 +315,7 @@ export const configureDynamicFormUiSchema = (schema, defaultOptions) => {
         if(fields[key].helper) fieldOptions['ui:help'] = fields[key].helper
         if(fields[key].placeholder) fieldOptions['ui:placeholder'] = fields[key].placeholder
         if(fields[key].type) fieldOptions['ui:inputType'] = fields[key].type
+        if(fields[key].type === 'checkbox') fieldOptions['ui:widget'] = 'checkboxes'
         if(fields[key].rows) {
           fieldOptions['ui:options']= {
             widget: 'textarea',

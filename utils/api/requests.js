@@ -64,9 +64,9 @@ export const getAllPOs = async (quotedWareId, uuid, requestIdentifier, accessTok
     // See https://github.com/vercel/swr/discussions/1988 for the RFC and https://github.com/vercel/swr/pull/2047 for the PR.
     const url = () => accessToken ? `quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders.json` : null
     const data = await fetcher(url(), accessToken)
-    const configuredPOs = data?.map(async (po) => {
-      const purchaseOrder = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${po.id}.json`, accessToken)
-      return configurePO(purchaseOrder, requestIdentifier)
+    const configuredPOs = data?.purchase_orders.map(async (po) => {
+      const res = await fetcher(`quote_groups/${uuid}/quoted_wares/${quotedWareId}/purchase_orders/${po.id}.json`, accessToken)
+      return configurePO(res.purchase_order, requestIdentifier)
     })
     const allPOs = await Promise.all(configuredPOs).then(res => res)
 

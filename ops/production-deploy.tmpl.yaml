@@ -1,8 +1,8 @@
-appBaseUrl: 'https://webstore-staging.softserv.cloud'
+appBaseUrl: 'https://webstore.softserv.cloud'
 clientId: $CLIENT_ID
 clientSecret: $CLIENT_SECRET
 nextAuthSecret: $NEXTAUTH_SECRET
-nextAuthUrl: 'https://webstore-staging.softserv.cloud/api/auth'
+nextAuthUrl: 'https://webstore.softserv.cloud/api/auth'
 nextPublicToken: $NEXT_PUBLIC_TOKEN
 providerId: '5159'
 providerName: 'beachsidebiotech'
@@ -32,11 +32,11 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod
   }
   hosts:
-    - host: webstore-staging.softserv.cloud
+    - host: webstore.softserv.cloud
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - hosts:
-        - webstore-staging.softserv.cloud
+        - webstore.softserv.cloud
       secretName: softservcloud

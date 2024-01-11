@@ -1,4 +1,4 @@
-import { Footer, Header } from '@scientist-softserv/webstore-component-library'
+import { CookiePreferencesModal, Footer, Header } from '@scientist-softserv/webstore-component-library'
 import { SWRConfig } from 'swr'
 import { useRouter } from 'next/router'
 import {
@@ -11,14 +11,20 @@ import {
   FOOTER_NAME,
   FOOTER_SECTIONS,
   FOOTER_SOCIALS,
-  headerAndFooterLinkColors,
   LOGO,
   NAVIGATION_LINKS,
+  disableCookies,
+  enableCookies,
+  getCookieConsent,
   fetcher,
+  headerAndFooterLinkColors,
 } from '../utils'
 import '../utils/theme/globals.scss'
 
 const WebStore = ({ Component }) => {
+  /**
+   * the session will return undefined if it's still loading, null if the user is not logged in, or an object if the user is logged in.
+   */
   const { data: session } = useSession()
   const router = useRouter()
 
@@ -29,6 +35,11 @@ const WebStore = ({ Component }) => {
 
   return (
     <>
+      {/* <CookiePreferencesModal
+        disableCookies={disableCookies}
+        enableCookies={enableCookies}
+        getCookieConsent={getCookieConsent()}
+      /> */}
       <Header
         auth={{
           signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),

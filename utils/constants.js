@@ -21,13 +21,26 @@ export const LOGO = {
 
 export const FOOTER_NAME = 'Beachside Biotechnology Services'
 
+// adding target: '_blank' to a link will allow it to open in a new tab.
 export const FOOTER_SECTIONS = [
   {
-    header: 'One',
+    header: 'Legal',
     links: [
       {
-        name: 'The Team',
-        url: '/about-us',
+        name: 'Privacy Policy',
+        url: '/privacy-policy',
+      },
+      {
+        name: 'Terms and Conditions',
+        url: '/terms-and-conditions',
+      },
+      {
+        name: 'Terms of Use',
+        url: '/terms-of-use',
+      },
+      {
+        name: 'Cookie Policy',
+        url: '/cookie-policy',
       },
     ],
   },
@@ -36,7 +49,12 @@ export const FOOTER_SECTIONS = [
     links: [
       {
         name: 'Contact',
-        url: '/contact',
+        url: '/',
+      },
+      {
+        name: 'External Link',
+        url: 'http://www.google.com',
+        target: '_blank',
       },
     ],
   },
@@ -45,7 +63,7 @@ export const FOOTER_SECTIONS = [
     links: [
       {
         name: 'Services',
-        url: '/services',
+        url: '/',
       },
     ],
   },
@@ -63,6 +81,25 @@ export const FOOTER_SOCIALS = [
   {
     icon: 'facebook',
     url: 'www.facebook.com',
+  },
+]
+
+export const LEGAL_NOTICES = [
+  {
+    name: 'Cookie Policy',
+    url: 'legal-notices/cookie-policy',
+  },
+  {
+    name: 'Privacy Policy',
+    url: 'legal-notices/privacy-policy',
+  },
+  {
+    name: 'Terms and Conditions',
+    url: 'legal-notices/terms-and-conditions',
+  },
+  {
+    name: 'Terms of Use',
+    url: 'legal-notices/terms-of-use',
   },
 ]
 
@@ -108,6 +145,8 @@ export const FEATURED_SERVICE_PATH = '/requests/new'
 // this amount, listed in milliseconds, represents when the access token will expire
 // the default is 1 week
 export const EXPIRATION_DURATION = 604800000
+
+export const API_PER_PAGE = 2000
 
 export const WEBHOOK_EVENTS = {
   'signer': {
