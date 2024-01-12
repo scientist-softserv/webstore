@@ -35,57 +35,39 @@
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages. -->
 
 ### Environment Variables
-The following variables can be found in the `.env` and `.env.local` files.
+_The terms "client" and "provider" are fairly interchangeable in this application. In the details below we will assume that the client's name is "webstore". Their marketplace would be at "webstore.scientist.com"._
 
-| Name | Description | Required |
-| ------------- | ------------- | ------------- |
-| NEXT_PUBLIC_PROVIDER_NAME | The subdomain of the `marketplace-domain` | Yes |
-| NEXT_PUBLIC_PROVIDER_ID | TODO | Yes |
-| NEXT_PUBLIC_APP_BASE_URL | TODO | Yes |
-| NEXT_PUBLIC_SCIENTIST_API_VERSION | TODO | Yes |
-| NEXT_PUBLIC_WEBHOOK_URL | TODO | Yes |
-| NEXTAUTH_SECRET | TODO | Yes |
-| NEXTAUTH_URL | TODO | Yes |
-| CLIENT_ID | TODO | Yes |
-| CLIENT_SECRET | TODO | Yes |
-| NEXT_PUBLIC_TOKEN | TODO | Yes |
-| SENTRY_DSN | TODO | No |
-| NEXT_PUBLIC_SENTRY_DSN | TODO | No |
-| SENTRY_URL | TODO | No |
-| SENTRY_ORG | TODO | No |
-| SENTRY_PROJECT | TODO | No |
-| SENTRY_AUTH_TOKEN | TODO | No |
+| Name | Required | Location | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| CLIENT_ID | Yes | .env.development | The identifier of the client's marketplace application |
+| CLIENT_SECRET | Yes | .env.development | The secret related to the client's marketplace application |
+| NEXTAUTH_SECRET | Yes | .env.development | Used to encrypt the NextAuth.js JWT |
+| NEXTAUTH_URL | Yes | .env.development | The authentication route used for NextAuth.js |
+| NEXT_PUBLIC_APP_BASE_URL | Yes | .env | The URL to the deployed webstore instance |
+| NEXT_PUBLIC_PROVIDER_ID | Yes | .env | The identifier of the client's marketplace in the database |
+| NEXT_PUBLIC_PROVIDER_NAME | Yes | .env | The subdomain of the client's marketplace |
+| NEXT_PUBLIC_SCIENTIST_API_VERSION | Yes | .env | The version of the API we should be talking to |
+| NEXT_PUBLIC_TOKEN | Yes | .env.development | The access token for logged out users. Ref: Provider Credentials|
+| NEXT_PUBLIC_WEBHOOK_URL | Yes | .env | The URL that defines how user notifications are sent |
+| SENTRY_AUTH_TOKEN | No | .env.development | The organization based auth token for the Sentry project |
+| SENTRY_DSN | No | .env.development | The Data Source Name that allows monitoring of Sentry events |
+| SENTRY_ORG | No | .env.development | The slug of the Sentry organization associated with the Sentry application |
+| SENTRY_PROJECT | No | .env.development | The slug of the Sentry project associated with the Sentry application |
+| SENTRY_URL | No | .env.development | The base URL of the Sentry instance |
 
 #### Creating the marketplace app
-Ensure that a marketplace, e.g. client-name.scientist.com, has been created by the Scientist.com Professional Services team. Once that exists, an app needs to be created on it by a developer with the proper permissions. This will allow for the environment variables in the `.env` and `.env.local` files to be set. You'll know if you have the proper developer permissions if once logged in on the client marketplace you can hover over your avatar and see "Applications" underneath the "Developer" settings.
+Ensure that a marketplace, e.g. client-name.scientist.com, has been created by the Scientist.com Professional Services team. Once that exists, an application needs to be created on that marketplace by a developer with the proper permissions. This is how some of the environment variables are created. You'll know if you have the proper developer permissions if once logged in on the client marketplace, you can hover over your avatar and see "Applications" underneath the "Developer" settings. _If you don't have the permissions, you need to request them, or ask someone with the permissions to complete the steps below._
 - Once you've clicked the "Applications" link mentioned above, press "New Application"
-  - Only the application name is required for the moment
-- Save and you should be redirected to the "Developer Details" page
+  - Only the application name is required for the moment. Name it the same as the provider name.
+- Save, and you should be redirected to the "Developer Details" page
 - There will be a button that says "Reveal Token"
 - Click it. You'll need that token in the next step.
 
 #### Provider ID
-In an API GUI (e.g. Postman) make a GET request for `<marketplace-domain>/api/v2/providers.json?q=${YOUR_PROVIDER_NAME}`, e.g. `webstore.scientist.com/api/v2/providers.json?q=webstore`. Your authorization needs to be your token from the step above, formatted as a Bearer Token. Scroll to the `provider_refs` array and use the `provider_id` value to fill in the `NEXT_PUBLIC_PROVIDER_ID` variable below.
-
-The `NEXT_PUBLIC_PROVIDER_NAME` needs to exactly match the subdomain of the `marketplace-domain`.
-
-
-``` bash
-# .env
-NEXT_PUBLIC_PROVIDER_NAME # e.g.: webstore
-NEXT_PUBLIC_PROVIDER_ID # e.g.: 500
-```
+In an API GUI (e.g. Postman) make a GET request for `<marketplace>/api/v2/providers.json?q=${PROVIDER_NAME}`. Your authorization will be your token from the step above, formatted as a Bearer Token. e.g. `Bearer MY_TOKEN` Scroll to the `provider_refs` array and use the `provider_id` value to fill in the `NEXT_PUBLIC_PROVIDER_ID` variable.
 
 #### Authentication
 All API endpoints in this app require some form of authentication. A logged out user will be able to access the home and browse pages using a provider credential, while a logged in user can access all pages using their own credentials.
-
-##### User Credentials
-``` bash
-# .env.local
-NEXTAUTH_SECRET # create this by running `openssl rand -base64 32` in your terminal
-CLIENT_ID # retrieved from the provider storefront
-CLIENT_SECRET # retrieved from the provider storefront
-```
 
 ##### Provider Credentials
 Please run the following in your terminal:
@@ -98,12 +80,7 @@ echo -n 'CLIENT_ID:CLIENT_SECRET' | base64
 curl -X POST -H 'Authorization: Basic THISISAREALLYLONGALPHANUMERICSTRING' -d 'grant_type=client_credentials' https://NEXT_PUBLIC_PROVIDER_NAME.scientist.com/oauth/token/
 ```
 
-The curl command will return a JSON object that has an `access_token` property. Store the value of that property as shown below:
-
-``` bash
-# .env.local
-NEXT_PUBLIC_TOKEN
-```
+The curl command will return a JSON object that has an `access_token` property. Set this as the `NEXT_PUBLIC_TOKEN`.
 
 ## Webstore Component Library
 The webstore requires a [React component library](https://reactjs.org/docs/react-component.html) of view components. That dependency is packaged and released independently.
