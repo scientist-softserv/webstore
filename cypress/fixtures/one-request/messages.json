@@ -16,7 +16,6 @@
               "email": "sherman@scientist.com",
               "title": "Master tester",
               "company": "",
-              "site": "Asia",
               "image": "https://avatars.scientist.com/avatars/20c7e703deca8fcabb2df42096142740/S T/xs?time=1677774999"
           },
           "proposal_ref": {
@@ -67,7 +66,6 @@
               "email": "summer@scientist.com",
               "title": "Frontend Dev",
               "company": "",
-              "site": "{\"name\"=>\"Cell Based Assays\", \"billing_same_as_shipping\"=>true}",
               "image": "https://avatars.scientist.com/avatars/0d93b3808f701fc3dbde5002a80c2475/S C/xs?time=1677774999"
           }
       }

@@ -181,10 +181,6 @@ const requestData = ({request, shipping, billing}) => {
     /* eslint-disable camelcase */
     provider_ids: [process.env.NEXT_PUBLIC_PROVIDER_ID],
     proposed_deadline_str: request.proposedDeadline,
-    site: {
-      billing_same_as_shipping: request.billingSameAsShipping,
-      name: process.env.NEXT_PUBLIC_PROVIDER_NAME,
-    },
     shipping_address_attributes: {
       city: shipping.city,
       country: shipping.country,
