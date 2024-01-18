@@ -116,7 +116,7 @@ const NewRequest = ({ session }) => {
     if (requestForm.billingSameAsShipping === true) Object.assign(requestForm.billing, requestForm.shipping)
 
     const { data, error } = await createRequest({
-      dynamicFormData: { name: dynamicForm.name, formData, ...requestForm },
+      dynamicFormData: { ...dynamicForm, formData, ...requestForm },
       wareID,
       accessToken,
     })
