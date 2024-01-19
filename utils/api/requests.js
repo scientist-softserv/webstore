@@ -118,13 +118,17 @@ export const useFiles = (id, accessToken) => {
   }
 }
 
-
 export const useInitializeRequest = (id, accessToken) => {
   const { data, error } = useSWR(accessToken ? [`/wares/${id}/quote_groups/new.json`, accessToken] : null)
   let dynamicForm = { name: data?.name }
   let dynamicFormInfo = data?.dynamic_forms[0]
 
   if (dynamicFormInfo) {
+    dynamicForm = {
+      ...dynamicForm,
+      orderPriority: dynamicFormInfo.order_priority || 1,
+      parentDynamicFormId: dynamicFormInfo.parent_dynamic_form_id,
+    }
     const defaultSchema = dynamicFormInfo.schema
     const defaultOptions = dynamicFormInfo.options
     const schema = configureDynamicFormSchema(defaultSchema)
@@ -225,11 +229,14 @@ export const createRequest = async ({ dynamicFormData, wareID, accessToken }) =>
   })
 
   const pg_quote_group = {
-    ...formData,
     ...sharedRequestData,
     name: dynamicFormData.name,
     suppliers_identified: 'Yes',
     description: requestDescription,
+    data_str: JSON.stringify(formData),
+    dynamic_forms_to_embed: [
+      { id: dynamicFormData.parentDynamicFormId, order_priority: dynamicFormData.orderPriority }
+    ],
     no_proposed_deadline: dynamicFormData.proposedDeadline ? false : true,
     timeline: requestTimeline,
   }
