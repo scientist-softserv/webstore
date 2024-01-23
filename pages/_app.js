@@ -1,6 +1,7 @@
 import { CookiePreferencesModal, Footer, Header } from '@scientist-softserv/webstore-component-library'
 import { SWRConfig } from 'swr'
 import { useRouter } from 'next/router'
+import { GoogleTagManager } from '@next/third-parties/google'
 import {
   SessionProvider,
   signIn,
@@ -20,6 +21,7 @@ import {
   headerAndFooterLinkColors,
 } from '../utils'
 import '../utils/theme/globals.scss'
+const gtmId = process.env.NODE_ENV === 'production' ? process.env.GOOGLE_TAG_MANAGER_ID : ''
 
 const WebStore = ({ Component }) => {
   /**
@@ -40,6 +42,7 @@ const WebStore = ({ Component }) => {
         enableCookies={enableCookies}
         getCookieConsent={getCookieConsent()}
       /> */}
+      <GoogleTagManager gtmId={gtmId} />
       <Header
         auth={{
           signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
