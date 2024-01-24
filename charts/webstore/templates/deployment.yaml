@@ -44,6 +44,8 @@ spec:
               value: "{{ .Values.nextAuthUrl }}"
             - name: NEXT_PUBLIC_APP_BASE_URL
               value: "{{ .Values.appBaseUrl }}"
+            - name: NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID
+              value: "{{ .Values.googleTagManagerId }}"
             - name: NEXT_PUBLIC_PROVIDER_ID
               value: "{{ .Values.providerId }}"
             - name: NEXT_PUBLIC_PROVIDER_NAME

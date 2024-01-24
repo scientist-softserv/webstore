@@ -1,6 +1,7 @@
 appBaseUrl: 'https://webstore-staging.softserv.cloud'
 clientId: $CLIENT_ID
 clientSecret: $CLIENT_SECRET
+googleTagManagerId: ''
 nextAuthSecret: $NEXTAUTH_SECRET
 nextAuthUrl: 'https://webstore-staging.softserv.cloud/api/auth'
 nextPublicToken: $NEXT_PUBLIC_TOKEN

@@ -1,6 +1,7 @@
 appBaseUrl: 'https://webstore.softserv.cloud'
 clientId: $CLIENT_ID
 clientSecret: $CLIENT_SECRET
+googleTagManagerId: ''
 nextAuthSecret: $NEXTAUTH_SECRET
 nextAuthUrl: 'https://webstore.softserv.cloud/api/auth'
 nextPublicToken: $NEXT_PUBLIC_TOKEN

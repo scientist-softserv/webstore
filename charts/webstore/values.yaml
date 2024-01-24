@@ -14,6 +14,7 @@ appBaseUrl: ''
 clientId: ''
 clientSecret: ''
 fullnameOverride: ''
+googleTagManagerId: ''
 imagePullSecrets: []
 nameOverride: ''
 nextAuthSecret: ''
