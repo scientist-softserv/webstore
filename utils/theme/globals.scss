@@ -24,6 +24,12 @@ footer {
   margin-top: auto;
 }
 
-.form-group.field-array .checkbox input {
+.form-group {
+  legend {
+    font-size: 16px;
+  }
+
+  .checkbox input {
   margin-right: 10px;
+  }
 }
