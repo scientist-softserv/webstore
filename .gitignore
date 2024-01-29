@@ -4,6 +4,7 @@ node_modules/
 # Next.js build output
 .next
 
+.env
 # Where ENV secrets are stored. although NextJS uses `.env.local`
 # (https://nextjs.org/docs/basic-features/environment-variables#default-environment-variables), we are using `.env.development`
 # for consistency with other projects. this also ensures our CICD and docker processes work.
