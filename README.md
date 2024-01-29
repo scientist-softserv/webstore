@@ -5,11 +5,10 @@
     - [Creating the marketplace app](#creating-the-marketplace-app)
     - [Provider ID](#provider-id)
     - [Authentication](#authentication)
-      - [User Credentials](#user-credentials)
       - [Provider Credentials](#provider-credentials)
 - [Webstore Component Library](#webstore-component-library)
-    - [Upgrading To The Latest Version](#upgrading-to-the-latest-version)
-    - [Component Library Dev Mode](#component-library-dev-mode)
+  - [Upgrading To The Latest Version](#upgrading-to-the-latest-version)
+  - [Component Library Dev Mode](#component-library-dev-mode)
 - [Exception Handling](#exception-handling)
 - [Linting](#linting)
 - [Testing](#testing)
@@ -55,7 +54,7 @@ _The terms "client" and "provider" are fairly interchangeable in this applicatio
 | SENTRY_PROJECT | No | .env.development | The slug of the Sentry project associated with the Sentry application |
 | SENTRY_URL | No | .env.development | The base URL of the Sentry instance |
 
-#### Creating the marketplace app
+### Creating the marketplace app
 Ensure that a marketplace, e.g. client-name.scientist.com, has been created by the Scientist.com Professional Services team. Once that exists, an application needs to be created on that marketplace by a developer with the proper permissions. This is how some of the environment variables are created. You'll know if you have the proper developer permissions if once logged in on the client marketplace, you can hover over your avatar and see "Applications" underneath the "Developer" settings. _If you don't have the permissions, you need to request them, or ask someone with the permissions to complete the steps below._
 - Once you've clicked the "Applications" link mentioned above, press "New Application"
   - Only the application name is required for the moment. Name it the same as the provider name.
@@ -63,13 +62,13 @@ Ensure that a marketplace, e.g. client-name.scientist.com, has been created by t
 - There will be a button that says "Reveal Token"
 - Click it. You'll need that token in the next step.
 
-#### Provider ID
+### Provider ID
 In an API GUI (e.g. Postman) make a GET request for `<marketplace>/api/v2/providers.json?q=${PROVIDER_NAME}`. Your authorization will be your token from the step above, formatted as a Bearer Token. e.g. `Bearer MY_TOKEN` Scroll to the `provider_refs` array and use the `provider_id` value to fill in the `NEXT_PUBLIC_PROVIDER_ID` variable.
 
-#### Authentication
+### Authentication
 All API endpoints in this app require some form of authentication. A logged out user will be able to access the home and browse pages using a provider credential, while a logged in user can access all pages using their own credentials.
 
-##### Provider Credentials
+#### Provider Credentials
 Please run the following in your terminal:
 ``` bash
 # When replacing the variables below with your actual values,
@@ -85,7 +84,7 @@ The curl command will return a JSON object that has an `access_token` property. 
 ## Webstore Component Library
 The webstore requires a [React component library](https://reactjs.org/docs/react-component.html) of view components. That dependency is packaged and released independently.
 
-#### Upgrading To The Latest Version
+### Upgrading To The Latest Version
 In the terminal:
 ``` bash
 # first check for whether there is an updated version
@@ -95,10 +94,10 @@ yarn outdated @scientist-softserv/webstore-component-library # check the values 
 yarn upgrade @scientist-softserv/webstore-component-library --latest
 ```
 
-#### Component Library Dev Mode
+### Component Library Dev Mode
 Using the local github repository requires you to manually clone the component library to your computer, build, and link it:
 
-##### Preparing your local copy of the component library:
+#### Preparing your local copy of the component library:
 _Prerequisite: clone the [webstore-component-library](https://github.com/scientist-softserv/webstore-component-library.git) and [get the app running](https://github.com/scientist-softserv/webstore-component-library#running-the-app)_
 
     cd webstore-component-library
@@ -109,7 +108,7 @@ Choose one of the below:
     npm run build-lib # must be run every time you want a change to show in the webstore
     npm run watch-lib # run once and the wcl will watch for changes
 
-##### Preparing your local copy of the webstore:
+#### Preparing your local copy of the webstore:
 
     # run in a separate terminal window than where the wcl is
     cd webstore
@@ -117,7 +116,7 @@ Choose one of the below:
     yarn remove @scientist-softserv/webstore-component-library
     (restart the dev server)
 
-##### Return to using the packaged version of the webstore-component-library:
+#### Return to using the packaged version of the webstore-component-library:
     # in the webstore repository
     yarn unlink "@scientist-softserv/webstore-component-library"
     git checkout package.json yarn.lock
@@ -205,4 +204,4 @@ helm upgrade --install --kube-context=k3 --namespace=webstore-staging webstore-s
 ``` -->
 
 ## Deployment
-We are currently using [Vercel](www.vercel.com) to auto deploy this app to our staging environment. The `main` branch is accessible at https://webstore-staging.vercel.app.
+Refer to the [Wiki](https://github.com/scientist-softserv/webstore/wiki/Deployment) for the most updated information.
