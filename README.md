@@ -98,28 +98,36 @@ yarn upgrade @scientist-softserv/webstore-component-library --latest
 #### Component Library Dev Mode
 Using the local github repository requires you to manually clone the component library to your computer, build, and link it:
 
-Preparing your local copy of the component library:
+##### Preparing your local copy of the component library:
+_Prerequisite: clone the [webstore-component-library](https://github.com/scientist-softserv/webstore-component-library.git) and [get the app running](https://github.com/scientist-softserv/webstore-component-library#running-the-app)_
 
-    git clone https://github.com/scientist-softserv/webstore-component-library.git
     cd webstore-component-library
-    npm install
     yarn link # now there is a magic symlink in `~/.config/yarn/link` usable by the webstore app
 
-If there are changes to the component library, you will need to rebuild in order to get the newest changes. You can either rebuild manually after changes are made, or have the webstore continually "watch" for changes:
+Choose one of the below:
 
-    npm run build-lib # for a onetime build
-    npm run watch-lib # for a continuous build
+    npm run build-lib # must be run every time you want a change to show in the webstore
+    npm run watch-lib # run once and the wcl will watch for changes
 
-Back in your webstore checkout:
+##### Preparing your local copy of the webstore:
 
+    # run in a separate terminal window than where the wcl is
+    cd webstore
     yarn link "@scientist-softserv/webstore-component-library"
+    yarn remove @scientist-softserv/webstore-component-library
+    (restart the dev server)
 
-and your `webstore` will start using the local component build.
-
-If you are using a local version of the component library, you will need to temporarily delete the line `"@scientist-softserv/webstore-component-library": "VERSION_HERE",` from the `package.json` file in order to see your local changes as opposed to pulling from the github package.
+##### Return to using the packaged version of the webstore-component-library:
+    # in the webstore repository
+    yarn unlink "@scientist-softserv/webstore-component-library"
+    git checkout package.json yarn.lock
+    yarn install --check-files --force
+    (restart the dev server)
 
 ## Exception Handling
-<!-- TODO: add sentry details -->
+The application is configured to use Sentry. Refer to ".env.development.example" for how to find the necessary variables.
+
+If any other exception handler is desired, it will require configuration.
 
 ## Linting
 ``` bash
