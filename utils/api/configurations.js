@@ -314,13 +314,21 @@ export const configureDynamicFormUiSchema = (schema, defaultOptions) => {
 
         if(fields[key].helper) fieldOptions['ui:help'] = fields[key].helper
         if(fields[key].placeholder) fieldOptions['ui:placeholder'] = fields[key].placeholder
-        if(fields[key].type) fieldOptions['ui:inputType'] = fields[key].type
-        if(fields[key].type === 'checkbox') fieldOptions['ui:widget'] = 'checkboxes'
         if(fields[key].rows) {
           fieldOptions['ui:options']= {
             widget: 'textarea',
             rows: fields[key].rows,
           }
+        }
+        switch(fields[key].type) {
+        case 'checkbox':
+          fieldOptions['ui:widget'] = 'checkboxes'
+          break
+        case 'radio':
+          fieldOptions['ui:widget'] = 'radio'
+          break
+        default:
+          fieldOptions['ui:inputType'] = fields[key].type
         }
 
         UiSchema[key] = fieldOptions
