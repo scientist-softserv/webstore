@@ -10,6 +10,7 @@ import {
   Loading,
   Notice,
   ShippingDetails,
+  TextBox,
   Title,
 } from '@scientist-softserv/webstore-component-library'
 import {
@@ -20,12 +21,15 @@ import {
   requestFormHeaderBg,
   sendRequestToVendor,
   useInitializeRequest,
+  useOneWare,
 } from '../../../utils'
 
 const NewRequest = ({ session }) => {
   const router = useRouter()
   const accessToken = session?.accessToken
   const wareID = router.query.id
+  const { ware, isLoading, isError } = useOneWare(wareID, accessToken)
+  console.log('ware', ware)
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID, accessToken)
   const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
   const initialFormData = { 'suppliers_identified': 'Yes' }
@@ -171,6 +175,10 @@ const NewRequest = ({ session }) => {
   return(
     <div className='container'>
       <Title title={dynamicForm.name || ''} addClass='my-4' />
+      <TextBox 
+        text={ware.snippet}
+        size='large'
+      />
       {dynamicForm.schema ? (
         <Form
           formData={formData}
