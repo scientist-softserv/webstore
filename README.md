@@ -1,8 +1,9 @@
 # Webstore (a.k.a. Digital Storefront)
 
 - [Getting Started](#getting-started)
+  - [Creating New Pages](#creating-new-pages)
   - [Environment Variables](#environment-variables)
-    - [Creating the marketplace app](#creating-the-marketplace-app)
+    - [Creating The Marketplace App](#creating-the-marketplace-app)
     - [Provider ID](#provider-id)
     - [Authentication](#authentication)
       - [Provider Credentials](#provider-credentials)
@@ -14,7 +15,7 @@
 - [Testing](#testing)
   - [Jest](#jest)
   - [Cypress](#cypress)
-    - [Setup your Cypress env variables](#setup-your-cypress-env-variables)
+    - [Cypress ENV Variables](#cypress-env-variables)
 - [Deployment](#deployment)
 
 ---
@@ -22,12 +23,16 @@
 ## Getting Started
 
   1. Confirm that your local node version is compliant with the node engine in the package.json
+      - If it isn't compliant, update it. (e.g., use [Node Version Manager](https://github.com/nvm-sh/nvm))
   2. `yarn` to install automatic dependencies
-  3. `yarn dev` to boot this app as a server
-      - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
-  4. Create pages by adding them to the `pages` directory
-      - Reference [this documentation](https://nextjs.org/docs/basic-features/pages) for more info about pages
-      - The page auto-updates as you edit the file, although there may be a few seconds delay
+  3. Configure your [environment variables](https://github.com/scientist-softserv/webstore/wiki/Environment-Variables)
+  4. `yarn dev` to boot this app as a server
+      - Once the logs show that the client and server have been successfully compiled, open [http://localhost:3000](http://localhost:3000) in your browser to see the result
+
+### Creating New Pages
+Create pages by adding them to the `pages` directory.
+  - Reference [this documentation](https://nextjs.org/docs/basic-features/pages) for more info about pages
+  - The page auto-updates as you edit the file, although there may be a few seconds delay
 
 <!-- [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
@@ -54,7 +59,7 @@ _The terms "client" and "provider" are fairly interchangeable in this applicatio
 | SENTRY_PROJECT | No | .env.development | The slug of the Sentry project associated with the Sentry application |
 | SENTRY_URL | No | .env.development | The base URL of the Sentry instance |
 
-### Creating the marketplace app
+### Creating The Marketplace App
 Ensure that a marketplace, e.g. client-name.scientist.com, has been created by the Scientist.com Professional Services team. Once that exists, an application needs to be created on that marketplace by a developer with the proper permissions. This is how some of the environment variables are created. You'll know if you have the proper developer permissions if once logged in on the client marketplace, you can hover over your avatar and see "Applications" underneath the "Developer" settings. _If you don't have the permissions, you need to request them, or ask someone with the permissions to complete the steps below._
 - Once you've clicked the "Applications" link mentioned above, press "New Application"
   - Only the application name is required for the moment. Name it the same as the provider name.
@@ -126,7 +131,7 @@ Choose one of the below:
 ## Exception Handling
 The application is configured to use Sentry. Refer to ".env.development.example" for how to find the necessary variables.
 
-If any other exception handler is desired, it will require configuration.
+If any other exception handler is desired, it will require additional installation and configuration.
 
 ## Linting
 ``` bash
@@ -168,7 +173,7 @@ There are 2 types of Cypress tests, e2e & component.
 
 If you are creating an e2e test, it will live in the `cypress/e2e` directory. Component tests will need to be created in a directory called `cypress/component `
 
-#### Setup your Cypress env variables
+#### Cypress ENV Variables
 - the Cypress suite requires an environment variable that should be stored in your `.env.development` and not committed to git.
   - TEST_SESSION_COOKIE=
     - to get the value for this variable, open your browser to your running app at `localhost:3000`.
