@@ -119,7 +119,7 @@ export const useFiles = (id, accessToken) => {
 }
 
 export const useInitializeRequest = (id, accessToken) => {
-  const { data, error } = useSWR(accessToken ? [`/wares/${id}/quote_groups/new.json`, accessToken] : null)
+  const { data, error } = useSWR(id ? [`/wares/${id}/quote_groups/new.json`, accessToken] : null)
   let dynamicForm = { name: data?.name }
   let dynamicFormInfo = data?.dynamic_forms[0]
 
