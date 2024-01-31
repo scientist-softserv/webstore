@@ -10,6 +10,7 @@ import {
   Loading,
   Notice,
   ShippingDetails,
+  TextBox,
   Title,
 } from '@scientist-softserv/webstore-component-library'
 import {
@@ -20,12 +21,14 @@ import {
   requestFormHeaderBg,
   sendRequestToVendor,
   useInitializeRequest,
+  useOneWare,
 } from '../../../utils'
 
 const NewRequest = ({ session }) => {
   const router = useRouter()
   const accessToken = session?.accessToken
   const wareID = router.query.id
+  const { ware } = useOneWare(wareID, accessToken)
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID, accessToken)
   const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
   const disabled = session === null ? true : false
@@ -176,23 +179,30 @@ const NewRequest = ({ session }) => {
       <div className='container'>
         <Title title={dynamicForm.name || ''} addClass='my-4' />
         {dynamicForm.schema ? (
-          <Form
-            formData={formData}
-            onChange={e => setFormData(e.formData)}
-            onSubmit={handleSubmit}
-            schema={dynamicForm.schema}
-            uiSchema={dynamicForm.uiSchema}
-            validator={validator}
-            disabled={disabled}
-          >
-            <StandardRequestOptions
-              defaultRequiredDate={oneWeekFromNow}
-              requestForm={requestForm}
-              updateRequestForm={updateRequestForm}
-              buttonDisabled={buttonDisabled || disabled}
-              disabled={disabled}
+          <>
+            <TextBox
+              text={ware.snippet}
+              size='large'
+              style={{ fontWeight: '550' }}
             />
-          </Form>
+            <Form
+              formData={formData}
+              onChange={e => setFormData(e.formData)}
+              onSubmit={handleSubmit}
+              schema={dynamicForm.schema}
+              uiSchema={dynamicForm.uiSchema}
+              validator={validator}
+              disabled={disabled}
+            >
+              <StandardRequestOptions
+                defaultRequiredDate={oneWeekFromNow}
+                requestForm={requestForm}
+                updateRequestForm={updateRequestForm}
+                buttonDisabled={buttonDisabled || disabled}
+                disabled={disabled}
+              />
+            </Form>
+          </>
         ) : (
           <BsForm
             onSubmit={handleSubmit}
