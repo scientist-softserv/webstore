@@ -171,15 +171,7 @@ const NewRequest = ({ session }) => {
   return(
     <>
       {disabled &&
-        <Notice
-          addClass='mt-5'
-          alert={{
-            body: ['To proceed with making a request, please log in to your account.'],
-            title: 'Sign in required',
-            variant: 'info'
-          }}
-          dismissible={false}
-        />
+        <SignInRequired />
       }
       <div className='container'>
         <Title title={dynamicForm.name || ''} addClass='my-4' />
@@ -260,5 +252,16 @@ const StandardRequestOptions = ({ buttonDisabled, defaultRequiredDate, requestFo
 
 const pageLoading = <Loading wrapperClass='item-page mt-5' />
 
+const SignInRequired = () => (
+  <Notice
+    addClass='mt-5'
+    alert={{
+      body: ['To proceed with making a request, please log in to your account.'],
+      title: 'Sign in required',
+      variant: 'info'
+    }}
+    dismissible={false}
+  />
+)
 
 export default NewRequest
