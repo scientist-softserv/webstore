@@ -31,6 +31,7 @@ const NewRequest = ({ session }) => {
   const { ware } = useOneWare(wareID, accessToken)
   const { dynamicForm, isLoadingInitialRequest, isInitialRequestError } = useInitializeRequest(wareID, accessToken)
   const oneWeekFromNow = addDays((new Date()), 7).toISOString().slice(0, 10)
+  const disabled = session === null ? true : false
   const initialFormData = { 'suppliers_identified': 'Yes' }
   const initialState = {
     billingSameAsShipping: false,
@@ -83,7 +84,6 @@ const NewRequest = ({ session }) => {
    * using a guard clause with an early return inside the api methods also violates the react-hooks/rules-of-hooks rule.
    */
   if (session === undefined) return pageLoading
-  if (session === null) return unauthorizedUser
 
   /**
    * @param {object} event onChange event
@@ -172,52 +172,61 @@ const NewRequest = ({ session }) => {
   }
 
   return(
-    <div className='container'>
-      <Title title={dynamicForm.name || ''} addClass='my-4' />
-      {dynamicForm.schema ? (
-        <>
-          <TextBox 
-            text={ware.snippet}
-            size='large'
-            style={{ fontWeight: '550' }}
-          />
-          <Form
-            formData={formData}
-            onChange={e => setFormData(e.formData)}
+    <>
+      {disabled &&
+        <SignInRequired />
+      }
+      <div className='container'>
+        <Title title={dynamicForm.name || ''} addClass='my-4' />
+        {dynamicForm.schema ? (
+          <>
+            <TextBox
+              text={ware.snippet}
+              size='large'
+              style={{ fontWeight: '550' }}
+            />
+            <Form
+              formData={formData}
+              onChange={e => setFormData(e.formData)}
+              onSubmit={handleSubmit}
+              schema={dynamicForm.schema}
+              uiSchema={dynamicForm.uiSchema}
+              validator={validator}
+              disabled={disabled}
+            >
+              <StandardRequestOptions
+                defaultRequiredDate={oneWeekFromNow}
+                requestForm={requestForm}
+                updateRequestForm={updateRequestForm}
+                buttonDisabled={buttonDisabled || disabled}
+                disabled={disabled}
+              />
+            </Form>
+          </>
+        ) : (
+          <BsForm
             onSubmit={handleSubmit}
-            schema={dynamicForm.schema}
-            uiSchema={dynamicForm.uiSchema}
-            validator={validator}
+            id={`new-${wareID}-request-form`}
+            noValidate
+            validated={validated}
+            disabled={disabled}
           >
+            <BlankRequestForm updateRequestForm={updateRequestForm} />
             <StandardRequestOptions
               defaultRequiredDate={oneWeekFromNow}
               requestForm={requestForm}
               updateRequestForm={updateRequestForm}
-              buttonDisabled={buttonDisabled}
+              buttonDisabled={buttonDisabled || disabled}
+              disabled={disabled}
             />
-          </Form>
-        </>
-      ) : (
-        <BsForm
-          onSubmit={handleSubmit}
-          id={`new-${wareID}-request-form`}
-          noValidate
-          validated={validated}
-        >
-          <BlankRequestForm updateRequestForm={updateRequestForm} />
-          <StandardRequestOptions
-            defaultRequiredDate={oneWeekFromNow}
-            requestForm={requestForm}
-            updateRequestForm={updateRequestForm}
-            buttonDisabled={buttonDisabled}
-          />
-        </BsForm>
-      )}
-    </div>
+          </BsForm>
+        )}
+      </div>
+    </>
   )
 }
 
-const StandardRequestOptions = ({ buttonDisabled, defaultRequiredDate, requestForm, updateRequestForm, }) => {
+const StandardRequestOptions = ({ buttonDisabled, defaultRequiredDate, requestForm, updateRequestForm, disabled }) => {
   return (
     <>
       <div className='row'>
@@ -227,6 +236,7 @@ const StandardRequestOptions = ({ buttonDisabled, defaultRequiredDate, requestFo
             billingCountry={requestForm.billing.country}
             shippingCountry={requestForm.shipping.country}
             updateRequestForm={updateRequestForm}
+            disabled={disabled}
           />
         </div>
         <div className='col'>
@@ -234,13 +244,14 @@ const StandardRequestOptions = ({ buttonDisabled, defaultRequiredDate, requestFo
             updateRequestForm={updateRequestForm}
             defaultRequiredDate={defaultRequiredDate}
             backgroundColor={requestFormHeaderBg}
+            disabled={disabled}
           />
         </div>
       </div>
       <Button
         addClass='btn btn-primary my-4 ms-auto d-block'
         backgroundColor={buttonBg}
-        disabled={buttonDisabled}
+        disabled={buttonDisabled || disabled}
         label='Initiate Request'
         type='submit'
         size='large'
@@ -251,12 +262,12 @@ const StandardRequestOptions = ({ buttonDisabled, defaultRequiredDate, requestFo
 
 const pageLoading = <Loading wrapperClass='item-page mt-5' />
 
-const unauthorizedUser = (
+const SignInRequired = () => (
   <Notice
-    addClass='my-5'
+    addClass='mt-5'
     alert={{
-      body: ['Please log in to make new requests.'],
-      title: 'Unauthorized',
+      body: ['To proceed with making a request, please log in to your account.'],
+      title: 'Sign in required',
       variant: 'info'
     }}
     dismissible={false}
