@@ -15,7 +15,7 @@ export const configureServices = ({ data, path }) => {
       : DEFAULT_WARE_IMAGE
 
     return {
-      description: ware.snippet,
+      description: ware.description,
       id: ware.id,
       img,
       name: ware.name,
