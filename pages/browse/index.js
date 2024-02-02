@@ -49,10 +49,10 @@ const Browse = ({ session }) => {
   }
 
   const truncateDescription = (desc = '', maxLength, isOpen) => {
-    if (desc.length <= maxLength || isOpen) return { truncated: desc, cutOffIndex: desc.length };
-    const lastSpaceIndex = desc.substring(0, maxLength).lastIndexOf(' ');
-    const ellipsis = isOpen ? '' : '...';
-    return { truncated: desc.slice(0, lastSpaceIndex) + ellipsis, cutOffIndex: lastSpaceIndex };
+    if (desc.length <= maxLength || isOpen) return { truncated: desc, cutOffIndex: desc.length }
+    const lastSpaceIndex = desc.substring(0, maxLength).lastIndexOf(' ')
+    const ellipsis = isOpen ? '' : '...'
+    return { truncated: desc.slice(0, lastSpaceIndex) + ellipsis, cutOffIndex: lastSpaceIndex }
   }
 
   return (
