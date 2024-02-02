@@ -16,6 +16,7 @@ export const configureServices = ({ data, path }) => {
 
     return {
       description: ware.description === '' ? ware.snippet : ware.description,
+      snippet: ware.snippet,
       id: ware.id,
       img,
       name: ware.name,

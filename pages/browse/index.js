@@ -6,6 +6,7 @@ import {
   Notice,
   SearchBar,
 } from '@scientist-softserv/webstore-component-library'
+import Markdown from 'react-markdown'
 import {
   buttonBg,
   configureErrors,
@@ -18,6 +19,7 @@ const Browse = ({ session }) => {
   const [query, setQuery] = useState('')
   const existingQuery = router.query.q
   const accessToken = session?.accessToken
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     if (existingQuery) setQuery(existingQuery)
@@ -46,6 +48,13 @@ const Browse = ({ session }) => {
     )
   }
 
+  const truncateDescription = (desc = '', maxLength, isOpen) => {
+    if (desc.length <= maxLength || isOpen) return { truncated: desc, cutOffIndex: desc.length };
+    const lastSpaceIndex = desc.substring(0, maxLength).lastIndexOf(' ');
+    const ellipsis = isOpen ? '' : '...';
+    return { truncated: desc.slice(0, lastSpaceIndex) + ellipsis, cutOffIndex: lastSpaceIndex };
+  }
+
   return (
     <div className='container'>
       <SearchBar onSubmit={handleOnSubmit} initialValue={existingQuery} />
@@ -60,19 +69,32 @@ const Browse = ({ session }) => {
           <>
             {(services.length > 0) ? (
               <>
-                {services.map(service => (
-                  <Item
-                    key={service.id}
-                    item={service}
-                    withButtonLink={true}
-                    buttonLink={service.href}
-                    orientation='horizontal'
-                    buttonProps={{
-                      backgroundColor: buttonBg,
-                      label: 'Request this item',
-                    }}
-                  />
-                ))}
+                {services.map(service => {
+                  const { truncated, cutOffIndex } = truncateDescription(service?.description, 300, open)
+                  return (
+                    <Item
+                      key={service.id}
+                      markdownDescriptionTruncated={(
+                        <Markdown>
+                          {truncated}
+                        </Markdown>
+                      )}
+                      markdownDescriptionExtended={(
+                        <Markdown>
+                          {service?.description?.slice(cutOffIndex).trimStart()}
+                        </Markdown>
+                      )}
+                      item={service}
+                      withButtonLink={true}
+                      buttonLink={service.href}
+                      orientation='horizontal'
+                      buttonProps={{
+                        backgroundColor: buttonBg,
+                        label: 'Request this item',
+                      }}
+                    />
+                  )
+                })}
               </>
             ) : (
               <p data-cy='no-results'>
