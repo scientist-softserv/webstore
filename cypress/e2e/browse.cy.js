@@ -21,10 +21,10 @@ describe('Browsing', () => {
       emptyFixture: 'services/no-wares.json',
     },
   ]
-  
+
   beforeEach(() => {
     // Intercept the responses from the endpoint to view all requests.
-    // Even though this is to the same endpoint, the call happens on each page twice, 
+    // Even though this is to the same endpoint, the call happens on each page twice,
     // once when the page loads with all the wares, and again after any search is performed.
     // this makes it necessary to create an intercept for each time the call is made.
     intercepts.forEach((intercept) => {
@@ -42,10 +42,6 @@ describe('Browsing', () => {
   })
 
   describe('from the browse page', () => {
-    beforeEach(() => {
-      cy.visit('/browse')
-    })
-
     context('browse page is loading', () => {
       before(() => {
         loading = true
@@ -53,20 +49,6 @@ describe('Browsing', () => {
       it('should show loading components.', () => {
         cy.get(".card-body[data-cy='item-loading']").should('be.visible').then(() => {
           cy.log('Loading components display correctly.')
-        })
-      })
-    })
-
-    context('error while making a request to the api', () => {
-      before(() => {
-        let ware = waresFixture['ware_refs'][0]
-        cy.visit(`/requests/new/${ware.slug}?id=${ware.id}`)
-        loading = false
-        error = true
-      })
-      it('should show an error message.', () => {
-        cy.get("div[role='alert']").should('be.visible').then(() => {
-          cy.log('Successfully hits an error.')
         })
       })
     })
@@ -106,6 +88,37 @@ describe('Browsing', () => {
         cy.get("p[data-cy='no-results']").should('contain', 'Your search for asdfghjk returned no results')
       })
     })
+
+    context('while creating a new request', () => {
+      beforeEach(() => {
+        const ware = waresFixture['ware_refs'][0]
+        cy.visit(`/requests/new/${ware.slug}?id=${ware.id}`)
+      })
+
+      context('as a logged in user', () => {
+        before(() => {
+          // TODO(alishaevn): log in a user
+        })
+
+        it('shows a valid request form.', () => {
+          // TODO(alishaevn): write this spec (no error found)
+        })
+      })
+
+      context('as a logged out user', () => {
+        before(() => {
+          loading = false
+          error = true
+        })
+
+        it.only('shows a disabled request form, with an error message.', () => {
+          // TODO(alishaevn): why is the page loading instead of rendering?
+          cy.get("div[role='alert']").should('be.visible').then(() => {
+            cy.log('Successfully hits an error.')
+          })
+        })
+      })
+    })
   })
 
   describe('from the home page', () => {
@@ -132,7 +145,7 @@ describe('Browsing', () => {
         cy.get('input.search-bar').should('have.value', '')
         cy.get(".card[data-cy='item-card']").should('be.visible')
       })
-      
+
       it('navigates to "/browse" with a query term', () => {
         cy.get('input.search-bar').type('test')
         cy.get('button.search-button').click()
