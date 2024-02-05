@@ -7,6 +7,7 @@ import {
   SearchBar,
 } from '@scientist-softserv/webstore-component-library'
 import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 import {
   buttonBg,
   configureErrors,
@@ -69,12 +70,12 @@ const Browse = ({ session }) => {
                     <Item
                       key={service.id}
                       markdownDescriptionTruncated={(
-                        <Markdown>
+                        <Markdown rehypePlugins={[rehypeRaw]}>
                           {truncated}
                         </Markdown>
                       )}
                       markdownDescriptionExtended={(
-                        <Markdown>
+                        <Markdown rehypePlugins={[rehypeRaw]}>
                           {service?.description?.slice(cutOffIndex).trimStart()}
                         </Markdown>
                       )}
