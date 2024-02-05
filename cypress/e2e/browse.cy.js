@@ -1,3 +1,5 @@
+import waresFixture from '../fixtures/services/wares.json'
+
 describe('Browsing', () => {
   let wares
   let loading
@@ -57,6 +59,8 @@ describe('Browsing', () => {
 
     context('error while making a request to the api', () => {
       before(() => {
+        let ware = waresFixture['ware_refs'][0]
+        cy.visit(`/requests/new/${ware.slug}?id=${ware.id}`)
         loading = false
         error = true
       })
