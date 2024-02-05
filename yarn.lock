@@ -1073,10 +1073,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.6.0.tgz#1898e7a7b943680d757417a47fb10f5fcc230b39"
   integrity sha512-2/U3GXA6YiPYQDLGwtGlnNgKYBSwCFIHf8Y9LUY5VATHdtbLlU0Y1R3QoBnT0aB4qv/BEiVVsj7LJXoQCgJ2vA==
 
-"@scientist-softserv/webstore-component-library@^0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@scientist-softserv/webstore-component-library/-/webstore-component-library-0.1.19.tgz#3cec0f9a35a750739153bdf40f62101903965319"
-  integrity sha512-ZCwrUXIw9D+opFWrRC0yChayoqGbvDKos+6ZZ8utQovwJbcdfQvLc8T4bItteN6ssrAHJn2tIrJDFfQxD3f2xg==
+"@scientist-softserv/webstore-component-library@^0.1.21":
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/@scientist-softserv/webstore-component-library/-/webstore-component-library-0.1.21.tgz#c522229e9f49d697009f3db237c4985213b115db"
+  integrity sha512-W/lKhzNC2ApvMj6xKVu0CH3jfQHiEnmYk8S3a3RhNzEeeGTu6pT0BgzNRZ5SAxUwFjtE8TrXB9rGaVYs7toNSA==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.2.1"
     "@fortawesome/free-regular-svg-icons" "^6.2.1"
