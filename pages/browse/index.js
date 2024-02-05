@@ -70,10 +70,14 @@ const Browse = ({ session }) => {
                     <Item
                       key={service.id}
                       markdownDescriptionTruncated={(
-                        <Markdown rehypePlugins={[rehypeRaw]} children={truncated} />
+                        <Markdown rehypePlugins={[rehypeRaw]}>
+                          {truncated}
+                        </Markdown>
                       )}
                       markdownDescriptionExtended={(
-                        <Markdown rehypePlugins={[rehypeRaw]} children={service?.description?.slice(cutOffIndex).trimStart()} />
+                        <Markdown rehypePlugins={[rehypeRaw]}>
+                          {service?.description?.slice(cutOffIndex).trimStart()}
+                        </Markdown>
                       )}
                       item={service}
                       withButtonLink={true}
