@@ -42,6 +42,10 @@ describe('Browsing', () => {
   })
 
   describe('from the browse page', () => {
+    beforeEach(() => {
+      cy.visit('/browse')
+    })
+
     context('browse page is loading', () => {
       before(() => {
         loading = true
@@ -111,7 +115,7 @@ describe('Browsing', () => {
           error = true
         })
 
-        it.only('shows a disabled request form, with an error message.', () => {
+        it('shows a disabled request form, with an error message.', () => {
           // TODO(alishaevn): why is the page loading instead of rendering?
           cy.get("div[role='alert']").should('be.visible').then(() => {
             cy.log('Successfully hits an error.')
