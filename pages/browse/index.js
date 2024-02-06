@@ -6,11 +6,14 @@ import {
   Notice,
   SearchBar,
 } from '@scientist-softserv/webstore-component-library'
+import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 import {
   buttonBg,
   configureErrors,
   configureServices,
   useFilteredWares,
+  truncateDescription,
 } from '../../utils'
 
 const Browse = ({ session }) => {
@@ -18,6 +21,7 @@ const Browse = ({ session }) => {
   const [query, setQuery] = useState('')
   const existingQuery = router.query.q
   const accessToken = session?.accessToken
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     if (existingQuery) setQuery(existingQuery)
@@ -60,19 +64,32 @@ const Browse = ({ session }) => {
           <>
             {(services.length > 0) ? (
               <>
-                {services.map(service => (
-                  <Item
-                    key={service.id}
-                    item={service}
-                    withButtonLink={true}
-                    buttonLink={service.href}
-                    orientation='horizontal'
-                    buttonProps={{
-                      backgroundColor: buttonBg,
-                      label: 'Request this item',
-                    }}
-                  />
-                ))}
+                {services.map(service => {
+                  const { truncated, cutOffIndex } = truncateDescription(service?.description, 300, open)
+                  return (
+                    <Item
+                      key={service.id}
+                      markdownDescriptionTruncated={(
+                        <Markdown rehypePlugins={[rehypeRaw]}>
+                          {truncated}
+                        </Markdown>
+                      )}
+                      markdownDescriptionExtended={(
+                        <Markdown rehypePlugins={[rehypeRaw]}>
+                          {service?.description?.slice(cutOffIndex).trimStart()}
+                        </Markdown>
+                      )}
+                      item={service}
+                      withButtonLink={true}
+                      buttonLink={service.href}
+                      orientation='horizontal'
+                      buttonProps={{
+                        backgroundColor: buttonBg,
+                        label: 'Request this item',
+                      }}
+                    />
+                  )
+                })}
               </>
             ) : (
               <p data-cy='no-results'>
