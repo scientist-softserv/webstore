@@ -27,6 +27,7 @@ module.exports = defineConfig({
     NEXT_PUBLIC_PROVIDER_ID: process.env.NEXT_PUBLIC_PROVIDER_ID,
     NEXT_PUBLIC_TOKEN: process.env.NEXT_PUBLIC_TOKEN,
     CYPRESS_SEARCH_QUERY: 'test',
+    TEST_SESSION_COOKIE: process.env.TEST_SESSION_COOKIE,
   },
   reporter: 'junit',
   reporterOptions: {

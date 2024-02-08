@@ -54,9 +54,9 @@ describe('Navigating to the browse page', () => {
       })
     })
 
-    context.skip('as a logged in user', () => {
+    context('as a logged in user', () => {
       before(() => {
-        // TODO(alishaevn): log in a user
+        cy.login(Cypress.env('TEST_SCIENTIST_USER'), Cypress.env('TEST_SCIENTIST_PW'))
       })
 
       it('shows a valid request form.', () => {
