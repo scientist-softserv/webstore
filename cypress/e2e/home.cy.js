@@ -64,4 +64,23 @@ describe('Viewing Home page', () => {
       })
     })
   })
+
+  // TODO(alishaevn): check these tests when working on this file
+  context('a search is completed successfully and', () => {
+    it('navigates to "/browse" with a blank query', () => {
+      cy.get('button.search-button').click()
+      cy.url().should('include', '/browse')
+      cy.url().should('not.include', '?')
+      cy.get('input.search-bar').should('have.value', '')
+      cy.get(".card[data-cy='item-card']").should('be.visible')
+    })
+
+    it('navigates to "/browse" with a query term', () => {
+      cy.get('input.search-bar').type('test')
+      cy.get('button.search-button').click()
+      cy.url().should('include', '/browse?q=test')
+      cy.get('input.search-bar').should('have.value', 'test')
+      cy.get(".card[data-cy='item-card']").should('be.visible')
+    })
+  })
 })
