@@ -61,6 +61,11 @@ describe('Navigating to the browse page', () => {
 
       it('shows a valid request form.', () => {
         // TODO(alishaevn): write this spec
+        cy.get('form.rjsf').submit()
+        cy.scrollTo('bottom')
+        cy.get('button.btn-primary').click().then(() => {
+          cy.log('Successfully submits form.')
+        })
         // - no error found
         // submit button isn't disabled
       })
