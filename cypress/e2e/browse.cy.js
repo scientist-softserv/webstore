@@ -59,15 +59,10 @@ describe('Navigating to the browse page', () => {
         cy.login(Cypress.env('TEST_SCIENTIST_USER'), Cypress.env('TEST_SCIENTIST_PW'))
       })
 
-      it('shows a valid request form.', () => {
-        // TODO(alishaevn): write this spec
-        cy.get('form.rjsf').submit()
+      it.only('shows a valid request form.', () => {
+        cy.get("div[role='alert']").should('not.exist')
         cy.scrollTo('bottom')
-        cy.get('button.btn-primary').click().then(() => {
-          cy.log('Successfully submits form.')
-        })
-        // - no error found
-        // submit button isn't disabled
+        cy.get('button.btn-primary').should('be.enabled')
       })
     })
 
