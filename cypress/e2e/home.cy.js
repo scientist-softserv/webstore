@@ -5,11 +5,10 @@ describe('Viewing Home page', () => {
   let featuredServices
 
   beforeEach(() => {
-    // Intercept the response from the endpoint to view all requests
     cy.customApiIntercept({
       action: 'GET',
       alias: 'useAllWares',
-      requestURL: `/providers/${Cypress.env('NEXT_PUBLIC_PROVIDER_ID')}/wares.json`,
+      requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}`,
       data: featuredServices,
       defaultFixture: 'services/wares.json',
       emptyFixture: 'services/no-wares.json',
@@ -19,13 +18,11 @@ describe('Viewing Home page', () => {
     cy.visit('/')
   })
 
-
   context('featured services list is loading', () => {
-    before(() => {
-      loading = true
-    })
+    before(() => loading = true)
+
     it('should show 3 placeholder cards loading', () => {
-      cy.get('p.placeholder-glow').should('be.visible').then(() => {
+      cy.get('p.placeholder-glow').should('have.length', 3).then(() => {
         cy.log('Loading text displays correctly.')
       })
     })
