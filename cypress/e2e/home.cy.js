@@ -45,12 +45,12 @@ describe('Navigating to the home page', () => {
           defaultFixture: 'services/wares.json',
         })
 
-      cy.get('button.search-button').click()
-      cy.url().should('include', '/browse')
-      cy.url().should('not.include', '?')
-      cy.get('input.search-bar').should('have.value', '')
-      cy.get(".card[data-cy='item-card']").should('be.visible')
-    })
+        cy.get('button.search-button').click()
+        cy.url().should('include', '/browse')
+        cy.url().should('not.include', '?')
+        cy.get('input.search-bar').should('have.value', '')
+        cy.get(".card[data-cy='item-card']").should('be.visible')
+      })
 
       it('with a valid query term', () => {
         testSetup({
@@ -59,12 +59,12 @@ describe('Navigating to the home page', () => {
           defaultFixture: 'services/filtered-wares.json',
         })
 
-      cy.get('input.search-bar').type(Cypress.env('CYPRESS_SEARCH_QUERY'))
-      cy.get('button.search-button').click()
-      cy.url().should('include', `/browse?q=${Cypress.env('CYPRESS_SEARCH_QUERY')}`)
-      cy.get('input.search-bar').should('have.value', Cypress.env('CYPRESS_SEARCH_QUERY'))
-      cy.get(".card[data-cy='item-card']").should('be.visible')
-    })
+        cy.get('input.search-bar').type(Cypress.env('CYPRESS_SEARCH_QUERY'))
+        cy.get('button.search-button').click()
+        cy.url().should('include', `/browse?q=${Cypress.env('CYPRESS_SEARCH_QUERY')}`)
+        cy.get('input.search-bar').should('have.value', Cypress.env('CYPRESS_SEARCH_QUERY'))
+        cy.get(".card[data-cy='item-card']").should('be.visible')
+      })
 
       it('with an invalid query term', () => {
         const invalidQuery = 'asdfghjk'
