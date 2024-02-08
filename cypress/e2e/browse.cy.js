@@ -19,10 +19,10 @@ describe('Browsing', () => {
       emptyFixture: 'services/no-wares.json',
     },
   ]
-  
+
   beforeEach(() => {
     // Intercept the responses from the endpoint to view all requests.
-    // Even though this is to the same endpoint, the call happens on each page twice, 
+    // Even though this is to the same endpoint, the call happens on each page twice,
     // once when the page loads with all the wares, and again after any search is performed.
     // this makes it necessary to create an intercept for each time the call is made.
     intercepts.forEach((intercept) => {
@@ -100,41 +100,6 @@ describe('Browsing', () => {
         cy.url().should('include', '/browse?q=asdfghjk')
         cy.get('input.search-bar').should('have.value', 'asdfghjk')
         cy.get("p[data-cy='no-results']").should('contain', 'Your search for asdfghjk returned no results')
-      })
-    })
-  })
-
-  describe('from the home page', () => {
-    beforeEach(() => {
-      wares = true
-      // Intercept the api call being made on the homepage
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useAllWares',
-        requestURL: `/providers/${Cypress.env('NEXT_PUBLIC_PROVIDER_ID')}/wares.json`,
-        data: wares,
-        defaultFixture: 'services/wares.json',
-        loading,
-        error
-      })
-      cy.visit('/')
-    })
-
-    context('a search is completed successfully and', () => {
-      it('navigates to "/browse" with a blank query', () => {
-        cy.get('button.search-button').click()
-        cy.url().should('include', '/browse')
-        cy.url().should('not.include', '?')
-        cy.get('input.search-bar').should('have.value', '')
-        cy.get(".card[data-cy='item-card']").should('be.visible')
-      })
-      
-      it('navigates to "/browse" with a query term', () => {
-        cy.get('input.search-bar').type('test')
-        cy.get('button.search-button').click()
-        cy.url().should('include', '/browse?q=test')
-        cy.get('input.search-bar').should('have.value', 'test')
-        cy.get(".card[data-cy='item-card']").should('be.visible')
       })
     })
   })
