@@ -1,22 +1,21 @@
 describe('Navigating to the home page', () => {
   // declare variables that can be used to change how the response is intercepted.
-  let loading
   let error
   let featuredServices
-  let requestURL
-  let data
+  let loading
 
   beforeEach(() => {
     cy.customApiIntercept({
       action: 'GET',
       alias: 'useAllWares',
-      requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}`,
       data: featuredServices,
       defaultFixture: 'services/wares.json',
       emptyFixture: 'services/no-wares.json',
+      error,
       loading,
-      error
+      requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}`,
     })
+
     cy.visit('/')
   })
 
@@ -28,20 +27,22 @@ describe('Navigating to the home page', () => {
     })
 
     context('able to navigate to "/browse"', () => {
-      const testSetup = ({ data, requestURL }) => {
+      const testSetup = ({ data, defaultFixture, requestURL }) => {
         cy.customApiIntercept({
           action: 'GET',
           alias: 'useFilteredWares',
-          requestURL,
           data,
-          defaultFixture: 'services/wares.json',
+          defaultFixture,
+          emptyFixture: 'services/no-wares.json',
+          requestURL,
         })
       }
 
       it('with a blank query', () => {
         testSetup({
           requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}&q=`,
-          data: true
+          data: true,
+          defaultFixture: 'services/wares.json',
         })
 
       cy.get('button.search-button').click()
@@ -51,7 +52,13 @@ describe('Navigating to the home page', () => {
       cy.get(".card[data-cy='item-card']").should('be.visible')
     })
 
-    it('able to navigate to "/browse" with a valid query term', () => {
+      it('with a valid query term', () => {
+        testSetup({
+          requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}&q=${Cypress.env('CYPRESS_SEARCH_QUERY')}`,
+          data: true,
+          defaultFixture: 'services/filtered-wares.json',
+        })
+
       cy.get('input.search-bar').type(Cypress.env('CYPRESS_SEARCH_QUERY'))
       cy.get('button.search-button').click()
       cy.url().should('include', `/browse?q=${Cypress.env('CYPRESS_SEARCH_QUERY')}`)
@@ -59,12 +66,18 @@ describe('Navigating to the home page', () => {
       cy.get(".card[data-cy='item-card']").should('be.visible')
     })
 
-    it('able to navigate to "/browse" with an invalid query term', () => {
-      cy.get('input.search-bar').type('test')
+      it('with an invalid query term', () => {
+        const invalidQuery = 'asdfghjk'
+        testSetup({
+          requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}&q=${invalidQuery}`,
+        })
+
+        cy.get('input.search-bar').type(invalidQuery)
       cy.get('button.search-button').click()
-      cy.url().should('include', '/browse?q=test')
-      cy.get('input.search-bar').should('have.value', 'test')
-      cy.get(".card[data-cy='item-card']").should('be.visible')
+        cy.url().should('include', `/browse?q=${invalidQuery}`)
+        cy.get('input.search-bar').should('have.value', invalidQuery)
+        cy.get("p[data-cy='no-results']").should('contain', `Your search for ${invalidQuery} returned no results`)
+      })
     })
   })
 
