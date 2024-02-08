@@ -59,7 +59,7 @@ describe('Navigating to the browse page', () => {
         cy.login(Cypress.env('TEST_SCIENTIST_USER'), Cypress.env('TEST_SCIENTIST_PW'))
       })
 
-      it.only('shows a valid request form.', () => {
+      it('shows a valid request form.', () => {
         cy.get("div[role='alert']").should('not.exist')
         cy.scrollTo('bottom')
         cy.get('button.btn-primary').should('be.enabled')
