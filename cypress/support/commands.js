@@ -23,6 +23,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
 import { scientistApiBaseURL } from './e2e'
 
 // add a command to login that uses a session, so the user will remain logged in throughout the test file vs. needing to log in before each example.
@@ -44,10 +45,10 @@ Cypress.Commands.add('login', (username, password) => {
 Cypress.Commands.add('customApiIntercept', ({
   action, alias, data, defaultFixture, emptyFixture, error, errorCaseStatusCode, loading, requestURL
 }) => {
-  cy.intercept(action, scientistApiBaseURL + requestURL, (req) => {
+  cy.intercept(action, `${scientistApiBaseURL}${requestURL}`, (req) => {
     switch (true) {
       // reply with an empty response: both data and error will be undefined.
-      case loading: req.reply()
+      case loading: req.reply({})
       break
 
       // error will be defined
