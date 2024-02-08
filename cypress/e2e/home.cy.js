@@ -3,6 +3,8 @@ describe('Navigating to the home page', () => {
   let loading
   let error
   let featuredServices
+  let requestURL
+  let data
 
   beforeEach(() => {
     cy.customApiIntercept({
@@ -25,7 +27,23 @@ describe('Navigating to the home page', () => {
       })
     })
 
-    it('able to navigate to "/browse" with a blank query', () => {
+    context('able to navigate to "/browse"', () => {
+      const testSetup = ({ data, requestURL }) => {
+        cy.customApiIntercept({
+          action: 'GET',
+          alias: 'useFilteredWares',
+          requestURL,
+          data,
+          defaultFixture: 'services/wares.json',
+        })
+      }
+
+      it('with a blank query', () => {
+        testSetup({
+          requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}&q=`,
+          data: true
+        })
+
       cy.get('button.search-button').click()
       cy.url().should('include', '/browse')
       cy.url().should('not.include', '?')
