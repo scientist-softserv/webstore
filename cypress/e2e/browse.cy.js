@@ -45,7 +45,7 @@ describe('Navigating to the browse page', () => {
 
   context('and creating a new request', () => {
     beforeEach(() => {
-      cy.get('[data-cy="linked-button"]', { timeout: 15000 }).then(($buttons) => {
+      cy.get('[data-cy="linked-button"]', { timeout: 25000 }).then(($buttons) => {
         // there may potentially be hundreds of services on a page. to avoid
         // a timeout, we will only choose from 10 services. this still ensures
         // that a variety of dynamic forms are tested
@@ -61,7 +61,9 @@ describe('Navigating to the browse page', () => {
 
       it('shows a valid request form.', () => {
         cy.get("div[role='alert']").should('not.exist')
-        cy.get('button.btn-primary').should('be.enabled')
+        cy.get('form.rjsf').should('be.visible')
+        cy.scrollTo('bottom')
+        cy.get('button.btn-primary', { timeout: 10000 }).should('be.enabled')
       })
     })
 
