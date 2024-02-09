@@ -34,6 +34,7 @@ jobs:
           wait-on: 'http://localhost:3000'
         env:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXT_PUBLIC_TOKEN: ${{ secrets.NEXT_PUBLIC_TOKEN }}
           TEST_SESSION_COOKIE: ${{ secrets.TEST_SESSION_COOKIE }}
   eslint:
     needs: build
