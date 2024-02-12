@@ -1,16 +1,14 @@
 describe('Navigating to the home page', () => {
   // declare variables that can be used to change how the response is intercepted.
+  let data
   let error
-  let featuredServices
   let loading
 
   beforeEach(() => {
     cy.customApiIntercept({
       action: 'GET',
       alias: 'useAllWares',
-      data: featuredServices,
-      defaultFixture: 'services/wares.json',
-      emptyFixture: 'services/no-wares.json',
+      data: 'services/wares.json',
       error,
       loading,
       requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}`,
@@ -90,17 +88,24 @@ describe('Navigating to the home page', () => {
   })
 
   describe('makes a call to the api', () => {
-    context('which when returns an error', () => {
+    context('which when given an invalid access token', () => {
       before(() => {
-        loading = false
-        error = true
+        data = undefined
+        error = {
+          response: {
+            data: {
+              message: 'No access token provided.',
+            },
+            status: 403,
+          },
+        }
       })
 
       it('shows an error message', () => {
-        // why would we get an error?
         cy.get("div[role='alert']").should('be.visible').then(() => {
           cy.log('Successfully hits an error.')
         })
+        cy.get("div[role='alert']").contains('No access token provided.')
       })
     })
 

@@ -30,12 +30,12 @@ import { scientistApiBaseURL } from './e2e'
 // source: https://github.com/nextauthjs/next-auth/discussions/2053#discussioncomment-1191016
 Cypress.Commands.add('login', (username, password) => {
   cy.session([username, password], () => {
-  cy.intercept("/api/auth/session", { fixture: "session.json" }).as("session");
+  cy.intercept('/api/auth/session', { fixture: 'session.json' }).as('session')
 
-	// Set the cookie for cypress.
-	// It has to be a valid cookie so next-auth can decrypt it and confirm its validity.
-	// This cookie also may need to be refreshed intermittently if it expires
-	cy.setCookie("next-auth.session-token", Cypress.env('TEST_SESSION_COOKIE'));
+  // Set the cookie for cypress.
+  // It has to be a valid cookie so next-auth can decrypt it and confirm its validity.
+  // This cookie also may need to be refreshed intermittently if it expires
+  cy.setCookie('next-auth.session-token', Cypress.env('TEST_SESSION_COOKIE'))
   })
 })
 
@@ -43,28 +43,16 @@ Cypress.Commands.add('login', (username, password) => {
 // required params are action, defaultFixture, requestURL
 // optional params such as data, loading, and error can be passed depending on the creation of test cases that are related to that specific api call
 Cypress.Commands.add('customApiIntercept', ({
-  action, alias, data, defaultFixture, emptyFixture, error, errorCaseStatusCode, loading, requestURL
+  action, alias, data, error, loading, requestURL
 }) => {
   cy.intercept(action, `${scientistApiBaseURL}${requestURL}`, (req) => {
-    switch (true) {
-      // reply with an empty response: both data and error will be undefined.
-      case loading: req.reply({})
-      break
-
-      // error will be defined
-      case error: req.reply({ statusCode: errorCaseStatusCode || 500 })
-      break
-
-      // reply with a request body- default status code is 200
-      case data: req.reply({ fixture: defaultFixture })
-      break
-
-      // reply with the empty fixture is there is one, and the default as a backup. Allows us to isolate one api call at a time that may potentially respond with empty data.
-      case !data: req.reply({ fixture: emptyFixture || defaultFixture })
-      break
-
-      default: req.reply({ fixture: defaultFixture })
-      break
+    const response = {
+      data: { fixture: data },
+      error: { ...error },
+      loading: {},
     }
+    console.log({ response })
+
+    return req.reply(response[data || error || loading])
   }).as(alias || 'customIntercept')
 })
