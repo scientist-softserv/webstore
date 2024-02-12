@@ -24,6 +24,8 @@ jobs:
       webTarget: web
   cypress:
     runs-on: ubuntu-22.04
+    environment:
+      name: Production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
