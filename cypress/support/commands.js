@@ -39,20 +39,27 @@ Cypress.Commands.add('login', (username, password) => {
   })
 })
 
-// intercepts requests and creates potential cases for loading, error, data, and empty data
-// required params are action, defaultFixture, requestURL
-// optional params such as data, loading, and error can be passed depending on the creation of test cases that are related to that specific api call
+/**
+ * This command intercepts requests and returns the given stubbed response
+ *
+ * @param {string} alias - the alias to give the intercept (convention is to
+ * use the function name)
+ * @param {string} data - the fixture to return as the response data
+ * @param {object} error - the error object to return as the response error
+ * @param {string} requestURL - the URL to intercept
+ *
+ * @returns {object} - the stubbed response
+ */
 Cypress.Commands.add('customApiIntercept', ({
-  action, alias, data, error, loading, requestURL
+  alias, data, error, requestURL
 }) => {
-  cy.intercept(action, `${scientistApiBaseURL}${requestURL}`, (req) => {
+  cy.intercept(`${scientistApiBaseURL}${requestURL}`, (req) => {
     const response = {
-      data: { fixture: data },
-      error: { ...error },
-      loading: {},
+      data: data && { fixture: data },
+      error,
     }
-    console.log({ response })
 
-    return req.reply(response[data || error || loading])
+    // falling back to an empty object mimics the loading state
+    return req.reply(response.data || response.error || {})
   }).as(alias || 'customIntercept')
 })

@@ -1,17 +1,14 @@
 describe('Navigating to the home page', () => {
   // declare variables that can be used to change how the response is intercepted.
-  let data
+  let data = 'services/wares.json'
   let error
-  let loading
 
   beforeEach(() => {
     cy.customApiIntercept({
-      action: 'GET',
       alias: 'useAllWares',
-      data: 'services/wares.json',
+      data,
       error,
-      loading,
-      requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}`,
+      requestURL: '/wares.json?per_page=2000',
     })
 
     cy.visit('/')
@@ -27,20 +24,17 @@ describe('Navigating to the home page', () => {
     context('able to navigate to "/browse"', () => {
       const testSetup = ({ data, defaultFixture, requestURL }) => {
         cy.customApiIntercept({
-          action: 'GET',
           alias: 'useFilteredWares',
           data,
-          defaultFixture,
-          emptyFixture: 'services/no-wares.json',
+          error,
           requestURL,
         })
       }
 
       it('with a blank query', () => {
         testSetup({
-          requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}&q=`,
-          data: true,
-          defaultFixture: 'services/wares.json',
+          data: 'services/wares.json',
+          requestURL: '/wares.json?per_page=2000&q=',
         })
 
         cy.get('button.search-button').click()
@@ -52,9 +46,8 @@ describe('Navigating to the home page', () => {
 
       it('with a valid query term', () => {
         testSetup({
-          requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}&q=${Cypress.env('CYPRESS_SEARCH_QUERY')}`,
-          data: true,
-          defaultFixture: 'services/filtered-wares.json',
+          data: 'services/filtered-wares.json',
+          requestURL: `/wares.json?per_page=2000&q=${Cypress.env('CYPRESS_SEARCH_QUERY')}`,
         })
 
         cy.get('input.search-bar').type(Cypress.env('CYPRESS_SEARCH_QUERY'))
@@ -67,7 +60,8 @@ describe('Navigating to the home page', () => {
       it('with an invalid query term', () => {
         const invalidQuery = 'asdfghjk'
         testSetup({
-          requestURL: `/wares.json?per_page=${Cypress.env('API_PER_PAGE')}&q=${invalidQuery}`,
+          data: 'services/no-wares.json',
+          requestURL: `/wares.json?per_page=2000&q=${invalidQuery}`,
         })
 
         cy.get('input.search-bar').type(invalidQuery)
@@ -92,12 +86,10 @@ describe('Navigating to the home page', () => {
       before(() => {
         data = undefined
         error = {
-          response: {
-            data: {
-              message: 'No access token provided.',
-            },
-            status: 403,
+          body: {
+            message: 'No access token provided.',
           },
+          statusCode: 403,
         }
       })
 
@@ -110,8 +102,6 @@ describe('Navigating to the home page', () => {
     })
 
     context('which when returns no error or data', () => {
-      before(() => loading = true)
-
       it('shows 3 placeholder cards loading', () => {
         cy.get('p.placeholder-glow').should('have.length', 3).then(() => {
           cy.log('Loading text displays correctly.')
@@ -120,11 +110,6 @@ describe('Navigating to the home page', () => {
     })
 
     context('which when returns data', () => {
-      before(() => {
-        featuredServices = true
-        error = false
-      })
-
       it('shows the featured services cards', () => {
         cy.get("div[data-cy='item-group']").should('exist').then(() => {
           cy.log('Status bar renders successfully.')
