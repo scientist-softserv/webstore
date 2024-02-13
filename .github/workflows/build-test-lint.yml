@@ -37,7 +37,7 @@ jobs:
       - name: Cypress e2e
         uses: cypress-io/github-action@v6
         with:
-          wait-on: 'http://localhost:3001'
+          wait-on: 'http://localhost:3000'
           command: yarn cypress:e2e:ci
           record: true
           parallel: true
