@@ -46,7 +46,8 @@ describe('Navigating to the browse page', () => {
 
   context('and creating a new request', () => {
     beforeEach(() => {
-      cy.get('[data-cy="linked-button"]', { timeout: 15000 }).then(($buttons) => {
+      cy.waitForElement('[data-cy="linked-button"]')
+      cy.get('[data-cy="linked-button"]').then(($buttons) => {
         const randomIndex = Math.floor(Math.random() * Cypress.env('API_PER_PAGE'))
         cy.wrap($buttons.eq(randomIndex)).click()
       })

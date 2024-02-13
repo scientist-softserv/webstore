@@ -74,3 +74,7 @@ Cypress.Commands.add('useFilteredWares', () => {
     req.continue()
   })
 })
+
+Cypress.Commands.add('waitForElement', (selector) => {
+  cy.get(selector).should('exist')
+})
