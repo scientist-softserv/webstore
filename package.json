@@ -2,12 +2,14 @@
   "name": "webstore",
   "version": "0.1.8",
   "private": true,
+  "homepage": "https://github.com/scientist-softserv/webstore#readme",
   "engines": {
     "node": "^18.13.0"
   },
   "scripts": {
     "build": "next build",
     "cypress:e2e": "start-server-and-test dev http://localhost:3000 \"cypress open --e2e --browser electron\"",
+    "cypress:e2e:ci": "start-server-and-test dev http://localhost:3000 \"cypress run --headed --e2e --browser electron\"",
     "cypress:headless:e2e": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e --browser electron\"",
     "dev": "next dev",
     "lint": "next lint --dir pages --dir utils",

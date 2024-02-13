@@ -34,7 +34,7 @@ jobs:
         with:
           start: yarn start
           wait-on: 'http://localhost:3000'
-          headed: true
+          command: yarn cypress:e2e:ci
         env:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
