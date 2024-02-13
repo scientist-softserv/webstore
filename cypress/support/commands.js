@@ -67,3 +67,10 @@ Cypress.Commands.add('customApiIntercept', ({
     }
   }).as(alias || 'customIntercept')
 })
+
+Cypress.Commands.add('useFilteredWares', () => {
+  cy.intercept(/\/wares\.json\?per_page=2000&q.*/, (req) => {
+    req.url = req.url.replace(/per_page=\d+/, `per_page=${Cypress.env('API_PER_PAGE')}`)
+    req.continue()
+  })
+})

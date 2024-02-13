@@ -6,6 +6,7 @@
 
 describe('Navigating to the browse page', () => {
   beforeEach(() => {
+    cy.useFilteredWares()
     cy.visit('/browse')
   })
 
@@ -45,11 +46,8 @@ describe('Navigating to the browse page', () => {
 
   context('and creating a new request', () => {
     beforeEach(() => {
-      cy.get('[data-cy="linked-button"]', { timeout: 25000 }).then(($buttons) => {
-        // there may potentially be hundreds of services on a page. to avoid
-        // a timeout, we will only choose from 10 services. this still ensures
-        // that a variety of dynamic forms are tested
-        const randomIndex = Math.floor(Math.random() * 10)
+      cy.get('[data-cy="linked-button"]', { timeout: 15000 }).then(($buttons) => {
+        const randomIndex = Math.floor(Math.random() * Cypress.env('API_PER_PAGE'))
         cy.wrap($buttons.eq(randomIndex)).click()
       })
     })
