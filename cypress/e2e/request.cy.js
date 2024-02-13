@@ -67,75 +67,69 @@ describe('Viewing one request', () => {
         })
       })
 
-
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useAllSOWs',
-        requestURL: `/quote_groups/${uuid}/proposals.json`,
-        data: proposals,
-        dataFixture: 'one-request/proposals.json',
-        emptyDataFixture: 'empty.json',
-        loading,
-        error
-      })
-
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useAllMessages',
-        requestURL: `/quote_groups/${uuid}/messages.json`,
-        data: messages,
-        dataFixture: 'one-request/messages.json',
-        emptyDataFixture: 'empty.json',
-        loading,
-        error
-      })
-
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useAllFiles',
-        requestURL: `/quote_groups/${uuid}/notes.json`,
-        data: files,
-        dataFixture: 'one-request/notes.json',
-        emptyDataFixture: 'empty.json',
-        loading,
-        error
-      })
-      cy.visit(`/requests/${uuid}`)
-    })
-
-    context('request is loading', () => {
-      before(() => {
-        loading = true
-      })
-      it('should show a loading spinner.', () => {
-        cy.get("[aria-label='tail-spin-loading']").should('be.visible').then(() => {
-          cy.log('Loading spinner displays correctly.')
-        })
-      })
-    })
-
-    describe('request page components are loading successfully, &', () => {
-      context('the request page', () => {
-        before(() => {
-          loading =
-          request = true
-          proposals = true
-          messages = true
-          files = true
-        })
-
-        it("should show the request stats section.", () => {
+      describe('which when returns request data', () => {
+        it.only('shows the request stats section', () => {
           cy.get('div.request-stats-card').should('exist').then(() => {
             cy.log('Request stats section renders successfully.')
           })
         })
 
-        it("should show the status bar.", () => {
+        it('shows the status bar', () => {
           cy.get("div[data-cy='status-bar']").should('exist').then(() => {
             cy.log('Status bar renders successfully.')
           })
         })
-        // TODO: add tests to confirm that messages, files, additional info, document sections all show correctly.
+
+        context('with messages', () => {
+          before(() => {
+            cy.customApiIntercept({
+              action: 'GET',
+              alias: 'useAllMessages',
+              requestURL: `/quote_groups/${uuid}/messages.json`,
+              data: messages,
+              dataFixture: 'one-request/messages.json',
+              emptyDataFixture: 'empty.json',
+              loading,
+              error
+            })
+          })
+
+          it('displays the messages', () => {})
+        })
+
+        context('with documents', () => {
+          before(() => {
+            cy.customApiIntercept({
+              action: 'GET',
+              alias: 'useAllSOWs',
+              requestURL: `/quote_groups/${uuid}/proposals.json`,
+              data: proposals,
+              dataFixture: 'one-request/proposals.json',
+              emptyDataFixture: 'empty.json',
+              loading,
+              error
+            })
+          })
+
+          it('displays the documents', () => {})
+        })
+
+        context('with files', () => {
+          before(() => {
+            cy.customApiIntercept({
+              action: 'GET',
+              alias: 'useAllFiles',
+              requestURL: `/quote_groups/${uuid}/notes.json`,
+              data: files,
+              dataFixture: 'one-request/notes.json',
+              emptyDataFixture: 'empty.json',
+              loading,
+              error
+            })
+          })
+
+          it('displays the files', () => {})
+        })
       })
     })
   })
