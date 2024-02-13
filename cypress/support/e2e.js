@@ -17,3 +17,48 @@
 import './commands'
 
 export const scientistApiBaseURL = `https://${Cypress.env('NEXT_PUBLIC_PROVIDER_NAME')}.scientist.com/api/v2`
+
+let error
+export const requestUuid = '596127b7-2356-45aa-aec4-a4f8608ae755'
+export const requestPageApiCalls = [
+  {
+    'useOneRequest': {
+      alias: 'useOneRequest',
+      data: 'one-request/request.json',
+      error,
+      requestURL: `/quote_groups/${requestUuid}.json`,
+    }
+  },
+  {
+    'useAllMessages': {
+      alias: 'useAllMessages',
+      data: { messages: [] },
+      error,
+      requestURL: `/quote_groups/${requestUuid}/messages.json`
+    },
+  },
+  {
+    'useAllSOWs': {
+      alias: 'useAllSOWs',
+      data: [],
+      error,
+      requestURL: `/quote_groups/${requestUuid}/proposals.json`
+    }
+  },
+  {
+    'useAllFiles': {
+      alias: 'useAllFiles',
+      data: { notes: [] },
+      error,
+      requestURL: `/quote_groups/${requestUuid}/notes.json}`,
+    }
+  },
+  {
+    'getAllPOs': {
+      alias: 'getAllPOs',
+      data: [],
+      error,
+      requestURL: `/quote_groups/${requestUuid}/quoted_wares/8AE755/purchase_orders.json}`,
+    }
+  }
+]

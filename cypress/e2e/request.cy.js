@@ -1,11 +1,10 @@
-import useOneRequestResponseBody from '../fixtures/one-request/request.json'
+import {
+  requestUuid as uuid,
+  requestPageApiCalls as apiCalls,
+} from '../support/e2e'
 
-describe.skip('Viewing one request', () => {
-  // TODO: currently this uses a real request uuid, which would allow it to visit a route that actually existed.
-  // since the routes are generated dynamically, we will need to mock the next router in order to generate a route for a fake request w/ mock uuid within the test
-  // this test should remain skipped until the above is done since it runs as a regular e2e vs e2e with mocked data
+describe('Viewing one request', () => {
   // Existing ticket to complete this test: https://github.com/scientist-softserv/webstore/issues/218
-  let uuid = useOneRequestResponseBody.uuid
 
   describe('as a logged out user', () => {
     it('should show an error message.', () => {
@@ -17,29 +16,57 @@ describe.skip('Viewing one request', () => {
   })
 
   describe('as a logged in user', () => {
-    // declare variables that can be used to change how the response is intercepted.
-    let request
-    let proposals
-    let messages
-    let files
-    let loading
-    let error
-
     beforeEach(() => {
-      // Call the custom cypress command to log in
       cy.login(Cypress.env('TEST_SCIENTIST_USER'), Cypress.env('TEST_SCIENTIST_PW'))
-      
-      // Intercept the response from the endpoint to view one request
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useOneRequest',
-        requestURL: `/quote_groups/${uuid}.json`,
-        data: request,
-        dataFixture: 'one-request/request.json',
-        emptyDataFixture: 'empty.json',
-        loading,
-        error
+
+      apiCalls.forEach((item) => {
+        const key = Object.keys(item)[0]
+        cy.customApiIntercept(item[key])
       })
+
+      cy.visit(`/requests/${uuid}`)
+    })
+
+    describe('makes a call to the api', () => {
+      context('which when given an invalid uuid', () => {
+        before(() => {
+          apiCalls['useOneRequest'] = {
+            ...apiCalls['useOneRequest'],
+            error: {
+              body: {
+                message: 'Quote Group Not Found',
+              },
+              statusCode: 404,
+            },
+            requestURL: '/quote_groups/fake-uuid.json'
+          }
+        })
+
+        it('returns an error message', () => {
+          cy.get("div[role='alert']").should('be.visible').then(() => {
+            cy.log('Successfully hits an error.')
+          })
+          cy.get("div[role='alert']").contains('Quote Group Not Found')
+        })
+      })
+
+      context('which when returns undefined error and data values', () => {
+        before(() => {
+          apiCalls.forEach((item) => {
+            const key = Object.keys(item)[0]
+
+            item[key].data = undefined
+            item[key].error = undefined
+          })
+        })
+
+        it('shows a loading spinner.', () => {
+          cy.get("[aria-label='tail-spin-loading']").should('be.visible').then(() => {
+            cy.log('Loading spinner displays correctly.')
+          })
+        })
+      })
+
 
       cy.customApiIntercept({
         action: 'GET',
