@@ -27,10 +27,6 @@ module.exports = defineConfig({
     NEXT_PUBLIC_PROVIDER_ID: process.env.NEXT_PUBLIC_PROVIDER_ID,
     NEXT_PUBLIC_TOKEN: process.env.NEXT_PUBLIC_TOKEN,
     CYPRESS_SEARCH_QUERY: 'test',
-    // importing the `API_PER_PAGE` variable from the constants file throws
-    // errors since this file doesn't follow ES6 syntax. if the value is
-    // changed in constants, it needs to be updated here too
-    API_PER_PAGE: 2000,
   },
   reporter: 'junit',
   reporterOptions: {
