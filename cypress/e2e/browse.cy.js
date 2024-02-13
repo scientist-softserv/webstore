@@ -53,6 +53,18 @@ describe('Navigating to the browse page', () => {
       })
     })
 
+    context('as a logged out user', () => {
+      it('shows a disabled request form, with an error message.', () => {
+        cy.get("div[role='alert']").should('be.visible').then(() => {
+          cy.log('Successfully hits an error.')
+        })
+        cy.get('div.alert-heading').should('have.text', 'Sign in required')
+        cy.get('form.rjsf').should('be.visible')
+        cy.scrollTo('bottom')
+        cy.get('button.btn-primary').should('be.disabled')
+      })
+    })
+
     context('as a logged in user', () => {
       before(() => {
         cy.login(Cypress.env('TEST_SCIENTIST_USER'), Cypress.env('TEST_SCIENTIST_PW'))
@@ -63,18 +75,6 @@ describe('Navigating to the browse page', () => {
         cy.get('form.rjsf').should('be.visible')
         cy.scrollTo('bottom')
         cy.get('button.btn-primary', { timeout: 10000 }).should('be.enabled')
-      })
-    })
-
-    context('as a logged out user', () => {
-      it('shows a disabled request form, with an error message.', () => {
-        cy.get("div[role='alert']").should('be.visible').then(() => {
-          cy.log('Successfully hits an error.')
-        })
-        cy.get('div.alert-heading').should('have.text', 'Sign in required')
-        cy.get('form.rjsf').should('be.visible')
-        cy.scrollTo('bottom')
-        cy.get('button.btn-primary').should('be.disabled')
       })
     })
   })
