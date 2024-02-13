@@ -1,7 +1,8 @@
 {
     "ware_refs": [
         {
-            "id": 123
+            "id": 123,
+            "slug": "make-a-request"
         }
     ]
 }
