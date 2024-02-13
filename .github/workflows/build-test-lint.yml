@@ -33,7 +33,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: yarn start
-          wait-on: 'http://localhost:3000'
+          wait-on: 'http://localhost:3001'
           command: yarn cypress:e2e:ci
         env:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
