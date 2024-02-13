@@ -183,7 +183,7 @@ If you are creating an e2e test, it will live in the `cypress/e2e` directory. Co
       - Firefox: click the "Storage" tab
     - click "Cookies"
     - find the value for `next-auth.session-token`
-    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your ``.env``
+    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your `.env`
     - do not ever commit this value
     - this value will need to be updated whenever the cookie expires, approximately once per month
 
