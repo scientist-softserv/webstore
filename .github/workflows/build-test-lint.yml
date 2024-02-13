@@ -24,14 +24,33 @@ jobs:
       webTarget: web
   cypress:
     runs-on: ubuntu-22.04
+    # Runs tests in parallel with matrix strategy https://docs.cypress.io/guides/guides/parallelization
+    strategy:
+      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+      matrix:
+        containers: [1, 2] # Uses 2 parallel instances
+    environment:
+      name: Production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Cypress e2e
         uses: cypress-io/github-action@v6
         with:
-          start: yarn start
-          wait-on: 'http://localhost:3000'
+          wait-on: 'http://localhost:3001'
+          command: yarn cypress:e2e:ci
+          record: true
+          parallel: true
+        env:
+          # For recording and parallelization to work you must set your CYPRESS_RECORD_KEY
+          # in GitHub repo → Settings → Secrets → Actions
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Creating a token https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXT_PUBLIC_TOKEN: ${{ secrets.NEXT_PUBLIC_TOKEN }}
+          TEST_SESSION_COOKIE: ${{ secrets.TEST_SESSION_COOKIE }}
   eslint:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.13

@@ -8,6 +8,7 @@
   "scripts": {
     "build": "next build",
     "cypress:e2e": "start-server-and-test dev http://localhost:3000 \"cypress open --e2e --browser electron\"",
+    "cypress:e2e:ci": "next build && start-server-and-test dev http://localhost:3001 \"cypress run --record --e2e --browser electron --key 9f881837-3cd6-48bb-b8dd-a3c085e2ce6c\"",
     "cypress:headless:e2e": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e --browser electron\"",
     "dev": "next dev",
     "lint": "next lint --dir pages --dir utils",

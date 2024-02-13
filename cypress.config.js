@@ -26,6 +26,7 @@ module.exports = defineConfig({
     NEXT_PUBLIC_PROVIDER_NAME: 'acme',
     NEXT_PUBLIC_PROVIDER_ID: '572'
   },
+  projectId: '6wuou2',
   reporter: 'junit',
   reporterOptions: {
     mochaFile: 'cypress/results/results-[hash].xml',
