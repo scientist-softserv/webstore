@@ -68,6 +68,11 @@ Cypress.Commands.add('customApiIntercept', ({
   }).as(alias || 'customIntercept')
 })
 
+/**
+ * Intercept the useFilteredWares API call to modify the per_page query
+ * parameter. We're lowering it in an attempt to speed up the test. Then,
+ * we continue to hit the server with the modified request.
+ */
 Cypress.Commands.add('useFilteredWares', () => {
   cy.intercept(/\/wares\.json\?per_page=2000&q.*/, (req) => {
     req.url = req.url.replace(/per_page=\d+/, `per_page=${Cypress.env('API_PER_PAGE')}`)
@@ -75,6 +80,9 @@ Cypress.Commands.add('useFilteredWares', () => {
   })
 })
 
+/**
+ * To avoid the flakiness of the test, we wait for the element to exist
+ */
 Cypress.Commands.add('waitForElement', (selector) => {
   cy.get(selector).should('exist')
 })
