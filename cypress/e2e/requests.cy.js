@@ -82,7 +82,7 @@ describe('Viewing all requests', () => {
               .and('have.length', 3)
               .then(() => {
                 cy.log('Successfully viewing request list.')
-            })
+              })
           })
         })
 
