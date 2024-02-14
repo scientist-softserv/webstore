@@ -71,10 +71,11 @@ describe('Navigating to the browse page', () => {
       })
 
       it('shows a valid request form.', () => {
+        cy.waitForElement('form.rjsf')
         cy.get("div[role='alert']").should('not.exist')
         cy.get('form.rjsf').should('be.visible')
         cy.scrollTo('bottom')
-        cy.get('button.btn-primary', { timeout: 10000 }).should('be.enabled')
+        cy.get('button.btn-primary').should('be.enabled')
       })
     })
   })
