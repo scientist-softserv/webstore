@@ -42,8 +42,8 @@ export const useOneRequest = (uuid, accessToken) => {
   }
 }
 
-export const useAllSOWs = (id, requestIdentifier, accessToken) => {
-  const { data, error } = useSWR(accessToken ? [`/quote_groups/${id}/proposals.json`, accessToken] : null)
+export const useAllSOWs = (uuid, requestIdentifier, accessToken) => {
+  const { data, error } = useSWR(accessToken ? [`/quote_groups/${uuid}/proposals.json`, accessToken] : null)
   let allSOWs
   if (data) {
     allSOWs = configureSOWs(data, requestIdentifier)
@@ -84,8 +84,8 @@ export const getAllPOs = async (quotedWareId, uuid, requestIdentifier, accessTok
   }
 }
 
-export const useMessages = (requestUuid, accessToken) => {
-  const { data, error, mutate } = useSWR(accessToken ? [`/quote_groups/${requestUuid}/messages.json`, accessToken] : null)
+export const useMessages = (uuid, accessToken) => {
+  const { data, error, mutate } = useSWR(accessToken ? [`/quote_groups/${uuid}/messages.json`, accessToken] : null)
   let messages
   if (data) {
     messages = configureMessages(data.messages)
@@ -102,11 +102,11 @@ export const useMessages = (requestUuid, accessToken) => {
   }
 }
 
-export const useFiles = (id, accessToken) => {
-  const { data, error, mutate } = useSWR(accessToken ? [`/quote_groups/${id}/notes.json`, accessToken] : null)
+export const useFiles = (uuid, accessToken) => {
+  const { data, error, mutate } = useSWR(accessToken ? [`/quote_groups/${uuid}/notes.json`, accessToken] : null)
   let files
   if (data) {
-    files =  configureFiles(data.notes)
+    files = configureFiles(data.notes)
   }
 
   return {
