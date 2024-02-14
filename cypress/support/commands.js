@@ -4,12 +4,13 @@ import { scientistApiBaseURL } from './e2e'
 // source: https://github.com/nextauthjs/next-auth/discussions/2053#discussioncomment-1191016
 Cypress.Commands.add('login', (username, password) => {
   cy.session([username, password], () => {
-  cy.intercept('/api/auth/session', { fixture: 'session.json' }).as('session')
+    cy.intercept('/api/auth/session', { fixture: 'session.json' }).as('session')
 
-  // Set the cookie for cypress.
-  // It has to be a valid cookie so next-auth can decrypt it and confirm its validity.
-  // This cookie also may need to be refreshed intermittently if it expires
-  cy.setCookie('next-auth.session-token', Cypress.env('TEST_SESSION_COOKIE'))
+    // Set the cookie for cypress.
+    // It has to be a valid cookie so next-auth can decrypt it and confirm its validity.
+    // This cookie also may need to be refreshed intermittently if it expires
+    // TODO(alishaevn): https://github.com/scientist-softserv/webstore/issues/375
+    cy.setCookie('next-auth.session-token', Cypress.env('TEST_SESSION_COOKIE'))
   })
 })
 

@@ -35,13 +35,13 @@ describe('Viewing one request', () => {
         before(() => {
           apiCalls['useOneRequest'] = {
             ...apiCalls['useOneRequest'],
+            data: undefined,
             error: {
               body: {
                 message: 'Quote Group Not Found',
               },
               statusCode: 404,
             },
-            requestURL: '/quote_groups/fake-uuid.json'
           }
         })
 
