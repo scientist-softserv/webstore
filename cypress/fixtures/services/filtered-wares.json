@@ -1,0 +1,22 @@
+{
+  "ware_refs": [
+    {
+      "id": 3456,
+      "slug": "test-ware",
+      "name": "Test Ware",
+      "snippet": "Here is a test ware snippet.",
+      "urls": {
+          "promo_image": "https://y.yarn.co/193fa4ae-a245-4f7a-ac9d-64bbebb18c8d_screenshot.jpg"
+      }
+    },
+    {
+      "id": 4567,
+      "slug": "another-test-ware",
+      "name": "Another Test Ware",
+      "snippet": "Another test snippet.",
+      "urls": {
+          "promo_image": "https://cdn.drawception.com/images/panels/2017/7-2/jtqKRKSpyj-6.png"
+      }
+    }
+  ]
+}
