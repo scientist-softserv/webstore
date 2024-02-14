@@ -1,11 +1,9 @@
 import {
   requestUuid as uuid,
-  requestPageApiCalls as apiCalls,
+  requestPageApiCalls,
 } from '../support/e2e'
 
 describe('Viewing one request', () => {
-  // Existing ticket to complete this test: https://github.com/scientist-softserv/webstore/issues/218
-
   describe('as a logged out user', () => {
     it('should show an error message.', () => {
       cy.visit(`/requests/${uuid}`)
@@ -16,15 +14,20 @@ describe('Viewing one request', () => {
   })
 
   describe('as a logged in user', () => {
+    let apiCalls = Object.assign({}, requestPageApiCalls)
+
     beforeEach(() => {
       cy.login(Cypress.env('TEST_SCIENTIST_USER'), Cypress.env('TEST_SCIENTIST_PW'))
 
-      apiCalls.forEach((item) => {
-        const key = Object.keys(item)[0]
-        cy.customApiIntercept(item[key])
+      Object.entries(apiCalls).forEach((item) => {
+        cy.customApiIntercept(item[1])
       })
-
       cy.visit(`/requests/${uuid}`)
+    })
+
+    afterEach(() => {
+      // in order for the tests to not be order dependent, we need to reset the apiCalls object to the original state
+      apiCalls = Object.assign({}, requestPageApiCalls)
     })
 
     describe('makes a call to the api', () => {
@@ -52,11 +55,12 @@ describe('Viewing one request', () => {
 
       context('which when returns undefined error and data values', () => {
         before(() => {
-          apiCalls.forEach((item) => {
-            const key = Object.keys(item)[0]
-
-            item[key].data = undefined
-            item[key].error = undefined
+          Object.entries(apiCalls).forEach(([key, value]) => {
+            apiCalls[key] = {
+              ...value,
+              data: undefined,
+              error: undefined,
+            }
           })
         })
 
@@ -82,53 +86,54 @@ describe('Viewing one request', () => {
 
         context('with messages', () => {
           before(() => {
-            cy.customApiIntercept({
-              action: 'GET',
-              alias: 'useAllMessages',
-              requestURL: `/quote_groups/${uuid}/messages.json`,
-              data: messages,
-              dataFixture: 'one-request/messages.json',
-              emptyDataFixture: 'empty.json',
-              loading,
-              error
-            })
+            apiCalls['useMessages'] = {
+              ...apiCalls['useMessages'],
+              data: 'one-request/messages/index.json',
+            }
           })
 
-          it('displays the messages', () => {})
+          it('displays the messages', () => {
+            cy.get('div.card-body p.card-text')
+              .contains('this is a message from the customer')
+              .should('be.visible')
+          })
         })
 
         context('with documents', () => {
           before(() => {
-            cy.customApiIntercept({
-              action: 'GET',
-              alias: 'useAllSOWs',
-              requestURL: `/quote_groups/${uuid}/proposals.json`,
-              data: proposals,
-              dataFixture: 'one-request/proposals.json',
-              emptyDataFixture: 'empty.json',
-              loading,
-              error
-            })
+            apiCalls['useAllSOWs'] = {
+              ...apiCalls['useAllSOWs'],
+              data: 'one-request/sows/index.json',
+            }
+            apiCalls['getAllPOs'] = {
+              ...apiCalls['getAllPOs'],
+              data: 'one-request/pos/index.json',
+            }
           })
 
-          it('displays the documents', () => {})
+          it('displays the documents', () => {
+            cy.get('div.document').should('have.length', 2)
+            cy.get('div.badge').contains('SOW').should('be.visible')
+            cy.get('div.badge').contains('PO').should('be.visible')
+          })
         })
 
         context('with files', () => {
           before(() => {
-            cy.customApiIntercept({
-              action: 'GET',
-              alias: 'useAllFiles',
-              requestURL: `/quote_groups/${uuid}/notes.json`,
-              data: files,
-              dataFixture: 'one-request/notes.json',
-              emptyDataFixture: 'empty.json',
-              loading,
-              error
-            })
+            apiCalls['useFiles'] = {
+              ...apiCalls['useFiles'],
+              data: 'one-request/files/index.json',
+            }
           })
 
-          it('displays the files', () => {})
+          it('displays the files', () => {
+            cy.get('div.actions-group')
+              .contains('View Files')
+              .click()
+            cy.get('div#document-tabs-tabpane-files')
+              .contains('downtown.jpg')
+              .should('be.visible')
+          })
         })
       })
     })

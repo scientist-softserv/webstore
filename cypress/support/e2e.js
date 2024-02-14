@@ -19,46 +19,44 @@ import './commands'
 export const scientistApiBaseURL = `https://${Cypress.env('NEXT_PUBLIC_PROVIDER_NAME')}.scientist.com/api/v2`
 
 let error
+const quotedWareId = 728152
 export const requestUuid = '596127b7-2356-45aa-aec4-a4f8608ae755'
-export const requestPageApiCalls = [
-  {
-    'useOneRequest': {
-      alias: 'useOneRequest',
-      data: 'one-request/request.json',
-      error,
-      requestURL: `/quote_groups/${requestUuid}.json`,
-    }
+export const requestPageApiCalls = {
+  'useOneRequest': {
+    alias: 'useOneRequest',
+    data: 'one-request/request.json',
+    error,
+    requestURL: `/quote_groups/${requestUuid}.json`,
   },
-  {
-    'useAllSOWs': {
-      alias: 'useAllSOWs',
-      data: 'one-request/sows/default.js',
-      error,
-      requestURL: `/quote_groups/${requestUuid}/proposals.json`
-    }
+  'useAllSOWs': {
+    alias: 'useAllSOWs',
+    data: 'one-request/sows/default.js',
+    error,
+    requestURL: `/quote_groups/${requestUuid}/proposals.json`
   },
-  {
-    'useMessages': {
-      alias: 'useMessages',
-      data: 'one-request/messages/default.json',
-      error,
-      requestURL: `/quote_groups/${requestUuid}/messages.json`
-    },
+  'useMessages': {
+    alias: 'useMessages',
+    data: 'one-request/messages/default.json',
+    error,
+    requestURL: `/quote_groups/${requestUuid}/messages.json`
   },
-  {
-    'useFiles': {
-      alias: 'useFiles',
-      data: 'one-request/files/default.json',
-      error,
-      requestURL: `/quote_groups/${requestUuid}/notes.json`,
-    }
+  'useFiles': {
+    alias: 'useFiles',
+    data: 'one-request/files/default.json',
+    error,
+    requestURL: `/quote_groups/${requestUuid}/notes.json`,
   },
-  {
-    'getAllPOs': {
-      alias: 'getAllPOs',
-      data: 'one-request/pos/default.json',
-      error,
-      requestURL: `/quote_groups/${requestUuid}/quoted_wares/728152/purchase_orders.json`,
-    }
+  'getAllPOs': {
+    alias: 'getAllPOs',
+    data: 'one-request/pos/default.json',
+    error,
+    requestURL: `/quote_groups/${requestUuid}/quoted_wares/${quotedWareId}/purchase_orders.json`,
+  },
+  'getOnePO': {
+    alias: 'getOnePO',
+    data: 'one-request/pos/one.json',
+    error: undefined,
+    requestURL: `/quote_groups/${requestUuid}/quoted_wares/${quotedWareId}/purchase_orders/168795.json`,
   }
-]
+}
+
