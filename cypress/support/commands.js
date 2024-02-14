@@ -23,47 +23,43 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
 import { scientistApiBaseURL } from './e2e'
 
 // add a command to login that uses a session, so the user will remain logged in throughout the test file vs. needing to log in before each example.
 // source: https://github.com/nextauthjs/next-auth/discussions/2053#discussioncomment-1191016
 Cypress.Commands.add('login', (username, password) => {
   cy.session([username, password], () => {
-  cy.intercept("/api/auth/session", { fixture: "session.json" }).as("session");
+  cy.intercept('/api/auth/session', { fixture: 'session.json' }).as('session')
 
-	// Set the cookie for cypress.
-	// It has to be a valid cookie so next-auth can decrypt it and confirm its validity.
-	// This cookie also may need to be refreshed intermittently if it expires
-	cy.setCookie("next-auth.session-token", Cypress.env('TEST_SESSION_COOKIE'));
+  // Set the cookie for cypress.
+  // It has to be a valid cookie so next-auth can decrypt it and confirm its validity.
+  // This cookie also may need to be refreshed intermittently if it expires
+  cy.setCookie('next-auth.session-token', Cypress.env('TEST_SESSION_COOKIE'))
   })
 })
 
-// intercepts requests and creates potential cases for loading, error, data, and empty data
-// required params are action, defaultFixture, requestURL
-// optional params such as data, loading, and error can be passed depending on the creation of test cases that are related to that specific api call
+/**
+ * This command intercepts requests and returns the given stubbed response
+ *
+ * @param {string} alias - the alias to give the intercept (convention is to
+ * use the function name)
+ * @param {string} data - the fixture to return as the response data
+ * @param {object} error - the error object to return as the response error
+ * @param {string} requestURL - the URL to intercept
+ *
+ * @returns {object} - the stubbed response
+ */
 Cypress.Commands.add('customApiIntercept', ({
-  action, alias, data, defaultFixture, emptyFixture, error, errorCaseStatusCode, loading, requestURL
+  alias, data, error, requestURL
 }) => {
-  cy.intercept(action, scientistApiBaseURL + requestURL, (req) => {
-    switch (true) {
-      // reply with an empty response: both data and error will be undefined.
-      case loading: req.reply()
-      break
-
-      // error will be defined
-      case error: req.reply({ statusCode: errorCaseStatusCode || 500 })
-      break
-
-      // reply with a request body- default status code is 200
-      case data: req.reply({ fixture: defaultFixture })
-      break
-
-      // reply with the empty fixture is there is one, and the default as a backup. Allows us to isolate one api call at a time that may potentially respond with empty data.
-      case !data: req.reply({ fixture: emptyFixture || defaultFixture })
-      break
-
-      default: req.reply({ fixture: defaultFixture })
-      break
+  cy.intercept(`${scientistApiBaseURL}${requestURL}`, (req) => {
+    const response = {
+      data: data && { fixture: data },
+      error,
     }
+
+    // falling back to an empty object mimics the loading state
+    return req.reply(response.data || response.error || {})
   }).as(alias || 'customIntercept')
 })
