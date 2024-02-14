@@ -68,8 +68,8 @@ describe('Viewing one request', () => {
       })
 
       describe('which when returns request data', () => {
-        it.only('shows the request stats section', () => {
-          cy.get('div.request-stats-card').should('exist').then(() => {
+        it('shows the request stats section', () => {
+          cy.get('div.request-stats.card').should('exist').then(() => {
             cy.log('Request stats section renders successfully.')
           })
         })

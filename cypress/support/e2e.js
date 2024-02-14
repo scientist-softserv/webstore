@@ -30,35 +30,35 @@ export const requestPageApiCalls = [
     }
   },
   {
-    'useAllMessages': {
-      alias: 'useAllMessages',
-      data: { messages: [] },
-      error,
-      requestURL: `/quote_groups/${requestUuid}/messages.json`
-    },
-  },
-  {
     'useAllSOWs': {
       alias: 'useAllSOWs',
-      data: [],
+      data: 'one-request/sows/default.js',
       error,
       requestURL: `/quote_groups/${requestUuid}/proposals.json`
     }
   },
   {
-    'useAllFiles': {
-      alias: 'useAllFiles',
-      data: { notes: [] },
+    'useMessages': {
+      alias: 'useMessages',
+      data: 'one-request/messages/default.json',
       error,
-      requestURL: `/quote_groups/${requestUuid}/notes.json}`,
+      requestURL: `/quote_groups/${requestUuid}/messages.json`
+    },
+  },
+  {
+    'useFiles': {
+      alias: 'useFiles',
+      data: 'one-request/files/default.json',
+      error,
+      requestURL: `/quote_groups/${requestUuid}/notes.json`,
     }
   },
   {
     'getAllPOs': {
       alias: 'getAllPOs',
-      data: [],
+      data: 'one-request/pos/default.json',
       error,
-      requestURL: `/quote_groups/${requestUuid}/quoted_wares/8AE755/purchase_orders.json}`,
+      requestURL: `/quote_groups/${requestUuid}/quoted_wares/728152/purchase_orders.json`,
     }
   }
 ]
