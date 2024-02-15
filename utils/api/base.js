@@ -11,6 +11,7 @@ export const fetcher = (url, token) => {
     .then(res => res.data)
     .catch(error => {
       Sentry.captureException(error)
+      throw error
     })
 }
 

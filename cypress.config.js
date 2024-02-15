@@ -36,4 +36,4 @@ module.exports = defineConfig({
     mochaFile: 'cypress/results/results-[hash].xml',
     toConsole: true,
   },
-});
+})

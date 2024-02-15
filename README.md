@@ -176,12 +176,14 @@ If you are creating an e2e test, it will live in the `cypress/e2e` directory. Co
 #### Cypress ENV Variables
 - the Cypress suite requires an environment variable that should be stored in your `.env`.
   - TEST_SESSION_COOKIE=
-    - to get the value for this variable, open your browser to your running app at `localhost:3000`.
+    - to get the value for this variable, open your browser to your running app at `localhost:3000`
+    - sign in
     - inspect the page
-    - click the "Application" tab
+      - Chrome: click the "Application" tab
+      - Firefox: click the "Storage" tab
     - click "Cookies"
     - find the value for `next-auth.session-token`
-    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your .env.development
+    - copy that value and paste it in the `TEST_SESSION_COOKIE` variable in your `.env`
     - do not ever commit this value
     - this value will need to be updated whenever the cookie expires, approximately once per month
 
