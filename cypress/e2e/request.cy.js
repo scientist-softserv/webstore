@@ -1,12 +1,9 @@
-import useOneRequestResponseBody from '../fixtures/one-request/request.json'
+import {
+  requestUuid as uuid,
+  requestPageApiCalls,
+} from '../support/e2e'
 
-describe.skip('Viewing one request', () => {
-  // TODO: currently this uses a real request uuid, which would allow it to visit a route that actually existed.
-  // since the routes are generated dynamically, we will need to mock the next router in order to generate a route for a fake request w/ mock uuid within the test
-  // this test should remain skipped until the above is done since it runs as a regular e2e vs e2e with mocked data
-  // Existing ticket to complete this test: https://github.com/scientist-softserv/webstore/issues/218
-  let uuid = useOneRequestResponseBody.uuid
-
+describe('Viewing one request', () => {
   describe('as a logged out user', () => {
     it('should show an error message.', () => {
       cy.visit(`/requests/${uuid}`)
@@ -17,98 +14,127 @@ describe.skip('Viewing one request', () => {
   })
 
   describe('as a logged in user', () => {
-    // declare variables that can be used to change how the response is intercepted.
-    let request
-    let proposals
-    let messages
-    let files
-    let loading
-    let error
+    let apiCalls = Object.assign({}, requestPageApiCalls)
 
     beforeEach(() => {
-      // Call the custom cypress command to log in
       cy.login(Cypress.env('TEST_SCIENTIST_USER'), Cypress.env('TEST_SCIENTIST_PW'))
-      
-      // Intercept the response from the endpoint to view one request
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useOneRequest',
-        requestURL: `/quote_groups/${uuid}.json`,
-        data: request,
-        dataFixture: 'one-request/request.json',
-        emptyDataFixture: 'empty.json',
-        loading,
-        error
-      })
 
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useAllSOWs',
-        requestURL: `/quote_groups/${uuid}/proposals.json`,
-        data: proposals,
-        dataFixture: 'one-request/proposals.json',
-        emptyDataFixture: 'empty.json',
-        loading,
-        error
-      })
-
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useAllMessages',
-        requestURL: `/quote_groups/${uuid}/messages.json`,
-        data: messages,
-        dataFixture: 'one-request/messages.json',
-        emptyDataFixture: 'empty.json',
-        loading,
-        error
-      })
-
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useAllFiles',
-        requestURL: `/quote_groups/${uuid}/notes.json`,
-        data: files,
-        dataFixture: 'one-request/notes.json',
-        emptyDataFixture: 'empty.json',
-        loading,
-        error
+      Object.entries(apiCalls).forEach((item) => {
+        cy.customApiIntercept(item[1])
       })
       cy.visit(`/requests/${uuid}`)
     })
 
-    context('request is loading', () => {
-      before(() => {
-        loading = true
-      })
-      it('should show a loading spinner.', () => {
-        cy.get("[aria-label='tail-spin-loading']").should('be.visible').then(() => {
-          cy.log('Loading spinner displays correctly.')
-        })
-      })
+    afterEach(() => {
+      // in order for the tests to not be order dependent, we need to reset the apiCalls object to the original state
+      apiCalls = Object.assign({}, requestPageApiCalls)
     })
 
-    describe('request page components are loading successfully, &', () => {
-      context('the request page', () => {
+    describe('makes a call to the api', () => {
+      context('which when given an invalid uuid', () => {
         before(() => {
-          loading =
-          request = true
-          proposals = true
-          messages = true
-          files = true
+          apiCalls['useOneRequest'] = {
+            ...apiCalls['useOneRequest'],
+            data: undefined,
+            error: {
+              body: {
+                message: 'Quote Group Not Found',
+              },
+              statusCode: 404,
+            },
+          }
         })
 
-        it('should show the request stats section.', () => {
-          cy.get('div.request-stats-card').should('exist').then(() => {
+        it('returns an error message', () => {
+          cy.get("div[role='alert']").should('be.visible').then(() => {
+            cy.log('Successfully hits an error.')
+          })
+          cy.get("div[role='alert']").contains('Quote Group Not Found')
+        })
+      })
+
+      context('which when returns undefined error and data values', () => {
+        before(() => {
+          Object.entries(apiCalls).forEach(([key, value]) => {
+            apiCalls[key] = {
+              ...value,
+              data: undefined,
+              error: undefined,
+            }
+          })
+        })
+
+        it('shows a loading spinner.', () => {
+          cy.get("[aria-label='tail-spin-loading']").should('be.visible').then(() => {
+            cy.log('Loading spinner displays correctly.')
+          })
+        })
+      })
+
+      describe('which when returns request data', () => {
+        it('shows the request stats section', () => {
+          cy.get('div.request-stats.card').should('exist').then(() => {
             cy.log('Request stats section renders successfully.')
           })
         })
 
-        it('should show the status bar.', () => {
+        it('shows the status bar', () => {
           cy.get("div[data-cy='status-bar']").should('exist').then(() => {
             cy.log('Status bar renders successfully.')
           })
         })
-        // TODO: add tests to confirm that messages, files, additional info, document sections all show correctly.
+
+        context('with messages', () => {
+          before(() => {
+            apiCalls['useMessages'] = {
+              ...apiCalls['useMessages'],
+              data: 'one-request/messages/index.json',
+            }
+          })
+
+          it('displays the messages', () => {
+            cy.get('div.card-body p.card-text')
+              .contains('this is a message from the customer')
+              .should('be.visible')
+          })
+        })
+
+        context('with documents', () => {
+          before(() => {
+            apiCalls['useAllSOWs'] = {
+              ...apiCalls['useAllSOWs'],
+              data: 'one-request/sows/index.json',
+            }
+            apiCalls['getAllPOs'] = {
+              ...apiCalls['getAllPOs'],
+              data: 'one-request/pos/index.json',
+            }
+          })
+
+          it('displays the documents', () => {
+            cy.get('div.document').should('have.length', 2)
+            cy.get('div.badge').contains('SOW').should('be.visible')
+            cy.get('div.badge').contains('PO').should('be.visible')
+          })
+        })
+
+        context('with files', () => {
+          before(() => {
+            apiCalls['useFiles'] = {
+              ...apiCalls['useFiles'],
+              data: 'one-request/files/index.json',
+            }
+          })
+
+          it('displays the files', () => {
+            cy.get('div.actions-group')
+              .contains('View Files')
+              .click()
+            cy.get('div#document-tabs-tabpane-files')
+              .contains('downtown.jpg')
+              .should('be.visible')
+          })
+        })
       })
     })
   })

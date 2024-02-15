@@ -1,0 +1,32 @@
+{
+  "notes": [
+    {
+      "id": 5019371,
+      "title": "New Attachment",
+      "status": "Other File",
+      "body": null,
+      "created_by": "Alisha Evans",
+      "created_at": "2024-02-14T19:40:47.759Z",
+      "updated_at": "2024-02-14T19:40:47.759Z",
+      "attachments": [
+          {
+              "uuid": "fa70a15b-3230-41d5-9913-93ee0bcf2e3e",
+              "filename": "downtown.jpg",
+              "content_type": "image/jpeg",
+              "content_length": 326048,
+              "created_at": "2024-02-14T19:40:47.769Z",
+              "download": "/quote_groups/596127b7-2356-45aa-aec4-a4f8608ae755/attachments/downtown.jpg"
+          }
+      ],
+      "user_ref": {
+          "first_name": "Alisha",
+          "last_name": "Evans",
+          "organization_name": "Acme",
+          "email": "user@example.com",
+          "title": "software engineer",
+          "company": "Triage Pharmaceuticals [DEMO], Scientist.com",
+          "image": "https://avatars.scientist.com/avatars/alpha/user/xs?time=1707939658"
+      }
+  }
+  ]
+}
