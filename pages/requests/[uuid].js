@@ -196,7 +196,7 @@ const Request = ({ session }) => {
           <Title addClass='mt-4' title='Documents' size='small' />
           {documents.length ? documents.map((document, index) => (
             <Document
-              addClass='mt-3'
+              addClass='mt-3 document'
               acceptSOW={() => handleAcceptingSOWandCreatingPO(document)}
               document={document}
               key={`${request.id}-${index}`}
@@ -209,7 +209,7 @@ const Request = ({ session }) => {
               text='No documents have been submitted.'
             />
           )}
-          <Messages addClass='mt-4' messages={messages} />
+          <Messages addClass='mt-4 messages' messages={messages} />
         </div>
       </div>
     </div>
