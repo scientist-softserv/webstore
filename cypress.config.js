@@ -22,6 +22,7 @@ module.exports = defineConfig({
     },
   },
   env: {
+    API_PER_PAGE: 10,
     CYPRESS_SEARCH_QUERY: 'test',
     NEXT_PUBLIC_PROVIDER_ID: process.env.NEXT_PUBLIC_PROVIDER_ID,
     NEXT_PUBLIC_PROVIDER_NAME: process.env.NEXT_PUBLIC_PROVIDER_NAME,

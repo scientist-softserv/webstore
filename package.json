@@ -2,6 +2,7 @@
   "name": "webstore",
   "version": "0.1.8",
   "private": true,
+  "homepage": "https://github.com/scientist-softserv/webstore#readme",
   "engines": {
     "node": "^18.13.0"
   },
