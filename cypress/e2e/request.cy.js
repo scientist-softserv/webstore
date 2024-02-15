@@ -97,13 +97,13 @@ describe.skip('Viewing one request', () => {
           files = true
         })
 
-        it("should show the request stats section.", () => {
+        it('should show the request stats section.', () => {
           cy.get('div.request-stats-card').should('exist').then(() => {
             cy.log('Request stats section renders successfully.')
           })
         })
 
-        it("should show the status bar.", () => {
+        it('should show the status bar.', () => {
           cy.get("div[data-cy='status-bar']").should('exist').then(() => {
             cy.log('Status bar renders successfully.')
           })

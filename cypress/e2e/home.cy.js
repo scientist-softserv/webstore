@@ -65,7 +65,7 @@ describe('Navigating to the home page', () => {
         })
 
         cy.get('input.search-bar').type(invalidQuery)
-      cy.get('button.search-button').click()
+        cy.get('button.search-button').click()
         cy.url().should('include', `/browse?q=${invalidQuery}`)
         cy.get('input.search-bar').should('have.value', invalidQuery)
         cy.get("p[data-cy='no-results']").should('contain', `Your search for ${invalidQuery} returned no results`)
