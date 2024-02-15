@@ -1,104 +1,99 @@
-import { scientistApiBaseURL } from '../support/e2e'
-
 describe('Viewing all requests', () => {
   describe('as a logged out user', () => {
-    it('should show an error message.', () => {
-      // Visit a protected route in order to allow cypress to set the cookie and mock the login
+    it('shows an error message.', () => {
       cy.visit('/requests')
       cy.get('div.alert-heading').contains('Unauthorized').then(() => {
         cy.log('A logged out user is not able to view requests.')
       })
     })
   })
-  
+
   describe('as a logged in user', () => {
     // declare variables that can be used to change how the response is intercepted.
-    let requestList
-    let loading
+    let data
     let error
 
     beforeEach(() => {
-      // Call the custom cypress command to log in
       cy.login(Cypress.env('TEST_SCIENTIST_USER'), Cypress.env('TEST_SCIENTIST_PW'))
-      // Intercept the response from the endpoint to view all requests
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useAllRequests',
-        requestURL: `/quote_groups/mine.json`,
-        data: requestList,
-        defaultFixture: 'all-requests/requests.json',
-        emptyFixture: 'all-requests/no-requests.json',
-        loading,
-        error
-      })
-      // Intercept the response from the endpoint that gets the default ware ID
-      cy.customApiIntercept({
-        action: 'GET',
-        alias: 'useDefaultWare',
-        requestURL: `/wares.json?q=make-a-request`,
-        defaultFixture: 'all-requests/make-a-request.json',
-        error
-      })
-      cy.visit('/requests')
     })
 
-
-    context('request list is loading', () => {
-      before(() => {
-        loading = true
-      })
-      it('should show a loading spinner.', () => {
-        cy.get("[aria-label='tail-spin-loading']").should('be.visible').then(() => {
-          cy.log('Loading spinner displays correctly.')
+    describe('makes a call to the api', () => {
+      beforeEach(() => {
+        cy.customApiIntercept({
+          alias: 'useAllRequests',
+          data,
+          error,
+          requestURL: `/quote_groups/mine.json`,
         })
-      })
-    })
 
-    context('error while making a request to the api', () => {
-      before(() => {
-        requestList = undefined
-        loading = false
-        error = true
+        cy.visit('/requests')
       })
-      it('should show an error message.', () => {
-        cy.get("div[role='alert']").should('be.visible').then(() => {
-          cy.log('Successfully hits an error.')
-        })
-      })
-    })
 
-    describe('request components are loading successfully, &', () => {
-      context('the user has requests', () => {
+      context('which when given an invalid access token', () => {
         before(() => {
-          requestList = true
-          error = false
+          error = {
+            body: {
+              message: 'No access token provided.',
+            },
+            statusCode: 403,
+          }
         })
-        it("should show the user's request list.", () => {
-          cy.get('article.request-item').should('exist').then(() => {
-            cy.log('Successfully viewing request list.')
+
+        it('shows an error message.', () => {
+          cy.get("div[role='alert']").should('be.visible').then(() => {
+            cy.log('Successfully hits an error.')
+          })
+          cy.get("div[role='alert']").contains('No access token provided.')
+        })
+      })
+
+      context('which when returns undefined error and data values', () => {
+        it('shows a loading spinner.', () => {
+          cy.get("[aria-label='tail-spin-loading']").should('be.visible').then(() => {
+            cy.log('Loading spinner displays correctly.')
           })
         })
       })
 
-      context('the user has 0 requests', () => {
+      describe('which when returns a data object', () => {
         before(() => {
-          requestList = false
-        })
-        it("should show a message notifying the user they don't have any requests.", () => {
-          cy.get('p.no-requests').contains('You do not have any requests yet.').then(() => {
-            cy.log('Successfully viewing request page with no requests.')
+          data = 'all-requests/requests.json'
+          cy.customApiIntercept({
+            alias: 'useDefaultWare',
+            data: 'all-requests/make-a-request.json',
+            error,
+            requestURL: '/wares.json',
           })
         })
-      })
 
-      context('the user can see the <LinkedButton /> component', () => {
-        [true, false].forEach((value) => {
-          before(() => {
-            requestList = value
-          })
-          it(`should show a button that links to the initialize request page for the default ware ${value ? 'with a request list' : 'with 0 requests'}.`, () => {
-            cy.get("a[data-cy='linked-button']").should('have.attr', 'href', `/requests/new/make-a-request?id=123`).then(() => {
+        it('renders the "New Request" button for the default service', () => {
+          cy.get("a[data-cy='linked-button']")
+            .should('have.attr', 'href', `/requests/new/make-a-request?id=123`)
+            .and('have.text', 'Initiate a New Request')
+            .then(() => {
               cy.log('The <LinkedButton /> component displays correctly')
+            })
+        })
+
+        context('with values', () => {
+          it("shows the user's request list.", () => {
+            cy.get('article.request-item')
+              .should('exist')
+              .and('have.length', 3)
+              .then(() => {
+                cy.log('Successfully viewing request list.')
+              })
+          })
+        })
+
+        context('with no values', () => {
+          before(() => {
+            data = 'all-requests/no-requests.json'
+          })
+
+          it("shows a message notifying the user they don't have any requests.", () => {
+            cy.get('p.no-requests').contains('You do not have any requests yet.').then(() => {
+              cy.log('Successfully viewing request page with no requests.')
             })
           })
         })
