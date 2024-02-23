@@ -267,7 +267,8 @@ const SignInRequired = () => (
   <Notice
     addClass='mt-5'
     alert={{
-      body: [<p>To proceed with making a request, <a href="#" onClick={() => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME)}>please log in</a> to your account.</p>], 
+      body: [<p key='signin-link'>To proceed with making a request, <a href='#' onClick={() => signIn
+      (process.env.NEXT_PUBLIC_PROVIDER_NAME)}>please log in</a> to your account.</p>], 
       title: 'Sign in required',
       variant: 'info'
     }}
