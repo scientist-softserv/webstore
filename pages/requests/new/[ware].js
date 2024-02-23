@@ -23,7 +23,6 @@ import {
   sendRequestToVendor,
   useInitializeRequest,
   useOneWare,
-  
 } from '../../../utils'
 
 const NewRequest = ({ session }) => {
