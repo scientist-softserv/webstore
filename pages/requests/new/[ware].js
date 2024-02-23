@@ -3,6 +3,7 @@ import { default as BsForm } from 'react-bootstrap/Form'
 import Form from '@rjsf/core'
 import validator from '@rjsf/validator-ajv8'
 import { useRouter } from 'next/router'
+import { signIn } from 'next-auth/react'
 import {
   AdditionalInfo,
   BlankRequestForm,
@@ -22,6 +23,7 @@ import {
   sendRequestToVendor,
   useInitializeRequest,
   useOneWare,
+  
 } from '../../../utils'
 
 const NewRequest = ({ session }) => {
@@ -266,7 +268,7 @@ const SignInRequired = () => (
   <Notice
     addClass='mt-5'
     alert={{
-      body: ['To proceed with making a request, please log in to your account.'],
+      body: [<p>To proceed with making a request, <a href="#" onClick={() => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME)}>please log in</a> to your account.</p>], 
       title: 'Sign in required',
       variant: 'info'
     }}
