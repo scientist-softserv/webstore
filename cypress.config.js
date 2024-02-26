@@ -30,6 +30,7 @@ module.exports = defineConfig({
     TEST_SCIENTIST_USER: 'test@test.com',
     TEST_SESSION_COOKIE: process.env.TEST_SESSION_COOKIE,
   },
+  projectId: '6wuou2',
   reporter: 'junit',
   reporterOptions: {
     mochaFile: 'cypress/results/results-[hash].xml',
