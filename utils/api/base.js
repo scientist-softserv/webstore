@@ -11,7 +11,10 @@ export const fetcher = (url, token) => {
     .then(res => res.data)
     .catch(error => {
       Sentry.captureException(error)
-      throw error
+      // the `signIn` function from "next-auth/react" uses `fetcher` and returns a 404 error response. throwing that error causes an
+      // `OAUTH_CALLBACK_HANDLER_ERROR`, which prevents users from signing in. `signIn` doesn't pass a url to `fetcher`. the check below
+      // ensures that other errors still get thrown
+      if (error.config.url !== null) throw error
     })
 }
 
