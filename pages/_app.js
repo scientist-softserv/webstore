@@ -21,6 +21,7 @@ import {
   headerAndFooterLinkColors,
 } from '../utils'
 import '../utils/theme/globals.scss'
+const gtmId = process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID
 
 const WebStore = ({ Component }) => {
   /**
@@ -41,7 +42,7 @@ const WebStore = ({ Component }) => {
         enableCookies={enableCookies}
         getCookieConsent={getCookieConsent()}
       /> */}
-      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} />
+      {gtmId && <GoogleTagManager gtmId={gtmId} />}
       <Header
         auth={{
           signIn: () => signIn(process.env.NEXT_PUBLIC_PROVIDER_NAME),
