@@ -11,7 +11,7 @@ export const getWebhookConfig = async (accessToken) => {
 export const createWebhookConfig = (accessToken) => {
   /* eslint-disable camelcase */
   const webhook_config = {
-    'name': 'Webstore',
+    'name': `${process.env.NEXT_PUBLIC_PROVIDER_NAME} DS`,
     'url': `${process.env.NEXT_PUBLIC_WEBHOOK_URL}`,
     'active': true,
     'params': {
