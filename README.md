@@ -183,7 +183,7 @@ There are 2 types of Cypress tests, e2e & component.
 If you are creating an e2e test, it will live in the `cypress/e2e` directory. Component tests will need to be created in a directory called `cypress/component `
 
 #### Cypress ENV Variables
-- the Cypress suite requires an environment variable that should be stored in your `.env` and not committed to git.
+- the Cypress suite requires an environment variable that should be stored in your `.env`.
   - TEST_SESSION_COOKIE=
     - to get the value for this variable, open your browser to your running app at `localhost:3000`
     - sign in
