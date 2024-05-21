@@ -3,10 +3,10 @@
 - [Getting Started](#getting-started)
   - [Creating New Pages](#creating-new-pages)
   - [Environment Variables](#environment-variables)
-    - [Creating The Marketplace App](#creating-the-marketplace-app)
-    - [Provider ID](#provider-id)
-    - [Authentication](#authentication)
-      - [Provider Credentials](#provider-credentials)
+  - [Creating The Marketplace App](#creating-the-marketplace-app)
+  - [Provider ID](#provider-id)
+  - [Authentication](#authentication)
+    - [Provider Credentials](#provider-credentials)
 - [Webstore Component Library](#webstore-component-library)
   - [Upgrading To The Latest Version](#upgrading-to-the-latest-version)
   - [Component Library Dev Mode](#component-library-dev-mode)
@@ -28,6 +28,8 @@
   3. Configure your [environment variables](https://github.com/scientist-softserv/webstore/wiki/Environment-Variables)
   4. `yarn dev` to boot this app as a server
       - Once the logs show that the client and server have been successfully compiled, open [http://localhost:3000](http://localhost:3000) in your browser to see the result
+
+_For troubleshooting reference this [wiki page](https://github.com/scientist-softserv/webstore/wiki/Troubleshooting)._
 
 ### Creating New Pages
 Create pages by adding them to the `pages` directory.
